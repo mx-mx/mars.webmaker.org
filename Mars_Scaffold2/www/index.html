@@ -58,7 +58,9 @@ document.addEventListener("DOMContentLoaded", function () {
     	end: 5, // Our end time in seconds
     	src: "./images/tri_logo.png", 
     	text: "", 
-    	target: "contenttarget" 
+    	target: "contenttarget", 
+		effect: "applyclass",
+		applyclass: "testcontent"
     });
     
     page1audio1.image({
@@ -66,42 +68,54 @@ document.addEventListener("DOMContentLoaded", function () {
     	end: 3.0, // Our end time in seconds
     	src: "./images/NSBRIMBinterview2.jpg", 
     	text: "", 
-    	target: "contenttarget" 
+    	target: "contenttarget", 
+    	effect: "applyclass",
+    	applyclass: "testcontent"
     });
     page1audio1.image({
     	start: 3.0, // Our start time in seconds
     	end: 8, // Our end time in seconds
     	src: "./images/mars_panorama.png", 
     	text: "", 
-    	target: "contenttarget" 
+    	target: "contenttarget", 
+		effect: "applyclass",
+		applyclass: "testcontent" 
     });
     page1audio1.image({
     	start: 8.0, // Our start time in seconds
     	end: 17, // Our end time in seconds
     	src: "./images/JSCDSHsleepingquarters.jpg", 
     	text: "", 
-    	target: "contenttarget" 
+    	target: "contenttarget", 
+		effect: "applyclass",
+		applyclass: "testcontent" 
     });
     page1audio1.image({
     	start: 17.0, // Our start time in seconds
     	end: 20, // Our end time in seconds
     	src: "./images/JSCDeepSpaceHabitat.jpg", 
     	text: "", 
-    	target: "contenttarget" 
+    	target: "contenttarget", 
+		effect: "applyclass",
+		applyclass: "testcontent" 
     });
     page1audio1.image({
     	start: 20.0, // Our start time in seconds
     	end: 39.2, // Our end time in seconds
     	src: "./images/planetorder.jpg", 
     	text: "", 
-    	target: "contenttarget" 
+    	target: "contenttarget", 
+		effect: "applyclass",
+    	applyclass: "stretchcontent"
     });
     page1audio1.image({
     	start: 39.2, // Our start time in seconds
     	end: 67, // Our end time in seconds
     	src: "./images/spirit_trajectory.png", 
     	text: "", 
-    	target: "contenttarget" 
+    	target: "contenttarget", 
+		effect: "applyclass",
+		applyclass: "testcontent" 
     });
     var pause1=false;
     page1audio1.on( "timeupdate", function() {
@@ -146,20 +160,21 @@ document.addEventListener("DOMContentLoaded", function () {
 	<body>
 				
 		<!-- page1 -->
-		<div id="page1" class="panel">
+		<div id="page1">
 		
-			<div id="contenttarget" class="contenttarget"></div>
+			<!-- <div id="contenttarget" class="contenttarget"></div>-->
+			<div id="contenttarget"></div>
 			
 		</div>
 		<div class="badge">
+			<audio id="page1audio1" class="page1audio1" controls="">
+				<source src="audio/total_voiceover.ogg">
+				Your browser does not support the audio element.  Upgrade the browser.
+			</audio>
 				<!-- <div id="slider" class="slider"></div> -->
 				<div id="slideroutput" class="slideroutput"></div>
 				<div id="footnotediv1" class="footnote"></div>
 		</div>
 		
-		<audio id="page1audio1" class="page1audio1" controls="">
-			<source src="audio/total_voiceover.ogg">
-			Your browser does not support the audio element.  Upgrade the browser.
-		</audio>
 	</body>
 </html>
