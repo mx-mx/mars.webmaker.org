@@ -1,0 +1,60 @@
+<html>
+  <head>
+    <script src="Three.js"></script>
+    <style>
+      canvas {
+        width: 500px;
+        height: 300px;
+        border: 1px solid #ff0;
+      }
+    </style>
+    <script>
+      window.onload = function(e){
+        var canvas = document.querySelector('canvas');
+        var ctx = canvas.getContext('2d');
+
+        function marsY(x){
+          return Math.sqrt(2.3175 - ( 2.3175 * (x + 0.071) * (x + 0.071) ) / 2.3226);
+        }
+
+        ctx.strokeStyle = "#000";
+        ctx.lineWidth = 2;
+
+        var y;
+        var p;
+
+        var splinePoints = [];
+        for(var i = -200; i < 200; i+=20){
+          y = marsY(i/100);
+          ctx.beginPath();
+          ctx.arc(i + 250, canvas.height / 2 - y * 50, 1, 0, Math.PI * 2, true);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(i + 250, canvas.height / 2 + y * 50, 1, 0, Math.PI * 2, true);
+          ctx.stroke();
+        }
+
+        var spline = new THREE.SplineCurve3([
+          new THREE.Vector3(0, 0, 0),
+          new THREE.Vector3(0, 200, 0),
+          new THREE.Vector3(150, 150, 0),
+          new THREE.Vector3(150, 50, 0),
+          new THREE.Vector3(250, 100, 0),
+          new THREE.Vector3(250, 300, 0)
+        ]);
+
+        console.log('start');
+        for(var i = 0; i < 1; i+=0.01){
+          p = spline.getPoint(i);
+          ctx.beginPath();
+          ctx.arc(p.x/3 + 100, p.y/3 + 100, 1, 0, Math.PI * 2, true);
+          ctx.stroke();
+        }
+        console.log('end');
+      };
+    </script>
+  </head>
+  <body>
+    <canvas width="500" height="300"></canvas>
+  </body>
+</html>
