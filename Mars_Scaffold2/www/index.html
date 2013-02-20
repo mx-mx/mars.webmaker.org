@@ -18,6 +18,8 @@
 <link href='http://fonts.googleapis.com/css?family=Electrolize' rel='stylesheet' type='text/css' />
 
 <script src="js/popcorn-complete.min.js"></script>	
+<script src="js/three.min.js"></script>
+<script src="js/controls/OrbitControls.js"></script>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
@@ -110,8 +112,8 @@ document.addEventListener("DOMContentLoaded", function () {
     	applyclass: "stretchcontent"
     });
     page1audio1.image({
-    	start: 39.2, // Our start time in seconds
-    	end: 67, // Our end time in seconds
+    	start: 66, // Our start time in seconds
+    	end: 68, // Our end time in seconds
     	src: "./images/spirit_trajectory.png", 
     	text: "", 
     	target: "contenttarget", 
@@ -119,8 +121,15 @@ document.addEventListener("DOMContentLoaded", function () {
 		applyclass: "stretchcontentheight" 
     });
     var pausePoint1=false;
+    var isModel1Showing=false;
     page1audio1.on( "timeupdate", function() {
 		document.getElementById( "footnotediv1" ).innerHTML = this.currentTime();
+		if(this.currentTime() >= 39.2 && !isModel1Showing) {
+			isModel1Showing=true;
+
+			init();
+			animate();
+		}
 		if(this.currentTime() >= 66 && !pausePoint1) {
 			pausePoint1=true;
 			//kick of audio
@@ -133,8 +142,6 @@ document.addEventListener("DOMContentLoaded", function () {
     
     
     
-    
-      
       //jQuery Scrubber
     $(function() {
 		$( "#slider" ).slider({
@@ -160,13 +167,196 @@ document.addEventListener("DOMContentLoaded", function () {
              $(this).attr("class", "pause");
  			page1audio1.play();
  			pop.play();
+ 			//unpause
+ 			if(pausePoint1) {
+ 				console.log('attempting to remove container.');
+ 				container.removeChild(renderer.domElement);
+ 				isModel1Showing=false;
+ 			}
           } else {
              $(this).attr("class", "play");
  			page1audio1.pause();
  			pop.pause();
           }
         });
+        
       });
+    
+    //three.js solar system
+    var container, stats;
+	var camera, scene, renderer, controls;
+	
+	var solarSystem, sun;
+	var planets = new Array(8);
+	var planetSize = [ 2439.7, 6051.8, 6371.00, 3389.5, 69911, 58232, 25362, 24622 ];
+	var planetTextures = [
+		'./models/solarsystem/mercurymap.jpg',
+		'./models/solarsystem/venusmap.jpg',
+		'./models/solarsystem/earthmap.jpg',
+		'./models/solarsystem/marsmap.jpg',
+		'./models/solarsystem/jupitermap.jpg',
+		'./models/solarsystem/saturnmap.jpg',
+		'./models/solarsystem/uranusmap.jpg',
+		'./models/solarsystem/neptunemap.jpg',
+	];
+	
+	var semiMajor = [ 57909227, 108209475, 149598262, 227943824, 778340821, 1426666422, 2870658186, 4498396441 ];
+	var eccentricity = [ 0.20563593, 0.00677672, 0.01671123, 0.0933941,	0.04838624,	0.05386179,	0.04725744,	0.00859048 ];
+	var aphelion = [ 69817445, 108942780, 152098233, 249232432, 816001807, 1503509229, 3006318143, 4537039826 ];
+	
+	var sunTexture = './models/solarsystem/sunmap.jpg';
+	
+	var planetScale = .001 * .5;
+	var ssScale = .000001 * .5;
+	
+	var segmentsWidth = 20;
+	var segmentsHeight = 20;
+	var axisRez = 50;
+	
+	var textureLoader;
+	var timer = 0;
+
+	var containerInnerWidth = window.innerWidth;
+	var containerInnerHeight = window.innerHeight - window.innerHeight/10;
+
+	//init();
+	//animate();
+
+	function init() {
+
+		container = document.getElementById( 'contenttarget' );
+		
+		camera = new THREE.PerspectiveCamera( 30, containerInnerWidth / containerInnerHeight, 1, 100000 );
+		camera.position.y = 500;
+		camera.position.z = 1500;
+		
+		controls = new THREE.OrbitControls( camera );
+		controls.addEventListener( 'change', render );
+
+		scene = new THREE.Scene();
+
+		solarSystem = new THREE.Object3D();
+		scene.add( solarSystem );
+		
+
+			
+		// Sun & Planets
+		
+		var sun = new Planet( 2439.7 * planetScale, segmentsWidth, segmentsHeight, sunTexture);
+		sun.mesh.setPosition = [ 0, 0, 0 ];
+		
+		for ( var i = 0; i < planets.length; i ++ ) {
+		
+			planets[i] = new Planet( planetSize[i] * planetScale, segmentsWidth, segmentsHeight, planetTextures[i]);
+			planets[i].mesh.position.x = semiMajor[i] * ssScale;
+
+		}	
+		
+		
+		
+		// Axis
+		
+		var axisMat = new THREE.LineBasicMaterial( { color: 0xff00f0, } );
+		var splineMat = new THREE.LineBasicMaterial( { color: 0xff00f0, } );
+		
+		var spline = new Array();
+		var splineGeo, splinePoints, line;
+		
+		for ( var i = 0; i < planets.length; i ++ ) {
+			var semiMinor;
+			
+			semiMinor = semiMajor[i] * Math.sqrt(1 - eccentricity[i] * eccentricity[i]); 
+			
+			var axisPoint = [];
+			for( var k = 0; k < axisRez; k++ ) {
+				var x = semiMajor[i] * Math.cos(k / axisRez*Math.PI*2) * ssScale + (aphelion[i] - semiMajor[i]) * ssScale;
+				var z = semiMinor * Math.sin(k / axisRez*Math.PI*2) * ssScale;
+				axisPoint[k] = new THREE.Vector3( x, 0, z );
+			}
+			
+			axisPoint.push( axisPoint[0] );
+			spline.push( new THREE.SplineCurve3(
+				axisPoint
+			));
+			
+			splineGeo = new THREE.Geometry();
+			splinePoints = spline[i].getPoints(axisRez);
+			
+			for(var j = 0; j < splinePoints.length; j++){
+				splineGeo.vertices.push(splinePoints[j]);  
+			}
+			
+			line = new THREE.Line( splineGeo, splineMat );
+			scene.add(line);		
+		}	
+		
+		
+		// Render
+		//TODO: fix, it's too big
+		renderer = new THREE.CanvasRenderer();
+		
+		renderer.setSize( containerInnerWidth, containerInnerHeight );
+
+		container.appendChild( renderer.domElement );
+
+		//
+
+		window.addEventListener( 'resize', onWindowResize, false );
+
+	}
+	
+	function Planet( radius, segW, segH, imageTexture ){
+	
+		var planetTexture = new THREE.Texture();
+		
+		textureLoader = new THREE.ImageLoader();
+		textureLoader.addEventListener( 'load', function ( event ) {
+
+			planetTexture.image = event.content;
+			planetTexture.needsUpdate = true;
+
+		} );
+
+		textureLoader.load( imageTexture );
+		
+		var geometry = new THREE.SphereGeometry( radius, segW, segH );
+		var material = new THREE.MeshPhongMaterial( { map: planetTexture, overdraw: true } );
+		var mesh = new THREE.Mesh( geometry, material );
+		
+		solarSystem.add( mesh );
+		this.mesh = mesh;
+	}
+
+	function onWindowResize() {
+	
+		windowHalfX = containerInnerWidth / 2;
+		windowHalfY = containerInnerHeight / 2;
+
+		camera.aspect = containerInnerWidth / containerInnerHeight;
+		camera.updateProjectionMatrix();
+
+		renderer.setSize( containerInnerWidth, containerInnerHeight );
+
+	}
+	
+	function animate() {
+
+		requestAnimationFrame( animate );
+		controls.update();
+		
+		//solarSystem.rotation.y -= 0.01;
+		//planets[0].position.mesh.position.x = semiMajor[0] * Math.cos(k / axisRez*Math.PI*2) * ssScale + (aphelion[i] - semiMajor[i]) * ssScale;
+		render();
+	}
+
+	function render() {
+
+//			camera.position.x += ( mouseX - camera.position.x ) * 0.05;
+//			camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
+		camera.lookAt( scene.position );
+		renderer.render( scene, camera );
+
+	}
       
 }, false);
 
@@ -184,7 +374,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			
 		<!-- </div> -->
 		<div class="controlarea">
-			<audio id="page1audio1" class="page1audio1">
+			<audio id="page1audio1" class="page1audio1" controls="">
 				<source src="audio/total_voiceover.ogg">
 				Your browser does not support the audio element.  Upgrade the browser.
 			</audio>
