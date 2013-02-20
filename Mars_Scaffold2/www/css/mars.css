@@ -1,5 +1,7 @@
 html, body {
 	height:100%;
+	margin:0;
+	padding:0;
 }
 body {
 	width: 100%;
@@ -227,20 +229,33 @@ div.spiritvideo1
 .testcontent img
 {
   max-width:100%; 
-  max-height:100%;
+  max-height:90%;
   margin:auto;
   display:block;
 }
 .stretchcontent
 {
   width: 100%;
-  height: 100%;
+  height: 90%;
   margin-left: auto;
   margin-right: auto;
 }
 .stretchcontent img
 {
   width: 100%;
+  display:block;
+  margin:auto;
+}
+.stretchcontentheight
+{
+  height: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.stretchcontentheight img
+{
+  height: 90%;
+  display:block;
   margin-left: auto;
   margin-right: auto;
 }
@@ -266,17 +281,18 @@ div.spiritvideo1
       -o-transition-duration : 0.4s; 
       transition-duration : 0.4s;
 }
-/*div.contenttarget
+div.contenttarget
 {
   text-align: center;
   vertical-align:middle;
   background: #000;
   width: 100%;
-  height: 100%;
+  height: 90%;
   margin-left: auto;
   margin-right: auto;
+  display:block;
 }
-div.contenttarget img
+/*div.contenttarget img
 {
 max-width:100%; 
 max-height:100%;
@@ -291,7 +307,8 @@ div.pathfindervideo1
   margin-right: auto;
 }
 /* Top Bar Style */
-.badge{
+.controlarea{
+   display:block;
 	line-height: 24px;
 	font-size: 11px;
 	color: #333;
@@ -302,14 +319,14 @@ div.pathfindervideo1
 	bottom: 0px;
 	left: 0px;
 	width: 100%;
-	height: 50px;
+	height: 10%;
 	-webkit-animation: slideOut 0.5s ease-in-out 0.3s backwards;
 	-moz-animation: slideOut 0.5s ease-in-out 0.3s backwards;
 	-o-animation: slideOut 0.5s ease-in-out 0.3s backwards;
 	-ms-animation: slideOut 0.5s ease-in-out 0.3s backwards;
 	animation: slideOut 0.5s ease-in-out 0.3s backwards;
 }
-.badge a{
+.controlarea a{
 	padding: 0px 10px;
 	letter-spacing: 1px;
 	color: #ab3930;
@@ -317,16 +334,30 @@ div.pathfindervideo1
 	display: block;
 	float: left;
 }
-.badge a:hover{
+.controlarea a:hover{
 	background: #fff;
 }
-.badge span.right{
+.controlarea span.right{
 	float: right;
 }
-.badge span.left{
+.controlarea span.left{
 	float: left;
 }
-.badge span.right a{
+.controlarea span.right a{
 	float: left;
 	display: block;
+}
+.play
+{
+	width:30px;
+	height:30px;
+	background-image: url(../images/play.png);
+	float:left;
+}
+.pause
+{
+	width:30px;
+	height:30px;
+	background-image: url(../images/pause.png);
+	float:left;
 }

@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
-<title>Mars Scaffold</title>
+<title>DOE</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 <meta name="description" content="" />
 <meta name="keywords" content="" />
@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function () {
     	text: "", 
     	target: "contenttarget", 
 		effect: "applyclass",
-		applyclass: "testcontent" 
+		applyclass: "stretchcontentheight" 
     });
     var pause1=false;
     page1audio1.on( "timeupdate", function() {
@@ -125,6 +125,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			//kick of audio
 			page1audio1.pause();
 			pop.pause();
+			$('#playtoggle').attr("class", "pause");
 		}
 	});
     //page1audio.pause();
@@ -151,8 +152,23 @@ document.addEventListener("DOMContentLoaded", function () {
     {
     	document.getElementById( "slideroutput" ).innerHTML = ui.value;
     }
+    
+    $(document).ready(function() {
+        $('#playtoggle').bind("click", function() {
+          if ($(this).attr("class") == "play") {
+             $(this).attr("class", "pause");
+ 			page1audio1.pause();
+ 			pop.pause();
+          } else {
+             $(this).attr("class", "play");
+ 			page1audio1.play();
+ 			pop.play();
+          }
+        });
+      });
       
 }, false);
+
 
 
 --></script>
@@ -160,20 +176,21 @@ document.addEventListener("DOMContentLoaded", function () {
 	<body>
 				
 		<!-- page1 -->
-		<div id="page1">
+		<!-- <div id="page1">  -->
 		
 			<!-- <div id="contenttarget" class="contenttarget"></div>-->
 			<div id="contenttarget"></div>
 			
-		</div>
-		<div class="badge">
-			<audio id="page1audio1" class="page1audio1" controls="">
+		<!-- </div> -->
+		<div class="controlarea">
+			<audio id="page1audio1" class="page1audio1">
 				<source src="audio/total_voiceover.ogg">
 				Your browser does not support the audio element.  Upgrade the browser.
 			</audio>
-				<!-- <div id="slider" class="slider"></div> -->
-				<div id="slideroutput" class="slideroutput"></div>
-				<div id="footnotediv1" class="footnote"></div>
+			<!-- <div id="slider" class="slider"></div> -->
+			<div id="slideroutput" class="slideroutput"></div>
+			<div id="footnotediv1" class="footnote"></div>
+			<div id="playtoggle" class="play"></div>
 		</div>
 		
 	</body>
