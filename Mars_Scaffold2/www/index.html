@@ -26,6 +26,7 @@
 // ensure the web page (DOM) has loaded
 document.addEventListener("DOMContentLoaded", function () {
 	//https://www.youtube.com/watch?v=GLHmFPbb-aI - the MSL launch
+	//https://www.youtube.com/watch?v=P4boyXQuUIw - the MSL path
 	//http://www.youtube.com/watch?v=jEXoMpmfJcM - a better version
  
 // Create a popcorn instance by calling the Youtube player plugin
@@ -117,15 +118,15 @@ document.addEventListener("DOMContentLoaded", function () {
 		effect: "applyclass",
 		applyclass: "stretchcontentheight" 
     });
-    var pause1=false;
+    var pausePoint1=false;
     page1audio1.on( "timeupdate", function() {
 		document.getElementById( "footnotediv1" ).innerHTML = this.currentTime();
-		if(this.currentTime() >= 66 && !pause1) {
-			pause1=true;
+		if(this.currentTime() >= 66 && !pausePoint1) {
+			pausePoint1=true;
 			//kick of audio
 			page1audio1.pause();
 			pop.pause();
-			$('#playtoggle').attr("class", "pause");
+			$('#playtoggle').attr("class", "play");
 		}
 	});
     //page1audio.pause();
@@ -157,12 +158,12 @@ document.addEventListener("DOMContentLoaded", function () {
         $('#playtoggle').bind("click", function() {
           if ($(this).attr("class") == "play") {
              $(this).attr("class", "pause");
- 			page1audio1.pause();
- 			pop.pause();
-          } else {
-             $(this).attr("class", "play");
  			page1audio1.play();
  			pop.play();
+          } else {
+             $(this).attr("class", "play");
+ 			page1audio1.pause();
+ 			pop.pause();
           }
         });
       });
@@ -190,7 +191,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			<!-- <div id="slider" class="slider"></div> -->
 			<div id="slideroutput" class="slideroutput"></div>
 			<div id="footnotediv1" class="footnote"></div>
-			<div id="playtoggle" class="play"></div>
+			<div id="playtoggle" class="pause"></div>
 		</div>
 		
 	</body>
