@@ -7,13 +7,13 @@
 <!--[if gt IE 9]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <title>DOE</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 <meta name="description" content="" />
 <meta name="keywords" content="" />
 <meta name="author" content="Your name" />
-<link rel="shortcut icon" href="../favicon.ico"> 
+<LINK REL="SHORTCUT ICON" HREF="images/mars.ico"> 
 <link rel="stylesheet" type="text/css" href="css/mars.css" />
 <link href='http://fonts.googleapis.com/css?family=Electrolize' rel='stylesheet' type='text/css' />
 
@@ -112,8 +112,8 @@ document.addEventListener("DOMContentLoaded", function () {
     	applyclass: "stretchcontent"
     });
     page1audio1.image({
-    	start: 66, // Our start time in seconds
-    	end: 68, // Our end time in seconds
+    	start: 67, // Our start time in seconds
+    	end: 70, // Our end time in seconds
     	src: "./images/spirit_trajectory.png", 
     	text: "", 
     	target: "contenttarget", 
@@ -374,14 +374,25 @@ document.addEventListener("DOMContentLoaded", function () {
 			
 		<!-- </div> -->
 		<div class="controlarea">
-			<audio id="page1audio1" class="page1audio1">
-				<source src="audio/total_voiceover.ogg">
-				Your browser does not support the audio element.  Upgrade the browser.
-			</audio>
-			<!-- <div id="slider" class="slider"></div> -->
-			<div id="slideroutput" class="slideroutput"></div>
-			<div id="footnotediv1" class="footnote"></div>
-			<div id="playtoggle" class="pause"></div>
+		
+			<div class="controlarealeft">
+				<audio id="page1audio1" class="page1audio1" >
+					<source src="audio/total_voiceover.ogg">
+					Your browser does not support the audio element.  Upgrade the browser.
+				</audio>
+				
+			</div>
+			<div class="controlareamiddle">
+			
+				<div id="playtoggle" class="pause"></div>
+			</div>
+			<div class="controlarearight">
+			
+				<div id="footnotediv1" class="footnote"></div>
+			</div>
+				<!-- <div id="slider" class="slider"></div>
+				<div id="slideroutput" class="slideroutput"></div> -->
+				
 		</div>
 		
 	</body>

@@ -97,13 +97,6 @@ a{
 	background: #ddd;
 	color: #000;
 }
-div.footnote{
-	float: right;
-	background: #000;
-    display: block;
-	width: 40px;
-	font-size: 18px;
-}
 div.slideroutput{
 	float: left;
 	left: 200px;
@@ -306,13 +299,13 @@ div.pathfindervideo1
   margin-left: auto;
   margin-right: auto;
 }
-/* Top Bar Style */
+/* Bottom control area */
 .controlarea{
-   display:block;
+   display:inline;
 	line-height: 24px;
 	font-size: 11px;
 	color: #333;
-	background: #111;
+	background: #f11;
 	text-transform: uppercase;
 	z-index: 9999;
 	position: fixed;
@@ -326,26 +319,39 @@ div.pathfindervideo1
 	-ms-animation: slideOut 0.5s ease-in-out 0.3s backwards;
 	animation: slideOut 0.5s ease-in-out 0.3s backwards;
 }
-.controlarea a{
-	padding: 0px 10px;
-	letter-spacing: 1px;
-	color: #ab3930;
-	text-shadow: 0px 1px 1px #fff;
-	display: block;
+.controlarealeft{
+   display:inline;
+	line-height: 24px;
+	font-size: 11px;
+	background: #000;
+	top: 0px;
+	width: 33.333%;
+	height: 100%;
 	float: left;
+}
+.controlareamiddle{
+   display:inline;
+	line-height: 24px;
+	font-size: 11px;
+	background: #000;
+	top: 0px;
+	height: 100%;
+	width: 33.333%;
+	float: left;
+}
+.controlarearight{
+   display:inline;
+	line-height: 24px;
+	font-size: 11px;
+	background: #000;
+	top: 0px;
+	right: 0px;
+	width: 33.333%;
+	height: 100%;
+	float: right;
 }
 .controlarea a:hover{
 	background: #fff;
-}
-.controlarea span.right{
-	float: right;
-}
-.controlarea span.left{
-	float: left;
-}
-.controlarea span.right a{
-	float: left;
-	display: block;
 }
 .play
 {
@@ -360,4 +366,11 @@ div.pathfindervideo1
 	height:30px;
 	background-image: url(../images/pause.png);
 	float:left;
+}
+div.footnote{
+	float: right;
+	background: #aaa;
+    display: inline;
+	width: 38px;
+	font-size: 18px;
 }
