@@ -180,27 +180,28 @@ document.addEventListener("DOMContentLoaded", function () {
           }
         });
         
+        //top drawer open/close animation
         $("#topbaropener").click(function() {
         	var topbar = $('#topbar')
-        	var curHeight = topbar.height();
-        	//alert('curHeight: ' + curHeight);
-        	//topbar.css('height', 'auto');
-        	var closeHeight = 0;
+        	var theHeight = topbar.height();
     		var position = topbar.position();
-    		var negPosition = -position.top;
         	if(position.top>=0) {
-            	topbar.animate({ top: "-="+curHeight+"px", }, 300 );
-            	//topbar.height(curHeight).animate({height: closeHeight}, 300);
+            	topbar.animate({ top: "-="+theHeight+"px", }, 300 );
         	} else {
-            	//alert('position.top: ' + negPosition);
-            	topbar.animate({ top: "+="+negPosition+"px", }, 300 );
-            	//topbar.height(curHeight).animate({height: negPosition}, 300);
+            	topbar.animate({ top: "+="+(-position.top)+"px", }, 300 );
         	}
-        	//topbar.animate({ top: "-=10px", }, 200 );
-        	//var curtop = topbar.top();
         });
+        //top drawer open/close animation
         $("#bottombaropener").click(function() {
-        	alert('closing drawer!');
+        	var bottombar = $('#bottombar')
+        	var theHeight = bottombar.height();
+    		var position = bottombar.position();
+        	if(position.top<=(window.innerHeight-2)) {
+        		bottombar.animate({ top: "+="+(theHeight)+"px", }, 300 );
+        	} else {
+        		bottombar.animate({ top: "-="+(theHeight)+"px", }, 300 );
+        	}
+        	
         });
         
       });
