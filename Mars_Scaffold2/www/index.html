@@ -180,6 +180,29 @@ document.addEventListener("DOMContentLoaded", function () {
           }
         });
         
+        $("#topbaropener").click(function() {
+        	var topbar = $('#topbar')
+        	var curHeight = topbar.height();
+        	//alert('curHeight: ' + curHeight);
+        	//topbar.css('height', 'auto');
+        	var closeHeight = 0;
+    		var position = topbar.position();
+    		var negPosition = -position.top;
+        	if(position.top>=0) {
+            	topbar.animate({ top: "-="+curHeight+"px", }, 300 );
+            	//topbar.height(curHeight).animate({height: closeHeight}, 300);
+        	} else {
+            	//alert('position.top: ' + negPosition);
+            	topbar.animate({ top: "+="+negPosition+"px", }, 300 );
+            	//topbar.height(curHeight).animate({height: negPosition}, 300);
+        	}
+        	//topbar.animate({ top: "-=10px", }, 200 );
+        	//var curtop = topbar.top();
+        });
+        $("#bottombaropener").click(function() {
+        	alert('closing drawer!');
+        });
+        
       });
     
     //three.js solar system
@@ -217,7 +240,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	var timer = 0;
 
 	var containerInnerWidth = window.innerWidth;
-	var containerInnerHeight = window.innerHeight - window.innerHeight/10;
+	var containerInnerHeight = window.innerHeight;// - window.innerHeight/10;
 
 	//init();
 	//animate();
@@ -365,35 +388,38 @@ document.addEventListener("DOMContentLoaded", function () {
 --></script>
 	</head>
 	<body>
-				
-		<!-- page1 -->
-		<!-- <div id="page1">  -->
 		
-			<!-- <div id="contenttarget" class="contenttarget"></div>-->
-			<div id="contenttarget"></div>
-			
-		<!-- </div> -->
-		<div class="controlarea">
+		<div id="topbar" class="topbar">
 		
-			<div class="controlarealeft">
-				<audio id="page1audio1" class="page1audio1" >
+			<div class="topbarleft">
+				<div id="playtoggle" class="pause"></div>
+			</div>
+			<div class="topbarmiddle">
+				<audio id="page1audio1" class="page1audio1">
 					<source src="audio/total_voiceover.ogg">
 					Your browser does not support the audio element.  Upgrade the browser.
 				</audio>
-				
 			</div>
-			<div class="controlareamiddle">
-			
-				<div id="playtoggle" class="pause"></div>
-			</div>
-			<div class="controlarearight">
-			
+			<div class="topbarright">
 				<div id="footnotediv1" class="footnote"></div>
 			</div>
 				<!-- <div id="slider" class="slider"></div>
 				<div id="slideroutput" class="slideroutput"></div> -->
+			<div id="topbaropener" class="topbaropener">
+				controls
+			</div>
 				
-		</div>
+		</div>		
 		
+		<div id="contenttarget" class="contenttarget"></div>
+			
+		<div id="bottombar" class="bottombar">
+		
+			<div id="bottombaropener" class="bottombaropener">
+				timeline
+			</div>
+			
+			
+		</div>
 	</body>
 </html>
