@@ -17,7 +17,8 @@
 <link rel="stylesheet" type="text/css" href="css/mars.css" />
 <link href='http://fonts.googleapis.com/css?family=Electrolize' rel='stylesheet' type='text/css' />
 
-<script src="js/popcorn-complete.min.js"></script>	
+<script src="js/popcorn-complete.js"></script>	
+<script src="js/popcorn.sequencer.js"></script>	
 <script src="js/three.min.js"></script>
 <script src="js/controls/OrbitControls.js"></script>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
@@ -27,35 +28,33 @@
 <script><!--
 // ensure the web page (DOM) has loaded
 document.addEventListener("DOMContentLoaded", function () {
-	//https://www.youtube.com/watch?v=GLHmFPbb-aI - the MSL launch
 	//https://www.youtube.com/watch?v=P4boyXQuUIw - the MSL path
-	//http://www.youtube.com/watch?v=jEXoMpmfJcM - a better version
+	//http://www.youtube.com/watch?v=jEXoMpmfJcM - the MSL launch - a better version
+	//https://www.youtube.com/watch?v=lKqr3F73bAI - MSL trajectory
  
 // Create a popcorn instance by calling the Youtube player plugin
       
 	Popcorn.player( "baseplayer" );
 
-	var pop = Popcorn.baseplayer( "#footnotediv1" );
+	var pop = Popcorn.baseplayer( "#contenttarget" );
   
 	pop.play( 0 );
 	
 	var page1audio1 = Popcorn('#page1audio1' );
-  
-	// Add popcorn events here and other functionality
 
 	pop.on( "timeupdate", function() {
 		document.getElementById( "footnotediv1" ).innerHTML = this.currentTime();
+	});
+	
+	pop.on( "timeupdate", function() {
 		if(this.currentTime() >= 5 && this.currentTime() <= 5.2) {
-			console.log("kicking up audio");
+			//console.log("kicking up audio");
 			//kick of audio
 			page1audio1.play();
 		}
 	});
-
-
-    //var contenttarget = Popcorn.youtube('#contenttarget', 'https://www.youtube.com/watch?v=h2I8AoB1xgU' );
-    //contenttarget.play();
-    
+	
+	// Add popcorn events here and other functionality
     pop.image({
     	start: 1, // Our start time in seconds
     	end: 5, // Our end time in seconds
@@ -63,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
     	text: "", 
     	target: "contenttarget", 
 		effect: "applyclass",
-		applyclass: "testcontent"
+		applyclass: "unstrechedcontent"
     });
     
     page1audio1.image({
@@ -73,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
     	text: "", 
     	target: "contenttarget", 
     	effect: "applyclass",
-    	applyclass: "testcontent"
+    	applyclass: "stretchcontent"
     });
     page1audio1.image({
     	start: 3.0, // Our start time in seconds
@@ -82,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
     	text: "", 
     	target: "contenttarget", 
 		effect: "applyclass",
-		applyclass: "testcontent" 
+		applyclass: "stretchcontent" 
     });
     page1audio1.image({
     	start: 8.0, // Our start time in seconds
@@ -91,7 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
     	text: "", 
     	target: "contenttarget", 
 		effect: "applyclass",
-		applyclass: "testcontent" 
+		applyclass: "stretchcontent" 
     });
     page1audio1.image({
     	start: 17.0, // Our start time in seconds
@@ -100,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
     	text: "", 
     	target: "contenttarget", 
 		effect: "applyclass",
-		applyclass: "testcontent" 
+		applyclass: "stretchcontent" 
     });
     page1audio1.image({
     	start: 20.0, // Our start time in seconds
@@ -111,20 +110,11 @@ document.addEventListener("DOMContentLoaded", function () {
 		effect: "applyclass",
     	applyclass: "stretchcontent"
     });
-    page1audio1.image({
-    	start: 67, // Our start time in seconds
-    	end: 70, // Our end time in seconds
-    	src: "./images/spirit_trajectory.png", 
-    	text: "", 
-    	target: "contenttarget", 
-		effect: "applyclass",
-		applyclass: "stretchcontentheight" 
-    });
     var pausePoint1=false;
     var isModel1Showing=false;
     page1audio1.on( "timeupdate", function() {
 		document.getElementById( "footnotediv1" ).innerHTML = this.currentTime();
-		if(this.currentTime() >= 39.2 && !isModel1Showing) {
+		if(this.currentTime() >= 49.2 && !isModel1Showing) {
 			isModel1Showing=true;
 
 			init();
@@ -182,7 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
         
         //top drawer open/close animation
         $("#topbaropener").click(function() {
-        	var topbar = $('#topbar')
+        	var topbar = $('#topbar');
         	var theHeight = topbar.height();
     		var position = topbar.position();
         	if(position.top>=0) {
@@ -191,9 +181,9 @@ document.addEventListener("DOMContentLoaded", function () {
             	topbar.animate({ top: "+="+(-position.top)+"px", }, 300 );
         	}
         });
-        //top drawer open/close animation
+        //bottom drawer open/close animation
         $("#bottombaropener").click(function() {
-        	var bottombar = $('#bottombar')
+        	var bottombar = $('#bottombar');
         	var theHeight = bottombar.height();
     		var position = bottombar.position();
         	if(position.top<=(window.innerHeight-2)) {
@@ -201,10 +191,23 @@ document.addEventListener("DOMContentLoaded", function () {
         	} else {
         		bottombar.animate({ top: "-="+(theHeight)+"px", }, 300 );
         	}
-        	
+        });
+        //left drawer open/close animation
+        $("#leftbaropener").click(function() {
+        	var leftbar = $('#leftbar');
+        	var theWidth = leftbar.width();
+    		var position = leftbar.position();
+        	if(position.left>=0) {
+        		leftbar.animate({ left: "-="+(theWidth)+"px", }, 300 );
+        	} else {
+        		leftbar.animate({ left: "+="+(theWidth)+"px", }, 300 );
+        	}
         });
         
+        $('#leftbaropener').trigger('click');
+        
       });
+    
     
     //three.js solar system
     var container, stats;
@@ -390,19 +393,20 @@ document.addEventListener("DOMContentLoaded", function () {
 	</head>
 	<body>
 		
+    <div id="foo"></div>
 		<div id="topbar" class="topbar">
 		
-			<div class="topbarleft">
+			<div id="topbarleft" class="topbarleft">
 				<div id="playtoggle" class="pause"></div>
 			</div>
-			<div class="topbarmiddle">
+			<div id="topbarmiddle" class="topbarmiddle">
+			</div>
+			<div id="topbarright" class="topbarright">
+				<div id="footnotediv1" class="footnote"></div>
 				<audio id="page1audio1" class="page1audio1">
 					<source src="audio/total_voiceover.ogg">
 					Your browser does not support the audio element.  Upgrade the browser.
-				</audio>
-			</div>
-			<div class="topbarright">
-				<div id="footnotediv1" class="footnote"></div>
+				</audio> 
 			</div>
 				<!-- <div id="slider" class="slider"></div>
 				<div id="slideroutput" class="slideroutput"></div> -->
@@ -412,15 +416,20 @@ document.addEventListener("DOMContentLoaded", function () {
 				
 		</div>		
 		
+		<div id="leftbar" class="leftbar">
+			<div id="leftbaropener" class="leftbaropener">
+				badges
+			</div>
+		</div>
+		
+		<!-- main content area for video, images, 3D, etc... -->
 		<div id="contenttarget" class="contenttarget"></div>
 			
 		<div id="bottombar" class="bottombar">
-		
 			<div id="bottombaropener" class="bottombaropener">
 				timeline
 			</div>
-			
-			
 		</div>
+		
 	</body>
 </html>

@@ -219,7 +219,7 @@ div.spiritvideo1
   margin-left: auto;
   margin-right: auto;
 }
-.testcontent img
+.unstrechedcontent img
 {
   max-width:100%; 
   max-height:100%;
@@ -423,7 +423,7 @@ div.contenttarget
 	color: #bf5112;
 	border-top:1px solid;
 	border-left:1px solid;
-   display:inline;
+    display:inline;
 	top: -21px;
 	right: 0px;
 	width: 80px;
@@ -431,6 +431,51 @@ div.contenttarget
 	float: right;
 }
 .bottombaropener:hover{
+	color: #000;
+	background: #bf5112;
+}
+/* left bar control area */
+.leftbar{
+	position: absolute;
+    display:inline;
+	line-height: 24px;
+	font-size: 11px;
+	color: #bf5112;
+	border-top:1px solid;
+	border-bottom:1px solid;
+	border-right:1px solid;
+	background: rgba(30,30,30,0.9);
+	text-transform: uppercase;
+	z-index: 9999;
+	position: fixed;
+	top: 5%;
+	left: 0px;
+	width: 23%;
+	height: 85%;
+}
+.leftbaropener{
+	position:relative;
+	text-align: center;
+	line-height: 20px;
+	font-size: 12px;
+	writing-mode:tb-rl;
+	-webkit-transform:rotate(90deg);
+	-moz-transform:rotate(90deg);
+	-o-transform: rotate(90deg);
+	white-space:nowrap;
+	background: rgba(30,30,30,0.9);
+	color: #bf5112;
+	border-top:1px solid;
+	border-left:1px solid;
+	border-right:1px solid;
+    display:block;
+	top: 48%;
+	right: -51px;
+	width: 80px;
+	height: 20px;
+	float: right;
+}
+.leftbaropener:hover{
 	color: #000;
 	background: #bf5112;
 }
