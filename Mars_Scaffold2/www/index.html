@@ -114,9 +114,17 @@ document.addEventListener("DOMContentLoaded", function () {
     var isModel1Showing=false;
     page1audio1.on( "timeupdate", function() {
 		document.getElementById( "footnotediv1" ).innerHTML = this.currentTime();
-		if(this.currentTime() >= 49.2 && !isModel1Showing) {
+		if(this.currentTime() >= 8 && this.currentTime() <= 9) {
+		    flipTimelinePic("slide2","./images/slide2.png");
+		}
+		if(this.currentTime() >= 20 && this.currentTime() <= 21) {
+		    flipTimelinePic("slide3","./images/slide3.png");
+		}
+		if(this.currentTime() >= 40 && this.currentTime() <= 41) {
+		    flipTimelinePic("slide4","./images/slide4.png");
+		}
+		if(this.currentTime() >= 39.2 && !isModel1Showing) {
 			isModel1Showing=true;
-
 			init();
 			animate();
 		}
@@ -127,10 +135,16 @@ document.addEventListener("DOMContentLoaded", function () {
 			pop.pause();
 			$('#playtoggle').attr("class", "play");
 		}
+
 	});
-    //page1audio.pause();
     
     
+    function flipTimelinePic(picID,imgName)
+    {
+        var pic1 = document.getElementById(picID); 
+        if (pic1 == typeof('undefined')) return;
+        pic1.src = imgName;
+    }
     
       //jQuery Scrubber
     $(function() {
@@ -168,6 +182,18 @@ document.addEventListener("DOMContentLoaded", function () {
  			page1audio1.pause();
  			pop.pause();
           }
+        });
+        
+        $("#slide2").click(function() {
+        	page1audio1.play(7);
+        });
+        
+        $("#slide3").click(function() {
+        	page1audio1.play(19);
+        });
+        
+        $("#slide4").click(function() {
+        	page1audio1.play(39);
         });
         
         //top drawer open/close animation
@@ -429,6 +455,46 @@ document.addEventListener("DOMContentLoaded", function () {
 			<div id="bottombaropener" class="bottombaropener">
 				timeline
 			</div>
+			
+	        <div id="wn3" class="scrollarea">
+	            <div id="lyr3">
+	                <ul>
+	                    <li><img src="./images/slide1.png" id="slide1" /></li>
+	                    <li><img src="./images/questionmark.png" id="slide2"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide3"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide4"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide5"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide6"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide7"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide8"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide9"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide10"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide11"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide12"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide13"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide14"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide15"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide16"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide17"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide18"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide19"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide20"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide21"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide22"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide23"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide24"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide25"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide26"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide27"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide28"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide29"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide30"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide31"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide32"/></li>
+	                </ul>
+	            </div>
+	        </div>
+	        
 		</div>
 		
 	</body>

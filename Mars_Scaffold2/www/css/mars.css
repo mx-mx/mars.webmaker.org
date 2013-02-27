@@ -307,7 +307,7 @@ div.contenttarget
 	top: 0px;
 	left: 0px;
 	width: 100%;
-	height: 5%;
+	height: 40px;
 }
 .topbarleft{
 	position:relative;
@@ -448,7 +448,7 @@ div.contenttarget
 	text-transform: uppercase;
 	z-index: 9999;
 	position: fixed;
-	top: 5%;
+	top: 40px;
 	left: 0px;
 	width: 23%;
 	height: 85%;
@@ -478,4 +478,43 @@ div.contenttarget
 .leftbaropener:hover{
 	color: #000;
 	background: #bf5112;
+}
+div.scrollarea { 
+	position:relative; 
+	width:86%; 
+    height:65px; 
+    bottom:0;
+    left:6%;
+	overflow:auto; 
+	color: #bf5112;
+	background-image: url(../images/timeline.png);
+	background-repeat: repeat-x;
+}
+div.scrollarea ul {
+    list-style:none; 
+    margin:12px 0 0; 
+    padding:0;
+    white-space:nowrap;
+}
+div.scrollarea ul li {
+    display:inline;
+    white-space:nowrap;
+    vertical-align:top;
+    padding:0 12px 0;
+}
+div.scrollarea ul li img {
+	color: #bf5112;
+	border: 1px solid;
+}
+::-webkit-scrollbar {
+    height: 10px;
+}
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(191,81,18,0.9); 
+    border-radius: 1px;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 1px;
+    -webkit-box-shadow: inset 0 0 6px rgba(191,81,18,0.9); 
+    background: rgba(191,81,18,0.9);
 }
