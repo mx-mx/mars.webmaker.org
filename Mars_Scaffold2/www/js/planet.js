@@ -71,10 +71,16 @@ var Planet = function( radius, segW, segH, texture ){
 
 		},
 
-		drawOrbit: function( axisRez ){
+		drawOrbit: function( axisRez, colorHex ){
 
 			lineLod = new THREE.LOD();
-			splineMat = new THREE.LineBasicMaterial( { color: 0xBF5112, opacity: 0.25, linewidth: 1 } );
+			if(colorHex!=null) {
+
+				splineMat = new THREE.LineBasicMaterial( { color: colorHex, opacity: 0.25, linewidth: 1 } );
+			} else {
+
+				splineMat = new THREE.LineBasicMaterial( { color: 0x555555, opacity: 0.25, linewidth: 1 } );
+			}
  
 			for (var i = 0; i < lodLevel; i++) {
 

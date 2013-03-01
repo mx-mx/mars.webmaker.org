@@ -397,7 +397,13 @@ function init() {
 		planets[i] = new Planet( planetSize[i] * planetScale, planetSegW, planetSegH, planetTextures[i] );
 		planets[i].setOrbit( semiMajor[i], aphelion[i], eccentricity[i], ssScale );
 		planets[i].drawPlanet( scene );
-		planets[i].drawOrbit( axisRez );
+		if(i==2) {
+			planets[i].drawOrbit( axisRez, 0x6dc9ea );
+		} else if (i==3) {
+			planets[i].drawOrbit( axisRez, 0xBF5112 );
+		} else {
+			planets[i].drawOrbit( axisRez );
+		}
 
 	}		
 
