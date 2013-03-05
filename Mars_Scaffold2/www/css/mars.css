@@ -437,11 +437,21 @@ div.scrollarea ul li img {
 	top: 15px;
 	right: 40px;
 	background: rgba(0,0,0,0.9);
+	background-color: rgba(0,0,0,0.9);
     -webkit-box-shadow: inset 0 0 6px rgba(191,81,18,0.9); 
 	color: #bf5112;
 	border:1px solid;
     border-radius: 1px;
 }
+#speedSlider .ui-widget-header { 
+	background: #bf5112; 
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.9); 
+}
+#speedSlider .ui-state-default { 
+	border: 1px solid #bf5112; 
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.9); 
+	background: #bf5112; 
+	}
 ::-webkit-scrollbar {
     height: 10px;
 }
