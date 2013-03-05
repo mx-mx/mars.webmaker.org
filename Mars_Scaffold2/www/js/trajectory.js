@@ -1,4 +1,3 @@
-// var planetTexture, textureLoader;
 
 var Trajectory = function( start, end, resolution){
 
@@ -12,7 +11,6 @@ var Trajectory = function( start, end, resolution){
 		splinePoints,
 		line
 	;
-
 
 	return {
 		

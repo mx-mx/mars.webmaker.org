@@ -1,13 +1,12 @@
-// var planetTexture, textureLoader;
 
-var Planet = function( radius, segW, segH, texture ){
+var Planet = function( segW, segH, mat, axisMat ){
 
 	var 
 		planetTexture = new THREE.Texture(),
 		textureLoader = new THREE.ImageLoader(),
 		planetLod = new THREE.LOD(),
 		geometry,
-		material,
+		planetMaterial = mat,
 		mesh,
 		semiMaj,
 		semiMin,
@@ -17,21 +16,21 @@ var Planet = function( radius, segW, segH, texture ){
 		lineLod,
 		spline,
 		splineGeo,
-		splineMat,
+		axisMaterial = axisMat,
 		splinePoints,
 		axisPoints,
 		lodLevel = 3,
-		lodDistance = 1000;
+		lodDistance = 3000;
 
-
-	textureLoader.addEventListener( 'load', function ( event ) {
-
-		planetTexture.image = event.content;
-		planetTexture.needsUpdate = true;
-
-		});
-
-	textureLoader.load( texture );
+		for (var i = 0; i < lodLevel; i++) {
+			geometry = new THREE.SphereGeometry( 1, segW / ( i + 1) , segH / ( i + 1 ) );
+			mesh = new THREE.Mesh( geometry, planetMaterial);
+			mesh.updateMatrix();
+			mesh.autoUpdateMatrix = false;
+			planetLod.addLevel( mesh, i * lodDistance);	
+		}
+		
+		planetLod.updateMatrix();
 
 
 	return {
@@ -39,18 +38,6 @@ var Planet = function( radius, segW, segH, texture ){
 		mesh: planetLod,
 
     	drawPlanet: function ( scene ) {
-
-				material = new THREE.MeshLambertMaterial( { map: planetTexture, overdraw: true } );
-
-				for (var i = 0; i < lodLevel; i++) {
-					geometry = new THREE.SphereGeometry( radius, segW / ( i + 1) , segH / ( i + 1 ) );
-					mesh = new THREE.Mesh( geometry, material);
-					mesh.updateMatrix();
-					mesh.autoUpdateMatrix = false;
-					planetLod.addLevel( mesh, i * lodDistance);	
-				}
-				
-				planetLod.updateMatrix();
 				scene.add( planetLod );
             },
 
@@ -71,17 +58,9 @@ var Planet = function( radius, segW, segH, texture ){
 
 		},
 
-		drawOrbit: function( axisRez, colorHex ){
-
+		drawOrbit: function( axisRez, scene ){
 			lineLod = new THREE.LOD();
-			if(colorHex!=null) {
 
-				splineMat = new THREE.LineBasicMaterial( { color: colorHex, opacity: 0.25, linewidth: 1 } );
-			} else {
-
-				splineMat = new THREE.LineBasicMaterial( { color: 0x555555, opacity: 0.25, linewidth: 1 } );
-			}
- 
 			for (var i = 0; i < lodLevel; i++) {
 
 				axisRez = axisRez / ( i + 1 );
@@ -102,7 +81,7 @@ var Planet = function( radius, segW, segH, texture ){
 					splineGeo.vertices.push(splinePoints[i]);  
 				}
 				
-				line = new THREE.Line( splineGeo, splineMat );
+				line = new THREE.Line( splineGeo, axisMaterial );
 
 				line.updateMatrix();
 				line.autoUpdateMatrix = false;
@@ -111,40 +90,18 @@ var Planet = function( radius, segW, segH, texture ){
 
 			scene.add( lineLod );
 
-
-			// axisPoints = [];
-			// spline = [];
-
-			// splineMat = new THREE.LineBasicMaterial( { color: 0xff00f0, opacity: 0.25, linewidth: 1 } );
-
-			// for( var i = 0; i < axisRez; i++ ) {
-			// 	x = semiMaj * Math.cos( i / axisRez * Math.PI * 2 ) * ssScale + ( ( aph - semiMaj ) * ssScale );
-			// 	z = semiMin * Math.sin( i / axisRez * Math.PI * 2 ) * ssScale;
-			// 	axisPoints[i] = new THREE.Vector3( x, 0, z );
-			// }
-			
-			// spline =  new THREE.ClosedSplineCurve3( axisPoints );
-			// splineGeo = new THREE.Geometry();
-			// splinePoints = spline.getPoints( axisRez );
-			
-			// for(var i = 0; i < splinePoints.length; i++){
-			// 	splineGeo.vertices.push(splinePoints[i]);  
-			// }
-			
-			// line = new THREE.Line( splineGeo, splineMat );
-			// scene.add( line );
-
 		},
 
 		removeOrbit: function( scene ){
 			scene.remove( line );
 		},
 
-		startOrbit: function( time, days ){
+		orbit: function( time, days ){
+
 			var orbitTime = time / days;
+
 			planetLod.position.x = semiMaj * Math.cos( axisRez * Math.PI * 2 + orbitTime) * ssScale + ( ( aph - semiMaj ) * ssScale );
 			planetLod.position.z = semiMin * Math.sin( axisRez * Math.PI * 2 + orbitTime) * ssScale;
-			//planetLod.rotation.y = time;
 
 		}
 	}

@@ -25,78 +25,37 @@
 <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
 <script src="js/three.min.js"></script>
 
-		<script src="./js/Detector.js"></script>
+<script src="./js/Detector.js"></script>
 
-		<script src="./js/libs/tween.min.js"></script>
-		<script src="./js/libs/stats.min.js"></script>
+<script src="./js/libs/tween.min.js"></script>
+<script src="./js/libs/stats.min.js"></script>
 
-		<script src="./js/controls/OrbitControls.js"></script>	
+<script src="./js/controls/OrbitControls.js"></script>	
 
-		<script src="./js/geometries/LatheGeometry.js"></script>
+<script src="./js/geometries/LatheGeometry.js"></script>
 
-		<script src="./js/shaders/ConvolutionShader.js"></script>
-		<script src="./js/shaders/CopyShader.js"></script>
-		<script src="./js/shaders/FilmShader.js"></script>
+<script src="./js/shaders/ConvolutionShader.js"></script>
+<script src="./js/shaders/CopyShader.js"></script>
+<script src="./js/shaders/FilmShader.js"></script>
 
-		<script src="./js/postprocessing/EffectComposer.js"></script>
-		<script src="./js/postprocessing/ShaderPass.js"></script>
-		<script src="./js/postprocessing/MaskPass.js"></script>
-		<script src="./js/postprocessing/RenderPass.js"></script>
-		<script src="./js/postprocessing/BloomPass.js"></script>
-		<script src="./js/postprocessing/FilmPass.js"></script>
+<script src="./js/postprocessing/EffectComposer.js"></script>
+<script src="./js/postprocessing/ShaderPass.js"></script>
+<script src="./js/postprocessing/MaskPass.js"></script>
+<script src="./js/postprocessing/RenderPass.js"></script>
+<script src="./js/postprocessing/BloomPass.js"></script>
+<script src="./js/postprocessing/FilmPass.js"></script>
 
-		<script src="./js/planet.js"></script>
-		<script src="./js/stars.js"></script>
-		<script src="./js/trajectory.js"></script>
+<script src="./js/main.js"></script>
+<script src="./js/planet.js"></script>
+<script src="./js/marker.js"></script>
+<script src="./js/stars.js"></script>
+<script src="./js/trajectory.js"></script>
+<script src="./js/css3Dworld.js"></script>
  
 <script><!--
-/********************************
-THREE VARIABLES
-********************************/
-var WIDTH = $(window).width(),
-HEIGHT = $(window).height() - 100;
 
-var VIEW_ANGLE = 45,
-ASPECT = WIDTH / HEIGHT,
-NEAR = 1,
-FAR = 100000;
-
-var stats, scene, camera, pointLight, camTarget, camNextPosition, camNextRotation, camNextTarget, 
-ambientLight, renderer, composer, controls, tween, tweenBack, uniforms, shaderTest;
-
-var solarSystem, sun, trajectory;
-var planets = new Array(8);
-
-var planetSize = [ 2439.7, 6051.8, 6371.00, 3389.5, 69911, 58232, 25362, 24622 ];
-var planetTextures = [
-'./models/solarsystem/mercurymap.jpg',
-'./models/solarsystem/venusmap.jpg',
-'./models/solarsystem/earthmap.jpg',
-'./models/solarsystem/marsmap.jpg',
-'./models/solarsystem/jupitermap.jpg',
-'./models/solarsystem/saturnmap.jpg',
-'./models/solarsystem/uranusmap.jpg',
-'./models/solarsystem/neptunemap.jpg',
-];
-
-var sunTexture = './models/solarsystem/sunmap.jpg';
-
-var semiMajor = [ 57909227, 108209475, 149598262, 227943824, 778340821, 1426666422, 2870658186, 4498396441 ];
-var eccentricity = [ 0.20563593, 0.00677672, 0.01671123, 0.0933941,	0.04838624,	0.05386179,	0.04725744,	0.00859048 ];
-var aphelion = [ 69817445, 108942780, 152098233, 249232432, 816001807, 1503509229, 3006318143, 4537039826 ];
-var orbitTime = [ 88.0, 224.7, 365.2, 687, 4332, 10760, 30700, 60200 ];
-
-var axisRez = 50;
-
-var sunScale = .00001, planetScale = .0001, ssScale = .000001;
-
-var planetSegW = 15, planetSegH = 15;
-
-var timer = 1, timerMultiplier = 0;
 // ensure the web page (DOM) has loaded
 document.addEventListener("DOMContentLoaded", function () {
-
-	var $container = $('#contenttarget');
 	//https://www.youtube.com/watch?v=P4boyXQuUIw - the MSL path
 	//http://www.youtube.com/watch?v=jEXoMpmfJcM - the MSL launch - a better version
 	//https://www.youtube.com/watch?v=lKqr3F73bAI - MSL trajectory
@@ -194,8 +153,14 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 		if(this.currentTime() >= 39.2 && !isModel1Showing) {
 			isModel1Showing=true;
+			//init();
+			
+			CSSWorld = document.getElementById('css-world');
+			CSSCamera = document.getElementById('css-camera');
 			init();
-			//animate();
+			initCSS3D( CSSWorld, CSSCamera );
+			animate();
+			$("#loadtext").hide();
 		}
 		if(this.currentTime() >= 66 && !pausePoint1) {
 			pausePoint1=true;
@@ -214,24 +179,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (pic1 == typeof('undefined')) return;
         pic1.src = imgName;
     }
-     
-
-// --------------------------- Ryan THREE----------------------------
-	if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
-		
-	window.requestAnimationsFrame = ( function() {
-			return  window.requestAnimationFrame       || 
-					window.webkitRequestAnimationFrame || 
-					window.mozRequestAnimationFrame    || 
-					window.oRequestAnimationFrame      || 
-					window.msRequestAnimationFrame     || 
-			function(/* function */ callback, /* DOMElement */ element){
-				window.setTimeout(callback, 1000 / 60);
-			};
-	})();
-
-	var vertexTest, fragmentTest;
-// --------------------------- end Ryan THREE----------------------------    
+   
 
     $(document).ready(function() {
         $('#playtoggle').bind("click", function() {
@@ -299,166 +247,8 @@ document.addEventListener("DOMContentLoaded", function () {
         });
         
         $('#leftbaropener').trigger('click');
-
-// --------------------------- Ryan THREE----------------------------
-        $.ajax({
-			url: "./shaders/vertexTest.vs",
-			dataType: 'text',
-			success: function ( txt ) {
-				vertexTest = txt;
-			},
-			error: function( txt ) {
-				//AJAX request not completed
-				alert( "vertex not loaded" );
-			}
-		});
-
-		$.ajax({
-			url: "./shaders/fragmentTest.fs",
-			dataType: 'text',
-			success: function ( txt ) {
-				fragmentTest = txt;
-			},
-			error: function( txt ) {
-				alert( "fragement not loaded" );
-			}
-		});
-		console.log( vertexTest );
-		//init();
-// --------------------------- end Ryan THREE ----------------------------
-      });
-    
-    
-
-
-//init();
-
-function init() {
-
-	/********************************
-		SCENE SETUP
-	********************************/
-	container = $('#contenttarget');
-
-	scene = new THREE.Scene();
-	scene.fog = new THREE.FogExp2( 0x000000, 0.000025 );
-
-	camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR );
-	camera.position.y = 150;
-	camera.position.z = 500;
-
-	camTarget = new THREE.Vector3();
-	camTarget = scene.position;
-	
-	ambientLight = new THREE.AmbientLight();
-	ambientLight.color.setRGB( .15, .15, .15 );
-	scene.add(ambientLight);
-
-	pointLight = new THREE.PointLight(0xFFFFFF);
-
-	pointLight.position.x = 0;
-	pointLight.position.y = 0;
-	pointLight.position.z = 0;
-
-	scene.add(pointLight);
-
-	solarSystem = new THREE.Object3D();
-	scene.add( solarSystem );
-
-	trajectory = new Trajectory ( 2 );
-	/********************************
-		CONTROLS
-	********************************/
-
-	controls = new THREE.OrbitControls( camera );
-	controls.addEventListener( 'change', render );
-
-	/********************************
-		LOAD SHADERS
-	********************************/
-	shaderTest = new THREE.ShaderMaterial( {
-	    vertexShader:   vertexTest,
-	    fragmentShader: fragmentTest
-	});
-
-	sphere = new THREE.SphereGeometry( 500, 15, 15 );
-	mesh = new THREE.Geometry( sphere, shaderTest);
-	scene.add( mesh );
-
-	/********************************
-		SUN & PLANETS
-	********************************/
-
-	sun = new Planet( 1392684 * sunScale, planetSegW, planetSegH, sunTexture );
-	sun.drawPlanet( scene );
-	
-	for ( var i = 0; i < planets.length; i ++ ) {
-	
-		planets[i] = new Planet( planetSize[i] * planetScale, planetSegW, planetSegH, planetTextures[i] );
-		planets[i].setOrbit( semiMajor[i], aphelion[i], eccentricity[i], ssScale );
-		planets[i].drawPlanet( scene );
-		if(i==2) {
-			planets[i].drawOrbit( axisRez, 0x6dc9ea );
-		} else if (i==3) {
-			planets[i].drawOrbit( axisRez, 0xBF5112 );
-		} else {
-			planets[i].drawOrbit( axisRez );
-		}
-
-	}		
-
-	/********************************
-		STARS
-	********************************/
-	starField = new Stars( 100000, 100 );
-	scene.add( starField );
-	
-	/********************************
-		LENS FLARE
-	********************************/
-
-	var flare = addLensFlare( 0, 0, 0, 5, sunTexture );
-	scene.add( flare );
-
-	/********************************
-		RENDERER
-	********************************/
-	renderer = Detector.webgl? new THREE.WebGLRenderer( { antialias: true } ): new THREE.CanvasRenderer();;
-	renderer.setSize( WIDTH, HEIGHT );
-
-	$container.append( renderer.domElement );
-	renderer.autoClear = false;
-
-
-	/********************************
-		POST-PROCESSING
-	********************************/
-	var renderModel = new THREE.RenderPass( scene, camera );
-	var effectBloom = new THREE.BloomPass( 1.25 );
-	var effectFilm = new THREE.FilmPass( 0.35, 0.95, 2048, false );
-
-	effectFilm.renderToScreen = true;
-
-	composer = new THREE.EffectComposer( renderer );
-
-	composer.addPass( renderModel );
-	composer.addPass( effectBloom );
-	composer.addPass( effectFilm );
-
-	/********************************
-		STATS
-	********************************/
-	stats = new Stats();
-	stats.domElement.style.position = 'absolute';
-	stats.domElement.style.top = '0px';
-	$container.append( stats.domElement );
-
-	/********************************
-		JQUERY CAMERA POSITIONS
-	********************************/
-
-	$(function() {
-		$( "#slider" ).slider( { 
+        
+        $( "#slider" ).slider( { 
 			animate: true,
 			range: "min",
 			value: 50,
@@ -473,7 +263,7 @@ function init() {
 			.click(function( event ) {
 
 				camNextPosition	= {
-					x: -1000, 
+					x: -100, 
 					y: 400, 
 					z: -250 
 				};
@@ -486,7 +276,6 @@ function init() {
 
 				TWEEN.removeAll();
 				camTweener( camNextPosition, camNextTarget, 1500 );
-				//camTweener( camNextPosition, camNextRotation, camNextTarget, 1500 );
 
 		});
 
@@ -541,7 +330,7 @@ function init() {
 				};
 
 				TWEEN.removeAll();
-				camTweener( camNextPosition, planets[2].mesh.position, 1500 );
+				camTweener( camNextPosition, planet[2].mesh.position, 1500 );
 		});
 
 		$( "#cam5" )
@@ -555,14 +344,14 @@ function init() {
 				};
 
 				TWEEN.removeAll();
-				camTweener( camNextPosition, planets[3].mesh.position, 1500 );
+				camTweener( camNextPosition, planet[3].mesh.position, 1500 );
 		});
 
 		$( "#traject" )
 			.button()
 			.click(function( event ) {
 
-				trajectory.drawTrajectory( planets[2].mesh.position, planets[3].mesh.position, scene );
+				trajectory.drawTrajectory( planet[2].mesh.position, planet[3].mesh.position, scene );
 
 		});
 
@@ -588,181 +377,7 @@ function init() {
 				timerMultiplier = $( "#speedSlider" ).slider( "option", "value" );
 			}
 		});
-	});
-
-	window.addEventListener( 'resize', onWindowResize, false );
-
-	animate();
-
-	}
-
-	function addLensFlare( x, y, z, size, overrideImage ){
-		var flareColor = new THREE.Color( 0xffffff );
-
-		var lensFlare = new THREE.LensFlare( overrideImage, 700, 0.0, THREE.AdditiveBlending, flareColor );
-
-		var textureFlare0 = THREE.ImageUtils.loadTexture( "./textures/lensflare/lensflare0.png" );
-		var textureFlare2 = THREE.ImageUtils.loadTexture( "./textures/lensflare/lensflare2.png" );
-		var textureFlare3 = THREE.ImageUtils.loadTexture( "./textures/lensflare/lensflare3.png" );
-
-		lensFlare.add( textureFlare0, 200, 0.0, THREE.AdditiveBlending );
-		lensFlare.add( textureFlare2, 512, 0.0, THREE.AdditiveBlending );
-		lensFlare.add( textureFlare2, 512, 0.0, THREE.AdditiveBlending );
-		lensFlare.add( textureFlare2, 512, 0.0, THREE.AdditiveBlending );
-
-		lensFlare.add( textureFlare3, 60, 0.6, THREE.AdditiveBlending );
-		lensFlare.add( textureFlare3, 70, 0.7, THREE.AdditiveBlending );
-		lensFlare.add( textureFlare3, 120, 0.9, THREE.AdditiveBlending );
-		lensFlare.add( textureFlare3, 70, 1.0, THREE.AdditiveBlending );
-
-		lensFlare.customUpdateCallback = lensFlareUpdateCallback;
-
-		lensFlare.position = new THREE.Vector3(x,y,z);
-		lensFlare.size = size ? size : 16000 ;
-		return lensFlare;
-	}
-
-	function lensFlareUpdateCallback( object ) {
-
-		var f, fl = object.lensFlares.length;
-		var flare;
-		var vecX = -object.positionScreen.x * 2;
-		var vecY = -object.positionScreen.y * 2;
-
-
-		for( f = 0; f < fl; f++ ) {
-
-			   flare = object.lensFlares[ f ];
-
-			   flare.x = object.positionScreen.x + vecX * flare.distance;
-			   flare.y = object.positionScreen.y + vecY * flare.distance;
-
-			   flare.rotation = 0;
-
-		}
-
-		object.lensFlares[ 2 ].y += 0.025;
-		object.lensFlares[ 3 ].rotation = object.positionScreen.x * 0.5 + THREE.Math.degToRad( 45 );
-}
-
-function camTweener( newCamPosition, newTarget, time ) {
-
-	var update	= function() {
-
-		camera.position.x = camCurrentPosition.x;
-		camera.position.y = camCurrentPosition.y;
-		camera.position.z = camCurrentPosition.z;
-
-		camera.rotation.x = camCurrentRotation.x;
-		camera.rotation.y = camCurrentRotation.y;
-		camera.rotation.z = camCurrentRotation.z;
-
-		camTarget = camCurrentTarget;
-		//camera.lookAt( camTarget );
-	}
-
-	var camCurrentPosition	= {
-		x: camera.position.x, 
-		y: camera.position.y, 
-		z: camera.position.z 
-	};
-
-	var camCurrentRotation	= {
-		x: camera.rotation.x, 
-		y: camera.rotation.y, 
-		z: camera.rotation.z 
-	};
-
-	var camCurrentTarget = camTarget;
-
-	tweenPosition = new TWEEN.Tween( camCurrentPosition )
-		.to( newCamPosition , time )
-		.delay(0)
-		.easing(TWEEN.Easing.Sinusoidal.InOut)
-		.onStart( function(){ 
-			controls.enabled = false; 
-			controls.noRotate = true;						
-			controls.noPan = true;
-			controls.noZoom = true;
-			controls.update();
-		} )
-		.onComplete( function(){ 
-			controls.enabled = true; 
-			controls.noRotate = false;						
-			controls.noPan = false;
-			controls.noZoom = false;
-			controls.update();
-
-		} )
-		.onUpdate( update )
-
-	// tweenRotation = new TWEEN.Tween( camCurrentRotation )
-	// 	.to( newCamRotation, time)
-	// 	.delay(0)
-	// 	.easing(TWEEN.Easing.Sinusoidal.InOut)
-	// 	.onUpdate( update );
-
-	tweenPOI = new TWEEN.Tween( camCurrentTarget )
-		.to( newTarget, time)
-		.delay(0)
-		.easing(TWEEN.Easing.Sinusoidal.InOut)
-		.onUpdate( update );
-
-	tweenPosition.start();
-	//tweenRotation.start();
-	tweenPOI.start();
-}
-
-function onWindowResize() {
-
-	windowHalfX = $(window).width() / 2;
-	windowHalfY = $(window).height() / 2;
-
-	camera.aspect = $(window).width() / $(window).height();
-	camera.updateProjectionMatrix();
-
-	renderer.setSize( $(window).width(), $(window).height()-100 );
-
-	//controls.handleResize();
-	//composer.reset();
-
-}
-
-function animate() {
-
-	requestAnimationFrame( animate );
-
-	controls.update();
-	stats.update();
-	TWEEN.update();
-
-	render();
-
-	for ( var i = 0; i < planets.length; i ++ ) {
-		planets[i].startOrbit( -timer, orbitTime[i] );
-	}
-	timer++;
-	timer = timer + timerMultiplier;
-
-	// degreeRot = Math.floor( planets[2].mesh.rotation.y * ( 180 /  Math.PI ) );
-	
-}
-
-function render() {
-	
-	camera.lookAt( camTarget );
-	scene.updateMatrixWorld();
-	scene.traverse( function ( object ) {
-			if ( object instanceof THREE.LOD ) {
-			object.update( camera );
-		}
-	} );
-
-	renderer.render( scene, camera );
-	//renderer.clear();
-	//composer.render( 0.01 );
-
-}
+      });
       
 }, false);
 
@@ -857,6 +472,22 @@ function render() {
 	        </div>
 	        
 		</div>
+		
+		<div style="display:none">
+			<span id="marker_template" class="marker">
+				<span class="name">
+				</span>
+			</span>
+		</div>
+		
+		<div id="css-container">
+        	<div id="loadtext"></div>
+            <div id="css-world">
+                <div id="css-camera">
+                	<!-- Marker Clones -->
+                </div>
+            </div>
+        </div>
 		
 	</body>
 </html>
