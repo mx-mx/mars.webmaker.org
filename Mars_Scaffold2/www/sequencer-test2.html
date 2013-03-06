@@ -66,114 +66,50 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	var pop = Popcorn.baseplayer( "#contenttarget" );
   
-	pop.play( 0 );
+	pop.play();
 	
-	var page1audio1 = Popcorn('#page1audio1' );
 
 	pop.on( "timeupdate", function() {
 		document.getElementById( "footnotediv1" ).innerHTML = this.currentTime();
 	});
 	
-	pop.cue( 5, function() {
-		page1audio1.play();
-	});
-	//pop.on( "timeupdate", function() {
-		//if(this.currentTime() >= 5 && this.currentTime() <= 5.2) {
-			//console.log("kicking up audio");
-			//kick of audio
-			//page1audio1.play();
-		//}
-	//});
-	
-	// Add popcorn events here and other functionality
-    pop.image({
-    	start: 1, // Our start time in seconds
-    	end: 5, // Our end time in seconds
-    	src: "./images/tri_logo.png", 
-    	text: "", 
-    	target: "contenttarget", 
+	pop.image({
+	    start: 1, 
+	    end: 5, 
+	    src: "./images/tri_logo.png", 
+	    text: "", 
+	    target: "contenttarget", 
 		effect: "applyclass",
 		applyclass: "unstrechedcontent"
     });
-    page1audio1.image({
-    	start: .01, // Our start time in seconds
-    	end: 3.0, // Our end time in seconds
-    	src: "./images/NSBRIMBinterview2.jpg", 
-    	text: "", 
-    	target: "contenttarget", 
-    	effect: "applyclass",
-    	applyclass: "stretchcontent"
-    });
-    page1audio1.image({
-    	start: 3.0, // Our start time in seconds
-    	end: 8, // Our end time in seconds
-    	src: "./images/mars_panorama.png", 
-    	text: "", 
-    	target: "contenttarget", 
-		effect: "applyclass",
-		applyclass: "stretchcontent" 
-    });
-    page1audio1.image({
-    	start: 8.0, // Our start time in seconds
-    	end: 17, // Our end time in seconds
-    	src: "./images/JSCDSHsleepingquarters.jpg", 
-    	text: "", 
-    	target: "contenttarget", 
-		effect: "applyclass",
-		applyclass: "stretchcontent" 
-    });
-    page1audio1.image({
-    	start: 17.0, // Our start time in seconds
-    	end: 20, // Our end time in seconds
-    	src: "./images/JSCDeepSpaceHabitat.jpg", 
-    	text: "", 
-    	target: "contenttarget", 
-		effect: "applyclass",
-		applyclass: "stretchcontent" 
-    });
-    page1audio1.image({
-    	start: 20.0, // Our start time in seconds
-    	end: 39.2, // Our end time in seconds
-    	src: "./images/planetorder.jpg", 
-    	text: "", 
-    	target: "contenttarget", 
-		effect: "applyclass",
-    	applyclass: "stretchcontent"
-    });
-    
-    var pausePoint1=false;
-    var isModel1Showing=false;
-    
-    page1audio1.cue( 8, function() {
-	    flipTimelinePic("slide2","./images/slide2.png");
-	});
-    page1audio1.cue( 20, function() {
-	    flipTimelinePic("slide3","./images/slide3.png");
-	});
-    page1audio1.cue( 39.2, function() {
-    	if(!isModel1Showing) {
-    		isModel1Showing=true;
-
-    		CSSWorld = document.getElementById('css-world');
-    		CSSCamera = document.getElementById('css-camera');
-    		init();
-    		initCSS3D( CSSWorld, CSSCamera );
-    		animate();
-    		$("#loadtext").hide();
-    	}
-	});
-    page1audio1.cue( 40, function() {
-	    flipTimelinePic("slide4","./images/slide4.png");
-	});
-    page1audio1.cue( 66, function() {
-    	if(!pausePoint1) {
-    		pausePoint1=true;
-    		//kick of audio
-    		page1audio1.pause();
-    		pop.pause();
-    		$('#playtoggle').attr("class", "play");
-    	}
-	});
+	pop.sequencer({
+	        start: 5,
+	        end: 50,
+	        source: 'audio/total_voiceover.ogg',
+	        fallback: 'audio/total_voiceover.ogg',
+	        title: 'test',
+	        width: 50,
+	        height: 50,
+	        bottom: 0,
+	        left: 0,
+	        from: 0,
+	        duration: 50,
+	        target: 'topbarmiddle'
+	      });
+    pop.sequencer({
+        start: 39.2,
+        end: 49.2,
+        source: 'https://www.youtube.com/watch?v=lKqr3F73bAI',
+        fallback: 'https://www.youtube.com/watch?v=lKqr3F73bAI',
+        title: 'test',
+        width: 100,
+        height: 100,
+        top: 0,
+        left: 0,
+        from: 39.2,
+        duration: 10,
+        target: 'contenttarget'
+      });
     
     function flipTimelinePic(picID,imgName)
     {
