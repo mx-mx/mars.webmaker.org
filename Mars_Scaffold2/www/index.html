@@ -74,13 +74,16 @@ document.addEventListener("DOMContentLoaded", function () {
 		document.getElementById( "footnotediv1" ).innerHTML = this.currentTime();
 	});
 	
-	pop.on( "timeupdate", function() {
-		if(this.currentTime() >= 5 && this.currentTime() <= 5.2) {
+	pop.cue( 5, function() {
+		page1audio1.play();
+	});
+	//pop.on( "timeupdate", function() {
+		//if(this.currentTime() >= 5 && this.currentTime() <= 5.2) {
 			//console.log("kicking up audio");
 			//kick of audio
-			page1audio1.play();
-		}
-	});
+			//page1audio1.play();
+		//}
+	//});
 	
 	// Add popcorn events here and other functionality
     pop.image({
@@ -138,38 +141,40 @@ document.addEventListener("DOMContentLoaded", function () {
 		effect: "applyclass",
     	applyclass: "stretchcontent"
     });
+    
+    
     var pausePoint1=false;
     var isModel1Showing=false;
-    page1audio1.on( "timeupdate", function() {
-		document.getElementById( "footnotediv1" ).innerHTML = this.currentTime();
-		if(this.currentTime() >= 8 && this.currentTime() <= 9) {
-		    flipTimelinePic("slide2","./images/slide2.png");
-		}
-		if(this.currentTime() >= 20 && this.currentTime() <= 21) {
-		    flipTimelinePic("slide3","./images/slide3.png");
-		}
-		if(this.currentTime() >= 40 && this.currentTime() <= 41) {
-		    flipTimelinePic("slide4","./images/slide4.png");
-		}
-		if(this.currentTime() >= 39.2 && !isModel1Showing) {
-			isModel1Showing=true;
-			//init();
-			
-			CSSWorld = document.getElementById('css-world');
-			CSSCamera = document.getElementById('css-camera');
-			init();
-			initCSS3D( CSSWorld, CSSCamera );
-			animate();
-			$("#loadtext").hide();
-		}
-		if(this.currentTime() >= 66 && !pausePoint1) {
-			pausePoint1=true;
-			//kick of audio
-			page1audio1.pause();
-			pop.pause();
-			$('#playtoggle').attr("class", "play");
-		}
+    
+    page1audio1.cue( 8, function() {
+	    flipTimelinePic("slide2","./images/slide2.png");
+	});
+    page1audio1.cue( 20, function() {
+	    flipTimelinePic("slide3","./images/slide3.png");
+	});
+    page1audio1.cue( 39.2, function() {
+    	if(!isModel1Showing) {
+    		isModel1Showing=true;
 
+    		CSSWorld = document.getElementById('css-world');
+    		CSSCamera = document.getElementById('css-camera');
+    		init();
+    		initCSS3D( CSSWorld, CSSCamera );
+    		animate();
+    		$("#loadtext").hide();
+    	}
+	});
+    page1audio1.cue( 40, function() {
+	    flipTimelinePic("slide4","./images/slide4.png");
+	});
+    page1audio1.cue( 66, function() {
+    	if(!pausePoint1) {
+    		pausePoint1=true;
+    		//kick of audio
+    		page1audio1.pause();
+    		pop.pause();
+    		$('#playtoggle').attr("class", "play");
+    	}
 	});
     
     
