@@ -160,6 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
     		initCSS3D( CSSWorld, CSSCamera );
     		animate();
     		$("#loadtext").hide();
+    		$('#controlsbutton').trigger('click');
     	}
 	});
     page1audio1.cue( 40, function() {
@@ -219,12 +220,30 @@ document.addEventListener("DOMContentLoaded", function () {
         	var theHeight = topbar.height();
     		var position = topbar.position();
         	if(position.top>=0) {
+        		$("#openerbutton").text("+");
             	topbar.animate({ top: "-="+theHeight+"px", }, 300 );
         	} else {
+        		$("#openerbutton").text("-");
             	topbar.animate({ top: "+="+(-position.top)+"px", }, 300 );
         	}
         });
-        //bottom drawer open/close animation
+        
+        $("#timelinebutton").click(function() {
+        	if($('#threedcontrols').css('opacity') != 0) {
+            	$("#threedcontrols").animate({opacity: 0.0}, 200, function() {
+                	$("#scrollarea").animate({opacity: 1.0}, 200);
+            	  });
+        	}
+        });
+        
+        $("#controlsbutton").click(function() {
+        	if($('#scrollarea').css('opacity') != 0) {
+            	$("#scrollarea").animate({opacity: 0.0}, 200, function() {
+                	$("#threedcontrols").animate({opacity: 1.0}, 200);
+            	  });
+        	}
+        });
+        
         //$("#timelinebutton").click(function() {
         	//var bottombar = $('#bottombar');
         	//var theHeight = bottombar.height();
@@ -383,53 +402,53 @@ document.addEventListener("DOMContentLoaded", function () {
 				<div id="playtoggle" class="pause"></div>
 			</div>
 			<div id="topbarmiddle" class="topbarmiddle">
-			<!-- 
-				<button id="cam1" class="button">Cam 1</button>
-				<button id="cam2" class="button">Cam 2</button>
-				<button id="cam3" class="button">Cam 3</button>
-				<button id="cam4" class="button">Earth</button>
-				<button id="cam5" class="button">Mars</button>
-				<button id="traject" class="button">Trajectory</button>
-				<button id="removeTraject" class="button">Remove Trajectory</button>
-				<div id="speedSlider" class="speedSlider"></div>
-				 -->
-				<div id="wn3" class="scrollarea">
-		            <div id="lyr3">
-		                <ul>
-		                    <li><img src="./images/slide1.png" id="slide1" /></li>
-		                    <li><img src="./images/questionmark.png" id="slide2"/></li>
-		                    <li><img src="./images/questionmark.png" id="slide3"/></li>
-		                    <li><img src="./images/questionmark.png" id="slide4"/></li>
-		                    <li><img src="./images/questionmark.png" id="slide5"/></li>
-		                    <li><img src="./images/questionmark.png" id="slide6"/></li>
-		                    <li><img src="./images/questionmark.png" id="slide7"/></li>
-		                    <li><img src="./images/questionmark.png" id="slide8"/></li>
-		                    <li><img src="./images/questionmark.png" id="slide9"/></li>
-		                    <li><img src="./images/questionmark.png" id="slide10"/></li>
-		                    <li><img src="./images/questionmark.png" id="slide11"/></li>
-		                    <li><img src="./images/questionmark.png" id="slide12"/></li>
-		                    <li><img src="./images/questionmark.png" id="slide13"/></li>
-		                    <li><img src="./images/questionmark.png" id="slide14"/></li>
-		                    <li><img src="./images/questionmark.png" id="slide15"/></li>
-		                    <li><img src="./images/questionmark.png" id="slide16"/></li>
-		                    <li><img src="./images/questionmark.png" id="slide17"/></li>
-		                    <li><img src="./images/questionmark.png" id="slide18"/></li>
-		                    <li><img src="./images/questionmark.png" id="slide19"/></li>
-		                    <li><img src="./images/questionmark.png" id="slide20"/></li>
-		                    <li><img src="./images/questionmark.png" id="slide21"/></li>
-		                    <li><img src="./images/questionmark.png" id="slide22"/></li>
-		                    <li><img src="./images/questionmark.png" id="slide23"/></li>
-		                    <li><img src="./images/questionmark.png" id="slide24"/></li>
-		                    <li><img src="./images/questionmark.png" id="slide25"/></li>
-		                    <li><img src="./images/questionmark.png" id="slide26"/></li>
-		                    <li><img src="./images/questionmark.png" id="slide27"/></li>
-		                    <li><img src="./images/questionmark.png" id="slide28"/></li>
-		                    <li><img src="./images/questionmark.png" id="slide29"/></li>
-		                    <li><img src="./images/questionmark.png" id="slide30"/></li>
-		                    <li><img src="./images/questionmark.png" id="slide31"/></li>
-		                    <li><img src="./images/questionmark.png" id="slide32"/></li>
-		                </ul>
-		            </div>
+			
+				<div id="threedcontrols" class="threedcontrols">
+					<button id="cam1" class="button">Cam 1</button>
+					<button id="cam2" class="button">Cam 2</button>
+					<button id="cam3" class="button">Cam 3</button>
+					<button id="cam4" class="button">Earth</button>
+					<button id="cam5" class="button">Mars</button>
+					<button id="traject" class="button">Trajectory</button>
+					<button id="removeTraject" class="button">Remove Trajectory</button>
+					<div id="speedSlider" class="speedSlider"></div>
+				</div>
+				
+				<div id="scrollarea" class="scrollarea">
+	                <ul>
+	                    <li><img src="./images/slide1.png" id="slide1" /></li>
+	                    <li><img src="./images/questionmark.png" id="slide2"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide3"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide4"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide5"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide6"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide7"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide8"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide9"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide10"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide11"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide12"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide13"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide14"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide15"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide16"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide17"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide18"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide19"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide20"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide21"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide22"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide23"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide24"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide25"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide26"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide27"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide28"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide29"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide30"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide31"/></li>
+	                    <li><img src="./images/questionmark.png" id="slide32"/></li>
+	                </ul>
 		        </div>
 			</div>
 			
