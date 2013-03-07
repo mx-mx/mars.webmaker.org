@@ -214,7 +214,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
         
         //top drawer open/close animation
-        $("#topbaropener").click(function() {
+        $("#openerbutton").click(function() {
         	var topbar = $('#topbar');
         	var theHeight = topbar.height();
     		var position = topbar.position();
@@ -225,29 +225,18 @@ document.addEventListener("DOMContentLoaded", function () {
         	}
         });
         //bottom drawer open/close animation
-        $("#bottombaropener").click(function() {
-        	var bottombar = $('#bottombar');
-        	var theHeight = bottombar.height();
-    		var position = bottombar.position();
-        	if(position.top<=(window.innerHeight-2)) {
-        		bottombar.animate({ top: "+="+(theHeight)+"px", }, 300 );
-        	} else {
-        		bottombar.animate({ top: "-="+(theHeight)+"px", }, 300 );
-        	}
-        });
-        //left drawer open/close animation
-        $("#leftbaropener").click(function() {
-        	var leftbar = $('#leftbar');
-        	var theWidth = leftbar.width();
-    		var position = leftbar.position();
-        	if(position.left>=0) {
-        		leftbar.animate({ left: "-="+(theWidth)+"px", }, 300 );
-        	} else {
-        		leftbar.animate({ left: "+="+(theWidth)+"px", }, 300 );
-        	}
-        });
+        //$("#timelinebutton").click(function() {
+        	//var bottombar = $('#bottombar');
+        	//var theHeight = bottombar.height();
+    		//var position = bottombar.position();
+        	//if(position.top<=(window.innerHeight-2)) {
+        	//	bottombar.animate({ top: "+="+(theHeight)+"px", }, 300 );
+        	//} else {
+        	//	bottombar.animate({ top: "-="+(theHeight)+"px", }, 300 );
+        	//}
+        //});
         
-        $('#leftbaropener').trigger('click');
+        //$('#leftbaropener').trigger('click');
         
         $( "#slider" ).slider( { 
 			animate: true,
@@ -394,6 +383,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				<div id="playtoggle" class="pause"></div>
 			</div>
 			<div id="topbarmiddle" class="topbarmiddle">
+			<!-- 
 				<button id="cam1" class="button">Cam 1</button>
 				<button id="cam2" class="button">Cam 2</button>
 				<button id="cam3" class="button">Cam 3</button>
@@ -402,6 +392,45 @@ document.addEventListener("DOMContentLoaded", function () {
 				<button id="traject" class="button">Trajectory</button>
 				<button id="removeTraject" class="button">Remove Trajectory</button>
 				<div id="speedSlider" class="speedSlider"></div>
+				 -->
+				<div id="wn3" class="scrollarea">
+		            <div id="lyr3">
+		                <ul>
+		                    <li><img src="./images/slide1.png" id="slide1" /></li>
+		                    <li><img src="./images/questionmark.png" id="slide2"/></li>
+		                    <li><img src="./images/questionmark.png" id="slide3"/></li>
+		                    <li><img src="./images/questionmark.png" id="slide4"/></li>
+		                    <li><img src="./images/questionmark.png" id="slide5"/></li>
+		                    <li><img src="./images/questionmark.png" id="slide6"/></li>
+		                    <li><img src="./images/questionmark.png" id="slide7"/></li>
+		                    <li><img src="./images/questionmark.png" id="slide8"/></li>
+		                    <li><img src="./images/questionmark.png" id="slide9"/></li>
+		                    <li><img src="./images/questionmark.png" id="slide10"/></li>
+		                    <li><img src="./images/questionmark.png" id="slide11"/></li>
+		                    <li><img src="./images/questionmark.png" id="slide12"/></li>
+		                    <li><img src="./images/questionmark.png" id="slide13"/></li>
+		                    <li><img src="./images/questionmark.png" id="slide14"/></li>
+		                    <li><img src="./images/questionmark.png" id="slide15"/></li>
+		                    <li><img src="./images/questionmark.png" id="slide16"/></li>
+		                    <li><img src="./images/questionmark.png" id="slide17"/></li>
+		                    <li><img src="./images/questionmark.png" id="slide18"/></li>
+		                    <li><img src="./images/questionmark.png" id="slide19"/></li>
+		                    <li><img src="./images/questionmark.png" id="slide20"/></li>
+		                    <li><img src="./images/questionmark.png" id="slide21"/></li>
+		                    <li><img src="./images/questionmark.png" id="slide22"/></li>
+		                    <li><img src="./images/questionmark.png" id="slide23"/></li>
+		                    <li><img src="./images/questionmark.png" id="slide24"/></li>
+		                    <li><img src="./images/questionmark.png" id="slide25"/></li>
+		                    <li><img src="./images/questionmark.png" id="slide26"/></li>
+		                    <li><img src="./images/questionmark.png" id="slide27"/></li>
+		                    <li><img src="./images/questionmark.png" id="slide28"/></li>
+		                    <li><img src="./images/questionmark.png" id="slide29"/></li>
+		                    <li><img src="./images/questionmark.png" id="slide30"/></li>
+		                    <li><img src="./images/questionmark.png" id="slide31"/></li>
+		                    <li><img src="./images/questionmark.png" id="slide32"/></li>
+		                </ul>
+		            </div>
+		        </div>
 			</div>
 			
 			<div id="topbarright" class="topbarright">
@@ -413,66 +442,21 @@ document.addEventListener("DOMContentLoaded", function () {
 			</div>
 				<!-- <div id="slider" class="slider"></div>
 				<div id="slideroutput" class="slideroutput"></div> -->
-			<div id="topbaropener" class="topbaropener">
+			<div id="openerbutton" class="openerbutton">
+				-
+			</div>
+			<div id="controlsbutton" class="controlsbutton">
 				controls
 			</div>
-				
+			
+			<div id="timelinebutton" class="timelinebutton">
+				timeline
+			</div>	
 		</div>		
 		
-		<div id="leftbar" class="leftbar">
-			<div id="leftbaropener" class="leftbaropener">
-				badges
-			</div>
-		</div>
 		
 		<!-- main content area for video, images, 3D, etc... -->
 		<div id="contenttarget" class="contenttarget"></div>
-			
-		<div id="bottombar" class="bottombar">
-			<div id="bottombaropener" class="bottombaropener">
-				timeline
-			</div>
-			
-	        <div id="wn3" class="scrollarea">
-	            <div id="lyr3">
-	                <ul>
-	                    <li><img src="./images/slide1.png" id="slide1" /></li>
-	                    <li><img src="./images/questionmark.png" id="slide2"/></li>
-	                    <li><img src="./images/questionmark.png" id="slide3"/></li>
-	                    <li><img src="./images/questionmark.png" id="slide4"/></li>
-	                    <li><img src="./images/questionmark.png" id="slide5"/></li>
-	                    <li><img src="./images/questionmark.png" id="slide6"/></li>
-	                    <li><img src="./images/questionmark.png" id="slide7"/></li>
-	                    <li><img src="./images/questionmark.png" id="slide8"/></li>
-	                    <li><img src="./images/questionmark.png" id="slide9"/></li>
-	                    <li><img src="./images/questionmark.png" id="slide10"/></li>
-	                    <li><img src="./images/questionmark.png" id="slide11"/></li>
-	                    <li><img src="./images/questionmark.png" id="slide12"/></li>
-	                    <li><img src="./images/questionmark.png" id="slide13"/></li>
-	                    <li><img src="./images/questionmark.png" id="slide14"/></li>
-	                    <li><img src="./images/questionmark.png" id="slide15"/></li>
-	                    <li><img src="./images/questionmark.png" id="slide16"/></li>
-	                    <li><img src="./images/questionmark.png" id="slide17"/></li>
-	                    <li><img src="./images/questionmark.png" id="slide18"/></li>
-	                    <li><img src="./images/questionmark.png" id="slide19"/></li>
-	                    <li><img src="./images/questionmark.png" id="slide20"/></li>
-	                    <li><img src="./images/questionmark.png" id="slide21"/></li>
-	                    <li><img src="./images/questionmark.png" id="slide22"/></li>
-	                    <li><img src="./images/questionmark.png" id="slide23"/></li>
-	                    <li><img src="./images/questionmark.png" id="slide24"/></li>
-	                    <li><img src="./images/questionmark.png" id="slide25"/></li>
-	                    <li><img src="./images/questionmark.png" id="slide26"/></li>
-	                    <li><img src="./images/questionmark.png" id="slide27"/></li>
-	                    <li><img src="./images/questionmark.png" id="slide28"/></li>
-	                    <li><img src="./images/questionmark.png" id="slide29"/></li>
-	                    <li><img src="./images/questionmark.png" id="slide30"/></li>
-	                    <li><img src="./images/questionmark.png" id="slide31"/></li>
-	                    <li><img src="./images/questionmark.png" id="slide32"/></li>
-	                </ul>
-	            </div>
-	        </div>
-	        
-		</div>
 		
 		<div style="display:none">
 			<span id="marker_template" class="marker">

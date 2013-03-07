@@ -67,7 +67,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	var pop = Popcorn.baseplayer( "#contenttarget" );
   
 	pop.play();
-	
 
 	pop.on( "timeupdate", function() {
 		document.getElementById( "footnotediv1" ).innerHTML = this.currentTime();
