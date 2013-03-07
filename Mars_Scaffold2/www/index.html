@@ -161,12 +161,20 @@ document.addEventListener("DOMContentLoaded", function () {
     		animate();
     		$("#loadtext").hide();
     		$('#controlsbutton').trigger('click');
-    		setTimeout(clickToCam1, 2000);
+    		setTimeout(clickToCam1, 10000);
+    		setTimeout(showTraject, 12000);
+    		setTimeout(removeTraject, 18000);
     		
     	}
 	});
     function clickToCam1() {
     	$('#cam1').trigger('click');
+    }
+    function showTraject() {
+    	$('#traject').trigger('click');
+    }
+    function removeTraject() {
+    	$('#removeTraject').trigger('click');
     }
     page1audio1.cue( 40, function() {
 	    flipTimelinePic("slide4","./images/slide4.png");
