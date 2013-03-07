@@ -232,6 +232,8 @@ document.addEventListener("DOMContentLoaded", function () {
         	if($('#threedcontrols').css('opacity') != 0) {
             	$("#threedcontrols").animate({opacity: 0.0}, 200, function() {
                 	$("#scrollarea").animate({opacity: 1.0}, 200);
+                	$("#threedcontrols").css('z-index', 2);
+                	$("#scrollarea").css('z-index', 3);
             	  });
         	}
         });
@@ -240,6 +242,8 @@ document.addEventListener("DOMContentLoaded", function () {
         	if($('#scrollarea').css('opacity') != 0) {
             	$("#scrollarea").animate({opacity: 0.0}, 200, function() {
                 	$("#threedcontrols").animate({opacity: 1.0}, 200);
+                	$("#threedcontrols").css('z-index', 3);
+                	$("#scrollarea").css('z-index', 2);
             	  });
         	}
         });

@@ -351,12 +351,14 @@ div.pathfindervideo1
 	height: 10%;
 }
 div.threedcontrols { 
+	z-index: 3;
 	position:absolute; 
 	width:90%; 
 	top:15px;
 	opacity:0.0;
 }
 div.scrollarea { 
+	z-index: 3;
 	position:absolute; 
 	width:90%; 
     height:72px; 
