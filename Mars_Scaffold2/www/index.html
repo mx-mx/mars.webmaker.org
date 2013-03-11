@@ -355,7 +355,15 @@ document.addEventListener("DOMContentLoaded", function () {
 		$( "#menubutton" )
 			.button()
 			.click(function( event ) {
-				alert('menubutton');
+				if($('#menupanel').css('opacity') != 0) {
+	            	$("#menupanel").animate({opacity: 0.0}, 200, function() {
+	                	$("#menupanel").css('pointer-events', 'none');
+	            	});
+	        	} else {
+	        		$("#menupanel").animate({opacity: 1.0}, 200, function() {
+	                	$("#menupanel").css('pointer-events', 'auto');
+	            	});
+	        	}
 		});
 
 		$( "#nextbutton" )
@@ -363,6 +371,37 @@ document.addEventListener("DOMContentLoaded", function () {
 			.click(function( event ) {
 				alert('nextbutton');
 		});
+		
+		$( "#introduction" )
+			.button()
+			.click(function( event ) {
+				alert('introduction');
+		});
+		
+		$( "#navigation" )
+			.button()
+			.click(function( event ) {
+				alert('navigation');
+		});
+		
+		$( "#trajectory" )
+			.button()
+			.click(function( event ) {
+				alert('trajectory');
+		});
+		
+		$( "#about" )
+			.button()
+			.click(function( event ) {
+				alert('about');
+		});
+		
+		$( "#help" )
+			.button()
+			.click(function( event ) {
+				alert('help');
+		});
+		
 		
       });
       
