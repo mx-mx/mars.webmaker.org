@@ -359,7 +359,7 @@ div .menubutton:hover{
 	opacity: 1.0;
     display:inline;
     vertical-align:middle;
-	text-align: center;
+	text-align: left;
 	padding: 5px 5px 5px 20px;
 	background: rgba(31,38,18,.7);
 	color: rgba(200,200,200,1.0);
