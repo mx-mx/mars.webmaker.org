@@ -179,7 +179,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	    flipTimelinePic("slide4","./images/slide4.png");
 	});
     
-    popvideo.listen( "ended", function() {
+    popvideo.on( "ended", function() {
     	$("#contenttarget3").animate({opacity: 0.0}, 100, function() {
            	$("#contenttarget3").css('pointer-events', 'none');
        	});
