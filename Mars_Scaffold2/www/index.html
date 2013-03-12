@@ -65,6 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
 //menu/next green - 135,153,72 #7d9948 
 //submenu green - 88,107,54 #586b36
 //submenu greenbg - 42,51,24 #2a3318 80%
+//header greenbg 31,38,18 #1f2612 70%
 
  
 // Create a popcorn instance by calling the Youtube player plugin
@@ -73,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	var pop = Popcorn.baseplayer( "#contenttarget" );
   
-	pop.play( 0 );
+	//pop.play( 0 );
 	
 	var page1audio1 = Popcorn('#page1audio1' );
 
@@ -93,15 +94,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	//});
 	
 	// Add popcorn events here and other functionality
-    pop.image({
-    	start: 1, // Our start time in seconds
-    	end: 5, // Our end time in seconds
-    	src: "./images/tri_logo.png", 
-    	text: "", 
-    	target: "contenttarget", 
-		effect: "applyclass",
-		applyclass: "unstrechedcontent"
-    });
+    
     page1audio1.image({
     	start: .01, // Our start time in seconds
     	end: 3.0, // Our end time in seconds
@@ -167,6 +160,10 @@ document.addEventListener("DOMContentLoaded", function () {
     		initCSS3D( CSSWorld, CSSCamera );
     		animate();
     		$("#loadtext").hide();
+
+			$("#threedcontrols").animate({opacity: 1.0}, 200, function() {
+            	$("#threedcontrols").css('pointer-events', 'auto');
+        	});
     		
     	}
 	});
@@ -180,6 +177,10 @@ document.addEventListener("DOMContentLoaded", function () {
     		page1audio1.pause();
     		pop.pause();
     		$('#playtoggle').attr("class", "play");
+
+    		$("#nextbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+            	$("#nextbuttonwrapper").css('pointer-events', 'auto');
+        	});
     	}
 	});
     
@@ -402,6 +403,18 @@ document.addEventListener("DOMContentLoaded", function () {
 				alert('help');
 		});
 		
+		$( "#beginbutton" )
+			.button()
+			.click(function( event ) {
+				pop.play( 0 );
+				$("#startmenupanel").animate({opacity: 0.0}, 200, function() {
+                	$("#startmenupanel").css('pointer-events', 'none');
+            	});
+				$("#playbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+                	$("#playbuttonwrapper").css('pointer-events', 'auto');
+            	});
+		});
+		
 		
       });
       
@@ -413,12 +426,29 @@ document.addEventListener("DOMContentLoaded", function () {
 	</head>
 	<body>
 		
-		
+		<div id="startmenupanel" class="startmenupanel">
+			<h1>Mission to Mars</h1>
+			<br>
+			<div class="textstyle1">
+			In this simulation of sending spacecrafte to Mars you will use a 3D model of the solar system to learn
+			about the science behind the Curiosity rover.
+			</div>
+			<br>
+			<button id="beginbutton" class="beginbutton">BEGIN</button>
+			<br>
+			<br>
+			<br>
+			<div class="textstyle2">
+			This project is a collaboration between the U.S. Department of Engergy, the Mozilla Foundation, and MX.</div>
+			<br>
+			<img src="./images/tri_logo.png" style="align: center;">
+			<br>
+		</div>
 		
 		<div id="topbar" class="topbar">
 		
 			<div id="topbarleft" class="topbarleft">
-				<div id="playtoggle" class="pause"></div>
+				<div id="headerpanel" class="headerpanel">Curiosity's Trajectory</div>
 			</div>
 			<div id="topbarmiddle" class="topbarmiddle">
 			
@@ -426,7 +456,6 @@ document.addEventListener("DOMContentLoaded", function () {
 			
 			<div id="topbarright" class="topbarright">
 				<button id="menubutton" class="menubutton">MENU</button>
-				
 				<div id="menupanel" class="menupanel">
 					<button id="introduction" class="menupanelbutton">introduction</button>
 					<br>
@@ -441,10 +470,13 @@ document.addEventListener("DOMContentLoaded", function () {
 			</div>
 		</div>	
 		<!-- main content area for video, images, 3D, etc... -->
-		<div id="contenttarget" class="contenttarget"></div>
+		<div id="contenttarget" class="contenttarget">
+		
+		</div>
 		
 		<div id="bottombar" class="bottombar">
 			<div id="bottombarleft" class="bottombarleft">
+			
 			</div>
 			<div id="bottombarmiddle" class="bottombarmiddle">
 				<div id="threedcontrols" class="threedcontrols">
@@ -460,7 +492,11 @@ document.addEventListener("DOMContentLoaded", function () {
 			</div>
 			
 			<div id="bottombarright" class="bottombarright">
-				<div id="nextbuttonwrapper" class="nextbuttonwrapper">
+			
+				<div id="playbuttonwrapper" class="playbuttonwrapper" style="opacity: 0.0;pointer-events:none">
+					<div id="playtoggle" class="pause"></div>
+				</div>
+				<div id="nextbuttonwrapper" class="nextbuttonwrapper" style="opacity: 0.0;pointer-events:none">
 					<button id="nextbutton" class="nextbutton">NEXT</button>
 				</div>
 			</div>
@@ -486,5 +522,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			<source src="audio/total_voiceover.ogg">
 			Your browser does not support the audio element.  Upgrade the browser.
 		</audio> 
+		
+		
+		
 	</body>
 </html>

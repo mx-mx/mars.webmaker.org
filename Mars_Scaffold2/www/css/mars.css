@@ -186,18 +186,17 @@ div.pathfindervideo1
 }
 .play
 {
-	position:relative;
-	left: 5px;
-	top: 2px;
+	possition:absolute;
+	flaot:left;
+	top:10px;
 	width:30px;
 	height:30px;
 	background-image: url(../images/play.png);
 }
 .pause
 {
-	position:relative;
-	left: 5px;
-	top: 2px;
+	possition:absolute;
+	bottom:10px;
 	width:30px;
 	height:30px;
 	background-image: url(../images/pause.png);
@@ -296,6 +295,8 @@ div.pathfindervideo1
 }
 div .threedcontrols { 
 	position:absolute;
+	opacity:0;
+	pointer-events:none;
     display:inline;
 	background: rgba(13,30,38,0.7);
 	z-index: 3;
@@ -353,6 +354,27 @@ div .menubutton{
 div .menubutton:hover{
 	background: rgba(135,153,72,0.8);
 }
+.headerpanel{
+	position: relative;
+	opacity: 1.0;
+    display:inline;
+    vertical-align:middle;
+	text-align: center;
+	padding: 5px 5px 5px 20px;
+	background: rgba(31,38,18,.7);
+	color: rgba(200,200,200,1.0);
+	font-family: 'Lato', sans-serif;
+	text-transform: capitalize;
+	line-height: 17px;
+	font-size: 17px;
+    border-radius: 5px;
+    border:none;
+    top:10px;
+    left:10px;
+	width: 270px;
+	height: 20px;
+	float: left;
+}
 .menupanel{
 	position: absolute;
 	opacity: 0;
@@ -381,6 +403,63 @@ div .menubutton:hover{
 	border: 12px solid;
 	border-color: transparent transparent rgba(42,51,24,.8) transparent;
 }
+.startmenupanel{
+	position: fixed;
+	opacity: 1.0;
+	text-align: center;
+	padding: 15px 40px 15px 40px;
+	background: rgba(31,38,18,.7);
+	color: rgba(200,200,200,1.0);
+	font-family: 'Lato', sans-serif;
+	text-transform: none;
+	line-height: 22px;
+	font-size: 18px;
+    border-radius: 5px;
+    border:none;
+	width: 420px;
+	height: 400px;
+	top:40%;
+    left:50%;
+    margin:-200px 0 0 -210px;
+	z-index: 4;
+}
+div .textstyle1{
+	text-align: left;
+	color: rgba(156,170,184,1.0);
+	font-family: 'Lato', sans-serif;
+	font-weight: 300;
+	line-height: 22px;
+	font-size: 18px;
+}
+div .textstyle2{
+	text-align: left;
+	color: rgba(156,170,184,1.0);
+	font-family: 'Lato', sans-serif;
+	font-weight: 300;
+	text-transform: none;
+	line-height: 20px;
+	font-size: 16px;
+}
+div .beginbutton{
+    display: relative;
+    float: center;
+	text-align: center;
+	line-height: 20px;
+	font-size: 20px;
+	margin: 10px 10px;
+	padding: 0px 20px;
+	text-transform: uppercase;
+	font-family: 'Lato', sans-serif;
+	font-weight: bold;
+	background: rgba(135,153,72,1.0);
+	color: rgba(200,200,200,1.0);
+    border-radius: 5px;
+    border: none;
+}
+div .startmenupanelbutton:hover{
+	background: rgba(88,107,54,0.8);
+	color: rgba(200,200,200,1.0);
+}
 div .menupanelbutton{
     display: relative;
     float: center;
@@ -399,8 +478,7 @@ div .menupanelbutton{
     border: none;
 }
 div .menupanelbutton:hover{
-	background: rgba(88,107,54,0.8);
-	color: rgba(200,200,200,1.0);
+	background: rgba(135,153,72,0.8);
 }
 div .nextbutton{
     display: absolute;
@@ -422,10 +500,18 @@ div .nextbutton{
 div .nextbutton:hover{
 	background: rgba(135,153,72,0.8);
 }
+div .playbuttonwrapper { 
+	z-index: 3;
+	position:absolute; 
+	width:50%; 
+	left:10px;
+	bottom:10px;
+}
 div .nextbuttonwrapper { 
 	z-index: 3;
 	position:absolute; 
-	width:100%; 
+	width:50%; 
+	right:10px;
 	bottom:10px;
 }
 div .squarebluebutton{
@@ -447,7 +533,7 @@ div .squarebluebutton:hover{
 }
 div .speedSlider {
 	float: right;
-	width: 200px;
+	width: 140px;
 	height: 10px;
 	top: 15px;
 	right: 5px;
