@@ -175,12 +175,6 @@ document.addEventListener("DOMContentLoaded", function () {
     		
     	}
 	});
-    videopop.cue(22.8, function() {
-	    //hide
-    	$("#contenttarget3").animate({opacity: 0.0}, 100, function() {
-        	$("#contenttarget3").css('pointer-events', 'none');
-    	});
-	});
     page1audio1.cue( 40, function() {
 	    flipTimelinePic("slide4","./images/slide4.png");
 	});
@@ -194,6 +188,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     		$("#nextbuttonwrapper").animate({opacity: 1.0}, 200, function() {
             	$("#nextbuttonwrapper").css('pointer-events', 'auto');
+        	});
+    		
+        	$("#contenttarget3").animate({opacity: 0.0}, 100, function() {
+            	$("#contenttarget3").css('pointer-events', 'none');
         	});
     	}
 	});
