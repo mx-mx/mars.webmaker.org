@@ -179,12 +179,12 @@ document.addEventListener("DOMContentLoaded", function () {
 	    flipTimelinePic("slide4","./images/slide4.png");
 	});
     
-    popvideo.ended(function() {
-       	$("#contenttarget3").animate({opacity: 0.0}, 100, function() {
+    popvideo.listen( "ended", function() {
+    	$("#contenttarget3").animate({opacity: 0.0}, 100, function() {
            	$("#contenttarget3").css('pointer-events', 'none');
        	});
-	});
-    //page1audio1.cue( 64, function() {
+    });	
+    //page1audio1.cue( 63, function() {
     //   	$("#contenttarget3").animate({opacity: 0.0}, 100, function() {
     //       	$("#contenttarget3").css('pointer-events', 'none');
     //   	});
