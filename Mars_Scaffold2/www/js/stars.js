@@ -1,4 +1,4 @@
-var Stars = function( systemSize, particleSize){
+var stars = function( systemSize, particleSize){
     
     var particles, geometry, material, i;
     geometry = new THREE.Geometry();
@@ -15,12 +15,12 @@ var Stars = function( systemSize, particleSize){
     }
 
     material =   new THREE.ParticleBasicMaterial({
-            color: 0xFFFFFF,
-            size: particleSize,
-            map: THREE.ImageUtils.loadTexture( "images/particle.png" ),
-            blending: THREE.AdditiveBlending,
-            transparent: true
-            });
+        color: 0xFFFFFF,
+        size: particleSize,
+        map: THREE.ImageUtils.loadTexture( "images/star.png" ),
+        blending: THREE.AdditiveBlending,
+        transparent: true
+    });
 
     particles = new THREE.ParticleSystem( geometry, material );
 

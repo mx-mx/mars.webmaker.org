@@ -7,47 +7,49 @@ function updateMarkers() {
     }
 }
 
-function attachMarker( text, glObject, size, element ) {
-
-  glObject.updateMatrix();
-
+function createMarker( text, glObject, size, element ){
+  
   var template = document.getElementById('marker_template');
   var marker = template.cloneNode(true);
 
-  marker.$ = $(marker);
-  marker.markerWidth = marker.$.outerWidth();
-  marker.obj = glObject;
-
-  marker.absPosition = marker.obj.position;
+  marker.$ = $( marker );
   marker.size = size !== undefined ? size : 1.0;
 
-  var nameLayer = marker.children[0];
-  marker.nameLayer = nameLayer;
+  marker.nameLayer = marker.children[0];
   marker.nameLayer.innerHTML = text;
+
+  marker.obj = glObject;
+  marker.absPosition = marker.obj.position;
 
   element.appendChild( marker );
 
-  glObject.updateMatrixWorld;
-  var transform = CSStransform( 0, 0, marker.obj, size );
+  marker.setPosition = function( x, y ){
 
-  marker.style.WebkitTransformOrigin = "0% 0%";
-  marker.style.WebkitTransform = transform;
-  marker.style.MozTransformOrigin = "0% 0%";
-  marker.style.MozTransform = transform;
+    var projector = new THREE.Projector(),
+        pos = projector.projectVector( this.absPosition.clone().multiplyScalar(1), camera );
 
-  marker.setPosition = function (x, y) {
-      x -= this.markerWidth * 0.5;
-      this.style.left = x + 'px';
-      this.style.top = y + 'px';
+    this.style.left = '' + ( pos.x + x ) + 'px';
+    this.style.top = '' + ( pos.y + y ) + 'px';
+
   };
 
-  marker.setPosition( glObject.scale.x ,0 );
+  marker.attachMarker = function (){
+
+    var transform = CSStransform( marker.obj, size );
+
+    this.style.WebkitTransformOrigin = "0% 0%";
+    this.style.WebkitTransform = transform;
+    this.style.MozTransformOrigin = "0% 0%";
+    this.style.MozTransform = transform;
+
+    this.markerWidth = marker.$.outerWidth();
+
+  };
 
   marker.update = function () {
-    var s = (0.05 + camera.position.z / 2000) * this.size;
-    setDivPosition(this, this.obj, .25);
+    this.attachMarker();
+    this.setPosition( 0, 0 );
   };
 
   markers.push(marker);
 }
-

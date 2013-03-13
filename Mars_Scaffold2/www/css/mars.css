@@ -586,6 +586,12 @@ div .speedSlider {
 	border:1px solid;
     border-radius: 1px;
 }
+#loadtext{
+	position: absolute;
+	top: 100px; width: 100%;
+	font-size: 20px;
+	z-index: 4;
+}
 #speedSlider .ui-widget-header { 
 	background: rgba(58,132,166,0.9); 
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.9); 

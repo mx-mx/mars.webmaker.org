@@ -72,7 +72,7 @@ function toCSSMatrix( threeMat4, b, offsetX, offsetY ) {
   return "matrix3d(" + f.join(",") + ")";
 }
 
-function toCSSMatrixPlanet( glObject, b, offsetX, offsetY ) {
+function toCSSMatrixPlanet( glObject, b ) {
   var a = glObject.matrixWorld, f;
   if (b) {
     f = [
@@ -86,7 +86,7 @@ function toCSSMatrixPlanet( glObject, b, offsetX, offsetY ) {
       a.elements[0], a.elements[1], a.elements[2], a.elements[3],
       a.elements[4], a.elements[5], a.elements[6], a.elements[7],
       a.elements[8], a.elements[9], a.elements[10], a.elements[11],
-      glObject.position.x+(offsetX||0), glObject.position.y+(offsetY||0), glObject.position.z, a.elements[15]
+      glObject.position.x, glObject.position.y, glObject.position.z, a.elements[15]
     ];                
   }
   for (var e in f) {
@@ -115,9 +115,9 @@ function setDivPosition( cssObject, glObject, scale ) {
 /************************************************************************/
 /* Helper function to convert to CSS3D transformations                  */
 /************************************************************************/
-function CSStransform( width, height, glObject, scale ) {
+function CSStransform( glObject, scale ) {
   return [
-	  toCSSMatrixPlanet( glObject, false, width, height ),
+	  toCSSMatrixPlanet( glObject, false ),
 	  "scale3d(" + scale + ", -" + scale + ", " + scale + ")",
 	  "translate3d(0,0,0)"
   ].join(" ");
@@ -127,7 +127,7 @@ function CSStransform( width, height, glObject, scale ) {
 /* Rounding error                                                       */
 /************************************************************************/
 function epsilon(a) {
-    if (Math.abs(a) < 0.000001) {
+    if (Math.abs(a) < 0.01) {
         return 0
     }
     return a;

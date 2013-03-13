@@ -21,17 +21,21 @@
 
 <script src="js/popcorn-complete.js"></script>	
 <script src="js/popcorn.sequencer.js"></script>	
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-<script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+<!-- <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script> -->
+<script src="js/libs/jquery-1.9.1.min.js"></script>
+<script src="js/libs/jquery-ui-1.10.1.custom.min.js"></script>
 <script src="js/three.min.js"></script>
 
 <script src="./js/Detector.js"></script>
-
-<script src="./js/libs/tween.min.js"></script>
 <script src="./js/libs/stats.min.js"></script>
+<script src="./js/libs/tween.min.js"></script>
+<script src="./js/libs/dat.gui.min.js"></script>
+<script src="./js/libs/underscore.min.js"></script>
 
 <script src="./js/controls/OrbitControls.js"></script>	
 
+<script src="./js/loaders/ColladaLoader.js"></script>
 <script src="./js/geometries/LatheGeometry.js"></script>
 
 <script src="./js/shaders/ConvolutionShader.js"></script>
@@ -45,17 +49,29 @@
 <script src="./js/postprocessing/BloomPass.js"></script>
 <script src="./js/postprocessing/FilmPass.js"></script>
 
-<script src="./js/main.js"></script>
+<script src="./js/utils.js"></script>
+<script src="./js/shaderlist.js"></script>
+<script src="./js/ephemeris.js"></script>
+<script src="./js/label.js"></script>
+<script src="./js/lensflare.js"></script>
+<script src="./js/orbit.js"></script>
 <script src="./js/planet.js"></script>
-<script src="./js/marker.js"></script>
+<script src="./js/sun.js"></script>
+<script src="./js/solarsystem.js"></script>
+<script src="./js/ruler.js"></script>
+<script src="./js/camtweener.js"></script>
+<script src="./js/main.js"></script>
+
 <script src="./js/stars.js"></script>
 <script src="./js/trajectory.js"></script>
-<script src="./js/css3Dworld.js"></script>
+
+<script src="./js/addlensflare.js"></script>
  
-<script><!--
+<script>
 
 // ensure the web page (DOM) has loaded
 document.addEventListener("DOMContentLoaded", function () {
+	console.log("DOMContentLoaded");
 	//https://www.youtube.com/watch?v=P4boyXQuUIw - the MSL path
 	//http://www.youtube.com/watch?v=jEXoMpmfJcM - the MSL launch - a better version
 	//https://www.youtube.com/watch?v=lKqr3F73bAI - MSL trajectory
@@ -67,14 +83,11 @@ document.addEventListener("DOMContentLoaded", function () {
 //submenu greenbg - 42,51,24 #2a3318 80%
 //header greenbg 31,38,18 #1f2612 70%
 
+	//init();
+	//animate();
+	//$("#loadtext").hide();
  
- 	CSSWorld = document.getElementById('css-world');
-	CSSCamera = document.getElementById('css-camera');
-	init();
-	initCSS3D( CSSWorld, CSSCamera );
-	animate();
-	$("#loadtext").hide();
- 
+	$contenttarget = $("#contenttarget");
 	// Create a popcorn instance by calling the Youtube player plugin     
 	Popcorn.player( "baseplayer" );
 
@@ -152,10 +165,10 @@ document.addEventListener("DOMContentLoaded", function () {
     var isModel1Showing=false;
     
     page1audio1.cue( 8, function() {
-	    flipTimelinePic("slide2","./images/slide2.png");
+	    //flipTimelinePic("slide2","./images/slide2.png");
 	});
     page1audio1.cue( 20, function() {
-	    flipTimelinePic("slide3","./images/slide3.png");
+	    //flipTimelinePic("slide3","./images/slide3.png");
 	});
     page1audio1.cue( 39.2, function() {
     	if(!isModel1Showing) {
@@ -176,7 +189,7 @@ document.addEventListener("DOMContentLoaded", function () {
     	}
 	});
     page1audio1.cue( 40, function() {
-	    flipTimelinePic("slide4","./images/slide4.png");
+	    //flipTimelinePic("slide4","./images/slide4.png");
 	});
     
     //popvideo.on( "ended", function() {
@@ -212,6 +225,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
    
     $(document).ready(function() {
+
+    	
+    	
         $('#playtoggle').bind("click", function() {
           if ($(this).attr("class") == "play") {
              $(this).attr("class", "pause");
@@ -220,7 +236,7 @@ document.addEventListener("DOMContentLoaded", function () {
  			//unpause
  			if(pausePoint1) {
  				console.log('attempting to remove container.');
- 				container.removeChild(renderer.domElement);
+ 				//container.removeChild(renderer.domElement);
  				isModel1Showing=false;
  			}
           } else {
@@ -438,14 +454,41 @@ document.addEventListener("DOMContentLoaded", function () {
             	});
 		});
 		
-		
       });
+    
+  //from main.js
+	if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
+	$( '#loadtext' ).show();
+	setLoadMessage("Loading the Solar System");
+
+	loader.options.convertUpAxis = true;
+	loader.load( './models/galaxy.dae', function ( collada ) {
+
+		dae = collada.scene;
+		dae.scale.x = dae.scale.y = dae.scale.z = 50000;
+		dae.updateMatrix();
+
+	} );
+
+	loadShaders( shaderList, function (e) {
+		console.log("loadShaders");
+		shaderList = e;
+		postShadersLoaded();
+	});
+
+	var postShadersLoaded = function () {
+		console.log("postShadersLoaded");
+	        init();
+	        animate();
+			$("#loadtext").hide();
+    };
       
 }, false);
 
+</script>
 
 
---></script>
 	</head>
 	<body>
 		
@@ -528,20 +571,12 @@ document.addEventListener("DOMContentLoaded", function () {
 		</div>
 		
 		<div style="display:none">
-			<span id="marker_template" class="marker">
+			<span id="label_template" class="label">
 				<span class="name">
 				</span>
 			</span>
 		</div>
-		
-		<div id="css-container">
-        	<div id="loadtext"></div>
-            <div id="css-world">
-                <div id="css-camera">
-                	<!-- Marker Clones -->
-                </div>
-            </div>
-        </div>
+		<div id="loadtext"></div>
 		
 		<audio id="page1audio1" class="page1audio1">
 			<source src="audio/total_voiceover.ogg">
