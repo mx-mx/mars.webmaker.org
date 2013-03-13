@@ -116,10 +116,10 @@ function init() {
 		STATS
 	********************************/
 
-	stats = new Stats();
-	stats.domElement.style.position = 'absolute';
-	stats.domElement.style.top = '0px';
-	$contenttarget.append( stats.domElement );
+	//stats = new Stats();
+	//stats.domElement.style.position = 'absolute';
+	//stats.domElement.style.top = '0px';
+	//$contenttarget.append( stats.domElement );
 
 	document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 
@@ -221,7 +221,7 @@ function animate() {
 	updateRulers();
     updateLabels( ss );
 	controls.update();
-	stats.update();
+	//stats.update();
 	TWEEN.update();
 	setSolarSystemScale();
 	planetsOrbit( t.count );
