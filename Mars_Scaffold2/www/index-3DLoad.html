@@ -1,0 +1,591 @@
+
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html class="ie ie6 no-js" lang="en"> <![endif]-->
+<!--[if IE 7 ]>    <html class="ie ie7 no-js" lang="en"> <![endif]-->
+<!--[if IE 8 ]>    <html class="ie ie8 no-js" lang="en"> <![endif]-->
+<!--[if IE 9 ]>    <html class="ie ie9 no-js" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>DOE</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+<meta name="author" content="Your name" />
+<LINK REL="SHORTCUT ICON" HREF="images/mars.ico"> 
+<link rel="stylesheet" type="text/css" href="css/mars-3DLoad.css" />
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
+<link href="./css/smoothness/jquery-ui-1.10.1.custom.css" rel="stylesheet">
+<link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
+
+<script src="js/popcorn-complete.js"></script>	
+<script src="js/popcorn.sequencer.js"></script>	
+<!-- <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script> -->
+<script src="js/libs/jquery-1.9.1.min.js"></script>
+<script src="js/libs/jquery-ui-1.10.1.custom.min.js"></script>
+<script src="js/three.min.js"></script>
+
+<script src="./js/Detector.js"></script>
+<script src="./js/libs/stats.min.js"></script>
+<script src="./js/libs/tween.min.js"></script>
+<script src="./js/libs/dat.gui.min.js"></script>
+<script src="./js/libs/underscore.min.js"></script>
+
+<script src="./js/controls/OrbitControls.js"></script>	
+
+<script src="./js/loaders/ColladaLoader.js"></script>
+<script src="./js/geometries/LatheGeometry.js"></script>
+
+<script src="./js/shaders/ConvolutionShader.js"></script>
+<script src="./js/shaders/CopyShader.js"></script>
+<script src="./js/shaders/FilmShader.js"></script>
+
+<script src="./js/postprocessing/EffectComposer.js"></script>
+<script src="./js/postprocessing/ShaderPass.js"></script>
+<script src="./js/postprocessing/MaskPass.js"></script>
+<script src="./js/postprocessing/RenderPass.js"></script>
+<script src="./js/postprocessing/BloomPass.js"></script>
+<script src="./js/postprocessing/FilmPass.js"></script>
+
+<script src="./js/utils.js"></script>
+<script src="./js/shaderlist.js"></script>
+<script src="./js/ephemeris.js"></script>
+<script src="./js/label.js"></script>
+<script src="./js/lensflare.js"></script>
+<script src="./js/orbit.js"></script>
+<script src="./js/planet.js"></script>
+<script src="./js/sun.js"></script>
+<script src="./js/solarsystem.js"></script>
+<script src="./js/ruler.js"></script>
+<script src="./js/camtweener.js"></script>
+<script src="./js/main.js"></script>
+
+<script src="./js/stars.js"></script>
+<script src="./js/trajectory.js"></script>
+
+<script src="./js/addlensflare.js"></script>
+ 
+<script>
+
+// ensure the web page (DOM) has loaded
+document.addEventListener("DOMContentLoaded", function () {
+	console.log("DOMContentLoaded");
+	//https://www.youtube.com/watch?v=P4boyXQuUIw - the MSL path
+	//http://www.youtube.com/watch?v=jEXoMpmfJcM - the MSL launch - a better version
+	//https://www.youtube.com/watch?v=lKqr3F73bAI - MSL trajectory
+			
+//blue - 58,132,166 #3a84a6
+//bluebg - 13,30,38 #0d1e26 70%
+//menu/next green - 135,153,72 #7d9948 
+//submenu green - 88,107,54 #586b36
+//submenu greenbg - 42,51,24 #2a3318 80%
+//header greenbg 31,38,18 #1f2612 70%
+
+	//init();
+	//animate();
+	//$("#loadtext").hide();
+ 
+	$contenttarget = $("#contenttarget");
+	// Create a popcorn instance by calling the Youtube player plugin     
+	Popcorn.player( "baseplayer" );
+
+	var pop = Popcorn.baseplayer( "#contenttarget" );
+	
+	var videopop = Popcorn.youtube('#contenttarget3', 'https://www.youtube.com/watch?v=lKqr3F73bAI' );
+	//pop.play( 0 );
+	
+	var page1audio1 = Popcorn('#page1audio1' );
+
+	//pop.on( "timeupdate", function() {
+		//document.getElementById( "footnotediv1" ).innerHTML = this.currentTime();
+	//});
+	
+	pop.cue( .1, function() {
+		page1audio1.play();
+	});
+	//pop.on( "timeupdate", function() {
+		//if(this.currentTime() >= 5 && this.currentTime() <= 5.2) {
+			//console.log("kicking up audio");
+			//kick of audio
+			//page1audio1.play();
+		//}
+	//});
+	
+	// Add popcorn events here and other functionality
+    
+    page1audio1.image({
+    	start: .01, // Our start time in seconds
+    	end: 3.0, // Our end time in seconds
+    	src: "./images/NSBRIMBinterview2.jpg", 
+    	text: "", 
+    	target: "contenttarget2", 
+    	effect: "applyclass",
+    	applyclass: "stretchcontent"
+    });
+    page1audio1.image({
+    	start: 3.0, // Our start time in seconds
+    	end: 8, // Our end time in seconds
+    	src: "./images/mars_panorama.png", 
+    	text: "", 
+    	target: "contenttarget2", 
+		effect: "applyclass",
+		applyclass: "stretchcontent" 
+    });
+    page1audio1.image({
+    	start: 8.0, // Our start time in seconds
+    	end: 17, // Our end time in seconds
+    	src: "./images/JSCDSHsleepingquarters.jpg", 
+    	text: "", 
+    	target: "contenttarget2", 
+		effect: "applyclass",
+		applyclass: "stretchcontent" 
+    });
+    page1audio1.image({
+    	start: 17.0, // Our start time in seconds
+    	end: 20, // Our end time in seconds
+    	src: "./images/JSCDeepSpaceHabitat.jpg", 
+    	text: "", 
+    	target: "contenttarget2", 
+		effect: "applyclass",
+		applyclass: "stretchcontent" 
+    });
+    page1audio1.image({
+    	start: 20.0, // Our start time in seconds
+    	end: 39.2, // Our end time in seconds
+    	src: "./images/planetorder.jpg", 
+    	text: "", 
+    	target: "contenttarget2", 
+		effect: "applyclass",
+    	applyclass: "stretchcontent"
+    });
+    
+    var pausePoint1=false;
+    var isModel1Showing=false;
+    
+    page1audio1.cue( 8, function() {
+	    //flipTimelinePic("slide2","./images/slide2.png");
+	});
+    page1audio1.cue( 20, function() {
+	    //flipTimelinePic("slide3","./images/slide3.png");
+	});
+    page1audio1.cue( 39.2, function() {
+    	if(!isModel1Showing) {
+    		isModel1Showing=true;
+
+			$("#threedcontrols").animate({opacity: 1.0}, 200, function() {
+            	$("#threedcontrols").css('pointer-events', 'auto');
+        	});
+			
+			$("#contenttarget2").animate({opacity: 0.0}, 100, function() {
+            	$("#contenttarget2").css('pointer-events', 'none');
+            	$("#contenttarget3").animate({opacity: 1.0}, 100, function() {
+                	$("#contenttarget3").css('pointer-events', 'auto');
+                	videopop.play();
+            	});
+        	});
+    		
+    	}
+	});
+    page1audio1.cue( 40, function() {
+	    //flipTimelinePic("slide4","./images/slide4.png");
+	});
+    
+    //popvideo.on( "ended", function() {
+    //	$("#contenttarget3").animate({opacity: 0.0}, 100, function() {
+    //       	$("#contenttarget3").css('pointer-events', 'none');
+    //   	});
+    //});	
+    page1audio1.cue( 62, function() {
+       	$("#contenttarget3").animate({opacity: 0.0}, 100, function() {
+           	$("#contenttarget3").css('pointer-events', 'none');
+       	});
+	});
+    page1audio1.cue( 66, function() {
+    	if(!pausePoint1) {
+    		pausePoint1=true;
+    		//kick of audio
+    		page1audio1.pause();
+    		pop.pause();
+    		$('#playtoggle').attr("class", "play");
+
+    		$("#nextbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+            	$("#nextbuttonwrapper").css('pointer-events', 'auto');
+        	});
+    		
+    	}
+	});
+    
+    function flipTimelinePic(picID,imgName)
+    {
+        var pic1 = document.getElementById(picID); 
+        if (pic1 == typeof('undefined')) return;
+        pic1.src = imgName;
+    }
+   
+    $(document).ready(function() {
+
+    	
+    	
+        $('#playtoggle').bind("click", function() {
+          if ($(this).attr("class") == "play") {
+             $(this).attr("class", "pause");
+ 			page1audio1.play();
+ 			pop.play();
+ 			//unpause
+ 			if(pausePoint1) {
+ 				console.log('attempting to remove container.');
+ 				//container.removeChild(renderer.domElement);
+ 				isModel1Showing=false;
+ 			}
+          } else {
+             $(this).attr("class", "play");
+ 			page1audio1.pause();
+ 			pop.pause();
+          }
+        });
+        
+        $("#slide2").click(function() {
+        	page1audio1.play(7);
+        });
+        
+        $("#slide3").click(function() {
+        	page1audio1.play(19);
+        });
+        
+        $("#slide4").click(function() {
+        	page1audio1.play(39);
+        });
+        
+        
+        $( "#slider" ).slider( { 
+			animate: true,
+			range: "min",
+			value: 50,
+			min: 10,
+			max: 100,
+			step: 1,
+
+		});
+
+		$( "#cam1" )
+			.button()
+			.click(function( event ) {
+
+				camNextPosition	= {
+					x: -100, 
+					y: 400, 
+					z: -250 
+				};
+
+				camNextTarget = {
+					x: 0,
+					y: 0,
+					z: 0
+				};
+
+				TWEEN.removeAll();
+				camTweener( camNextPosition, camNextTarget, 1500 );
+
+		});
+
+		$( "#cam2" )
+			.button()
+			.click(function( event ) {
+
+				camNextPosition	= {
+					x: 0, 
+					y: 12000, 
+					z: 500
+				};
+
+				camNextTarget = {
+					x: 0,
+					y: 0,
+					z: 0
+				};
+
+				TWEEN.removeAll();
+				camTweener( camNextPosition, camNextTarget, 5000 );
+		});	
+
+		$( "#cam3" )
+			.button()
+			.click(function( event ) {
+
+				camNextPosition	= {
+					x: 0, 
+					y: 1000, 
+					z: 5000 
+				};
+
+				camNextTarget = {
+					x: 0,
+					y: 0,
+					z: 0
+				};
+
+				TWEEN.removeAll();
+				camTweener( camNextPosition, camNextTarget, 1500 );
+		});
+
+		$( "#cam4" )
+			.button()
+			.click(function( event ) {
+
+				camNextPosition	= {
+					x: 0, 
+					y: 50, 
+					z: 250 
+				};
+
+				TWEEN.removeAll();
+				camTweener( camNextPosition, planet[2].mesh.position, 1500 );
+		});
+
+		$( "#cam5" )
+			.button()
+			.click(function( event ) {
+
+				camNextPosition	= {
+					x: 50, 
+					y: 50, 
+					z: 300 
+				};
+
+				TWEEN.removeAll();
+				camTweener( camNextPosition, planet[3].mesh.position, 1500 );
+		});
+
+		$( "#traject" )
+			.button()
+			.click(function( event ) {
+
+				trajectory.drawTrajectory( planet[2].mesh.position, planet[3].mesh.position, scene );
+
+		});
+
+		$( "#removeTraject" )
+			.button()
+			.click(function( event ) {
+
+				trajectory.removeTrajectory( scene );
+
+		});
+
+		$( "#speedSlider" ).slider( {
+			animate: true,
+			range: "min",
+			value: 0,
+			min: 0,
+			max: 50,
+			step: 1,
+			create: function() {
+				timerMultiplier = $( "#speedSlider" ).slider( "option", "value" );
+			},
+			change: function() {
+				timerMultiplier = $( "#speedSlider" ).slider( "option", "value" );
+			}
+		});
+
+		$( "#menubutton" )
+			.button()
+			.click(function( event ) {
+				if($('#menupanel').css('opacity') != 0) {
+	            	$("#menupanel").animate({opacity: 0.0}, 200, function() {
+	                	$("#menupanel").css('pointer-events', 'none');
+	            	});
+	        	} else {
+	        		$("#menupanel").animate({opacity: 1.0}, 200, function() {
+	                	$("#menupanel").css('pointer-events', 'auto');
+	            	});
+	        	}
+		});
+
+		$( "#nextbutton" )
+			.button()
+			.click(function( event ) {
+				alert('nextbutton');
+		});
+		
+		$( "#introduction" )
+			.button()
+			.click(function( event ) {
+				alert('introduction');
+		});
+		
+		$( "#navigation" )
+			.button()
+			.click(function( event ) {
+				alert('navigation');
+		});
+		
+		$( "#trajectory" )
+			.button()
+			.click(function( event ) {
+				alert('trajectory');
+		});
+		
+		$( "#about" )
+			.button()
+			.click(function( event ) {
+				alert('about');
+		});
+		
+		$( "#help" )
+			.button()
+			.click(function( event ) {
+				alert('help');
+		});
+		
+		$( "#beginbutton" )
+			.button()
+			.click(function( event ) {
+				pop.play( 0 );
+				$("#startmenupanel").animate({opacity: 0.0}, 200, function() {
+                	$("#startmenupanel").css('pointer-events', 'none');
+                	$("#contenttarget2").animate({opacity: 1.0}, 200, function() {
+                    	$("#contenttarget2").css('pointer-events', 'auto');
+                	});
+            	});
+				$("#playbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+                	$("#playbuttonwrapper").css('pointer-events', 'auto');
+            	});
+		});
+		
+      });
+    
+  //from main.js
+	if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
+	$( '#loadtext' ).show();
+	setLoadMessage("Loading the Solar System");
+
+	loader.options.convertUpAxis = true;
+	loader.load( './models/galaxy.dae', function ( collada ) {
+
+		dae = collada.scene;
+		dae.scale.x = dae.scale.y = dae.scale.z = 50000;
+		dae.updateMatrix();
+
+	} );
+
+	loadShaders( shaderList, function (e) {
+		console.log("loadShaders");
+		shaderList = e;
+		postShadersLoaded();
+	});
+
+	var postShadersLoaded = function () {
+		console.log("postShadersLoaded");
+	        init();
+	        animate();
+			$("#loadtext").hide();
+			setTimeout( function(){camTweener( { x: -500, y: 250, z: -1000 }, { x: 0, y: 0, z: 0 }, 3000)}, 3000 );
+			setTimeout( function(){camTweener( { x: 0, y: 12000, z: 500 }, { x: 0, y: 0, z: 0 }, 5000 )}, 10000 );
+    };
+      
+}, false);
+
+</script>
+
+
+	</head>
+	<body>
+		
+		<div id="startmenupanel" class="startmenupanel">
+			<h1>Mission to Mars</h1>
+			<br>
+			<div class="textstyle1">
+			In this simulation of sending spacecrafte to Mars you will use a 3D model of the solar system to learn
+			about the science behind the Curiosity rover.
+			</div>
+			<br>
+			<button id="beginbutton" class="beginbutton">BEGIN</button>
+			<br>
+			<br>
+			<br>
+			<div class="textstyle2">
+			This project is a collaboration between the U.S. Department of Engergy, the Mozilla Foundation, and MX.</div>
+			<br>
+			<img src="./images/tri_logo.png" style="align: center;">
+			<br>
+		</div>
+		
+		<div id="topbar" class="topbar">
+		
+			<div id="topbarleft" class="topbarleft">
+				<div id="headerpanel" class="headerpanel">Curiosity's Trajectory</div>
+			</div>
+			<div id="topbarmiddle" class="topbarmiddle">
+			
+			</div>
+			
+			<div id="topbarright" class="topbarright">
+				<button id="menubutton" class="menubutton">MENU</button>
+				<div id="menupanel" class="menupanel">
+					<button id="introduction" class="menupanelbutton">introduction</button>
+					<br>
+					<button id="navigation" class="menupanelbutton">3d navigation</button>
+					<br>
+					<button id="trajectory" class="menupanelbutton">trajectory</button>
+					<br>
+					<button id="about" class="menupanelbutton">about</button>
+					<br>
+					<button id="help" class="menupanelbutton">help</button>
+				</div>
+			</div>
+		</div>	
+		<!-- main content area for video, images, 3D, etc... -->
+		<div id="contenttarget" class="contenttarget"></div>
+		
+		<div id="contenttarget2" class="contenttarget2"></div>
+		
+		<div id="contenttarget3" class="contenttarget3"></div>
+		
+		<div id="bottombar" class="bottombar">
+			<div id="bottombarleft" class="bottombarleft">
+			
+			</div>
+			<div id="bottombarmiddle" class="bottombarmiddle">
+				<div id="threedcontrols" class="threedcontrols">
+					<button id="cam1" class="squarebluebutton">Cam 1</button>
+					<button id="cam2" class="squarebluebutton">Cam 2</button>
+					<button id="cam3" class="squarebluebutton">Cam 3</button>
+					<button id="cam4" class="squarebluebutton">Earth</button>
+					<button id="cam5" class="squarebluebutton">Mars</button>
+					<button id="traject" class="squarebluebutton">Trajectory</button>
+					<button id="removeTraject" class="squarebluebutton">Remove Trajectory</button>
+					<div id="speedSlider" class="speedSlider"></div>
+				</div>
+			</div>
+			
+			<div id="bottombarright" class="bottombarright">
+			
+				<div id="playbuttonwrapper" class="playbuttonwrapper" style="opacity: 0.0;pointer-events:none">
+					<div id="playtoggle" class="pause"></div>
+				</div>
+				<div id="nextbuttonwrapper" class="nextbuttonwrapper" style="opacity: 0.0;pointer-events:none">
+					<button id="nextbutton" class="nextbutton">NEXT</button>
+				</div>
+			</div>
+		</div>
+		
+		<div style="display:none">
+			<span id="label_template" class="label">
+				<span class="name">
+				</span>
+			</span>
+		</div>
+		<div id="loadtext"></div>
+		
+		<audio id="page1audio1" class="page1audio1">
+			<source src="audio/total_voiceover.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+		
+		
+		
+	</body>
+</html>

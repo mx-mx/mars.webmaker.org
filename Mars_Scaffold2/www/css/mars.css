@@ -171,8 +171,8 @@ div.pathfindervideo1
 	font-size: 18px;
     border-radius: 5px;
     border:none;
-	width: 640px;
-	height: 480px;
+	width: 720px;
+	height: 405px;
 	top:50%;
     left:50%;
     margin:-240px 0 0 -335px;
@@ -401,7 +401,8 @@ div .menubutton:hover{
 }
 .headerpanel{
 	position: relative;
-	opacity: 1.0;
+	opacity: 0.0;
+	pointer-events:none;
     display:inline;
     vertical-align:middle;
 	text-align: left;

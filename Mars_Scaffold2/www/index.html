@@ -93,7 +93,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	var pop = Popcorn.baseplayer( "#contenttarget" );
 	
-	var videopop = Popcorn.youtube('#contenttarget3', 'https://www.youtube.com/watch?v=lKqr3F73bAI' );
+	var videopop = Popcorn( "#video" );
+	 
+	videopop.footnote({
+	    start: .1,
+	    end: 20,
+	    target: "headerpanel",
+	    text: "Mary Beth Vilhelm"
+	});
+	videopop.footnote({
+	    start: 20,
+	    target: "headerpanel",
+	    text: "Mission to Mars: Setup"
+	});
+	videopop.cue( 2, function() {
+	    //flipTimelinePic("slide2","./images/slide2.png");
+		
+		$("#headerpanel").animate({opacity: 1.0}, 100, function() {
+        	$("#headerpanel").css('pointer-events', 'none');
+    	});
+	});
+	
 	//pop.play( 0 );
 	
 	var page1audio1 = Popcorn('#page1audio1' );
@@ -103,7 +123,14 @@ document.addEventListener("DOMContentLoaded", function () {
 	//});
 	
 	pop.cue( .1, function() {
-		page1audio1.play();
+		//page1audio1.play();
+		videopop.play();
+	});
+	videopop.on( "ended", function() {
+		$("#contenttarget3").animate({opacity: 0.0}, 100, function() {
+        	$("#contenttarget3").css('pointer-events', 'none');
+    	});
+		
 	});
 	//pop.on( "timeupdate", function() {
 		//if(this.currentTime() >= 5 && this.currentTime() <= 5.2) {
@@ -445,13 +472,13 @@ document.addEventListener("DOMContentLoaded", function () {
 				pop.play( 0 );
 				$("#startmenupanel").animate({opacity: 0.0}, 200, function() {
                 	$("#startmenupanel").css('pointer-events', 'none');
-                	$("#contenttarget2").animate({opacity: 1.0}, 200, function() {
-                    	$("#contenttarget2").css('pointer-events', 'auto');
+                	$("#contenttarget3").animate({opacity: 1.0}, 200, function() {
+                    	$("#contenttarget3").css('pointer-events', 'auto');
                 	});
             	});
-				$("#playbuttonwrapper").animate({opacity: 1.0}, 200, function() {
-                	$("#playbuttonwrapper").css('pointer-events', 'auto');
-            	});
+				//$("#playbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+                	//$("#playbuttonwrapper").css('pointer-events', 'auto');
+            	//});
 		});
 		
       });
@@ -482,8 +509,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	        init();
 	        animate();
 			$("#loadtext").hide();
-			setTimeout( function(){camTweener( { x: -500, y: 250, z: -1000 }, { x: 0, y: 0, z: 0 }, 3000)}, 3000 );
-			setTimeout( function(){camTweener( { x: 0, y: 12000, z: 500 }, { x: 0, y: 0, z: 0 }, 5000 )}, 10000 );
+			//setTimeout( function(){camTweener( { x: -500, y: 250, z: -1000 }, { x: 0, y: 0, z: 0 }, 3000)}, 3000 );
+			//setTimeout( function(){camTweener( { x: 0, y: 12000, z: 500 }, { x: 0, y: 0, z: 0 }, 5000 )}, 10000 );
     };
       
 }, false);
@@ -516,7 +543,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		<div id="topbar" class="topbar">
 		
 			<div id="topbarleft" class="topbarleft">
-				<div id="headerpanel" class="headerpanel">Curiosity's Trajectory</div>
+				<div id="headerpanel" class="headerpanel"></div>
 			</div>
 			<div id="topbarmiddle" class="topbarmiddle">
 			
@@ -538,11 +565,18 @@ document.addEventListener("DOMContentLoaded", function () {
 			</div>
 		</div>	
 		<!-- main content area for video, images, 3D, etc... -->
-		<div id="contenttarget" class="contenttarget"></div>
+		<div id="contenttarget" class="contenttarget">
+		</div>
 		
-		<div id="contenttarget2" class="contenttarget2"></div>
+		<div id="contenttarget2" class="contenttarget2">
+		</div>
 		
-		<div id="contenttarget3" class="contenttarget3"></div>
+		<div id="contenttarget3" class="contenttarget3">
+			<video height="100%" width="100%" id="video">
+         		<source src="video/SEQ1_OCVO_GoodQ.mp4">
+         		<source src="video/SEQ1_OCVO_GoodQ.webmhd.webm">
+       		</video>
+		</div>
 		
 		<div id="bottombar" class="bottombar">
 			<div id="bottombarleft" class="bottombarleft">
@@ -581,7 +615,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		<div id="loadtext"></div>
 		
 		<audio id="page1audio1" class="page1audio1">
-			<source src="audio/total_voiceover.ogg">
+			<source src="audio/SEQ2_VO.mp3">
+			<source src="audio/SEQ2_VO.oggvorbis.ogg">
 			Your browser does not support the audio element.  Upgrade the browser.
 		</audio> 
 		
