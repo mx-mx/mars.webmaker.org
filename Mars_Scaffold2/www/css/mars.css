@@ -464,7 +464,7 @@ div .menubutton:hover{
     border:none;
 	width: 420px;
 	height: 400px;
-	top:40%;
+	top:48%;
     left:50%;
     margin:-200px 0 0 -250px;
 	z-index: 2;
@@ -605,7 +605,7 @@ div .speedSlider {
     border:none;
 	width: 420px;
 	height: 30px;
-	top:80%;
+	top:20%;
     left:50%;
     margin:-50px 0 0 -250px;
 	z-index: 4;
