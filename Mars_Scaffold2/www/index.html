@@ -92,112 +92,117 @@ document.addEventListener("DOMContentLoaded", function () {
 	Popcorn.player( "baseplayer" );
 
 	var pop = Popcorn.baseplayer( "#contenttarget" );
-	
-	var videopop = Popcorn( "#video" );
+	var popcorn_branch1_video1 = Popcorn( "#video" );
+	var popcorn_branch1_video2 = Popcorn.youtube('#videocontenttarget2', 'https://www.youtube.com/watch?v=lKqr3F73bAI' );
+	var popcorn_branch1_audio2 = Popcorn('#popcorn_branch1_audio2' );
+	var popcorn_branch1_audio3 = Popcorn('#popcorn_branch1_audio3' );
+	var popcorn_branch1_audio4 = Popcorn('#popcorn_branch1_audio4' );
 	 
-	videopop.footnote({
+
+	
+	pop.cue( .1, function() {
+		popcorn_branch1_video1.play();
+	});
+	
+	popcorn_branch1_video1.footnote({
 	    start: .1,
 	    end: 20,
 	    target: "headerpanel",
 	    text: "Mary Beth Vilhelm"
 	});
-	videopop.footnote({
+	popcorn_branch1_video1.footnote({
 	    start: 20,
 	    target: "headerpanel",
 	    text: "Mission to Mars: Setup"
 	});
-	videopop.cue( 2, function() {
-	    //flipTimelinePic("slide2","./images/slide2.png");
-		
+	popcorn_branch1_video1.cue( 3, function() {
 		$("#headerpanel").animate({opacity: 1.0}, 100, function() {
         	$("#headerpanel").css('pointer-events', 'none');
     	});
+		
 	});
-	
-	//pop.play( 0 );
-	
-	var page1audio1 = Popcorn('#page1audio1' );
 
 	//pop.on( "timeupdate", function() {
 		//document.getElementById( "footnotediv1" ).innerHTML = this.currentTime();
 	//});
-	
-	pop.cue( .1, function() {
-		//page1audio1.play();
-		videopop.play();
-	});
-	videopop.on( "ended", function() {
-		$("#contenttarget3").animate({opacity: 0.0}, 100, function() {
-        	$("#contenttarget3").css('pointer-events', 'none');
+	popcorn_branch1_video1.on( "ended", function() {
+		$("#videocontenttarget").animate({opacity: 0.0}, 100, function() {
+        	$("#videocontenttarget").css('pointer-events', 'none');
+        	$("#imagecontenttarget").animate({opacity: 1.0}, 100, function() {
+            	$("#imagecontenttarget").css('pointer-events', 'auto');
+        	});
     	});
 		
+		popcorn_branch1_audio2.play();
 	});
-	//pop.on( "timeupdate", function() {
-		//if(this.currentTime() >= 5 && this.currentTime() <= 5.2) {
-			//console.log("kicking up audio");
-			//kick of audio
-			//page1audio1.play();
-		//}
-	//});
+    popcorn_branch1_audio2.on( "ended", function() {
+		popcorn_branch1_audio3.play();
+	});
+    popcorn_branch1_audio3.on( "ended", function() {
+		popcorn_branch1_audio4.play();
+	});
+    popcorn_branch1_video2.on( "ended", function() {
+
+        init();
+        animate();
+    	$("#videocontenttarget2").animate({opacity: 0.0}, 100, function() {
+           	$("#videocontenttarget2").css('pointer-events', 'none');
+       	});
+    	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
+           	$("#backgroundtarget").css('pointer-events', 'none');
+       	});
+
+	});
 	
 	// Add popcorn events here and other functionality
-    
-    page1audio1.image({
-    	start: .01, // Our start time in seconds
-    	end: 3.0, // Our end time in seconds
-    	src: "./images/NSBRIMBinterview2.jpg", 
-    	text: "", 
-    	target: "contenttarget2", 
-    	effect: "applyclass",
-    	applyclass: "stretchcontent"
-    });
-    page1audio1.image({
-    	start: 3.0, // Our start time in seconds
-    	end: 8, // Our end time in seconds
-    	src: "./images/mars_panorama.png", 
-    	text: "", 
-    	target: "contenttarget2", 
-		effect: "applyclass",
-		applyclass: "stretchcontent" 
-    });
-    page1audio1.image({
-    	start: 8.0, // Our start time in seconds
-    	end: 17, // Our end time in seconds
-    	src: "./images/JSCDSHsleepingquarters.jpg", 
-    	text: "", 
-    	target: "contenttarget2", 
-		effect: "applyclass",
-		applyclass: "stretchcontent" 
-    });
-    page1audio1.image({
-    	start: 17.0, // Our start time in seconds
-    	end: 20, // Our end time in seconds
-    	src: "./images/JSCDeepSpaceHabitat.jpg", 
-    	text: "", 
-    	target: "contenttarget2", 
-		effect: "applyclass",
-		applyclass: "stretchcontent" 
-    });
-    page1audio1.image({
-    	start: 20.0, // Our start time in seconds
-    	end: 39.2, // Our end time in seconds
+    popcorn_branch1_audio2.image({
+    	start: 0.1, // Our start time in seconds
+    	end: 14, // Our end time in seconds
     	src: "./images/planetorder.jpg", 
     	text: "", 
-    	target: "contenttarget2", 
+    	target: "imagecontenttarget", 
 		effect: "applyclass",
     	applyclass: "stretchcontent"
     });
+	
+    popcorn_branch1_audio3.image({
+    	start: 0.1, // Our start time in seconds
+    	end: 6, // Our end time in seconds
+    	src: "./images/curiosity_2d3d.png", 
+    	text: "", 
+    	target: "imagecontenttarget", 
+		effect: "applyclass",
+    	applyclass: "unstrechedcontent"
+    });
+    popcorn_branch1_audio3.cue( 6, function() {
+			
+		$("#imagecontenttarget").animate({opacity: 0.0}, 100, function() {
+           	$("#imagecontenttarget").css('pointer-events', 'none');
+           	$("#videocontenttarget2").animate({opacity: 1.0}, 100, function() {
+               	$("#videocontenttarget2").css('pointer-events', 'auto');
+               	popcorn_branch1_video2.play();
+           	});
+       	});
+    		
+	});
+
+	/*
+	$("#videocontenttarget").animate({opacity: 0.0}, 100, function() {
+    	$("#videocontenttarget").css('pointer-events', 'none');
+    	$("#imagecontenttarget").animate({opacity: 1.0}, 100, function() {
+        	$("#imagecontenttarget").css('pointer-events', 'auto');
+    	});
+	});
+	*/
     
     var pausePoint1=false;
     var isModel1Showing=false;
     
-    page1audio1.cue( 8, function() {
+    popcorn_branch1_audio2.cue( 8, function() {
 	    //flipTimelinePic("slide2","./images/slide2.png");
 	});
-    page1audio1.cue( 20, function() {
-	    //flipTimelinePic("slide3","./images/slide3.png");
-	});
-    page1audio1.cue( 39.2, function() {
+    
+    popcorn_branch1_audio2.cue( 39.2, function() {
     	if(!isModel1Showing) {
     		isModel1Showing=true;
 
@@ -205,35 +210,37 @@ document.addEventListener("DOMContentLoaded", function () {
             	$("#threedcontrols").css('pointer-events', 'auto');
         	});
 			
-			$("#contenttarget2").animate({opacity: 0.0}, 100, function() {
-            	$("#contenttarget2").css('pointer-events', 'none');
-            	$("#contenttarget3").animate({opacity: 1.0}, 100, function() {
-                	$("#contenttarget3").css('pointer-events', 'auto');
-                	videopop.play();
+			$("#imagecontenttarget").animate({opacity: 0.0}, 100, function() {
+            	$("#imagecontenttarget").css('pointer-events', 'none');
+            	$("#videocontenttarget2").animate({opacity: 1.0}, 100, function() {
+                	$("#videocontenttarget2").css('pointer-events', 'auto');
+                	popcorn_branch1_video2.play();
             	});
         	});
     		
     	}
 	});
-    page1audio1.cue( 40, function() {
+    
+    popcorn_branch1_audio2.cue( 40, function() {
 	    //flipTimelinePic("slide4","./images/slide4.png");
 	});
     
     //popvideo.on( "ended", function() {
-    //	$("#contenttarget3").animate({opacity: 0.0}, 100, function() {
-    //       	$("#contenttarget3").css('pointer-events', 'none');
+    //	$("#videocontenttarget").animate({opacity: 0.0}, 100, function() {
+    //       	$("#videocontenttarget").css('pointer-events', 'none');
     //   	});
     //});	
-    page1audio1.cue( 62, function() {
-       	$("#contenttarget3").animate({opacity: 0.0}, 100, function() {
-           	$("#contenttarget3").css('pointer-events', 'none');
+    popcorn_branch1_audio2.cue( 62, function() {
+       	$("#videocontenttarget").animate({opacity: 0.0}, 100, function() {
+           	$("#videocontenttarget").css('pointer-events', 'none');
        	});
 	});
-    page1audio1.cue( 66, function() {
+    /*
+    popcorn_branch1_audio2.cue( 66, function() {
     	if(!pausePoint1) {
     		pausePoint1=true;
     		//kick of audio
-    		page1audio1.pause();
+    		popcorn_branch1_audio2.pause();
     		pop.pause();
     		$('#playtoggle').attr("class", "play");
 
@@ -242,7 +249,15 @@ document.addEventListener("DOMContentLoaded", function () {
         	});
     		
     	}
-	});
+	});*/
+
+	//pop.on( "timeupdate", function() {
+		//if(this.currentTime() >= 5 && this.currentTime() <= 5.2) {
+			//console.log("kicking up audio");
+			//kick of audio
+			//popcorn_branch1_audio2.play();
+		//}
+	//});
     
     function flipTimelinePic(picID,imgName)
     {
@@ -258,7 +273,7 @@ document.addEventListener("DOMContentLoaded", function () {
         $('#playtoggle').bind("click", function() {
           if ($(this).attr("class") == "play") {
              $(this).attr("class", "pause");
- 			page1audio1.play();
+ 			popcorn_branch1_audio2.play();
  			pop.play();
  			//unpause
  			if(pausePoint1) {
@@ -268,21 +283,21 @@ document.addEventListener("DOMContentLoaded", function () {
  			}
           } else {
              $(this).attr("class", "play");
- 			page1audio1.pause();
+ 			popcorn_branch1_audio2.pause();
  			pop.pause();
           }
         });
         
         $("#slide2").click(function() {
-        	page1audio1.play(7);
+        	popcorn_branch1_audio2.play(7);
         });
         
         $("#slide3").click(function() {
-        	page1audio1.play(19);
+        	popcorn_branch1_audio2.play(19);
         });
         
         $("#slide4").click(function() {
-        	page1audio1.play(39);
+        	popcorn_branch1_audio2.play(39);
         });
         
         
@@ -472,8 +487,8 @@ document.addEventListener("DOMContentLoaded", function () {
 				pop.play( 0 );
 				$("#startmenupanel").animate({opacity: 0.0}, 200, function() {
                 	$("#startmenupanel").css('pointer-events', 'none');
-                	$("#contenttarget3").animate({opacity: 1.0}, 200, function() {
-                    	$("#contenttarget3").css('pointer-events', 'auto');
+                	$("#videocontenttarget").animate({opacity: 1.0}, 200, function() {
+                    	$("#videocontenttarget").css('pointer-events', 'auto');
                 	});
             	});
 				//$("#playbuttonwrapper").animate({opacity: 1.0}, 200, function() {
@@ -506,8 +521,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	var postShadersLoaded = function () {
 		console.log("postShadersLoaded");
-	        init();
-	        animate();
+	        //init();
+	        //animate();
 			$("#loadtext").hide();
 			//setTimeout( function(){camTweener( { x: -500, y: 250, z: -1000 }, { x: 0, y: 0, z: 0 }, 3000)}, 3000 );
 			//setTimeout( function(){camTweener( { x: 0, y: 12000, z: 500 }, { x: 0, y: 0, z: 0 }, 5000 )}, 10000 );
@@ -567,15 +582,20 @@ document.addEventListener("DOMContentLoaded", function () {
 		<!-- main content area for video, images, 3D, etc... -->
 		<div id="contenttarget" class="contenttarget">
 		</div>
-		
-		<div id="contenttarget2" class="contenttarget2">
+		<div id="backgroundtarget" class="backgroundtarget">
 		</div>
 		
-		<div id="contenttarget3" class="contenttarget3">
+		<div id="imagecontenttarget" class="imagecontenttarget">
+		</div>
+		
+		<div id="videocontenttarget" class="videocontenttarget">
 			<video height="100%" width="100%" id="video">
          		<source src="video/SEQ1_OCVO_GoodQ.mp4">
          		<source src="video/SEQ1_OCVO_GoodQ.webmhd.webm">
        		</video>
+		</div>
+		
+		<div id="videocontenttarget2" class="videocontenttarget2">
 		</div>
 		
 		<div id="bottombar" class="bottombar">
@@ -614,9 +634,21 @@ document.addEventListener("DOMContentLoaded", function () {
 		</div>
 		<div id="loadtext"></div>
 		
-		<audio id="page1audio1" class="page1audio1">
+		<audio id="popcorn_branch1_audio2" class="popcorn_branch1_audio2">
 			<source src="audio/SEQ2_VO.mp3">
 			<source src="audio/SEQ2_VO.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+		
+		<audio id="popcorn_branch1_audio3" class="popcorn_branch1_audio3">
+			<source src="audio/SEQ3_VOpt2.mp3">
+			<source src="audio/SEQ3_VOpt2.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+		
+		<audio id="popcorn_branch1_audio4" class="popcorn_branch1_audio4">
+			<source src="audio/SEQ3_VOpt3.mp3">
+			<source src="audio/SEQ3_VOpt3.oggvorbis.ogg">
 			Your browser does not support the audio element.  Upgrade the browser.
 		</audio> 
 		
