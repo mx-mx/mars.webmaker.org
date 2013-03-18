@@ -126,10 +126,10 @@ function init() {
 	window.addEventListener( 'resize', onWindowResize, false );
 
 }
-
+var gui;
 function buildGUI(){
 
-	var gui = new dat.GUI();
+	gui = new dat.GUI();
 	gui.add( t, 'multiplier', 0, 5).name( 'Orbit Speed' );
 
 	// var labelFolder = gui.addFolder( 'Label Visibility' );

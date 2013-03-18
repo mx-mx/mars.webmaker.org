@@ -150,6 +150,8 @@ document.addEventListener("DOMContentLoaded", function () {
     popcorn_branch1_audio4.on( "ended", function() {
         init(); //init the 3D background.
         animate();
+
+        gui.destroy();
     	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
            	$("#backgroundtarget").css('pointer-events', 'none');
        	});
