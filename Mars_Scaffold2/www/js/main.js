@@ -14,6 +14,7 @@ var stats,
 	composer, 
 	controls,
 	tween,
+	gui,
 	camTarget,
 	solarSystem;
 
@@ -162,6 +163,22 @@ function buildGUI(){
 	camFolder.add( camEarth, 'tween' ).name( 'Camera Earth' );
 	camFolder.add( camMars, 'tween' ).name( 'Camera Mars' );
 
+}
+
+function removeGui(parent) {
+  if(!parent) {
+    parent = DAT.GUI.autoPlaceContainer;
+  }
+  
+  console.log(gui.domElement);
+  parent.removeChild(gui.domElement);
+}
+
+function addGui(gui, parent) {
+  if(!parent) {
+    parent = DAT.GUI.autoPlaceContainer;
+  }
+  parent.appendChild(gui);
 }
 
 
