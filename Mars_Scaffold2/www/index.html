@@ -106,12 +106,12 @@ document.addEventListener("DOMContentLoaded", function () {
 	
 	popcorn_branch1_video1.footnote({
 	    start: .1,
-	    end: 20,
+	    end: 22,
 	    target: "headerpanel",
 	    text: "Mary Beth Vilhelm"
 	});
 	popcorn_branch1_video1.footnote({
-	    start: 20,
+	    start: 22,
 	    target: "headerpanel",
 	    text: "Mission to Mars: Setup"
 	});
@@ -141,17 +141,18 @@ document.addEventListener("DOMContentLoaded", function () {
     popcorn_branch1_audio3.on( "ended", function() {
 		popcorn_branch1_audio4.play();
 	});
+    
     popcorn_branch1_video2.on( "ended", function() {
-
-        init();
-        animate();
     	$("#videocontenttarget2").animate({opacity: 0.0}, 100, function() {
            	$("#videocontenttarget2").css('pointer-events', 'none');
        	});
+	});
+    popcorn_branch1_audio4.on( "ended", function() {
+        init(); //init the 3D background.
+        animate();
     	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
            	$("#backgroundtarget").css('pointer-events', 'none');
        	});
-
 	});
 	
 	// Add popcorn events here and other functionality
@@ -175,7 +176,6 @@ document.addEventListener("DOMContentLoaded", function () {
     	applyclass: "unstrechedcontent"
     });
     popcorn_branch1_audio3.cue( 6, function() {
-			
 		$("#imagecontenttarget").animate({opacity: 0.0}, 100, function() {
            	$("#imagecontenttarget").css('pointer-events', 'none');
            	$("#videocontenttarget2").animate({opacity: 1.0}, 100, function() {
