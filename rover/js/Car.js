@@ -39,6 +39,11 @@ THREE.Car = function () {
 	this.FRONT_DECCELERATION = 750;
 	this.WHEEL_ANGULAR_DECCELERATION = 1.0;
 
+	this.STEERING_RADIUS_RATIO = 0.0023;
+
+	this.MAX_TILT_SIDES = 0.05;
+	this.MAX_TILT_FRONTBACK = 0.015;
+
 	// internal control variables
 
 	this.speed = 0;

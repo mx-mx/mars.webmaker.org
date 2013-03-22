@@ -3,7 +3,7 @@ var WIDTH = $(window).width(),
 
 var VIEW_ANGLE = 45,
 	ASPECT = WIDTH / HEIGHT,
-	NEAR = 1,
+	NEAR = .25,
 	FAR = 100000;
 
 var stats, 
@@ -73,7 +73,7 @@ function init() {
 	camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR );
 	camera.position.set( 5, 5, 5 );
 
-	camTarget = dae.position.clone();
+	camTarget = scene.position;
 	
 	var ambientLight = new THREE.AmbientLight();
 	ambientLight.color.setRGB( .15, .15, .15 );
@@ -124,7 +124,7 @@ function setupScene(){
 	// Grid
 	var material = new THREE.LineBasicMaterial( { color: 0x303030 } );
 	var geometry = new THREE.Geometry();
-	var floor = 0, step = .5, size = 5;
+	var floor = 0, step = .5, size = 50;
 
 	for ( var i = 0; i <= size / step * 2; i ++ ) {
 
@@ -138,12 +138,8 @@ function setupScene(){
 	var grid = new THREE.Line( geometry, material, THREE.LinePieces );
 	scene.add( grid );
 
-
-	/********************************
-		ROVER RIGGING
-	********************************/
-
 	rover = new Rover( dae );
+	rover.mesh.add(camera);
 	scene.add( rover.mesh );
 
 	controlsRover = {
@@ -163,9 +159,9 @@ function buildGUI(){
 
 	var camTweens = { 
 		one: new CAMTWEEN( { x:5, y:5, z:5 }, { x:0, y:0, z:0 }, 1 ),
-		two: new CAMTWEEN( { x:0, y:2, z:10 }, { x:0, y:0, z:0 }, 1 ),
-		three: new CAMTWEEN( { x:-5, y:3, z:-2 }, { x:0, y:0, z:0 }, 1 ),
-		four: new CAMTWEEN( { x:0, y:4, z:-6 }, { x:0, y:0, z:0 }, 1 )
+		two: new CAMTWEEN( { x:0, y:4, z:-10 }, { x:0, y:0, z:0 }, 1 ),
+		three: new CAMTWEEN( { x:-.36, y:2.1, z:.65 }, { x:0, y:0, z:10 }, 1 ),
+		four: new CAMTWEEN( { x:-5, y:3, z:-2 }, { x:0, y:0, z:0 }, 1 )
 	};
 
 	var gui = new dat.GUI();
@@ -192,9 +188,8 @@ function onKeyDown ( event ) {
 
 		case 38: /*up*/ controlsRover.moveForward = true; break;
 		case 40: /*up*/ controlsRover.moveBackward = true; break;
-		// case 40: /*down*/ rover.position.z -= .05; break;
-		// case 37: /*left*/ ; break;
-		// case 39: /*right*/ ; break;
+		case 37: /*left*/ controlsRover.moveLeft = true; break;
+		case 39: /*right*/ controlsRover.moveRight = true; break;
 	}
 };
 
@@ -203,10 +198,8 @@ function onKeyUp ( event ) {
 	switch( event.keyCode ) {
 		case 38: /*up*/ controlsRover.moveForward = false; break;
 		case 40: /*up*/ controlsRover.moveBackward = false; break;
-		//case 38: /*up*/ rover.position.z += 0; break;
-		//case 40: /*down*/ rover.position.z -= 0; break;
-		// case 37: /*left*/ ; break;
-		// case 39: /*right*/ ; break;
+		case 37: /*left*/ controlsRover.moveLeft = false; break;
+		case 39: /*right*/ controlsRover.moveRight = false; break;
 	}
 };
 

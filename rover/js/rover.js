@@ -1,7 +1,3 @@
-/**
- * @author alteredq / http://alteredqualia.com/
- */
-
 var Rover = function ( dae ) {
 	
 	var scope = this;
@@ -9,23 +5,23 @@ var Rover = function ( dae ) {
 
 	// car "feel" parameters
 
-	this.MAX_SPEED = 500;
-	this.MAX_REVERSE_SPEED = -250;
+	this.MAX_SPEED = 5;
+	this.MAX_ROTATION_SPEED = 2;
 
-	this.MAX_WHEEL_ROTATION = 0.6;
+	this.FRONT_ACCELERATION = 4000;
+	this.BACK_ACCELERATION = 4000;
+	this.LEFT_ACCELERATION = 3000;
+	this.RIGHT_ACCELERATION = 3000;
 
-	this.FRONT_ACCELERATION = 150;
-	this.BACK_ACCELERATION = 100;
-
-	this.FRONT_DECCELERATION = 0;
+	this.FRONT_DECCELERATION = 5000;
+	this.BACK_DECCELERATION = 5000;
+	this.LEFT_DECCELERATION = 3000;
+	this.RIGHT_DECCELERATION = 3000;
 
 	// internal control variables
 
 	this.speed = 0;
-	this.acceleration = 0;
-
-	this.wheelOrientation = 0;
-	this.carOrientation = 0;
+	this.rotationSpeed = 0;
 
 	// internal helper variables
 
@@ -33,70 +29,99 @@ var Rover = function ( dae ) {
 
 	this.meshes = [];
 
-	this.dt = createRover();
+	this.dt = rigDrivetrain();
+	this.arm = rigArm();
 
 	this.updateCarModel = function ( delta, controls ) {
 
-		// speed and wheels based on controls
-
 		if ( controls.moveForward ) {
 
-			this.speed = THREE.Math.clamp( this.speed + delta * this.FRONT_ACCELERATION, this.MAX_REVERSE_SPEED, this.MAX_SPEED );
-			this.acceleration = THREE.Math.clamp( this.acceleration + delta, -1, 1 );
-
+			this.speed = THREE.Math.clamp( this.speed + delta * this.FRONT_ACCELERATION, -this.MAX_SPEED, this.MAX_SPEED );
 
 		}
 
 		if ( controls.moveBackward ) {
 
-
-			this.speed = THREE.Math.clamp( this.speed - delta * this.BACK_ACCELERATION, this.MAX_REVERSE_SPEED, this.MAX_SPEED );
-			this.acceleration = THREE.Math.clamp( this.acceleration - delta, -1, 1 );
+			this.speed = THREE.Math.clamp( this.speed - delta * this.BACK_ACCELERATION, -this.MAX_SPEED, this.MAX_SPEED );
 
 		}
-
-		// speed decay
 
 		if ( ! ( controls.moveForward || controls.moveBackward ) ) {
 
 			if ( this.speed > 0 ) {
 
-				var k = exponentialEaseOut( this.speed / this.MAX_SPEED );
-
+				var k = cubicEaseOut( this.speed / this.MAX_SPEED );
 				this.speed = THREE.Math.clamp( this.speed - k * delta * this.FRONT_DECCELERATION, 0, this.MAX_SPEED );
-				this.acceleration = THREE.Math.clamp( this.acceleration - k * delta, 0, 1 );
 
 			} else {
 
-				var k = exponentialEaseOut( this.speed / this.MAX_REVERSE_SPEED );
-
-				this.speed = THREE.Math.clamp( this.speed + k * delta * this.BACK_ACCELERATION, this.MAX_REVERSE_SPEED, 0 );
-				this.acceleration = THREE.Math.clamp( this.acceleration + k * delta, -1, 0 );
+				var k = cubicEaseOut( this.speed / -this.MAX_SPEED );
+				this.speed = THREE.Math.clamp( this.speed + k * delta * this.BACK_DECCELERATION, -this.MAX_SPEED, 0 );
 
 			}
 
-
 		}
 
-		// car update
+		if ( Math.abs( this.speed ) < 1.5 ){
 
-		var forwardDelta = this.speed * delta * 10000;
+			if ( controls.moveLeft ){
+				this.rotationSpeed = THREE.Math.clamp( this.rotationSpeed + delta * this.LEFT_ACCELERATION, -this.MAX_ROTATION_SPEED, this.MAX_ROTATION_SPEED );
 
-		// displacement
+			}
 
-		// this.mesh.position.x += forwardDelta;
-		this.mesh.position.z += forwardDelta;
+			if ( controls.moveRight ){
+				this.rotationSpeed = THREE.Math.clamp( this.rotationSpeed - delta * this.RIGHT_ACCELERATION, -this.MAX_ROTATION_SPEED, this.MAX_ROTATION_SPEED );
+			}
+		}
 
-		//console.log(Math.sin( this.carOrientation ) * forwardDelta);
+		if ( ! ( controls.moveLeft || controls.moveRight ) ) {
+
+			if ( this.rotationSpeed > 0 ) {
+
+				var k = exponentialEaseOut( this.rotationSpeed / this.MAX_ROTATION_SPEED );
+				this.rotationSpeed = THREE.Math.clamp( this.rotationSpeed - k * delta * this.LEFT_DECCELERATION, 0, this.MAX_ROTATION_SPEED );
+
+			} 
+			if ( this.rotationSpeed < 0 ) {
+				var k = exponentialEaseOut( this.rotationSpeed / -this.MAX_ROTATION_SPEED );
+				this.rotationSpeed = THREE.Math.clamp( this.rotationSpeed + k * delta * this.RIGHT_DECCELERATION, -this.MAX_ROTATION_SPEED, 0 );
+			}
+		}
+
+		var absRotationSpeed = Math.abs( this.rotationSpeed );
+		var steerStart = 0;
+		var steerEnd = .75;
+		this.dt.L.steering[0].rotation.y = -THREE.Math.clamp( absRotationSpeed, steerStart, steerEnd );
+		this.dt.L.steering[1].rotation.y = THREE.Math.clamp( absRotationSpeed, steerStart, steerEnd );
+		this.dt.R.steering[0].rotation.y = THREE.Math.clamp( absRotationSpeed, steerStart, steerEnd );
+		this.dt.R.steering[1].rotation.y = -THREE.Math.clamp( absRotationSpeed, steerStart, steerEnd );
+
+		var forwardDelta = this.speed * delta * 1000;
+		var rotationDelta = this.rotationSpeed * delta * 1000;
+
+		for ( i in this.dt.L.wheels ){
+			this.dt.L.wheels[i].rotation.x += ( this.speed - this.rotationSpeed * 1.5 ) / 35;
+			this.dt.R.wheels[i].rotation.x += ( this.speed + this.rotationSpeed * 1.5 ) / 35;
+		}
+
+		this.mesh.position.x += Math.sin( this.mesh.rotation.y ) * forwardDelta;
+		this.mesh.position.z += Math.cos( this.mesh.rotation.y ) * forwardDelta;
+
+		this.mesh.rotation.y += rotationDelta;
+
+		// ARM Animation
+		this.arm.shoulder.rotation.x = Math.sin( delta * Math.PI * 2 ) * 2;
+		this.arm.hand.rotation.y += delta * 800;
+
 
 	};
 
-	function createRover(){
+	function rigDrivetrain(){
 
 		var dt = scope.mesh.children[2];
 
 		dt.useQuaternion = false;
-
+	
 		dt.L = dt.children[0];
 		dt.R = dt.children[1];
 
@@ -130,6 +155,27 @@ var Rover = function ( dae ) {
 		}
 
 		return dt;
+	}
+
+	function rigArm( mesh ){
+
+		var arm	= scope.mesh.children[1].children[0];
+		arm.useQuaternion = false;
+
+		arm.shoulder = arm.children[0];
+		arm.shoulder.useQuaternion = false;
+
+		arm.elbow = arm.shoulder.children[0];
+		arm.elbow.useQuaternion = false;
+
+		arm.wrist = arm.elbow.children[0];
+		arm.wrist.useQuaternion = false;
+
+		arm.hand = arm.wrist.children[0];
+		arm.hand.useQuaternion = false;
+
+		return arm;
+
 	}
 
 	function quadraticEaseOut( k ) { return - k * ( k - 2 ); }
