@@ -112,16 +112,23 @@ document.addEventListener("DOMContentLoaded", function () {
 	$contenttarget = $("#contenttarget");
 	// Create a popcorn instance by calling the Youtube player plugin     
 	Popcorn.player( "baseplayer" );
+	
+	var popcornMedia = new Array();
+	var popcornSequenceNumber = 0;
+	popcornMedia[0] = Popcorn( '#video' );
+	popcornMedia[1] = Popcorn('#popcorn_branch1_audio2' );
+	popcornMedia[2] = Popcorn('#popcorn_branch1_audio3' );
+	popcornMedia[3] = Popcorn( '#popcorn_branch1_audio4' );
 
-	var pop = Popcorn.baseplayer( "#contenttarget" );
-	var popcorn_branch1_video1 = Popcorn( "#video" );
-	var popcorn_branch1_video2 = Popcorn.youtube('#videocontenttarget2', 'https://www.youtube.com/watch?v=lKqr3F73bAI' );
-	var popcorn_branch1_audio2 = Popcorn('#popcorn_branch1_audio2' );
-	var popcorn_branch1_audio3 = Popcorn('#popcorn_branch1_audio3' );
-	var popcorn_branch1_audio4 = Popcorn('#popcorn_branch1_audio4' );
+	var basepop = Popcorn.baseplayer( "#contenttarget" ); //not sure if I'll need this baseplayer
+	//var popcorn_branch1_video1 = Popcorn( "#video" );
+	//var popcorn_branch1_video2 = Popcorn.youtube('#videocontenttarget2', 'https://www.youtube.com/watch?v=lKqr3F73bAI' );
+	//var popcorn_branch1_audio2 = Popcorn('#popcorn_branch1_audio2' );
+	//var popcorn_branch1_audio3 = Popcorn('#popcorn_branch1_audio3' );
+	//var popcorn_branch1_audio4 = Popcorn('#popcorn_branch1_audio4' );
 	 
 
-	pop.cue( 1, function() {
+	basepop.cue( 1, function() {
 
         init(); //init the 3D background.
         animate();
@@ -129,9 +136,37 @@ document.addEventListener("DOMContentLoaded", function () {
         gui.destroy();
 	});
 	
-	pop.cue( 2, function() {
-		popcorn_branch1_video1.play();
+	basepop.cue( 2, function() {
+		//popcorn_branch1_video1.play();
+		popcornMedia[popcornSequenceNumber].play();
 
+	});
+	
+	popcornMedia[0].footnote({
+	    start: .1,
+	    end: 22,
+	    target: "headerpanel",
+	    text: "Introduction"
+	});
+	popcornMedia[0].footnote({
+	    start: 22,
+	    target: "headerpanel",
+	    text: "Mission to Mars: Setup"
+	});
+	popcornMedia[0].cue( 3, function() {
+		$("#headerpanel").animate({opacity: 1.0}, 100, function() {
+        	$("#headerpanel").css('pointer-events', 'none');
+    	});
+		
+	});
+
+	//basepop.on( "timeupdate", function() {
+		//document.getElementById( "footnotediv1" ).innerHTML = this.currentTime();
+	//});
+	popcornMedia[0].on( "play", function() {
+    	$("#videocontenttarget").animate({opacity: 1.0}, 100, function() {
+           	$("#videocontenttarget").css('pointer-events', 'audo');
+       	});
 		$("#nextbuttonwrapper").animate({opacity: 1.0}, 200, function() {
         	$("#nextbuttonwrapper").css('pointer-events', 'auto');
     	});
@@ -140,47 +175,63 @@ document.addEventListener("DOMContentLoaded", function () {
            	$("#backgroundtarget").css('pointer-events', 'none');
        	});
 	});
-	
-	popcorn_branch1_video1.footnote({
-	    start: .1,
-	    end: 22,
-	    target: "headerpanel",
-	    text: "Introduction"
-	});
-	popcorn_branch1_video1.footnote({
-	    start: 22,
-	    target: "headerpanel",
-	    text: "Mission to Mars: Setup"
-	});
-	popcorn_branch1_video1.cue( 3, function() {
-		$("#headerpanel").animate({opacity: 1.0}, 100, function() {
-        	$("#headerpanel").css('pointer-events', 'none');
-    	});
-		
-	});
-
-	//pop.on( "timeupdate", function() {
-		//document.getElementById( "footnotediv1" ).innerHTML = this.currentTime();
-	//});
-	popcorn_branch1_video1.on( "ended", function() {
+	popcornMedia[0].on( "ended", function() {
     	$("#videocontenttarget").animate({opacity: 0.0}, 100, function() {
            	$("#videocontenttarget").css('pointer-events', 'none');
        	});
-		popcorn_branch1_audio2.play();
+    	advancepopcornMedia();
 	});
-    popcorn_branch1_audio2.on( "ended", function() {
-		popcorn_branch1_audio3.play();
+    popcornMedia[1].on( "ended", function() {
+    	advancepopcornMedia();
 	});
-    popcorn_branch1_audio3.on( "ended", function() {
-		popcorn_branch1_audio4.play();
+    popcornMedia[2].on( "ended", function() {
+    	advancepopcornMedia();
 	});
     
-    popcorn_branch1_video2.on( "ended", function() {
-    	$("#videocontenttarget2").animate({opacity: 0.0}, 100, function() {
-           	$("#videocontenttarget2").css('pointer-events', 'none');
+    var advancepopcornMedia = function () {
+		popcornSequenceNumber++;
+		popcornMedia[popcornSequenceNumber].play();
+    }
+    
+    //a way to skip around (needed for Next button and Menu buttons)
+    var jumpPopcornMedia = function (sequenceNum) {
+		popcornSequenceNumber=sequenceNum;
+		
+		//clear div targets
+    	$("#videocontenttarget").animate({opacity: 0.0}, 1, function() {
+           	$("#videocontenttarget").css('pointer-events', 'none');
        	});
-	});
-    popcorn_branch1_audio4.on( "ended", function() {
+    	$("#startmenupanel").animate({opacity: 0.0}, 1, function() {
+        	$("#startmenupanel").css('pointer-events', 'none');
+       	});
+		
+		//stop all other media
+		for(var i=0;i<popcornMedia.length;i++) {
+			popcornMedia[i].pause();
+		}
+		
+		//jump to desired media
+		
+		if(popcornSequenceNumber==0) {
+			basepop.play(0);
+		} else {
+			popcornMedia[popcornSequenceNumber].play(0);
+		}
+		
+		//close menu panel if needed
+		if($('#menupanel').css('opacity') != 0) {
+        	$("#menupanel").animate({opacity: 0.0}, 200, function() {
+            	$("#menupanel").css('pointer-events', 'none');
+        	});
+    	} 
+    }
+    
+    //popcorn_branch1_video2.on( "ended", function() {
+    //	$("#videocontenttarget2").animate({opacity: 0.0}, 100, function() {
+    //       	$("#videocontenttarget2").css('pointer-events', 'none');
+    //   	});
+	//});
+    popcornMedia[3].on( "ended", function() {
 		$("#threedcontrols").animate({opacity: 1.0}, 200, function() {
         	$("#threedcontrols").css('pointer-events', 'auto');
     	});
@@ -206,7 +257,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		//effect: "applyclass",
     	//applyclass: "unstrechedcontent"
     //});
-    popcorn_branch1_audio3.cue( 6, function() {
+    popcornMedia[2].cue( 6, function() {
 		//$("#imagecontenttarget").animate({opacity: 0.0}, 100, function() {
         //   	$("#imagecontenttarget").css('pointer-events', 'none');
         //   	$("#videocontenttarget2").animate({opacity: 1.0}, 100, function() {
@@ -229,11 +280,11 @@ document.addEventListener("DOMContentLoaded", function () {
     
     var pausePoint1=false;
     
-    popcorn_branch1_audio2.cue( 8, function() {
+    popcornMedia[1].cue( 8, function() {
 	    //flipTimelinePic("slide2","./images/slide2.png");
 	});
     
-    popcorn_branch1_audio2.cue( 39.2, function() {
+    popcornMedia[1].cue( 39.2, function() {
 
 			
 			//$("#imagecontenttarget").animate({opacity: 0.0}, 100, function() {
@@ -246,7 +297,7 @@ document.addEventListener("DOMContentLoaded", function () {
     		
 	});
     
-    popcorn_branch1_audio2.cue( 40, function() {
+    popcornMedia[1].cue( 40, function() {
 	    //flipTimelinePic("slide4","./images/slide4.png");
 	});
     
@@ -255,7 +306,7 @@ document.addEventListener("DOMContentLoaded", function () {
     //       	$("#videocontenttarget").css('pointer-events', 'none');
     //   	});
     //});	
-    popcorn_branch1_audio2.cue( 62, function() {
+    popcornMedia[1].cue( 62, function() {
        	//$("#videocontenttarget").animate({opacity: 0.0}, 100, function() {
         //   	$("#videocontenttarget").css('pointer-events', 'none');
        	//});
@@ -266,7 +317,7 @@ document.addEventListener("DOMContentLoaded", function () {
     		pausePoint1=true;
     		//kick of audio
     		popcorn_branch1_audio2.pause();
-    		pop.pause();
+    		basepop.pause();
     		$('#playtoggle').attr("class", "play");
 
     		$("#nextbuttonwrapper").animate({opacity: 1.0}, 200, function() {
@@ -276,7 +327,7 @@ document.addEventListener("DOMContentLoaded", function () {
     	}
 	});*/
 
-	//pop.on( "timeupdate", function() {
+	//basepop.on( "timeupdate", function() {
 		//if(this.currentTime() >= 5 && this.currentTime() <= 5.2) {
 			//console.log("kicking up audio");
 			//kick of audio
@@ -323,25 +374,25 @@ document.addEventListener("DOMContentLoaded", function () {
         $('#playtoggle').bind("click", function() {
           if ($(this).attr("class") == "play") {
              $(this).attr("class", "pause");
- 			popcorn_branch1_audio2.play();
- 			pop.play();
+ 			popcornMedia[1].play();
+ 			basepop.play();
           } else {
              $(this).attr("class", "play");
- 			popcorn_branch1_audio2.pause();
- 			pop.pause();
+ 			popcornMedia[1].pause();
+ 			basepop.pause();
           }
         });
         
         $("#slide2").click(function() {
-        	popcorn_branch1_audio2.play(7);
+        	popcornMedia[1].play(7);
         });
         
         $("#slide3").click(function() {
-        	popcorn_branch1_audio2.play(19);
+        	popcornMedia[1].play(19);
         });
         
         $("#slide4").click(function() {
-        	popcorn_branch1_audio2.play(39);
+        	popcornMedia[1].play(39);
         });
         
         
@@ -499,30 +550,28 @@ document.addEventListener("DOMContentLoaded", function () {
 				}); 
 		});
 		
-		
-
 		$( "#nextbutton" )
 			.button()
 			.click(function( event ) {
-				alert('nextbutton');
+				jumpPopcornMedia(popcornSequenceNumber+1);
 		});
 		
 		$( "#introduction" )
 			.button()
 			.click(function( event ) {
-				alert('introduction');
+				jumpPopcornMedia(0);
 		});
 		
 		$( "#navigation" )
 			.button()
 			.click(function( event ) {
-				alert('navigation');
+				jumpPopcornMedia(1);
 		});
 		
 		$( "#trajectory" )
 			.button()
 			.click(function( event ) {
-				alert('trajectory');
+				jumpPopcornMedia(2);
 		});
 		
 		$( "#about" )
@@ -544,12 +593,12 @@ document.addEventListener("DOMContentLoaded", function () {
 		$( "#beginbutton" )
 			.button()
 			.click(function( event ) {
-				pop.play( 0 );
+				basepop.play( 0 );
 				$("#startmenupanel").animate({opacity: 0.0}, 200, function() {
                 	$("#startmenupanel").css('pointer-events', 'none');
-                	$("#videocontenttarget").animate({opacity: 1.0}, 200, function() {
-                    	$("#videocontenttarget").css('pointer-events', 'auto');
-                	});
+                	//$("#videocontenttarget").animate({opacity: 1.0}, 200, function() {
+                    //	$("#videocontenttarget").css('pointer-events', 'auto');
+                	//});
             	});
 				//$("#playbuttonwrapper").animate({opacity: 1.0}, 200, function() {
                 	//$("#playbuttonwrapper").css('pointer-events', 'auto');
