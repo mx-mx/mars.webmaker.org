@@ -194,6 +194,27 @@ div.pathfindervideo1
     margin:-240px 0 0 -335px;
 	z-index: 1;
 }
+.popupdiv
+{
+  position: absolute;
+	opacity: 0.0;
+	pointer-events:none;
+	padding: 15px 15px 15px 15px;
+	background: rgba(13,30,38,.95);
+	color: rgba(200,200,200,1.0);
+	font-family: 'Lato', sans-serif;
+	text-transform: none;
+	line-height: 22px;
+	font-size: 18px;
+    border-radius: 5px;
+    border:none;
+	width: 640px;
+	height: 480px;
+	top:50%;
+    left:50%;
+    margin:-240px 0 0 -335px;
+	z-index: 5;
+}
 .videocontenttarget2
 {
   position: absolute;
@@ -252,7 +273,7 @@ div.pathfindervideo1
 }
 .topbarright{
 	position:relative;
-    display:inline;
+    display:block;
 	line-height: 40px;
 	font-size: 11px;
 	top: 0px;
@@ -417,6 +438,31 @@ div .scrollarea ul li img {
 	color: rgba(58,132,166,0.9);
 	border: 1px solid;
 }
+div .closebutton{
+    display:inline;
+    float:right;
+    top:10px;
+    right:10px;
+	text-align: center;
+	line-height: 15px;
+	font-size: 16px;
+	text-transform: uppercase;
+	font-family: 'Lato', sans-serif;
+	font-weight:bold;
+	background: rgba(58,132,166,0.8);
+	color: rgba(200,200,200,0.8);
+	width: 1em; height: 1em; 
+    -webkit-border-radius: .5em; 
+    -moz-border-radius: .5em;
+    border:none;
+}
+div .closebutton p{
+    margin-top: 0em;
+    margin-left: .15em;
+}
+div .closebutton:hover{
+	background: rgba(132,58,58,0.8);
+}
 div .menubutton{
     display:inline;
     float:right;
@@ -435,6 +481,26 @@ div .menubutton{
     border:none;
 }
 div .menubutton:hover{
+	background: rgba(135,153,72,0.8);
+}
+div .badgebutton{
+    display:inline;
+    float:right;
+    top:10px;
+    right:10px;
+	text-align: center;
+	line-height: 20px;
+	font-size: 16px;
+	margin:0px 0px;
+	text-transform: uppercase;
+	font-family: 'Lato', sans-serif;
+	font-weight:bold;
+	background: rgba(135,153,72,1.0);
+	color: rgba(200,200,200,1.0);
+    border-radius: 5px;
+    border:none;
+}
+div .badgebutton:hover{
 	background: rgba(135,153,72,0.8);
 }
 .headerpanel{

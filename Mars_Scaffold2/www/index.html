@@ -21,6 +21,8 @@
 
 <script src="js/popcorn-complete.js"></script>	
 <script src="js/popcorn.sequencer.js"></script>	
+<script src="http://beta.openbadges.org/issuer.js"></script>
+<script type="text/javascript" src="https://login.persona.org/include.js"></script>
 <!-- <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script> -->
 <script src="js/libs/jquery-1.9.1.min.js"></script>
@@ -66,12 +68,32 @@
 <script src="./js/trajectory.js"></script>
 
 <script src="./js/addlensflare.js"></script>
- 
-<script>
+
+
+<script type="text/javascript">
 
 // ensure the web page (DOM) has loaded
 document.addEventListener("DOMContentLoaded", function () {
-	console.log("DOMContentLoaded");
+		//begin login handler
+
+		  function launchBrowserId(callback) {
+			  console.log('launchBrowserId');
+		    return function() { navigator.id.get(callback, {
+		      siteName: 'Open Badge Backpack',
+		      termsOfService: '/tou.html',
+		      privacyPolicy: '/privacy.html',
+		      returnTo: '/'
+		    }); }
+		  }
+		  function handleResponse(assertion) {
+			  console.log('handleResponse');
+		    if (!assertion) return false;
+		    $('.js-browserid-input').val(assertion);
+		    $('.js-browserid-form').trigger('submit');
+		  }
+		  //$('.js-browserid-link').bind('click', launchBrowserId(handleResponse));
+
+
 	//https://www.youtube.com/watch?v=P4boyXQuUIw - the MSL path
 	//http://www.youtube.com/watch?v=jEXoMpmfJcM - the MSL launch - a better version
 	//https://www.youtube.com/watch?v=lKqr3F73bAI - MSL trajectory
@@ -99,16 +121,31 @@ document.addEventListener("DOMContentLoaded", function () {
 	var popcorn_branch1_audio4 = Popcorn('#popcorn_branch1_audio4' );
 	 
 
+	pop.cue( 1, function() {
+
+        init(); //init the 3D background.
+        animate();
+
+        gui.destroy();
+	});
 	
-	pop.cue( .1, function() {
+	pop.cue( 2, function() {
 		popcorn_branch1_video1.play();
+
+		$("#nextbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+        	$("#nextbuttonwrapper").css('pointer-events', 'auto');
+    	});
+
+    	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
+           	$("#backgroundtarget").css('pointer-events', 'none');
+       	});
 	});
 	
 	popcorn_branch1_video1.footnote({
 	    start: .1,
 	    end: 22,
 	    target: "headerpanel",
-	    text: "Mary Beth Vilhelm"
+	    text: "Introduction"
 	});
 	popcorn_branch1_video1.footnote({
 	    start: 22,
@@ -126,13 +163,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		//document.getElementById( "footnotediv1" ).innerHTML = this.currentTime();
 	//});
 	popcorn_branch1_video1.on( "ended", function() {
-		$("#videocontenttarget").animate({opacity: 0.0}, 100, function() {
-        	$("#videocontenttarget").css('pointer-events', 'none');
-        	$("#imagecontenttarget").animate({opacity: 1.0}, 100, function() {
-            	$("#imagecontenttarget").css('pointer-events', 'auto');
-        	});
-    	});
-		
+    	$("#videocontenttarget").animate({opacity: 0.0}, 100, function() {
+           	$("#videocontenttarget").css('pointer-events', 'none');
+       	});
 		popcorn_branch1_audio2.play();
 	});
     popcorn_branch1_audio2.on( "ended", function() {
@@ -148,43 +181,40 @@ document.addEventListener("DOMContentLoaded", function () {
        	});
 	});
     popcorn_branch1_audio4.on( "ended", function() {
-        init(); //init the 3D background.
-        animate();
-
-        gui.destroy();
-    	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
-           	$("#backgroundtarget").css('pointer-events', 'none');
-       	});
+		$("#threedcontrols").animate({opacity: 1.0}, 200, function() {
+        	$("#threedcontrols").css('pointer-events', 'auto');
+    	});
 	});
 	
 	// Add popcorn events here and other functionality
-    popcorn_branch1_audio2.image({
-    	start: 0.1, // Our start time in seconds
-    	end: 14, // Our end time in seconds
-    	src: "./images/planetorder.jpg", 
-    	text: "", 
-    	target: "imagecontenttarget", 
-		effect: "applyclass",
-    	applyclass: "stretchcontent"
-    });
+    //popcorn_branch1_audio2.image({
+    	//start: 0.1, // Our start time in seconds
+    	//end: 14, // Our end time in seconds
+    	//src: "./images/planetorder.jpg", 
+    	//text: "", 
+    	//target: "imagecontenttarget", 
+		//effect: "applyclass",
+    	//applyclass: "stretchcontent"
+    //});
 	
-    popcorn_branch1_audio3.image({
-    	start: 0.1, // Our start time in seconds
-    	end: 6, // Our end time in seconds
-    	src: "./images/curiosity_2d3d.png", 
-    	text: "", 
-    	target: "imagecontenttarget", 
-		effect: "applyclass",
-    	applyclass: "unstrechedcontent"
-    });
+    //popcorn_branch1_audio3.image({
+    	//start: 0.1, // Our start time in seconds
+    	//end: 6, // Our end time in seconds
+    	//src: "./images/curiosity_2d3d.png", 
+    	//text: "", 
+    	//target: "imagecontenttarget", 
+		//effect: "applyclass",
+    	//applyclass: "unstrechedcontent"
+    //});
     popcorn_branch1_audio3.cue( 6, function() {
-		$("#imagecontenttarget").animate({opacity: 0.0}, 100, function() {
-           	$("#imagecontenttarget").css('pointer-events', 'none');
-           	$("#videocontenttarget2").animate({opacity: 1.0}, 100, function() {
-               	$("#videocontenttarget2").css('pointer-events', 'auto');
-               	popcorn_branch1_video2.play();
-           	});
-       	});
+		//$("#imagecontenttarget").animate({opacity: 0.0}, 100, function() {
+        //   	$("#imagecontenttarget").css('pointer-events', 'none');
+        //   	$("#videocontenttarget2").animate({opacity: 1.0}, 100, function() {
+        //       	$("#videocontenttarget2").css('pointer-events', 'auto');
+        //       	popcorn_branch1_video2.play();
+        //   	});
+       	//});
+       	camTweener( { x: 0, y: 700, z: 0 }, { x: 0, y: 0, z: 0 }, 3000 );
     		
 	});
 
@@ -198,29 +228,22 @@ document.addEventListener("DOMContentLoaded", function () {
 	*/
     
     var pausePoint1=false;
-    var isModel1Showing=false;
     
     popcorn_branch1_audio2.cue( 8, function() {
 	    //flipTimelinePic("slide2","./images/slide2.png");
 	});
     
     popcorn_branch1_audio2.cue( 39.2, function() {
-    	if(!isModel1Showing) {
-    		isModel1Showing=true;
 
-			$("#threedcontrols").animate({opacity: 1.0}, 200, function() {
-            	$("#threedcontrols").css('pointer-events', 'auto');
-        	});
 			
-			$("#imagecontenttarget").animate({opacity: 0.0}, 100, function() {
-            	$("#imagecontenttarget").css('pointer-events', 'none');
-            	$("#videocontenttarget2").animate({opacity: 1.0}, 100, function() {
-                	$("#videocontenttarget2").css('pointer-events', 'auto');
-                	popcorn_branch1_video2.play();
-            	});
-        	});
+			//$("#imagecontenttarget").animate({opacity: 0.0}, 100, function() {
+            //	$("#imagecontenttarget").css('pointer-events', 'none');
+            //	$("#videocontenttarget2").animate({opacity: 1.0}, 100, function() {
+            //    	$("#videocontenttarget2").css('pointer-events', 'auto');
+            //    	popcorn_branch1_video2.play();
+            //	});
+        	//});
     		
-    	}
 	});
     
     popcorn_branch1_audio2.cue( 40, function() {
@@ -233,9 +256,9 @@ document.addEventListener("DOMContentLoaded", function () {
     //   	});
     //});	
     popcorn_branch1_audio2.cue( 62, function() {
-       	$("#videocontenttarget").animate({opacity: 0.0}, 100, function() {
-           	$("#videocontenttarget").css('pointer-events', 'none');
-       	});
+       	//$("#videocontenttarget").animate({opacity: 0.0}, 100, function() {
+        //   	$("#videocontenttarget").css('pointer-events', 'none');
+       	//});
 	});
     /*
     popcorn_branch1_audio2.cue( 66, function() {
@@ -267,6 +290,31 @@ document.addEventListener("DOMContentLoaded", function () {
         if (pic1 == typeof('undefined')) return;
         pic1.src = imgName;
     }
+    
+    var aboutpopupclose = document.getElementById('aboutpopupclose');
+    aboutpopupclose.style.cursor = 'pointer';
+    aboutpopupclose.onclick = function() {
+    	$("#aboutpopup").animate({opacity: 0.0}, 200, function() {
+        	$("#aboutpopup").css('pointer-events', 'none');
+        });
+    };
+    
+    var helppopupclose = document.getElementById('helppopupclose');
+    helppopupclose.style.cursor = 'pointer';
+    helppopupclose.onclick = function() {
+    	$("#helppopup").animate({opacity: 0.0}, 200, function() {
+        	$("#helppopup").css('pointer-events', 'none');
+        });
+    };
+    
+    var browserpopupclose = document.getElementById('browserpopupclose');
+    browserpopupclose.style.cursor = 'pointer';
+    browserpopupclose.onclick = function() {
+    	$("#browserpopup").animate({opacity: 0.0}, 200, function() {
+        	$("#browserpopup").css('pointer-events', 'none');
+        });
+    };
+    
    
     $(document).ready(function() {
 
@@ -277,12 +325,6 @@ document.addEventListener("DOMContentLoaded", function () {
              $(this).attr("class", "pause");
  			popcorn_branch1_audio2.play();
  			pop.play();
- 			//unpause
- 			if(pausePoint1) {
- 				console.log('attempting to remove container.');
- 				//container.removeChild(renderer.domElement);
- 				isModel1Showing=false;
- 			}
           } else {
              $(this).attr("class", "play");
  			popcorn_branch1_audio2.pause();
@@ -446,6 +488,18 @@ document.addEventListener("DOMContentLoaded", function () {
 	            	});
 	        	}
 		});
+		
+
+		$( "#badgebutton" )
+			.button()
+			.click(function( event ) {
+				//launchBrowserId(handleResponse);
+				OpenBadges.issue([url1, url2], function(errors, successes) { 
+					//do something 
+				}); 
+		});
+		
+		
 
 		$( "#nextbutton" )
 			.button()
@@ -474,13 +528,17 @@ document.addEventListener("DOMContentLoaded", function () {
 		$( "#about" )
 			.button()
 			.click(function( event ) {
-				alert('about');
+				$("#aboutpopup").animate({opacity: 1.0}, 200, function() {
+                	$("#aboutpopup").css('pointer-events', 'auto');
+            	});
 		});
 		
 		$( "#help" )
 			.button()
 			.click(function( event ) {
-				alert('help');
+				$("#helppopup").animate({opacity: 1.0}, 200, function() {
+                	$("#helppopup").css('pointer-events', 'auto');
+            	});
 		});
 		
 		$( "#beginbutton" )
@@ -533,8 +591,6 @@ document.addEventListener("DOMContentLoaded", function () {
 }, false);
 
 </script>
-
-
 	</head>
 	<body>
 		
@@ -564,6 +620,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			</div>
 			<div id="topbarmiddle" class="topbarmiddle">
 			
+				<button id="badgebutton" class="badgebutton">Simple Badge</button>
 			</div>
 			
 			<div id="topbarright" class="topbarright">
@@ -592,8 +649,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		
 		<div id="videocontenttarget" class="videocontenttarget">
 			<video height="100%" width="100%" id="video">
-         		<source src="video/SEQ1_OCVO_GoodQ.mp4">
-         		<source src="video/SEQ1_OCVO_GoodQ.webmhd.webm">
+         		<source src="http://voiceovervinnie.com/popcorn/marsScaffold2/video/SEQ1_OCVO_GoodQ.mp4">
+         		<source src="http://voiceovervinnie.com/popcorn/marsScaffold2/SEQ1_OCVO_GoodQ.webmhd.webm">
        		</video>
 		</div>
 		
@@ -637,24 +694,43 @@ document.addEventListener("DOMContentLoaded", function () {
 		<div id="loadtext"></div>
 		
 		<audio id="popcorn_branch1_audio2" class="popcorn_branch1_audio2">
-			<source src="audio/SEQ2_VO.mp3">
-			<source src="audio/SEQ2_VO.oggvorbis.ogg">
+			<source src="http://voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ2_VO.mp3">
+			<source src="http://voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ2_VO.oggvorbis.ogg">
 			Your browser does not support the audio element.  Upgrade the browser.
 		</audio> 
 		
 		<audio id="popcorn_branch1_audio3" class="popcorn_branch1_audio3">
-			<source src="audio/SEQ3_VOpt2.mp3">
+			<source src="http://voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt2.mp3">
 			<source src="audio/SEQ3_VOpt2.oggvorbis.ogg">
 			Your browser does not support the audio element.  Upgrade the browser.
 		</audio> 
 		
 		<audio id="popcorn_branch1_audio4" class="popcorn_branch1_audio4">
-			<source src="audio/SEQ3_VOpt3.mp3">
-			<source src="audio/SEQ3_VOpt3.oggvorbis.ogg">
+			<source src="http://voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt3.mp3">
+			<source src="http://voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt3.oggvorbis.ogg">
 			Your browser does not support the audio element.  Upgrade the browser.
 		</audio> 
 		
+		<form class="signin js-browserid-form" method="POST" action="/backpack/authenticate">
+  			<input class="js-browserid-input" name="assertion" type="hidden"></input>
+  			<input name="_csrf" type="hidden" value="SRvhEkj8KMe5XLCyyVEM6nAw"></input>
+		</form>
 		
+		<div id="aboutpopup" class="popupdiv">
+			<div id="aboutpopupclose" class="closebutton"><p>&#10006;</p></div>
+			<h1>About</h1>
+			<p>The about page</p>
+		</div>
+		<div id="helppopup" class="popupdiv">
+			<div id="helppopupclose" class="closebutton"><p>&#10006;</p></div>
+			<h1>Help</h1>
+			<p>The help page</p>
+		</div>
+		<div id="browserpopup" class="popupdiv">
+			<div id="browserpopupclose" class="closebutton"><p>&#10006;</p></div>
+			<h1>Browser</h1>
+			<p>The browser page</p>
+		</div>
 		
 	</body>
 </html>
