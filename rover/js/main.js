@@ -166,13 +166,22 @@ function buildGUI(){
 
 	var gui = new dat.GUI();
 
-	gui.add( rover.dt.L.steering[0].rotation, 'y', ( -45 * Math.PI / 180 ), 0 )
-		.name('Front Steering')
-		.onChange( function(){
-			rover.dt.L.steering[1].rotation.y = -rover.dt.L.steering[0].rotation.y;
-			rover.dt.R.steering[0].rotation.y = -rover.dt.L.steering[0].rotation.y;
-			rover.dt.R.steering[1].rotation.y = -rover.dt.R.steering[0].rotation.y
-	});
+	// gui.add( rover.dt.L.steering[0].rotation, 'y', ( -45 * Math.PI / 180 ), 0 )
+	// 	.name('Front Steering')
+	// 	.onChange( function(){
+	// 		rover.dt.L.steering[1].rotation.y = -rover.dt.L.steering[0].rotation.y;
+	// 		rover.dt.R.steering[0].rotation.y = -rover.dt.L.steering[0].rotation.y;
+	// 		rover.dt.R.steering[1].rotation.y = -rover.dt.R.steering[0].rotation.y
+	// });
+
+	gui.add( rover.arm.rotation, 'y', ( -90 * Math.PI / 180 ), 0 )
+		.name('Arm');
+	gui.add( rover.arm.shoulder.rotation, 'x', ( -90 * Math.PI / 180 ), ( 90 * Math.PI / 180 ) )
+		.name('Arm.Shoulder');
+	gui.add( rover.arm.elbow.rotation, 'x', ( -90 * Math.PI / 180 ), ( 90 * Math.PI / 180 ) )
+		.name('Arm.Elbow');
+	gui.add( rover.arm.wrist.rotation, 'x', ( -90 * Math.PI / 180 ), ( 90 * Math.PI / 180 ) )
+		.name('Arm.Wrist');
 
 	var camFolder = gui.addFolder( 'Camera Positions' );
 	camFolder.open();
