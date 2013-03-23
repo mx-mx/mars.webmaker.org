@@ -486,6 +486,7 @@ div .menubutton:hover{
 div .badgebutton{
     display:inline;
     float:right;
+    opacity: 0.0;
     top:10px;
     right:10px;
 	text-align: center;
@@ -651,18 +652,45 @@ div .nextbutton{
 div .nextbutton:hover{
 	background: rgba(135,153,72,0.8);
 }
-div .playbuttonwrapper { 
+div .nextbuttonwrapper { 
+	z-index: 3;
+	position:absolute; 
+	width:50%; 
+	right:10px;
+	bottom:10px;
+}
+div .threedhelpbutton{
+    display: absolute;
+    float: left;
+    bottom: 0px;
+    left: 10px;
+	text-align: center;
+	line-height: 20px;
+	font-size: 16px;
+	margin: 0px 0px;
+	text-transform: uppercase;
+	font-family: 'Lato', sans-serif;
+	font-weight: bold;
+	background: rgba(135,153,72,1.0);
+	color: rgba(200,200,200,1.0);
+    border-radius: 5px;
+    border: none;
+}
+div .threedhelpbutton:hover{
+	background: rgba(135,153,72,0.8);
+}
+div .helpbuttonwrapper { 
 	z-index: 3;
 	position:absolute; 
 	width:50%; 
 	left:10px;
 	bottom:10px;
 }
-div .nextbuttonwrapper { 
+div .playbuttonwrapper { 
 	z-index: 3;
 	position:absolute; 
 	width:50%; 
-	right:10px;
+	left:10px;
 	bottom:10px;
 }
 div .squarebluebutton{

@@ -116,30 +116,27 @@ document.addEventListener("DOMContentLoaded", function () {
 	var popcornMedia = new Array();
 	var popcornSequenceNumber = 0;
 	popcornMedia[0] = Popcorn( '#video' );
-	popcornMedia[1] = Popcorn('#popcorn_branch1_audio2' );
-	popcornMedia[2] = Popcorn('#popcorn_branch1_audio3' );
-	popcornMedia[3] = Popcorn( '#popcorn_branch1_audio4' );
+	popcornMedia[1] = Popcorn('#SEQ2_VO' );
+	popcornMedia[2] = Popcorn('#SEQ3_VOpt1' );
+	popcornMedia[3] = Popcorn('#SEQ3_VOpt2' );
+	popcornMedia[4] = Popcorn( '#SEQ3_VOpt3' );
+	popcornMedia[5] = Popcorn( '#SEQ_3_CAM_1a' );
+	popcornMedia[6] = Popcorn( '#SEQ_3_CAM_1b' );
+	popcornMedia[7] = Popcorn( '#SEQ_3_CAM_1c' );
 
 	var basepop = Popcorn.baseplayer( "#contenttarget" ); //not sure if I'll need this baseplayer
-	//var popcorn_branch1_video1 = Popcorn( "#video" );
 	//var popcorn_branch1_video2 = Popcorn.youtube('#videocontenttarget2', 'https://www.youtube.com/watch?v=lKqr3F73bAI' );
-	//var popcorn_branch1_audio2 = Popcorn('#popcorn_branch1_audio2' );
-	//var popcorn_branch1_audio3 = Popcorn('#popcorn_branch1_audio3' );
-	//var popcorn_branch1_audio4 = Popcorn('#popcorn_branch1_audio4' );
 	 
 
 	basepop.cue( 1, function() {
-
         init(); //init the 3D background.
         animate();
 
-        gui.destroy();
+        gui.destroy();  //remove the test GUI (used by Ryan)
 	});
 	
 	basepop.cue( 2, function() {
-		//popcorn_branch1_video1.play();
 		popcornMedia[popcornSequenceNumber].play();
-
 	});
 	
 	popcornMedia[0].footnote({
@@ -187,16 +184,74 @@ document.addEventListener("DOMContentLoaded", function () {
     popcornMedia[2].on( "ended", function() {
     	advancepopcornMedia();
 	});
+    popcornMedia[3].on( "ended", function() {
+    	advancepopcornMedia();
+	});
+    popcornMedia[4].on( "ended", function() {
+		$("#threedcontrols").animate({opacity: 1.0}, 200, function() {
+        	$("#threedcontrols").css('pointer-events', 'auto');
+    	});
+
+		$("#helpbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+        	$("#helpbuttonwrapper").css('pointer-events', 'auto');
+    	});
+		
+		camTweener( { x: 0, y: 100, z: 500 }, { x: 0, y: 0, z: 0 }, 1500 );
+		setTimeout(function(){advancepopcornMedia()},3000);
+	});
+
+    var cancelCallToAction=false;
+    var listenToMouseMovements=false;
+    var userLessonNumber=0;
+    var userMovement=[false,false,false,false];
+
+    popcornMedia[5].on( "ended", function() {
+        listenToMouseMovements=true;
+        userMovement[userLessonNumber]=true;
+        cancelCallToAction=false;
+		setTimeout(function(){callToActionUser()},10000);
+	});
+    
+    $(document).on('mouseup', function(e) {
+        if(!listenToMouseMovements) return;
+        //console.log("got me a mouseup: " + userMovement[userLessonNumber]);
+        if(userMovement[userLessonNumber]) {
+        	listenToMouseMovements=false; //we're done with this lesson listening so don't listen anymore
+        	congradulateUser();
+        }
+    });
+    $(document).on('mousedown', function(e) {
+    	if(!listenToMouseMovements) return;
+    	cancelCallToAction=true;
+    });
+    
+    var congradulateUser = function () {
+		if(userLessonNumber==0) {
+			jumpPopcornMedia(7);
+		}
+		listenToMouseMovements=false;
+		cancelCallToAction=false;
+    	userLessonNumber++; //update to next lesson
+    }
+    
+    var callToActionUser = function () {
+    	if(cancelCallToAction) return;
+		if(userLessonNumber==0) {
+			jumpPopcornMedia(6);
+		}
+    }
     
     var advancepopcornMedia = function () {
 		popcornSequenceNumber++;
-		popcornMedia[popcornSequenceNumber].play();
+    	if(popcornSequenceNumber<popcornMedia.length) {
+    		popcornMedia[popcornSequenceNumber].play();
+    	}
     }
     
     //a way to skip around (needed for Next button and Menu buttons)
     var jumpPopcornMedia = function (sequenceNum) {
+		if(popcornSequenceNumber>=popcornMedia.length)return;
 		popcornSequenceNumber=sequenceNum;
-		
 		//clear div targets
     	$("#videocontenttarget").animate({opacity: 0.0}, 1, function() {
            	$("#videocontenttarget").css('pointer-events', 'none');
@@ -225,20 +280,9 @@ document.addEventListener("DOMContentLoaded", function () {
         	});
     	} 
     }
-    
-    //popcorn_branch1_video2.on( "ended", function() {
-    //	$("#videocontenttarget2").animate({opacity: 0.0}, 100, function() {
-    //       	$("#videocontenttarget2").css('pointer-events', 'none');
-    //   	});
-	//});
-    popcornMedia[3].on( "ended", function() {
-		$("#threedcontrols").animate({opacity: 1.0}, 200, function() {
-        	$("#threedcontrols").css('pointer-events', 'auto');
-    	});
-	});
 	
 	// Add popcorn events here and other functionality
-    //popcorn_branch1_audio2.image({
+    //SEQ2_VO.image({
     	//start: 0.1, // Our start time in seconds
     	//end: 14, // Our end time in seconds
     	//src: "./images/planetorder.jpg", 
@@ -248,93 +292,15 @@ document.addEventListener("DOMContentLoaded", function () {
     	//applyclass: "stretchcontent"
     //});
 	
-    //popcorn_branch1_audio3.image({
-    	//start: 0.1, // Our start time in seconds
-    	//end: 6, // Our end time in seconds
-    	//src: "./images/curiosity_2d3d.png", 
-    	//text: "", 
-    	//target: "imagecontenttarget", 
-		//effect: "applyclass",
-    	//applyclass: "unstrechedcontent"
-    //});
     popcornMedia[2].cue( 6, function() {
-		//$("#imagecontenttarget").animate({opacity: 0.0}, 100, function() {
-        //   	$("#imagecontenttarget").css('pointer-events', 'none');
-        //   	$("#videocontenttarget2").animate({opacity: 1.0}, 100, function() {
-        //       	$("#videocontenttarget2").css('pointer-events', 'auto');
-        //       	popcorn_branch1_video2.play();
-        //   	});
-       	//});
        	camTweener( { x: 0, y: 700, z: 0 }, { x: 0, y: 0, z: 0 }, 3000 );
-    		
 	});
-
-	/*
-	$("#videocontenttarget").animate({opacity: 0.0}, 100, function() {
-    	$("#videocontenttarget").css('pointer-events', 'none');
-    	$("#imagecontenttarget").animate({opacity: 1.0}, 100, function() {
-        	$("#imagecontenttarget").css('pointer-events', 'auto');
-    	});
+    popcornMedia[4].cue( 6, function() {
+       	//camTweener( { x: 0, y: 100, z: 500 }, { x: 0, y: 0, z: 0 }, 1500 );
 	});
-	*/
     
     var pausePoint1=false;
-    
-    popcornMedia[1].cue( 8, function() {
-	    //flipTimelinePic("slide2","./images/slide2.png");
-	});
-    
-    popcornMedia[1].cue( 39.2, function() {
 
-			
-			//$("#imagecontenttarget").animate({opacity: 0.0}, 100, function() {
-            //	$("#imagecontenttarget").css('pointer-events', 'none');
-            //	$("#videocontenttarget2").animate({opacity: 1.0}, 100, function() {
-            //    	$("#videocontenttarget2").css('pointer-events', 'auto');
-            //    	popcorn_branch1_video2.play();
-            //	});
-        	//});
-    		
-	});
-    
-    popcornMedia[1].cue( 40, function() {
-	    //flipTimelinePic("slide4","./images/slide4.png");
-	});
-    
-    //popvideo.on( "ended", function() {
-    //	$("#videocontenttarget").animate({opacity: 0.0}, 100, function() {
-    //       	$("#videocontenttarget").css('pointer-events', 'none');
-    //   	});
-    //});	
-    popcornMedia[1].cue( 62, function() {
-       	//$("#videocontenttarget").animate({opacity: 0.0}, 100, function() {
-        //   	$("#videocontenttarget").css('pointer-events', 'none');
-       	//});
-	});
-    /*
-    popcorn_branch1_audio2.cue( 66, function() {
-    	if(!pausePoint1) {
-    		pausePoint1=true;
-    		//kick of audio
-    		popcorn_branch1_audio2.pause();
-    		basepop.pause();
-    		$('#playtoggle').attr("class", "play");
-
-    		$("#nextbuttonwrapper").animate({opacity: 1.0}, 200, function() {
-            	$("#nextbuttonwrapper").css('pointer-events', 'auto');
-        	});
-    		
-    	}
-	});*/
-
-	//basepop.on( "timeupdate", function() {
-		//if(this.currentTime() >= 5 && this.currentTime() <= 5.2) {
-			//console.log("kicking up audio");
-			//kick of audio
-			//popcorn_branch1_audio2.play();
-		//}
-	//});
-    
     function flipTimelinePic(picID,imgName)
     {
         var pic1 = document.getElementById(picID); 
@@ -358,6 +324,14 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     };
     
+    var helpthreedpopupclose = document.getElementById('helpthreedclose');
+    helpthreedclose.style.cursor = 'pointer';
+    helpthreedclose.onclick = function() {
+    	$("#helpthreedpopup").animate({opacity: 0.0}, 200, function() {
+        	$("#helpthreedpopup").css('pointer-events', 'none');
+        });
+    };
+    
     var browserpopupclose = document.getElementById('browserpopupclose');
     browserpopupclose.style.cursor = 'pointer';
     browserpopupclose.onclick = function() {
@@ -368,8 +342,6 @@ document.addEventListener("DOMContentLoaded", function () {
     
    
     $(document).ready(function() {
-
-    	
     	
         $('#playtoggle').bind("click", function() {
           if ($(this).attr("class") == "play") {
@@ -556,6 +528,14 @@ document.addEventListener("DOMContentLoaded", function () {
 				jumpPopcornMedia(popcornSequenceNumber+1);
 		});
 		
+		$( "#threedhelpbutton" )
+			.button()
+			.click(function( event ) {
+				$("#helpthreedpopup").animate({opacity: 1.0}, 200, function() {
+                	$("#helpthreedpopup").css('pointer-events', 'auto');
+            	});
+		});
+		
 		$( "#introduction" )
 			.button()
 			.click(function( event ) {
@@ -630,11 +610,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	var postShadersLoaded = function () {
 		console.log("postShadersLoaded");
-	        //init();
-	        //animate();
 			$("#loadtext").hide();
-			//setTimeout( function(){camTweener( { x: -500, y: 250, z: -1000 }, { x: 0, y: 0, z: 0 }, 3000)}, 3000 );
-			//setTimeout( function(){camTweener( { x: 0, y: 12000, z: 500 }, { x: 0, y: 0, z: 0 }, 5000 )}, 10000 );
     };
       
 }, false);
@@ -668,7 +644,6 @@ document.addEventListener("DOMContentLoaded", function () {
 				<div id="headerpanel" class="headerpanel"></div>
 			</div>
 			<div id="topbarmiddle" class="topbarmiddle">
-			
 				<button id="badgebutton" class="badgebutton">Simple Badge</button>
 			</div>
 			
@@ -698,8 +673,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		
 		<div id="videocontenttarget" class="videocontenttarget">
 			<video height="100%" width="100%" id="video">
-         		<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/video/SEQ1_OCVO_GoodQ.mp4">
-         		<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/video/SEQ1_OCVO_GoodQ.webmhd.webm">
+         		<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/video/SEQ1_OCVO_v04.mp4">
+         		<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/video/SEQ1_OCVO_v04.webmhd.webm">
        		</video>
 		</div>
 		
@@ -708,7 +683,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		
 		<div id="bottombar" class="bottombar">
 			<div id="bottombarleft" class="bottombarleft">
-			
+				<div id="helpbuttonwrapper" class="helpbuttonwrapper" style="opacity: 0.0;pointer-events:none">
+					<button id="threedhelpbutton" class="threedhelpbutton">HELP</button>
+				</div>
 			</div>
 			<div id="bottombarmiddle" class="bottombarmiddle">
 				<div id="threedcontrols" class="threedcontrols">
@@ -742,24 +719,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		</div>
 		<div id="loadtext"></div>
 		
-		<audio id="popcorn_branch1_audio2" class="popcorn_branch1_audio2">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ2_VO.mp3">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ2_VO.oggvorbis.ogg">
-			Your browser does not support the audio element.  Upgrade the browser.
-		</audio> 
-		
-		<audio id="popcorn_branch1_audio3" class="popcorn_branch1_audio3">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt2.mp3">
-			<source src="audio/SEQ3_VOpt2.oggvorbis.ogg">
-			Your browser does not support the audio element.  Upgrade the browser.
-		</audio> 
-		
-		<audio id="popcorn_branch1_audio4" class="popcorn_branch1_audio4">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt3.mp3">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt3.oggvorbis.ogg">
-			Your browser does not support the audio element.  Upgrade the browser.
-		</audio> 
-		
+		<!-- backpack stuff... in progress -->
 		<form class="signin js-browserid-form" method="POST" action="/backpack/authenticate">
   			<input class="js-browserid-input" name="assertion" type="hidden"></input>
   			<input name="_csrf" type="hidden" value="SRvhEkj8KMe5XLCyyVEM6nAw"></input>
@@ -775,11 +735,58 @@ document.addEventListener("DOMContentLoaded", function () {
 			<h1>Help</h1>
 			<p>The help page</p>
 		</div>
+		<div id="helpthreedpopup" class="popupdiv">
+			<div id="helpthreedclose" class="closebutton"><p>&#10006;</p></div>
+			<h1>Help</h1>
+			<p>The 3D help page</p>
+		</div>
 		<div id="browserpopup" class="popupdiv">
 			<div id="browserpopupclose" class="closebutton"><p>&#10006;</p></div>
 			<h1>Browser</h1>
 			<p>The browser page</p>
 		</div>
 		
+		
+		<audio id="SEQ2_VO">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ2_VO.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ2_VO.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+		
+		<audio id="SEQ3_VOpt1">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt1.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt1.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio>
+		
+		<audio id="SEQ3_VOpt2">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt2.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt2.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+		
+		<audio id="SEQ3_VOpt3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt3.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt3.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+		
+		<audio id=SEQ_3_CAM_1a>
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1a.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1a.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+		
+		<audio id="SEQ_3_CAM_1b">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1b.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1b.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+		
+		<audio id="SEQ_3_CAM_1c">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1c.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1c.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
 	</body>
 </html>
