@@ -20,6 +20,7 @@ var dae,
 var loader = new THREE.ColladaLoader();
 
 var time = 0;
+var toRadians = Math.PI/180;
 
 var clock = new THREE.Clock();
 var delta = clock.getDelta();
@@ -166,7 +167,7 @@ function buildGUI(){
 
 	var gui = new dat.GUI();
 
-	// gui.add( rover.dt.L.steering[0].rotation, 'y', ( -45 * Math.PI / 180 ), 0 )
+	// gui.add( rover.dt.L.steering[0].rotation, 'y', ( -45 * toRadians ), 0 )
 	// 	.name('Front Steering')
 	// 	.onChange( function(){
 	// 		rover.dt.L.steering[1].rotation.y = -rover.dt.L.steering[0].rotation.y;
@@ -174,14 +175,29 @@ function buildGUI(){
 	// 		rover.dt.R.steering[1].rotation.y = -rover.dt.R.steering[0].rotation.y
 	// });
 
-	gui.add( rover.arm.rotation, 'y', ( -90 * Math.PI / 180 ), 0 )
+	var armFolder = gui.addFolder( 'Arm Controls' );
+	armFolder.open();
+
+	armFolder.add( rover.arm.rotation, 'y', ( -90 * toRadians ), 0 )
 		.name('Arm');
-	gui.add( rover.arm.shoulder.rotation, 'x', ( -90 * Math.PI / 180 ), ( 90 * Math.PI / 180 ) )
+	armFolder.add( rover.arm.shoulder.rotation, 'x', ( -90 * toRadians ), ( 90 * toRadians ) )
 		.name('Arm.Shoulder');
-	gui.add( rover.arm.elbow.rotation, 'x', ( -90 * Math.PI / 180 ), ( 90 * Math.PI / 180 ) )
+	armFolder.add( rover.arm.elbow.rotation, 'x', ( -90 * toRadians ), ( 90 * toRadians ) )
 		.name('Arm.Elbow');
-	gui.add( rover.arm.wrist.rotation, 'x', ( -90 * Math.PI / 180 ), ( 90 * Math.PI / 180 ) )
+	armFolder.add( rover.arm.wrist.rotation, 'x', ( -90 * toRadians ), ( 90 * toRadians ) )
 		.name('Arm.Wrist');
+	armFolder.add( rover.arm.hand.rotation, 'y', ( -90 * toRadians ), ( 90 * toRadians ) )
+		.name('Arm.Hand');
+
+	var mastFolder = gui.addFolder( 'Mast Controls' );
+	mastFolder.open();
+
+	mastFolder.add( rover.mast.rotation, 'z', ( -90 * toRadians ), 0 )
+		.name('Mast');
+	mastFolder.add( rover.mast.neck.rotation, 'y', ( -90 * toRadians ), ( 90 * toRadians ) )
+		.name('Mast.Neck');
+	mastFolder.add( rover.mast.head.rotation, 'x', ( -90 * toRadians ), ( 90 * toRadians ) )
+		.name('Mast.Head');
 
 	var camFolder = gui.addFolder( 'Camera Positions' );
 	camFolder.open();
@@ -235,7 +251,7 @@ function animate() {
 	stats.update();
 	TWEEN.update();
 
-	rover.updateCarModel( delta, controlsRover );
+	rover.updateCarModel( clock, controlsRover );
 
 	// dt.L.steering[0].rotation.setY( Math.sin( -time * 2 * Math.PI ) * .5 );
 	// dt.L.steering[1].rotation.setY( Math.sin( time * 2 * Math.PI ) * .5 );

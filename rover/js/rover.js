@@ -6,17 +6,17 @@ var Rover = function ( dae ) {
 	// car "feel" parameters
 
 	this.MAX_SPEED = 5;
-	this.MAX_ROTATION_SPEED = 2;
+	this.MAX_ROTATION_SPEED = 1;
 
 	this.FRONT_ACCELERATION = 4000;
 	this.BACK_ACCELERATION = 4000;
-	this.LEFT_ACCELERATION = 3000;
-	this.RIGHT_ACCELERATION = 3000;
+	this.LEFT_ACCELERATION = 1000;
+	this.RIGHT_ACCELERATION = 1000;
 
 	this.FRONT_DECCELERATION = 5000;
 	this.BACK_DECCELERATION = 5000;
-	this.LEFT_DECCELERATION = 3000;
-	this.RIGHT_DECCELERATION = 3000;
+	this.LEFT_DECCELERATION = 1000;
+	this.RIGHT_DECCELERATION = 1000;
 
 	// internal control variables
 
@@ -31,8 +31,12 @@ var Rover = function ( dae ) {
 
 	this.dt = rigDrivetrain();
 	this.arm = rigArm();
+	this.mast = rigMast();
 
-	this.updateCarModel = function ( delta, controls ) {
+	this.updateCarModel = function ( clock, controls ) {
+
+		var delta = clock.getDelta();
+		delta = 0.00002;
 
 		if ( controls.moveForward ) {
 
@@ -91,27 +95,28 @@ var Rover = function ( dae ) {
 		var absRotationSpeed = Math.abs( this.rotationSpeed );
 		var steerStart = 0;
 		var steerEnd = .75;
+
 		this.dt.L.steering[0].rotation.y = -THREE.Math.clamp( absRotationSpeed, steerStart, steerEnd );
 		this.dt.L.steering[1].rotation.y = THREE.Math.clamp( absRotationSpeed, steerStart, steerEnd );
 		this.dt.R.steering[0].rotation.y = THREE.Math.clamp( absRotationSpeed, steerStart, steerEnd );
 		this.dt.R.steering[1].rotation.y = -THREE.Math.clamp( absRotationSpeed, steerStart, steerEnd );
 
-		var forwardDelta = this.speed * delta * 1000;
-		var rotationDelta = this.rotationSpeed * delta * 1000;
+		var forwardDelta = this.speed * delta;
+		var rotationDelta = this.rotationSpeed * delta;
 
 		for ( i in this.dt.L.wheels ){
 			this.dt.L.wheels[i].rotation.x += ( this.speed - this.rotationSpeed * 1.5 ) / 35;
 			this.dt.R.wheels[i].rotation.x += ( this.speed + this.rotationSpeed * 1.5 ) / 35;
 		}
 
-		this.mesh.position.x += Math.sin( this.mesh.rotation.y ) * forwardDelta;
-		this.mesh.position.z += Math.cos( this.mesh.rotation.y ) * forwardDelta;
+		this.mesh.position.x += Math.sin( this.mesh.rotation.y ) * forwardDelta * 1000;
+		this.mesh.position.z += Math.cos( this.mesh.rotation.y ) * forwardDelta * 1000;
 
-		this.mesh.rotation.y += rotationDelta;
+		this.mesh.rotation.y += rotationDelta * 1000;
 
 		// ARM Animation
-		this.arm.shoulder.rotation.x = Math.sin( delta * Math.PI * 2 ) * 2;
-		this.arm.hand.rotation.y += delta * 800;
+		//this.arm.shoulder.rotation.x = Math.sin( clock.getElapsedTime());
+		//this.arm.hand.rotation.y += clock.getElapsedTime();
 
 
 	};
@@ -157,7 +162,7 @@ var Rover = function ( dae ) {
 		return dt;
 	}
 
-	function rigArm( mesh ){
+	function rigArm(){
 
 		var arm	= scope.mesh.children[1].children[0];
 		arm.useQuaternion = false;
@@ -175,6 +180,25 @@ var Rover = function ( dae ) {
 		arm.hand.useQuaternion = false;
 
 		return arm;
+
+	}
+
+	function rigMast(){
+
+		var toRadians = Math.PI/180;
+
+		var mast = scope.mesh.children[1].children[1];
+		mast.useQuaternion = false;
+		//mast.rotation.x = -90 * toRadians;
+		mast.rotation.y = 33 * toRadians;
+
+		mast.neck = mast.children[0].children[0];
+		mast.neck.useQuaternion = false;
+		
+		mast.head = mast.neck.children[0];
+		mast.head.useQuaternion = false;
+
+		return mast;
 
 	}
 
