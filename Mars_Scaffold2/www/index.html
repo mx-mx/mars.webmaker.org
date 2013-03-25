@@ -211,15 +211,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var cancelCallToAction=false;
     var listenToMouseMovements=false;
+    var listenToMouseWheel=false;
     var userLessonNumber=0;
     var userMouseAction=[false,false,false,false];
     var mousePosX, mousePosY;
+    var callToActionTimeout = new Array();
 
     popcornMedia[5].on( "ended", function() {
         listenToMouseMovements=true;
         userMouseAction[userLessonNumber]=true;
         cancelCallToAction=false;
-		setTimeout(function(){callToActionUser()},10000);
+        callToActionTimeout[userLessonNumber] = setTimeout(function(){callToActionUser()},10000);
+	});
+    popcornMedia[8].on( "ended", function() {
+        listenToMouseWheel=true;
+        userMouseAction[userLessonNumber]=true;
+        cancelCallToAction=false;
+        callToActionTimeout[userLessonNumber] = setTimeout(function(){callToActionUser()},10000);
 	});
     
     $(document).on('mouseup', function(e) {
@@ -243,7 +251,7 @@ document.addEventListener("DOMContentLoaded", function () {
         	if(mousePosX!=newMousePosX || mousePosY!=newMousePosY ) {
         		advanceUser();
         	} else {
-        		congradulateUser();	
+        		congradulateUserForDoingSomethingGood();	
         	}
         }
     });
@@ -264,8 +272,18 @@ document.addEventListener("DOMContentLoaded", function () {
     	}
     	console.log("x: " + mousePosX + "   y: " + mousePosY);
     });
+    $(document).on('mousewheel', function(e) {
+        if(!listenToMouseWheel) return;
+    	var evt=window.event || e //equalize event object
+        var delta=evt.detail? evt.detail*(-120) : evt.wheelDelta //check for detail first so Opera uses that instead of wheelDelta
+        console.log("mousewheel delta: " + delta);
+        if(delta>0) { //the user zoomed in
+        	listenToMouseWheel=false;
+        	setTimeout(function(){advanceUser()},1000);
+        }
+    });
     
-    var congradulateUser = function () {
+    var congradulateUserForDoingSomethingGood = function () {
 		if(userLessonNumber==0) {
 			jumpPopcornMedia(7);
 		}
@@ -274,19 +292,52 @@ document.addEventListener("DOMContentLoaded", function () {
     	//userLessonNumber++; //update to next lesson
     }
     var advanceUser = function () {
-		if(userLessonNumber==0) {
-			jumpPopcornMedia(8);
-		}
 		listenToMouseMovements=false;
 		cancelCallToAction=false;
+		clearTimeout(callToActionTimeout[userLessonNumber]);
+		
+		switch(userLessonNumber)
+    	{
+    	case 0:
+			jumpPopcornMedia(8);
+    	  break;
+    	case 1:
+			jumpPopcornMedia(10);
+    	  break;
+    	case 2:
+			jumpPopcornMedia(13);
+    	  break;
+    	case 3:
+			//no 4 mouse lesson
+    	  break;
+    	default:
+    	  //no default audio
+    	}
+		
     	userLessonNumber++; //update to next lesson
+		
     }
     
     var callToActionUser = function () {
     	if(cancelCallToAction) return;
-		if(userLessonNumber==0) {
+    	
+    	switch(userLessonNumber)
+    	{
+    	case 0:
 			jumpPopcornMedia(6);
-		}
+    	  break;
+    	case 1:
+			jumpPopcornMedia(9);
+    	  break;
+    	case 2:
+			jumpPopcornMedia(11);
+    	  break;
+    	case 3:
+			jumpPopcornMedia(14);
+    	  break;
+    	default:
+    	  //no default audio
+    	}
     }
     
     var advancepopcornMedia = function () {
