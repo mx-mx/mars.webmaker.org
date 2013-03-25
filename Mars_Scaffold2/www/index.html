@@ -121,8 +121,17 @@ document.addEventListener("DOMContentLoaded", function () {
 	popcornMedia[3] = Popcorn('#SEQ3_VOpt2' );
 	popcornMedia[4] = Popcorn( '#SEQ3_VOpt3' );
 	popcornMedia[5] = Popcorn( '#SEQ_3_CAM_1a' );
-	popcornMedia[6] = Popcorn( '#SEQ_3_CAM_1b' );
+	popcornMedia[6] = Popcorn( '#SEQ_3_CAM_1b' );//call to action
 	popcornMedia[7] = Popcorn( '#SEQ_3_CAM_1c' );
+	popcornMedia[8] = Popcorn( '#SEQ_3_CAM_2a' );
+	popcornMedia[9] = Popcorn( '#SEQ_3_CAM_2b' );//call to action
+	popcornMedia[10] = Popcorn( '#SEQ_3_CAM_3a' );
+	popcornMedia[11] = Popcorn( '#SEQ_3_CAM_3b' );//call to action
+	popcornMedia[12] = Popcorn( '#SEQ_3_CAM_3c' );
+	popcornMedia[13] = Popcorn( '#SEQ_3_CAM_4a' );
+	popcornMedia[14] = Popcorn( '#SEQ_3_CAM_4b' );//call to action
+	popcornMedia[15] = Popcorn( '#SEQ_3_CAM_4c' );
+	popcornMedia[16] = Popcorn( '#SEQ_3_CAM_4d' );
 
 	var basepop = Popcorn.baseplayer( "#contenttarget" ); //not sure if I'll need this baseplayer
 	//var popcorn_branch1_video2 = Popcorn.youtube('#videocontenttarget2', 'https://www.youtube.com/watch?v=lKqr3F73bAI' );
@@ -203,31 +212,70 @@ document.addEventListener("DOMContentLoaded", function () {
     var cancelCallToAction=false;
     var listenToMouseMovements=false;
     var userLessonNumber=0;
-    var userMovement=[false,false,false,false];
+    var userMouseAction=[false,false,false,false];
+    var mousePosX, mousePosY;
 
     popcornMedia[5].on( "ended", function() {
         listenToMouseMovements=true;
-        userMovement[userLessonNumber]=true;
+        userMouseAction[userLessonNumber]=true;
         cancelCallToAction=false;
 		setTimeout(function(){callToActionUser()},10000);
 	});
     
     $(document).on('mouseup', function(e) {
         if(!listenToMouseMovements) return;
-        //console.log("got me a mouseup: " + userMovement[userLessonNumber]);
-        if(userMovement[userLessonNumber]) {
-        	listenToMouseMovements=false; //we're done with this lesson listening so don't listen anymore
-        	congradulateUser();
+        //console.log("got me a mouseup: " + userMouseAction[userLessonNumber]);
+        if(userMouseAction[userLessonNumber]) {
+        	var newMousePosX, newMousePosY;
+        	if (!e) var e = window.event;
+        	if (e.pageX || e.pageY) 	{
+        		newMousePosX = e.pageX;
+        		newMousePosY = e.pageY;
+        	}
+        	else if (e.clientX || e.clientY) 	{
+        		newMousePosX = e.clientX + document.body.scrollLeft
+        			+ document.documentElement.scrollLeft;
+        		newMousePosY = e.clientY + document.body.scrollTop
+        			+ document.documentElement.scrollTop;
+        	}
+
+        	console.log("x: " + newMousePosX + "   y: " + newMousePosY);
+        	if(mousePosX!=newMousePosX || mousePosY!=newMousePosY ) {
+        		advanceUser();
+        	} else {
+        		congradulateUser();	
+        	}
         }
     });
     $(document).on('mousedown', function(e) {
     	if(!listenToMouseMovements) return;
     	cancelCallToAction=true;
+    	
+    	if (!e) var e = window.event;
+    	if (e.pageX || e.pageY) 	{
+    		mousePosX = e.pageX;
+    		mousePosY = e.pageY;
+    	}
+    	else if (e.clientX || e.clientY) 	{
+    		mousePosX = e.clientX + document.body.scrollLeft
+    			+ document.documentElement.scrollLeft;
+    		mousePosY = e.clientY + document.body.scrollTop
+    			+ document.documentElement.scrollTop;
+    	}
+    	console.log("x: " + mousePosX + "   y: " + mousePosY);
     });
     
     var congradulateUser = function () {
 		if(userLessonNumber==0) {
 			jumpPopcornMedia(7);
+		}
+		//listenToMouseMovements=false;
+		//cancelCallToAction=false;
+    	//userLessonNumber++; //update to next lesson
+    }
+    var advanceUser = function () {
+		if(userLessonNumber==0) {
+			jumpPopcornMedia(8);
 		}
 		listenToMouseMovements=false;
 		cancelCallToAction=false;
@@ -786,6 +834,60 @@ document.addEventListener("DOMContentLoaded", function () {
 		<audio id="SEQ_3_CAM_1c">
 			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1c.mp3">
 			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1c.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+		
+		<audio id=SEQ_3_CAM_2a>
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_2a.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_2a.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+		
+		<audio id="SEQ_3_CAM_2b">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_2b.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_2b.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+		
+		<audio id=SEQ_3_CAM_3a>
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3a.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3a.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+		
+		<audio id="SEQ_3_CAM_3b">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3b.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3b.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+		
+		<audio id="SEQ_3_CAM_3c">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3c.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3c.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+		
+		<audio id=SEQ_3_CAM_4a>
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4a.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4a.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+		
+		<audio id="SEQ_3_CAM_4b">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4b.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4b.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+		
+		<audio id="SEQ_3_CAM_4c">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4c.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4c.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+		
+		<audio id="SEQ_3_CAM_4d">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4d.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4d.oggvorbis.ogg">
 			Your browser does not support the audio element.  Upgrade the browser.
 		</audio> 
 	</body>
