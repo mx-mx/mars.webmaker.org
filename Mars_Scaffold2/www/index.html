@@ -206,9 +206,10 @@ document.addEventListener("DOMContentLoaded", function () {
     	});
 		
 		camTweener( { x: 0, y: 100, z: 500 }, { x: 0, y: 0, z: 0 }, 1500 );
-		setTimeout(function(){advancepopcornMedia()},3000);
+		setTimeout(function(){advancepopcornMedia()},2000);
 	});
 
+    //setup vars to walk through mouse 3D lesson
     var cancelCallToAction=false;
     var listenToMouseMovements=false;
     var listenToMouseWheel=false;
@@ -234,6 +235,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if(!listenToMouseMovements) return;
         //console.log("got me a mouseup: " + userMouseAction[userLessonNumber]);
         if(userMouseAction[userLessonNumber]) {
+        	//check to see if the user moved the mouse.
         	var newMousePosX, newMousePosY;
         	if (!e) var e = window.event;
         	if (e.pageX || e.pageY) 	{
@@ -255,10 +257,12 @@ document.addEventListener("DOMContentLoaded", function () {
         	}
         }
     });
+    
     $(document).on('mousedown', function(e) {
     	if(!listenToMouseMovements) return;
     	cancelCallToAction=true;
     	
+    	//record mouse down possition
     	if (!e) var e = window.event;
     	if (e.pageX || e.pageY) 	{
     		mousePosX = e.pageX;
@@ -270,10 +274,19 @@ document.addEventListener("DOMContentLoaded", function () {
     		mousePosY = e.clientY + document.body.scrollTop
     			+ document.documentElement.scrollTop;
     	}
-    	console.log("x: " + mousePosX + "   y: " + mousePosY);
+    	
     });
-    $(document).on('mousewheel', function(e) {
-        if(!listenToMouseWheel) return;
+  
+	//Firefox has no implemented $(document).on('mousewheel', function) so we call mousywheely(e) for XBrowser support
+    var mousewheelevt=(/Firefox/i.test(navigator.userAgent))? "DOMMouseScroll" : "mousewheel" //FF doesn't recognize mousewheel as of FF3.x
+    
+   	if (document.attachEvent) //if IE (and Opera depending on user setting)
+   	    document.attachEvent("on"+mousewheelevt, mousywheely)
+   	else if (document.addEventListener) //WC3 browsers
+   	    document.addEventListener(mousewheelevt, mousywheely, false)
+    	
+    function mousywheely(e){
+    	if(!listenToMouseWheel) return;
     	var evt=window.event || e //equalize event object
         var delta=evt.detail? evt.detail*(-120) : evt.wheelDelta //check for detail first so Opera uses that instead of wheelDelta
         console.log("mousewheel delta: " + delta);
@@ -281,7 +294,7 @@ document.addEventListener("DOMContentLoaded", function () {
         	listenToMouseWheel=false;
         	setTimeout(function(){advanceUser()},1000);
         }
-    });
+    }
     
     var congradulateUserForDoingSomethingGood = function () {
 		if(userLessonNumber==0) {
