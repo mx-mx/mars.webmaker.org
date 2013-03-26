@@ -197,7 +197,10 @@ document.addEventListener("DOMContentLoaded", function () {
     	advancepopcornMedia();
 	});
     popcornMedia[4].on( "ended", function() {
-		
+
+		$("#nextbuttonwrapper").animate({opacity: 0.0}, 200, function() {
+        	$("#nextbuttonwrapper").css('pointer-events', 'none');
+    	});
 		$("#helpbuttonwrapper").animate({opacity: 1.0}, 200, function() {
         	$("#helpbuttonwrapper").css('pointer-events', 'auto');
     	});
