@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	//});
 	popcornMedia[0].on( "play", function() {
     	$("#videocontenttarget").animate({opacity: 1.0}, 100, function() {
-           	$("#videocontenttarget").css('pointer-events', 'audo');
+           	$("#videocontenttarget").css('pointer-events', 'auto');
        	});
 		$("#nextbuttonwrapper").animate({opacity: 1.0}, 200, function() {
         	$("#nextbuttonwrapper").css('pointer-events', 'auto');
@@ -233,7 +233,7 @@ document.addEventListener("DOMContentLoaded", function () {
         callToActionTimeout[userLessonNumber] = setTimeout(function(){callToActionUser()},10000);
 	});
     popcornMedia[10].on( "ended", function() {
-        //the button click test
+        //the planet click test (user to click planet earth)
         userMouseAction[userLessonNumber]=true;
         cancelCallToAction=false;
         callToActionTimeout[userLessonNumber] = setTimeout(function(){callToActionUser()},10000);
@@ -242,10 +242,22 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(function(){advanceUser()},5000);
 	});
     popcornMedia[13].on( "ended", function() {
-        //the button click test
+        //the button click test (user to click mars button)
         //userMouseAction[userLessonNumber]=true;
         cancelCallToAction=false;
         callToActionTimeout[userLessonNumber] = setTimeout(function(){callToActionUser()},10000);
+	});
+    
+    popcornMedia[16].cue( 2.2, function() {
+        //show the badge modal
+        //userMouseAction[userLessonNumber]=true;
+        //cancelCallToAction=false;
+        //callToActionTimeout[userLessonNumber] = setTimeout(function(){callToActionUser()},10000);
+
+        $('#backpackloginpopupcheckbox').prop('checked', true);
+    	$("#backpackloginpopup").animate({opacity: 1.0}, 200, function() {
+        	$("#backpackloginpopup").css('pointer-events', 'auto');
+    	});
 	});
 
     popcornMedia[13].cue( 2.2, function() {
@@ -458,6 +470,14 @@ document.addEventListener("DOMContentLoaded", function () {
         if (pic1 == typeof('undefined')) return;
         pic1.src = imgName;
     }
+    
+    var backpackloginpopupclose = document.getElementById('backpackloginpopupclose');
+    backpackloginpopupclose.style.cursor = 'pointer';
+    backpackloginpopupclose.onclick = function() {
+    	$("#backpackloginpopup").animate({opacity: 0.0}, 200, function() {
+        	$("#backpackloginpopup").css('pointer-events', 'none');
+        });
+    };
     
     var aboutpopupclose = document.getElementById('aboutpopupclose');
     aboutpopupclose.style.cursor = 'pointer';
@@ -825,7 +845,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		</div>
 		
 		<div id="videocontenttarget" class="videocontenttarget">
-			<video height="100%" width="100%" id="video">
+			<video height="100%" width="100%" id="video" style="background: #00f;">
          		<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/video/SEQ1_OCVO_v05.mp4">
          		<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/video/SEQ1_OCVO_v05.webmhd.webm">
        		</video>
@@ -876,9 +896,36 @@ document.addEventListener("DOMContentLoaded", function () {
   			<input name="_csrf" type="hidden" value="SRvhEkj8KMe5XLCyyVEM6nAw"></input>
 		</form>
 		
-		<div id="backpackloginmodal" class="modalmask">
+		<div id="backpackloginpopup" class="modalmask">
 			<div id="backpacklogindiv" class="badgecontenttarget">
-				<h1>Backpack Login</h1>
+			<div id="backpackloginpopupclose" class="closebutton"><p>&#10006;</p></div>
+				<h1>Mission Complete!</h1>
+				<h1>Badge Award!</h1>
+				<br>
+				You've earned a badge!!!
+				<br>
+				<br>
+				<!-- <img src="./badge-it-gadget-lite/digital-badges/images/badge_3D.png"> -->
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<form id="form">
+					<p><label>Email:</label><input type="text" /></p>
+					
+				</form>
+				<br>
+				<br>
+				<div style="float: right;">
+					<button id="backpackloginpopupcontinue" class="squarebluebutton">Continue</button>
+				</div>
+				<br>
+				<br>
+				<div style="float: left;">
+					<p><input type="checkbox" id="backpackloginpopupcheckbox" class="regular-checkbox" /> <label class="checkboxlabel">email list</label></p>
+				</div>
 			</div>
 		</div>
 		
