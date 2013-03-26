@@ -82,7 +82,7 @@ function init() {
 	$contenttarget.append( renderer.domElement );
 	renderer.autoClear = false;
 
-	controls = new THREE.OrbitControls( camera );
+	controls = new THREE.OrbitControls( camera, $contenttarget[0] );
 	controls.addEventListener( 'change', render );
 
 	setupScene();
