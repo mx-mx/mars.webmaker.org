@@ -667,6 +667,13 @@ document.addEventListener("DOMContentLoaded", function () {
 		$( "#nextbutton" )
 			.button()
 			.click(function( event ) {
+				if(popcornSequenceNumber==3) {
+			    	//temp get rid of next button
+			    	
+					$("#nextbuttonwrapper").animate({opacity: 0.0}, 200, function() {
+			        	$("#nextbuttonwrapper").css('pointer-events', 'none');
+			    	});
+				}
 				jumpPopcornMedia(popcornSequenceNumber+1);
 		});
 		
