@@ -197,10 +197,7 @@ document.addEventListener("DOMContentLoaded", function () {
     	advancepopcornMedia();
 	});
     popcornMedia[4].on( "ended", function() {
-		//$("#threedcontrols").animate({opacity: 1.0}, 200, function() {
-        //	$("#threedcontrols").css('pointer-events', 'auto');
-    	//});
-
+		
 		$("#helpbuttonwrapper").animate({opacity: 1.0}, 200, function() {
         	$("#helpbuttonwrapper").css('pointer-events', 'auto');
     	});
@@ -219,16 +216,39 @@ document.addEventListener("DOMContentLoaded", function () {
     var callToActionTimeout = new Array();
 
     popcornMedia[5].on( "ended", function() {
+    	//the click/drag test
         listenToMouseMovements=true;
         userMouseAction[userLessonNumber]=true;
         cancelCallToAction=false;
         callToActionTimeout[userLessonNumber] = setTimeout(function(){callToActionUser()},10000);
 	});
     popcornMedia[8].on( "ended", function() {
+        //the scroll mouse test
         listenToMouseWheel=true;
         userMouseAction[userLessonNumber]=true;
         cancelCallToAction=false;
         callToActionTimeout[userLessonNumber] = setTimeout(function(){callToActionUser()},10000);
+	});
+    popcornMedia[10].on( "ended", function() {
+        //the button click test
+        userMouseAction[userLessonNumber]=true;
+        cancelCallToAction=false;
+        callToActionTimeout[userLessonNumber] = setTimeout(function(){callToActionUser()},10000);
+        
+        //temp: just call this until we get needed function from Ryan.
+        setTimeout(function(){advanceUser()},5000);
+	});
+    popcornMedia[13].on( "ended", function() {
+        //the button click test
+        //userMouseAction[userLessonNumber]=true;
+        cancelCallToAction=false;
+        callToActionTimeout[userLessonNumber] = setTimeout(function(){callToActionUser()},10000);
+	});
+
+    popcornMedia[13].cue( 2.2, function() {
+    	$("#threedcontrols").animate({opacity: 1.0}, 200, function() {
+        	$("#threedcontrols").css('pointer-events', 'auto');
+    	});
 	});
     
     $(document).on('mouseup', function(e) {
@@ -249,7 +269,7 @@ document.addEventListener("DOMContentLoaded", function () {
         			+ document.documentElement.scrollTop;
         	}
 
-        	console.log("x: " + newMousePosX + "   y: " + newMousePosY);
+        	//console.log("x: " + newMousePosX + "   y: " + newMousePosY);
         	if(mousePosX!=newMousePosX || mousePosY!=newMousePosY ) {
         		advanceUser();
         	} else {
@@ -321,7 +341,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			jumpPopcornMedia(13);
     	  break;
     	case 3:
-			//no 4 mouse lesson
+			//no 4th mouse lesson
     	  break;
     	default:
     	  //no default audio
@@ -350,6 +370,19 @@ document.addEventListener("DOMContentLoaded", function () {
     	  break;
     	default:
     	  //no default audio
+    	}
+    }
+
+    var checkForFourthCameraLesson = function () {
+    	if(!userMouseAction[userLessonNumber]) {
+    		jumpPopcornMedia(15);
+    	}
+    }
+    var finishFourthCameraLesson = function () {
+    	if(!userMouseAction[userLessonNumber]) {
+    		clearTimeout(callToActionTimeout[userLessonNumber]);
+    		userMouseAction[userLessonNumber]=true;
+    		jumpPopcornMedia(16);
     	}
     }
     
@@ -405,6 +438,9 @@ document.addEventListener("DOMContentLoaded", function () {
     //});
 	
     popcornMedia[2].cue( 6, function() {
+       	camTweener( { x: 0, y: 700, z: 0 }, { x: 0, y: 0, z: 0 }, 3000 );
+	});
+    popcornMedia[16].cue( 6, function() {
        	camTweener( { x: 0, y: 700, z: 0 }, { x: 0, y: 0, z: 0 }, 3000 );
 	});
     popcornMedia[4].cue( 6, function() {
@@ -508,6 +544,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 				TWEEN.removeAll();
 				camTweener( camNextPosition, camNextTarget, 1500 );
+				checkForFourthCameraLesson();
 
 		});
 
@@ -529,6 +566,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 				TWEEN.removeAll();
 				camTweener( camNextPosition, camNextTarget, 5000 );
+				checkForFourthCameraLesson();
 		});	
 
 		$( "#cam3" )
@@ -549,50 +587,42 @@ document.addEventListener("DOMContentLoaded", function () {
 
 				TWEEN.removeAll();
 				camTweener( camNextPosition, camNextTarget, 1500 );
+				checkForFourthCameraLesson();
 		});
 
 		$( "#cam4" )
 			.button()
 			.click(function( event ) {
 
-				camNextPosition	= {
-					x: 0, 
-					y: 50, 
-					z: 250 
+
+				camNextTarget = {
+					x: 0,
+					y: 50,
+					z: 500
 				};
 
-				TWEEN.removeAll();
-				camTweener( camNextPosition, planet[2].mesh.position, 1500 );
+				//not yet sure how to set this up
+				camEarth = new camPosition( { x: 50, y: 50, z: 250 }, ss[3].position, 1500 );
+				//TWEEN.removeAll();
+				//camTweener( camEarth, camNextTarget, 1500 );
+				checkForFourthCameraLesson();
+				
 		});
 
 		$( "#cam5" )
 			.button()
 			.click(function( event ) {
 
-				camNextPosition	= {
-					x: 50, 
+				camNextTarget	= {
+					x: 0, 
 					y: 50, 
-					z: 300 
+					z: 500 
 				};
-
-				TWEEN.removeAll();
-				camTweener( camNextPosition, planet[3].mesh.position, 1500 );
-		});
-
-		$( "#traject" )
-			.button()
-			.click(function( event ) {
-
-				trajectory.drawTrajectory( planet[2].mesh.position, planet[3].mesh.position, scene );
-
-		});
-
-		$( "#removeTraject" )
-			.button()
-			.click(function( event ) {
-
-				trajectory.removeTrajectory( scene );
-
+				//not yet sure how to set this up
+				camMars = new camPosition( { x: 75, y: 50, z: 300 }, ss[4].position, 1500 );
+				//TWEEN.removeAll();
+				//camTweener( camMars, camNextTarget, 1500 );
+				finishFourthCameraLesson();
 		});
 
 		$( "#speedSlider" ).slider( {
@@ -785,8 +815,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		
 		<div id="videocontenttarget" class="videocontenttarget">
 			<video height="100%" width="100%" id="video">
-         		<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/video/SEQ1_OCVO_v04.mp4">
-         		<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/video/SEQ1_OCVO_v04.webmhd.webm">
+         		<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/video/SEQ1_OCVO_v05.mp4">
+         		<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/video/SEQ1_OCVO_v05.webmhd.webm">
        		</video>
 		</div>
 		
@@ -806,8 +836,6 @@ document.addEventListener("DOMContentLoaded", function () {
 					<button id="cam3" class="squarebluebutton">Cam 3</button>
 					<button id="cam4" class="squarebluebutton">Earth</button>
 					<button id="cam5" class="squarebluebutton">Mars</button>
-					<button id="traject" class="squarebluebutton">Trajectory</button>
-					<button id="removeTraject" class="squarebluebutton">Remove Trajectory</button>
 					<div id="speedSlider" class="speedSlider"></div>
 				</div>
 			</div>

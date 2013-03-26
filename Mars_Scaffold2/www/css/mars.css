@@ -750,6 +750,7 @@ div .squarebluebutton:hover{
 }
 div .speedSlider {
 	float: right;
+	opacity: 0.0;
 	width: 140px;
 	height: 10px;
 	top: 15px;
