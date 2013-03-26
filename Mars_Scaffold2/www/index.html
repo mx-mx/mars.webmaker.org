@@ -709,6 +709,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		$( "#about" )
 			.button()
 			.click(function( event ) {
+				console.log("about clicked");
 				$("#aboutpopup").animate({opacity: 1.0}, 200, function() {
                 	$("#aboutpopup").css('pointer-events', 'auto');
             	});
@@ -867,13 +868,14 @@ document.addEventListener("DOMContentLoaded", function () {
 				</span>
 			</span>
 		</div>
-		<div id="loadtext" style="z-index: 6;></div>
+		<!-- <div id="loadtext" style="z-index: 6;></div> -->
 		
-		<!-- backpack stuff... in progress -->
-		<form class="signin js-browserid-form" method="POST" action="/backpack/authenticate">
-  			<input class="js-browserid-input" name="assertion" type="hidden"></input>
-  			<input name="_csrf" type="hidden" value="SRvhEkj8KMe5XLCyyVEM6nAw"></input>
-		</form>
+		
+		<div id="backpackloginmodal" class="modalmask">
+			<div id="backpacklogindiv" class="badgecontenttarget">
+				<h1>Backpack Login</h1>
+			</div>
+		</div>
 		
 		<div id="aboutpopup" class="popupdiv">
 			<div id="aboutpopupclose" class="closebutton"><p>&#10006;</p></div>

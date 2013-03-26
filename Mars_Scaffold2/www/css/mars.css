@@ -275,6 +275,39 @@ div.pathfindervideo1
     margin:-240px 0 0 -335px;
 	z-index: 1;
 }
+.modalmask {
+	opacity: 0.0;
+	pointer-events:none;
+    width: 100%;
+    height: 100%;
+    z-index: 9000;
+    padding: 0px;
+    margin: 0px;
+    background: rgba(80,80,80,.7);
+    position: fixed;
+    top: 0px;
+    overflow: hidden;
+}
+.badgecontenttarget
+{
+  	position: absolute;
+	text-align: center;
+	padding: 15px 15px 15px 15px;
+	background: rgba(31,38,18,.7);
+	color: rgba(200,200,200,1.0);
+	font-family: 'Lato', sans-serif;
+	text-transform: none;
+	line-height: 22px;
+	font-size: 18px;
+	border-radius: 5px;
+	border:none;
+	width: 640px;
+	height: 480px;
+	top:50%;
+	left:50%;
+	margin:-240px 0 0 -335px;
+	z-index: 5;
+}
 /* top control area */
 .topbar{
 	position: absolute;
