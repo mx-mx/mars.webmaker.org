@@ -11,8 +11,8 @@
 <title>DOE</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 <meta name="description" content="" />
-<meta name="keywords" content="" />
-<meta name="author" content="Your name" />
+<meta name="keywords" content="Mars" />
+<meta name="author" content="MX" />
 <LINK REL="SHORTCUT ICON" HREF="images/mars.ico"> 
 <link rel="stylesheet" type="text/css" href="css/mars.css" />
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
@@ -71,29 +71,16 @@
 
 
 <script type="text/javascript">
+//need a value to maintain global user email to check for during session.
+//the following variable and function provide separate backpack window to communicate user email value.
+var userBackpackEmail;
+function setUserBackpackEmail(emailValue) {
+	userBackpackEmail = emailValue;
+	console.log("user email set to: ",userBackpackEmail);
+}
 
 // ensure the web page (DOM) has loaded
 document.addEventListener("DOMContentLoaded", function () {
-		//begin login handler
-
-		  function launchBrowserId(callback) {
-			  console.log('launchBrowserId');
-		    return function() { navigator.id.get(callback, {
-		      siteName: 'Open Badge Backpack',
-		      termsOfService: '/tou.html',
-		      privacyPolicy: '/privacy.html',
-		      returnTo: '/'
-		    }); }
-		  }
-		  function handleResponse(assertion) {
-			  console.log('handleResponse');
-		    if (!assertion) return false;
-		    $('.js-browserid-input').val(assertion);
-		    $('.js-browserid-form').trigger('submit');
-		  }
-		  //$('.js-browserid-link').bind('click', launchBrowserId(handleResponse));
-
-
 	//https://www.youtube.com/watch?v=P4boyXQuUIw - the MSL path
 	//http://www.youtube.com/watch?v=jEXoMpmfJcM - the MSL launch - a better version
 	//https://www.youtube.com/watch?v=lKqr3F73bAI - MSL trajectory
@@ -201,12 +188,19 @@ document.addEventListener("DOMContentLoaded", function () {
 		$("#nextbuttonwrapper").animate({opacity: 0.0}, 200, function() {
         	$("#nextbuttonwrapper").css('pointer-events', 'none');
     	});
-		$("#helpbuttonwrapper").animate({opacity: 1.0}, 200, function() {
-        	$("#helpbuttonwrapper").css('pointer-events', 'auto');
-    	});
 		
 		camTweener( { x: 0, y: 100, z: 500 }, { x: 0, y: 0, z: 0 }, 1500 );
 		setTimeout(function(){advancepopcornMedia()},2000);
+	});
+    
+    popcornMedia[5].cue( 8, function() {
+		$("#replaybuttonwrapper").animate({opacity: 1.0}, 200, function() {
+        	$("#replaybuttonwrapper").css('pointer-events', 'auto');
+    	});
+	});popcornMedia[5].cue( 8.9, function() {
+		$("#helpbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+        	$("#helpbuttonwrapper").css('pointer-events', 'auto');
+    	});
 	});
 
     //setup vars to walk through mouse 3D lesson
@@ -254,10 +248,13 @@ document.addEventListener("DOMContentLoaded", function () {
         //cancelCallToAction=false;
         //callToActionTimeout[userLessonNumber] = setTimeout(function(){callToActionUser()},10000);
 
-        $('#backpackloginpopupcheckbox').prop('checked', true);
-    	$("#backpackloginpopup").animate({opacity: 1.0}, 200, function() {
-        	$("#backpackloginpopup").css('pointer-events', 'auto');
-    	});
+        //$('#backpackloginpopupcheckbox').prop('checked', true);
+    	//$("#backpackloginpopup").animate({opacity: 1.0}, 200, function() {
+        	//$("#backpackloginpopup").css('pointer-events', 'auto');
+    	//});
+    	
+    	//popBadgeWindow(); //trigger a 'user' button click to avoid popup block
+    	document.getElementById('popit').click();
 	});
 
     popcornMedia[13].cue( 2.2, function() {
@@ -366,6 +363,30 @@ document.addEventListener("DOMContentLoaded", function () {
 		
     }
     
+    var replayUser = function () {
+		listenToMouseMovements=false;
+		cancelCallToAction=true;
+		clearTimeout(callToActionTimeout[userLessonNumber-1]);
+		
+		switch(userLessonNumber)
+    	{
+    	case 0:
+    	  break;
+    	case 1:
+			jumpPopcornMedia(8);
+    	  break;
+    	case 2:
+			jumpPopcornMedia(10,1.5);
+    	  break;
+    	case 3:
+			jumpPopcornMedia(13,1.0);
+    	  break;
+    	default:
+    	  //no default audio
+    	}
+		
+    }
+    
     var callToActionUser = function () {
     	if(cancelCallToAction) return;
     	
@@ -409,7 +430,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     //a way to skip around (needed for Next button and Menu buttons)
-    var jumpPopcornMedia = function (sequenceNum) {
+    var jumpPopcornMedia = function (sequenceNum, beginningOffset) {
 		if(popcornSequenceNumber>=popcornMedia.length)return;
 		popcornSequenceNumber=sequenceNum;
 		//clear div targets
@@ -430,7 +451,11 @@ document.addEventListener("DOMContentLoaded", function () {
 		if(popcornSequenceNumber==0) {
 			basepop.play(0);
 		} else {
-			popcornMedia[popcornSequenceNumber].play(0);
+			if(beginningOffset) {
+				popcornMedia[popcornSequenceNumber].play(beginningOffset);
+			} else {
+				popcornMedia[popcornSequenceNumber].play(0);
+			}
 		}
 		
 		//close menu panel if needed
@@ -470,6 +495,34 @@ document.addEventListener("DOMContentLoaded", function () {
         if (pic1 == typeof('undefined')) return;
         pic1.src = imgName;
     }
+    
+    
+    //pop the mission complete
+    var popBadgeWindow = function() {
+    	//first we should check to see if the user email has been stored
+    	//if(userBackpackEmail) {}
+    	
+    	//then pop the appropriate window
+    	var winWidth = 750;
+    	var winHeight = 600;
+    	badgeWindow = popupwindow("./badge-it-gadget-lite/process-badges/missionComplete.html",
+    			"New Badge",winWidth, winHeight);
+    }
+    
+    
+    //generic popup window opening function
+    var popitbutton = document.getElementById('popit');
+    popitbutton.onclick = function() {
+    	popBadgeWindow();
+    };
+    
+    function popupwindow(url, title, w, h) {
+    	  var left = (screen.width/2)-(w/2);
+    	  var top = (screen.height/2)-(h/2);
+    	  return window.open(url, title, "titlebar=no,toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no,copyhistory=no,width="+w+", height="+h+", top="+top+", left="+left);
+    }
+    
+    
     
     var backpackloginpopupclose = document.getElementById('backpackloginpopupclose');
     backpackloginpopupclose.style.cursor = 'pointer';
@@ -549,25 +602,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		});
 
-		$( "#cam1" )
+		$( "#replaybutton" )
 			.button()
 			.click(function( event ) {
-
-				camNextPosition	= {
-					x: -100, 
-					y: 400, 
-					z: -250 
-				};
-
-				camNextTarget = {
-					x: 0,
-					y: 0,
-					z: 0
-				};
-
-				TWEEN.removeAll();
-				camTweener( camNextPosition, camNextTarget, 1500 );
-				checkForFourthCameraLesson();
+			
+			replayUser();
+		    cancelCallToAction=true;
+		    //callToActionTimeout[userLessonNumber] = setTimeout(function(){callToActionUser()},10000);
 
 		});
 
@@ -576,20 +617,20 @@ document.addEventListener("DOMContentLoaded", function () {
 			.click(function( event ) {
 
 				camNextPosition	= {
-					x: 0, 
-					y: 12000, 
-					z: 500
-				};
+						x: -100, 
+						y: 400, 
+						z: -250 
+					};
 
-				camNextTarget = {
-					x: 0,
-					y: 0,
-					z: 0
-				};
+					camNextTarget = {
+						x: 0,
+						y: 0,
+						z: 0
+					};
 
-				TWEEN.removeAll();
-				camTweener( camNextPosition, camNextTarget, 5000 );
-				checkForFourthCameraLesson();
+					TWEEN.removeAll();
+					camTweener( camNextPosition, camNextTarget, 1500 );
+					checkForFourthCameraLesson();
 		});	
 
 		$( "#cam3" )
@@ -675,16 +716,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	                	$("#menupanel").css('pointer-events', 'auto');
 	            	});
 	        	}
-		});
-		
-
-		$( "#badgebutton" )
-			.button()
-			.click(function( event ) {
-				//launchBrowserId(handleResponse);
-				OpenBadges.issue([url1, url2], function(errors, successes) { 
-					//do something 
-				}); 
 		});
 		
 		$( "#nextbutton" )
@@ -859,12 +890,14 @@ document.addEventListener("DOMContentLoaded", function () {
 				<div id="helpbuttonwrapper" class="helpbuttonwrapper" style="opacity: 0.0;pointer-events:none">
 					<button id="threedhelpbutton" class="threedhelpbutton">HELP</button>
 				</div>
+				<div id="replaybuttonwrapper" class="replaybuttonwrapper" style="opacity: 0.0;pointer-events:none">
+					<button id="replaybutton" class="replaybutton">REPLAY</button>
+				</div>
 			</div>
 			<div id="bottombarmiddle" class="bottombarmiddle">
 				<div id="threedcontrols" class="threedcontrols">
-					<button id="cam1" class="squarebluebutton">Cam 1</button>
-					<button id="cam2" class="squarebluebutton">Cam 2</button>
-					<button id="cam3" class="squarebluebutton">Cam 3</button>
+					<button id="cam2" class="squarebluebutton">Home</button>
+					<button id="cam3" class="squarebluebutton">Rover</button>
 					<button id="cam4" class="squarebluebutton">Earth</button>
 					<button id="cam5" class="squarebluebutton">Mars</button>
 					<div id="speedSlider" class="speedSlider"></div>
@@ -898,33 +931,27 @@ document.addEventListener("DOMContentLoaded", function () {
 		
 		<div id="backpackloginpopup" class="modalmask">
 			<div id="backpacklogindiv" class="badgecontenttarget">
-			<div id="backpackloginpopupclose" class="closebutton"><p>&#10006;</p></div>
+				<div id="backpackloginpopupclose" class="closebutton"><p>&#10006;</p></div>
 				<h1>Mission Complete!</h1>
 				<h1>Badge Award!</h1>
 				<br>
 				You've earned a badge!!!
-				<br>
-				<br>
+				<br><br>
 				<!-- <img src="./badge-it-gadget-lite/digital-badges/images/badge_3D.png"> -->
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<form id="form" method="POST" action="/badge-it-gadget-lite/process-badges/test.php">
-					<p><label>Email:</label><input type="text" id="email"/></p>
+				<br><br><br>
+				<button id="popit" class="squarebluebutton">pop</button>
+				<br><br>
+				<form id="form" method="POST" action="./badge-it-gadget-lite/process-badges/test.php">
+					<p><label style="float: left;">Email:</label><input type="text" id="email" name="email"/></p>
+					<br><br>
+					<div style="float:right;">
+						<button id="backpackloginpopupcontinue" type="submit" class="squarebluebutton">Continue</button>
+					</div>
+					<br><br><br><br>
+					<div style="display:inline;float:left">
+						<input type="checkbox" id="backpackloginpopupcheckbox" class="regular-checkbox" /> <label class="checkboxlabel">email list</label>
+					</div>
 				</form>
-					<br>
-					<br>
-					<div style="float: right;">
-						<button id="backpackloginpopupcontinue" class="squarebluebutton">Continue</button>
-					</div>
-					<br>
-					<br>
-					<div style="float: left;">
-						<p><input type="checkbox" id="backpackloginpopupcheckbox" class="regular-checkbox" /> <label class="checkboxlabel">email list</label></p>
-					</div>
 			</div>
 		</div>
 		

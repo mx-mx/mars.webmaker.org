@@ -45,7 +45,7 @@ div.slider{
     border-radius: 0px;
     border:none;
 }
-#form input, #form textarea{
+#form input[type="text"], #form textarea{
 	background: #000;
 	color: #fff;
 	border: none;
@@ -60,9 +60,9 @@ div.slider{
 #form label{
 	padding-right: 10px;
 	padding-left: 10px;
-	float: left;
 }
-.checkboxlabel {
+label .checkboxlabel {
+	float: auto;
     padding-top: 15px;
     text-indent: -15px;
 	color: rgba(200,200,200,1.0);
@@ -492,18 +492,19 @@ div.pathfindervideo1
 	line-height: 40px;
 	font-size: 11px;
 	top: 0px;
-	width: 10%;
+	width: 20%;
 	height: 100%;
 	float: left;
 }
 .bottombarmiddle{
 	position:relative;
     display:inline;
+  	text-align: center;
 	line-height: 40px;
 	font-size: 11px;
 	top: 0px;
 	height: 100%;
-	width: 80%;
+	width: 60%;
 	float: left;
 	z-index: 4;
 }
@@ -511,20 +512,18 @@ div.pathfindervideo1
 	position:relative;
     display:inline;
     bottom:0;
-	width: 10%;
+	width: 20%;
 	height: 100%;
 	float: right;
 }
 div .threedcontrols { 
-	position:absolute;
+	display: inline-block;
 	opacity:0;
 	pointer-events:none;
-    display:inline;
 	background: rgba(13,30,38,0.7);
 	z-index: 3;
-	width:90%; 
-	padding:10px;
-	bottom:15px;
+	padding:0px;
+	height: 80%;
 }
 div .scrollarea { 
 	z-index: 3;
@@ -797,11 +796,38 @@ div .threedhelpbutton{
 div .threedhelpbutton:hover{
 	background: rgba(135,153,72,0.8);
 }
+div .replaybutton{
+    display: absolute;
+    float: left;
+    bottom: 0px;
+    left: 10px;
+	text-align: center;
+	line-height: 20px;
+	font-size: 16px;
+	margin: 0px 0px;
+	text-transform: uppercase;
+	font-family: 'Lato', sans-serif;
+	font-weight: bold;
+	background: rgba(135,153,72,1.0);
+	color: rgba(200,200,200,1.0);
+    border-radius: 5px;
+    border: none;
+}
+div .replaybutton:hover{
+	background: rgba(135,153,72,0.8);
+}
 div .helpbuttonwrapper { 
 	z-index: 3;
 	position:absolute; 
 	width:50%; 
 	left:10px;
+	bottom:10px;
+}
+div .replaybuttonwrapper { 
+	z-index: 3;
+	position:absolute; 
+	width:50%; 
+	left:100px;
 	bottom:10px;
 }
 div .playbuttonwrapper { 
@@ -816,7 +842,7 @@ div .squarebluebutton{
 	text-align: center;
 	line-height: 20px;
 	font-size: 16px;
-	margin:1px 1px;
+	margin:8px 20px;
 	text-transform: uppercase;
 	font-family: 'Lato', sans-serif;
 	font-weight:bold;
