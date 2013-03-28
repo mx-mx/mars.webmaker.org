@@ -172,8 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
     	$("#videocontenttarget").animate({opacity: 0.0}, 100, function() {
            	$("#videocontenttarget").css('pointer-events', 'none');
        	});
-    	//advancepopcornMedia();
-    	jumpPopcornMedia(2);
+    	advancepopcornMedia();
     	
 	});
     popcornMedia[1].on( "ended", function() {
@@ -426,6 +425,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
     var advancepopcornMedia = function () {
 		popcornSequenceNumber++;
+		if(popcornSequenceNumber==1) popcornSequenceNumber++;
     	if(popcornSequenceNumber<popcornMedia.length) {
     		popcornMedia[popcornSequenceNumber].play();
     	}
