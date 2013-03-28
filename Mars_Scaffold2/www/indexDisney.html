@@ -178,6 +178,10 @@ document.addEventListener("DOMContentLoaded", function () {
     popcornMedia[1].on( "ended", function() {
     	advancepopcornMedia();
 	});
+    popcornMedia[2].cue( 19.5, function() { //disney skip
+    	jumpPopcornMedia(4);
+	});
+    
     popcornMedia[2].on( "ended", function() {
     	advancepopcornMedia();
 	});
@@ -425,7 +429,6 @@ document.addEventListener("DOMContentLoaded", function () {
     
     var advancepopcornMedia = function () {
 		popcornSequenceNumber++;
-		if(popcornSequenceNumber==1) popcornSequenceNumber++;
     	if(popcornSequenceNumber<popcornMedia.length) {
     		popcornMedia[popcornSequenceNumber].play();
     	}
@@ -435,6 +438,8 @@ document.addEventListener("DOMContentLoaded", function () {
     var jumpPopcornMedia = function (sequenceNum, beginningOffset) {
 		if(popcornSequenceNumber>=popcornMedia.length)return;
 		popcornSequenceNumber=sequenceNum;
+
+		if(popcornSequenceNumber==1) popcornSequenceNumber++;
 		//clear div targets
     	$("#videocontenttarget").animate({opacity: 0.0}, 1, function() {
            	$("#videocontenttarget").css('pointer-events', 'none');
@@ -730,7 +735,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			        	$("#nextbuttonwrapper").css('pointer-events', 'none');
 			    	});
 				}
-				advancepopcornMedia()
+				jumpPopcornMedia(popcornSequenceNumber+1);
 		});
 		
 		$( "#threedhelpbutton" )
