@@ -238,7 +238,7 @@ document.addEventListener("DOMContentLoaded", function () {
         callToActionTimeout[userLessonNumber] = setTimeout(function(){callToActionUser()},10000);
         
         //temp: just call this until we get needed function from Ryan.
-        setTimeout(function(){advanceUser()},5000);
+        setTimeout(function(){advanceUser()},3000);
 	});
     popcornMedia[13].on( "ended", function() {
         //the button click test (user to click mars button)
@@ -378,7 +378,7 @@ document.addEventListener("DOMContentLoaded", function () {
     	case 0:
     	  break;
     	case 1:
-			jumpPopcornMedia(8);
+			jumpPopcornMedia(5);
     	  break;
     	case 2:
 			jumpPopcornMedia(10,1.5);
@@ -440,6 +440,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		popcornSequenceNumber=sequenceNum;
 
 		if(popcornSequenceNumber==1) popcornSequenceNumber++;
+		if(popcornSequenceNumber==3) {
+			popcornSequenceNumber=4;
+		}
 		//clear div targets
     	$("#videocontenttarget").animate({opacity: 0.0}, 1, function() {
            	$("#videocontenttarget").css('pointer-events', 'none');
@@ -728,7 +731,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		$( "#nextbutton" )
 			.button()
 			.click(function( event ) {
-				if(popcornSequenceNumber==3) {
+				if(popcornSequenceNumber>=2) {
 			    	//temp get rid of next button
 			    	
 					$("#nextbuttonwrapper").animate({opacity: 0.0}, 200, function() {
