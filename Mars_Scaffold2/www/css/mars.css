@@ -101,7 +101,7 @@ label .checkboxlabel {
 #label_template{
 	display: 'inline-block';
 }
-/*.label {
+.label {
 	font-family: monospace;
 	-moz-user-select:none;
 	-khtml-user-select:none;
@@ -135,7 +135,7 @@ label .checkboxlabel {
 }
 .label span.name:hover {
 	text-shadow:0 0 3px #fff, 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff;
-}*/
+}
 .footnote a{
 	color: #ddd;
 }

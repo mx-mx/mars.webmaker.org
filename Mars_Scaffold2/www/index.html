@@ -267,9 +267,14 @@ document.addEventListener("DOMContentLoaded", function () {
         if(!listenToMouseMovements) return;
         //console.log("got me a mouseup: " + userMouseAction[userLessonNumber]);
         if(userMouseAction[userLessonNumber]) {
+        	//get event
+        	if (!e) var e = window.event;
+        	var clickedElement = (e.target || e.srcElement);
+        	//check to make sure that we're clicking the 3d canvas object (the only one)
+        	if(clickedElement!="[object HTMLCanvasElement]") return;
         	//check to see if the user moved the mouse.
         	var newMousePosX, newMousePosY;
-        	if (!e) var e = window.event;
+        	
         	if (e.pageX || e.pageY) 	{
         		newMousePosX = e.pageX;
         		newMousePosY = e.pageY;
@@ -296,6 +301,10 @@ document.addEventListener("DOMContentLoaded", function () {
     	
     	//record mouse down possition
     	if (!e) var e = window.event;
+    	//check to make sure that we're clicking the 3d canvas object (the only one)
+    	var clickedElement = (e.target || e.srcElement);
+    	if(clickedElement!="[object HTMLCanvasElement]") return;
+    	
     	if (e.pageX || e.pageY) 	{
     		mousePosX = e.pageX;
     		mousePosY = e.pageY;
@@ -364,27 +373,39 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     var replayUser = function () {
-		listenToMouseMovements=false;
-		cancelCallToAction=true;
-		clearTimeout(callToActionTimeout[userLessonNumber-1]);
+		clearTimeout(callToActionTimeout[userLessonNumber]);
 		
+		cancelCallToAction=false;
+	    listenToMouseMovements=false;
+	    listenToMouseWheel=false;
+	    userLessonNumber=0;
+	    for(var i=0;i<userMouseAction.length;i++) {
+	    	userMouseAction[i]=false;
+	    }
+		
+		
+		camTweener( { x: 0, y: 100, z: 500 }, { x: 0, y: 0, z: 0 }, 1500 );
+		
+		jumpPopcornMedia(5);
+		
+		/*
 		switch(userLessonNumber)
     	{
     	case 0:
-    	  break;
-    	case 1:
 			jumpPopcornMedia(5);
     	  break;
-    	case 2:
+    	case 1:
 			jumpPopcornMedia(10,1.5);
     	  break;
-    	case 3:
+    	case 2:
 			jumpPopcornMedia(13,1.0);
+    	  break;
+    	case 3:
     	  break;
     	default:
     	  //no default audio
     	}
-		
+		*/
     }
     
     var callToActionUser = function () {
@@ -605,7 +626,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		$( "#replaybutton" )
 			.button()
 			.click(function( event ) {
-			
 			replayUser();
 		    cancelCallToAction=true;
 		    //callToActionTimeout[userLessonNumber] = setTimeout(function(){callToActionUser()},10000);
