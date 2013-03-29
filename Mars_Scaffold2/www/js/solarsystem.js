@@ -1,8 +1,7 @@
 var ss = [], 
 	sun, 
 	planets = [], 
-	orbits = [], 
-	ssScale,
+	orbits = [],
 	scaling = true,
 	prevTime = 0;
 

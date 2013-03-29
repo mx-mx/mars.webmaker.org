@@ -16,7 +16,8 @@ var stats,
 	tween,
 	gui,
 	camTarget,
-	solarSystem;
+	solarSystem,
+	ssScale;
 
 var trajectory;
 
