@@ -172,16 +172,16 @@ document.addEventListener("DOMContentLoaded", function () {
     	$("#videocontenttarget").animate({opacity: 0.0}, 100, function() {
            	$("#videocontenttarget").css('pointer-events', 'none');
        	});
-    	advancepopcornMedia();
+    	advancePopcornMedia();
 	});
     popcornMedia[1].on( "ended", function() {
-    	advancepopcornMedia();
+    	advancePopcornMedia();
 	});
     popcornMedia[2].on( "ended", function() {
-    	advancepopcornMedia();
+    	advancePopcornMedia();
 	});
     popcornMedia[3].on( "ended", function() {
-    	advancepopcornMedia();
+    	advancePopcornMedia();
 	});
     popcornMedia[4].on( "ended", function() {
 
@@ -190,7 +190,7 @@ document.addEventListener("DOMContentLoaded", function () {
     	});
 		
 		camTweener( { x: 0, y: 100, z: 500 }, { x: 0, y: 0, z: 0 }, 1500 );
-		setTimeout(function(){advancepopcornMedia()},2000);
+		setTimeout(function(){advancePopcornMedia()},2000);
 	});
     
     popcornMedia[5].cue( 8, function() {
@@ -422,7 +422,7 @@ document.addEventListener("DOMContentLoaded", function () {
     	}
     }
     
-    var advancepopcornMedia = function () {
+    var advancePopcornMedia = function () {
 		popcornSequenceNumber++;
     	if(popcornSequenceNumber<popcornMedia.length) {
     		popcornMedia[popcornSequenceNumber].play();
