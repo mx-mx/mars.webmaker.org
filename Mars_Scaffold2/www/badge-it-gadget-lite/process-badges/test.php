@@ -19,4 +19,4 @@
 	
 	</body>
 	
-</head>
+</html>
