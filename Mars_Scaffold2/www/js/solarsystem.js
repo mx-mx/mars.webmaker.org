@@ -19,29 +19,24 @@ function findSemiMinor(){
 }
 
 function planetsOrbit( time ){
-	if( time > prevTime ){
-		for ( var i = 1; i < ss.length; i ++ ) {
-	        var planet = ss[i];
-			ss[i].orbiting( time, ssScale.s );
-		}
-		prevTime = time;
-	}	
+
+	for ( var i = 1; i < ss.length; i ++ ) {
+        var planet = ss[i];
+		ss[i].orbiting( time, ssScale.s );
+	}
+
 }
 
 function setSolarSystemScale(){
-	if ( scaling ){
-		var sunS = 1392684 * ssScale.sunScale;
-		ss[0].scale.set( sunS, sunS, sunS );
 
-		for ( var i = 1; i < ss.length; i ++ ) {
-			var planetS = ephemeris[i].size * ssScale.planetScale;
-			ss[i].scale.set( planetS, planetS, planetS );
-			ss[i].orbit.scale.set( ssScale.s, ssScale.s, ssScale.s );
-	    }
+	var sunS = 1392684 * ssScale.sunScale;
+	ss[0].scale.set( sunS, sunS, sunS );
 
-	scaling = false;
-
-	}
+	for ( var i = 1; i < ss.length; i ++ ) {
+		var planetS = ephemeris[i].size * ssScale.planetScale;
+		ss[i].scale.set( planetS, planetS, planetS );
+		ss[i].orbit.scale.set( ssScale.s, ssScale.s, ssScale.s );
+    }
 }
 
 function makeSolarSystem(){

@@ -1,6 +1,7 @@
-var timer = function(){
-	this.count = 1;
-	this.multiplier = .25;
+var Timer = function(){
+	this.count = 0;
+	this.multiplier = 0;
+	this.JD = 0;
 	return this;
 }
 
@@ -33,4 +34,11 @@ function keyInObject( obj ){
 	      }
 	   }
 	}
+}
+
+function Tweener( obj, target, time ){
+	var scaler = new TWEEN.Tween( obj )
+		.to( target, time )
+		.easing( TWEEN.Easing.Sinusoidal.InOut )
+		.start();
 }

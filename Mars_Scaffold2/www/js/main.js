@@ -94,7 +94,7 @@ function init() {
 	camEarth = new camPosition( { x: 50, y: 50, z: 250 }, ss[3].position, 1500 );
 	camMars = new camPosition( { x: 75, y: 50, z: 300 }, ss[4].position, 1500 );
 
-	t = new timer();
+	timer = new Timer();
 
 	buildGUI();
 
@@ -132,7 +132,7 @@ var gui;
 function buildGUI(){
 
 	gui = new dat.GUI();
-	gui.add( t, 'multiplier', 0, 5).name( 'Orbit Speed' );
+	gui.add( timer, 'multiplier', -5, 5).name( 'Orbit Speed' );
 
 	// var labelFolder = gui.addFolder( 'Label Visibility' );
 	// labelFolder.open();
@@ -242,7 +242,7 @@ function animate() {
 	//stats.update();
 	TWEEN.update();
 	setSolarSystemScale();
-	planetsOrbit( t.count );
+	planetsOrbit( timer.count );
 
 	var vector = new THREE.Vector3( mouse.x, mouse.y, 1 );
 	projector.unprojectVector( vector, camera );
@@ -280,7 +280,7 @@ function animate() {
 	var time = clock.getElapsedTime();
 
 	uniforms.time.value = time + delta;
-	t.count = t.count + 1 * t.multiplier;
+	timer.count = timer.count + timer.multiplier;
 
 	camera.lookAt( camTarget );
 	render();
