@@ -1,6 +1,6 @@
-function updateLabels(){
-    for (var i in ss ) {
-        var label = ss[i].label;
+function updateLabels( l ){
+    for (var i in l ) {
+        var label = l[i].label;
         label.update();
     }
 } 
