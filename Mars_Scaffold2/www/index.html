@@ -177,6 +177,20 @@ document.addEventListener("DOMContentLoaded", function () {
     popcornMedia[1].on( "ended", function() {
     	advancePopcornMedia();
 	});
+	
+    popcornMedia[1].cue( 6.5, function() {
+    	Tweener(ssScale, {planetScale:.00001}, 1000);
+    	Tweener(ssScale, {sunScale:.000001}, 1000);
+    	Tweener(ssScale, {s:.00001}, 1000);
+	});
+    popcornMedia[1].cue( 11, function() {
+    	Tweener(ssScale, {s:.000001}, 1000);
+	});
+    popcornMedia[1].cue( 12, function() {
+    	Tweener(ssScale, {sunScale:.00001}, 1000);
+    	Tweener(ssScale, {planetScale:.001}, 1000);
+    	Tweener(ssScale, {s:.000001}, 1000);
+	});
     popcornMedia[2].on( "ended", function() {
     	advancePopcornMedia();
 	});
@@ -197,7 +211,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		$("#replaybuttonwrapper").animate({opacity: 1.0}, 200, function() {
         	$("#replaybuttonwrapper").css('pointer-events', 'auto');
     	});
-	});popcornMedia[5].cue( 8.9, function() {
+	});
+	popcornMedia[5].cue( 8.9, function() {
 		$("#helpbuttonwrapper").animate({opacity: 1.0}, 200, function() {
         	$("#helpbuttonwrapper").css('pointer-events', 'auto');
     	});
