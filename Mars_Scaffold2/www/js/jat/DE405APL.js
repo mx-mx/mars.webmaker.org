@@ -515,7 +515,7 @@
 //				var /*BufferedReader*/ bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
 				var ephemeris = this;
 				jQuery.get(fileName, function(data) {
-					console.log("Completed read of ephemeris");
+					// console.log("Completed read of ephemeris");
 					/* Read each record in the file */
 					var lines = data.split("\n");
 					var index = 0;
