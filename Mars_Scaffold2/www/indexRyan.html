@@ -6,54 +6,77 @@
 		<title>three.js canvas - geometry - earth</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link href="./css/smoothness/jquery-ui-1.10.1.custom.css" rel="stylesheet">
 
-		<script src="./js/libs/jquery-1.9.1.min.js"></script>
-		<script src="./js/libs/three.min.js"></script>
-		<script src="./js/libs/Detector.js"></script>
+		<script src="js/libs/jquery-1.9.1.min.js"></script>
+		<script src="js/libs/jquery-ui-1.10.1.custom.min.js"></script>
+
+		<script src="./js/three.min.js"></script>
+		<script src="./js/Detector.js"></script>
 		<script src="./js/libs/stats.min.js"></script>
 		<script src="./js/libs/tween.min.js"></script>
 		<script src="./js/libs/dat.gui.min.js"></script>
 		<script src="./js/libs/underscore.min.js"></script>
 
 		<script src="./js/controls/OrbitControls.js"></script>	
+
 		<script src="./js/loaders/ColladaLoader.js"></script>
 
-		
-        <script src="js/jat/Constants.js"></script>
-        <script src="js/jat/PathUtil.js"></script>
-        <script src="js/jat/DE405APL.js"></script>
-        <script src="js/jat/DE405Body.js"></script>
-        <script src="js/jat/DE405Plus.js"></script>
-        <script src="js/jat/Lambert.js"></script>
-        <script src="js/jat/LambertException.js"></script>
-        <script src="js/jat/MarsOdyssey.js"></script>
-        <script src="js/jat/Trajectory.js"></script>
-        <script src="js/jat/Matrix.js"></script>
-        <script src="js/jat/SolarSystemBodies.js"></script>
-        <script src="js/jat/Time.js"></script>
-        <script src="js/jat/TimeUtils.js"></script>
-        <script src="js/jat/TwoBody.js"></script>
-        <script src="js/jat/VectorN.js"></script>
-        <script src="js/jat/ZeroFinder.js"></script>
-
 		<script src="./js/utils.js"></script>
-		<script src="./js/ephemeris.js"></script>
-		<script src="./js/daycount.js"></script>
-		<script src="./js/ruler.js"></script>
 		<script src="./js/shaderlist.js"></script>
-
+		<script src="./js/ephemeris.js"></script>
 		<script src="./js/label.js"></script>
 		<script src="./js/lensflare.js"></script>
-		<script src="./js/planet.js"></script>
 		<script src="./js/orbit.js"></script>
+		<script src="./js/planet.js"></script>
 		<script src="./js/sun.js"></script>
 		<script src="./js/solarsystem.js"></script>
+		<script src="./js/ruler.js"></script>
 		<script src="./js/camtweener.js"></script>
 		<script src="./js/main.js"></script>
+
 		<script src="./js/stars.js"></script>
+		<script src="./js/trajectory.js"></script>
 
 		<script src="./js/addlensflare.js"></script>
 
+<script>
+//<!--
+	
+
+$(document).ready( function() {
+
+	$contenttarget = $("#contenttarget");
+	if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
+	$( '#loadtext' ).show();
+	setLoadMessage("Loading the Solar System");
+
+	loader.options.convertUpAxis = true;
+	loader.load( './models/galaxy.dae', function ( collada ) {
+
+		dae = collada.scene;
+		dae.scale.x = dae.scale.y = dae.scale.z = 50000;
+		dae.updateMatrix();
+
+	} );
+
+	loadShaders( shaderList, function (e) {
+		shaderList = e;
+		postShadersLoaded();
+	});
+
+	var postShadersLoaded = function () {
+	        init();
+	        animate();
+			$("#loadtext").hide();
+    };
+} );
+      
+
+//-->
+</script>
+		
 		<style>
 			body {
 				color: #808080;
@@ -95,7 +118,7 @@
 				background-color:#b0e0e6;
 			}
 	        
-	        #container
+	        #contenttarget
 	        {
 	            background: #000;
 	            width: 100%;
@@ -159,8 +182,8 @@
 		</span>
 	</div>
 	<div id="loadtext"></div>
-    <div id="container"></div>
-	<div id="info">MARS-DOE Solar System</div>
+    <div id="contenttarget"></div>
+	<div id="info"></div>
 
 	</body>
 </html>
