@@ -939,11 +939,11 @@
 	 */
 
 	/*public void */VectorN.prototype.print = function(/*String*/ title) {
-		console.log(" Vector " + title);
+		// console.log(" Vector " + title);
 		for (var /*int*/ i = 0; i < this.length; i++) {
-			console.log("  " + title + "[" + i + "] = " + this.x[i]);
+			// console.log("  " + title + "[" + i + "] = " + this.x[i]);
 		}
-		console.log("-------------------");
+		// console.log("-------------------");
 	};
 
 //	/** Print the VectorN to System.out.
