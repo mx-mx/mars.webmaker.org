@@ -28,15 +28,23 @@ $recipient_name = preg_replace('/-|_/',' ',$matches[0]);
     <meta name="description" content="Get My Badge">
     <meta name="author" content="">
 
-		<link rel="stylesheet" href="../css/style.css">
-	  <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->	
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
-		<script src="<?php print $open_badges_api; ?>"></script>
+	<link rel="stylesheet" type="text/css" href="../../css/mars.css" />
+	<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->	
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+	<script src="<?php print $open_badges_api; ?>"></script>
+	
+	<script src="../../js/libs/jquery-1.9.1.min.js"></script>
+	<script src="../../js/libs/jquery-ui-1.10.1.custom.min.js"></script>
 
 <script>
 $(document).ready(function() {
 	
 	$('.js-required').hide();
+	$('.badge-error').hide();
+	$('.browserSupport').hide();
+	$('#badgeSuccess').hide();
+	
+		
 	
 	if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)){  //The Issuer API isn't supported on MSIE Bbrowsers
 		$('.backPackLink').hide();
@@ -46,10 +54,9 @@ $(document).ready(function() {
 	
 	//Function that issues the badge
 	
-	$('.backPackLink').click(function() {
-		//you may need to adjust the assertion URL based on where you store your json files
-		
-		var assertionUrl = "<?php print $issuer_url; ?>/badge-it-gadget-lite/digital-badges/issued/json/<?php print $_GET[id]; ?>.json";
+	var backPackLink = document.getElementById('backPackLink');
+    backPackLink.onclick = function() {
+       var assertionUrl = "<?php print $issuer_url; ?>/badge-it-gadget-lite/digital-badges/issued/json/<?php print $_GET[id]; ?>.json";
        OpenBadges.issue([''+assertionUrl+''], function(errors, successes) { 
 				//	alert(errors.toSource()) 
 				//	alert(successes.toSource()) 
@@ -58,9 +65,9 @@ $(document).ready(function() {
 						$('#badge-error').show();	
 						var data = 'ERROR, <?php echo $badges_array[$badgeId]['name']; ?>, <?php echo $recipient_name; ?>, ' +  errors.toSource();
 						$.ajax({
-    					url: 'record-issued-badges.php',
-    					type: 'POST',
-    					data: { data: data }
+    						url: 'record-issued-badges.php',
+    						type: 'POST',
+    						data: { data: data }
 						});
 					}
 					
@@ -70,26 +77,30 @@ $(document).ready(function() {
 							$('#badgeSuccess').show();
 							var data = 'SUCCESS, <?php echo $badges_array[$badgeId]['name']; ?>, <?php echo $recipient_name; ?>';
 							$.ajax({
-    						url: 'record-issued-badges.php',
-    						type: 'POST',
-    						data: { data: data }
+    							url: 'record-issued-badges.php',
+    							type: 'POST',
+    							data: { data: data }
 							});
-						}	
-					});    
-				});
-	});
+					}	
+			});    
+    };
+	
+	
+});
+
 </script>
 
 
   </head>
 
   <body>
+  <!--
 	<div class="light-bg-container">
 		<header>
     		<h1>Mission to Mars</h1>
 		</header>
 		<section id="badge-container">
-			<div class="js-required">Javascript is required to get your badge. Please enable it in your preferences.</div>
+			<div id="js-required">Javascript is required to get your badge. Please enable it in your preferences.</div>
 			<ul class="criteria-no-style">
 				<li>Badge Name: <?php echo $badges_array[$badgeId]['name']; ?></li>
 				<li>Badge Earner: <?php echo $recipient_name; ?></li>
@@ -105,7 +116,28 @@ $(document).ready(function() {
 			</li>
 		</ul>
 		</section>
-</div>
+	</div>-->
+	
+	<div id="backpackloginpopup" class="modalmask" style="opacity:1.0;pointer-events:auto;">
+		<div id="backpacklogindiv" class="badgecontenttarget">
+			<div class="js-required">Javascript is required to get your badge. Please enable it in your preferences.</div>
+			<h1>Mission To Mars</h1>
+			<br>
+			Badge Name: <?php echo $badges_array[$badgeId]['name']; ?>
+			<br>
+			Badge Earner: <?php echo $recipient_name; ?>
+			<br>
+			<?php echo $badgeDescription; ?>
+			<br><br>
+			<img src="<?php echo $imageURL; ?>">
+			<br><br><br>
+			<button id="backPackLink" class="squarebluebutton">Upload Badge to Backpack</button>
+			<br><br>
+			<div class="badge-error"><p><em>Hmmmm...something went wrong.</em> <span id="errMsg"></span></div>
+			<div class="browserSupport">(Please use Firefox or Chrome to retrieve your badge)</div>
+			<div id="badgeSuccess"><p><em>Congratulations!</em> If you ever want to manage or view your badges, just visit your <a href="http://beta.openbadges.org/" target="_blank">Open Badges backpack</a></p>
+		</div>
+	</div>
 
 
   </body>

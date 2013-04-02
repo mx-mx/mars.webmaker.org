@@ -141,7 +141,7 @@ if( isset($_POST) ){
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Badge-It Gadget Lite Badger</title>
+    <title>Badge</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="Badge-It Gadget Lite Badger">
@@ -176,7 +176,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		
 		<div id="backpackloginpopup" class="modalmask" style="opacity:1.0;pointer-events:auto;">
 			<div id="backpacklogindiv" class="badgecontenttarget">
-				<h1><?php echo $badgeDescription; ?></h1>
+				<h1>Mission To Mars</h1>
 				<br>
 				<?php echo $badgeDescription; ?>
 				<br><br>
@@ -187,7 +187,6 @@ document.addEventListener("DOMContentLoaded", function () {
 					<button id="backpackloginpopupkskip" class="squarebluebutton">Skip</button>
 					<button id="backpackloginpopupcontinue" class="squarebluebutton">Continue</button>
 				</div>
-				<?php echo $msgURL; ?>
 			</div>
 		</div>
 		
