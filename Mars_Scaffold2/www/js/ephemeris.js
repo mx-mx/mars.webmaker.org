@@ -21,7 +21,7 @@ var ephemeris = [
 		name: 'Mercury',
 		texture: './images/solarsystem/mercurymap.jpg',
 		size: 2439.7,
-		period: 88.0,
+		period: 87.96926,
 		EC: 0.20563593,
 		A: 57909227,
 		aphelion: 69817445
@@ -29,7 +29,7 @@ var ephemeris = [
 		name: 'Venus',
 		texture: './images/solarsystem/venusmap.jpg',
 		size: 6051.8,
-		period: 224.7,
+		period: 224.7008,
 		EC: 0.00677672,
 		A: 108209475,
 		aphelion: 108942780
@@ -37,15 +37,15 @@ var ephemeris = [
 		name: 'Earth',
 		texture: './images/solarsystem/earthmap2.jpg',
 		size: 6371.00,
-		period: 365.2,
-		EC: 0.01671123,
+		period: 365.25636,
+		EC: 0.01671022,
 		A: 149598262,
 		aphelion: 152098233
 	},{
 		name: 'Mars',
 		texture: './images/solarsystem/marsmap.jpg',
 		size: 3389.5,
-		period: 687,
+		period: 686.97959,
 		EC: 0.0933941,
 		A: 227943824,
 		aphelion: 249232432
@@ -53,7 +53,7 @@ var ephemeris = [
 		name: 'Jupiter',
 		texture: './images/solarsystem/jupitermap.jpg',
 		size: 69911,
-		period: 4332,
+		period: 4332.8201,
 		EC: 0.04838624,
 		A: 778340821,
 		aphelion: 816001807
@@ -61,14 +61,14 @@ var ephemeris = [
 		name: 'Saturn',
 		texture: './images/solarsystem/saturnmap.jpg',
 		size: 58232,
-		period: 10760,
+		period: 10755.699,
 		EC: 0.05386179,
 		A: 1426666422,
 		aphelion: 1503509229
 	},{
 		name: 'Uranus',
 		texture: './images/solarsystem/uranusmap.jpg',
-		size: 25362,
+		size: 30687.153,
 		period: 30700,
 		EC: 0.04725744,
 		A: 2870658186,
@@ -77,7 +77,7 @@ var ephemeris = [
 		name: 'Neptune',
 		texture: './images/solarsystem/neptunemap.jpg',
 		size: 24622,
-		period: 60200,
+		period: 60190.03,
 		EC: 0.00859048,
 		A: 4498396441,
 		aphelion: 4537039826

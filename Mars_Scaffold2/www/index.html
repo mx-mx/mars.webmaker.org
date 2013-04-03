@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <!--[if lt IE 7 ]> <html class="ie ie6 no-js" lang="en"> <![endif]-->
 <!--[if IE 7 ]>    <html class="ie ie7 no-js" lang="en"> <![endif]-->
@@ -19,55 +18,61 @@
 <link href="./css/smoothness/jquery-ui-1.10.1.custom.css" rel="stylesheet">
 <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
 
-<script src="js/popcorn-complete.js"></script>	
-<script src="js/popcorn.sequencer.js"></script>	
-<script src="http://beta.openbadges.org/issuer.js"></script>
+<script type="text/javascript" src="./js/popcorn-complete.js"></script>	
+<script type="text/javascript" src="./js/popcorn.sequencer.js"></script>	
+<!-- 
+<script type="text/javascript" src="http://beta.openbadges.org/issuer.js"></script>
 <script type="text/javascript" src="https://login.persona.org/include.js"></script>
-<!-- <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-<script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script> -->
-<script src="js/libs/jquery-1.9.1.min.js"></script>
-<script src="js/libs/jquery-ui-1.10.1.custom.min.js"></script>
-<script src="js/three.min.js"></script>
+ -->
+<script type="text/javascript" src="./js/libs/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="./js/libs/jquery-ui-1.10.1.custom.min.js"></script>
 
-<script src="./js/Detector.js"></script>
-<script src="./js/libs/stats.min.js"></script>
-<script src="./js/libs/tween.min.js"></script>
-<script src="./js/libs/dat.gui.min.js"></script>
-<script src="./js/libs/underscore.min.js"></script>
+<script type="text/javascript" src="./js/libs/three.min.js"></script>
 
-<script src="./js/controls/OrbitControls.js"></script>	
+		<script src="./js/libs/Detector.js"></script>
+		<script src="./js/libs/stats.min.js"></script>
+		<script src="./js/libs/tween.min.js"></script>
+		<script src="./js/libs/dat.gui.min.js"></script>
+		<script src="./js/libs/underscore.min.js"></script>
 
-<script src="./js/loaders/ColladaLoader.js"></script>
-<script src="./js/geometries/LatheGeometry.js"></script>
+		<script src="./js/controls/OrbitControls.js"></script>	
+		<script src="./js/loaders/ColladaLoader.js"></script>
 
-<script src="./js/shaders/ConvolutionShader.js"></script>
-<script src="./js/shaders/CopyShader.js"></script>
-<script src="./js/shaders/FilmShader.js"></script>
+		
+        <script src="js/jat/Constants.js"></script>
+        <script src="js/jat/PathUtil.js"></script>
+        <script src="js/jat/DE405APL.js"></script>
+        <script src="js/jat/DE405Body.js"></script>
+        <script src="js/jat/DE405Plus.js"></script>
+        <script src="js/jat/Lambert.js"></script>
+        <script src="js/jat/LambertException.js"></script>
+        <script src="js/jat/MarsOdyssey.js"></script>
+        <script src="js/jat/Trajectory.js"></script>
+        <script src="js/jat/Matrix.js"></script>
+        <script src="js/jat/SolarSystemBodies.js"></script>
+        <script src="js/jat/Time.js"></script>
+        <script src="js/jat/TimeUtils.js"></script>
+        <script src="js/jat/TwoBody.js"></script>
+        <script src="js/jat/VectorN.js"></script>
+        <script src="js/jat/ZeroFinder.js"></script>
 
-<script src="./js/postprocessing/EffectComposer.js"></script>
-<script src="./js/postprocessing/ShaderPass.js"></script>
-<script src="./js/postprocessing/MaskPass.js"></script>
-<script src="./js/postprocessing/RenderPass.js"></script>
-<script src="./js/postprocessing/BloomPass.js"></script>
-<script src="./js/postprocessing/FilmPass.js"></script>
+		<script src="./js/utils.js"></script>
+		<script src="./js/ephemeris.js"></script>
+		<script src="./js/daycount.js"></script>
+		<script src="./js/ruler.js"></script>
+		<script src="./js/shaderlist.js"></script>
 
-<script src="./js/utils.js"></script>
-<script src="./js/shaderlist.js"></script>
-<script src="./js/ephemeris.js"></script>
-<script src="./js/label.js"></script>
-<script src="./js/lensflare.js"></script>
-<script src="./js/orbit.js"></script>
-<script src="./js/planet.js"></script>
-<script src="./js/sun.js"></script>
-<script src="./js/solarsystem.js"></script>
-<script src="./js/ruler.js"></script>
-<script src="./js/camtweener.js"></script>
-<script src="./js/main.js"></script>
+		<script src="./js/label.js"></script>
+		<script src="./js/lensflare.js"></script>
+		<script src="./js/planet.js"></script>
+		<script src="./js/orbit.js"></script>
+		<script src="./js/sun.js"></script>
+		<script src="./js/solarsystem.js"></script>
+		<script src="./js/camtweener.js"></script>
+		<script src="./js/main.js"></script>
+		<script src="./js/stars.js"></script>
 
-<script src="./js/stars.js"></script>
-<script src="./js/trajectory.js"></script>
-
-<script src="./js/addlensflare.js"></script>
+		<script src="./js/addlensflare.js"></script>
 
 
 <script type="text/javascript">
@@ -193,6 +198,12 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
     popcornMedia[2].on( "ended", function() {
     	advancePopcornMedia();
+	});
+    popcornMedia[2].cue( 6, function() {
+    	//Tweener(timer, {multiplier:.00001}, 5000);
+	});
+    popcornMedia[2].cue( 2, function() {
+       	camTweener( { x: 0, y: 700, z: 0 }, { x: 0, y: 0, z: 0 }, 3000 );
 	});
     popcornMedia[3].on( "ended", function() {
     	advancePopcornMedia();
@@ -356,9 +367,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		if(userLessonNumber==0) {
 			jumpPopcornMedia(7);
 		}
-		//listenToMouseMovements=false;
-		//cancelCallToAction=false;
-    	//userLessonNumber++; //update to next lesson
     }
     var advanceUser = function () {
 		listenToMouseMovements=false;
@@ -512,10 +520,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		//effect: "applyclass",
     	//applyclass: "stretchcontent"
     //});
-	
-    popcornMedia[2].cue( 6, function() {
-       	camTweener( { x: 0, y: 700, z: 0 }, { x: 0, y: 0, z: 0 }, 3000 );
-	});
     popcornMedia[16].cue( 6, function() {
        	camTweener( { x: 0, y: 700, z: 0 }, { x: 0, y: 0, z: 0 }, 3000 );
 	});
@@ -827,7 +831,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     
   //from main.js
-	if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+  if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
 	$( '#loadtext' ).show();
 	setLoadMessage("Loading the Solar System");
@@ -836,19 +840,20 @@ document.addEventListener("DOMContentLoaded", function () {
 	loader.load( './models/galaxy.dae', function ( collada ) {
 
 		dae = collada.scene;
-		dae.scale.x = dae.scale.y = dae.scale.z = 50000;
+		dae.scale.x = dae.scale.y = dae.scale.z = 60000;
 		dae.updateMatrix();
 
 	} );
 
 	loadShaders( shaderList, function (e) {
-		console.log("loadShaders");
 		shaderList = e;
 		postShadersLoaded();
 	});
 
 	var postShadersLoaded = function () {
 		console.log("postShadersLoaded");
+	        //init();
+	        //animate();
 			$("#loadtext").hide();
     };
       
@@ -912,8 +917,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		
 		<div id="videocontenttarget" class="videocontenttarget">
 			<video height="100%" width="100%" id="video" style="background: #00f;">
-         		<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/video/SEQ1_OCVO_v05.mp4">
-         		<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/video/SEQ1_OCVO_v05.webmhd.webm">
+         		<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/video/SEQ1_OCVO_v05.mp4"></source>
+         		<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/video/SEQ1_OCVO_v05.webmhd.webm"></source>
        		</video>
 		</div>
 		
@@ -1007,99 +1012,99 @@ document.addEventListener("DOMContentLoaded", function () {
 		
 		
 		<audio id="SEQ2_VO">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ2_VO.mp3">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ2_VO.oggvorbis.ogg">
-			Your browser does not support the audio element.  Upgrade the browser.
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ2_VO.mp3"></source>
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ2_VO.oggvorbis.ogg"></source>
+			
 		</audio> 
 		
 		<audio id="SEQ3_VOpt1">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt1.mp3">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt1.oggvorbis.ogg">
-			Your browser does not support the audio element.  Upgrade the browser.
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt1.mp3"></source>
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt1.oggvorbis.ogg"></source>
+			
 		</audio>
 		
 		<audio id="SEQ3_VOpt2">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt2.mp3">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt2.oggvorbis.ogg">
-			Your browser does not support the audio element.  Upgrade the browser.
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt2.mp3"></source>
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt2.oggvorbis.ogg"></source>
+			
 		</audio> 
 		
 		<audio id="SEQ3_VOpt3">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt3.mp3">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt3.oggvorbis.ogg">
-			Your browser does not support the audio element.  Upgrade the browser.
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt3.mp3"></source>
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt3.oggvorbis.ogg"></source>
+			
 		</audio> 
 		
 		<audio id=SEQ_3_CAM_1a>
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1a.mp3">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1a.oggvorbis.ogg">
-			Your browser does not support the audio element.  Upgrade the browser.
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1a.mp3"></source>
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1a.oggvorbis.ogg"></source>
+			
 		</audio> 
 		
 		<audio id="SEQ_3_CAM_1b">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1b.mp3">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1b.oggvorbis.ogg">
-			Your browser does not support the audio element.  Upgrade the browser.
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1b.mp3"></source>
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1b.oggvorbis.ogg"></source>
+			
 		</audio> 
 		
 		<audio id="SEQ_3_CAM_1c">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1c.mp3">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1c.oggvorbis.ogg">
-			Your browser does not support the audio element.  Upgrade the browser.
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1c.mp3"></source>
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1c.oggvorbis.ogg"></source>
+			
 		</audio> 
 		
 		<audio id=SEQ_3_CAM_2a>
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_2a.mp3">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_2a.oggvorbis.ogg">
-			Your browser does not support the audio element.  Upgrade the browser.
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_2a.mp3"></source>
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_2a.oggvorbis.ogg"></source>
+			
 		</audio> 
 		
 		<audio id="SEQ_3_CAM_2b">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_2b.mp3">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_2b.oggvorbis.ogg">
-			Your browser does not support the audio element.  Upgrade the browser.
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_2b.mp3"></source>
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_2b.oggvorbis.ogg"></source>
+			
 		</audio> 
 		
 		<audio id=SEQ_3_CAM_3a>
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3a.mp3">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3a.oggvorbis.ogg">
-			Your browser does not support the audio element.  Upgrade the browser.
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3a.mp3"></source>
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3a.oggvorbis.ogg"></source>
+			
 		</audio> 
 		
 		<audio id="SEQ_3_CAM_3b">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3b.mp3">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3b.oggvorbis.ogg">
-			Your browser does not support the audio element.  Upgrade the browser.
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3b.mp3"></source>
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3b.oggvorbis.ogg"></source>
+			
 		</audio> 
 		
 		<audio id="SEQ_3_CAM_3c">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3c.mp3">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3c.oggvorbis.ogg">
-			Your browser does not support the audio element.  Upgrade the browser.
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3c.mp3"></source>
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3c.oggvorbis.ogg"></source>
+			
 		</audio> 
 		
 		<audio id=SEQ_3_CAM_4a>
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4a.mp3">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4a.oggvorbis.ogg">
-			Your browser does not support the audio element.  Upgrade the browser.
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4a.mp3"></source>
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4a.oggvorbis.ogg"></source>
+			
 		</audio> 
 		
 		<audio id="SEQ_3_CAM_4b">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4b.mp3">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4b.oggvorbis.ogg">
-			Your browser does not support the audio element.  Upgrade the browser.
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4b.mp3"></source>
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4b.oggvorbis.ogg"></source>
+			
 		</audio> 
 		
 		<audio id="SEQ_3_CAM_4c">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4c.mp3">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4c.oggvorbis.ogg">
-			Your browser does not support the audio element.  Upgrade the browser.
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4c.mp3"></source>
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4c.oggvorbis.ogg"></source>
+			
 		</audio> 
 		
 		<audio id="SEQ_3_CAM_4d">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4d.mp3">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4d.oggvorbis.ogg">
-			Your browser does not support the audio element.  Upgrade the browser.
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4d.mp3"></source>
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4d.oggvorbis.ogg"></source>
+			
 		</audio> 
 	</body>
 </html>

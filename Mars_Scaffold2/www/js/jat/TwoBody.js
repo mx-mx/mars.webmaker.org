@@ -446,13 +446,13 @@
 
 	/*public void */TwoBody.prototype.printElements = function(/*String*/ title)
 	{
-		console.log(" Kepler Elset: " + title);
-		console.log("   a = " + this.a);
-		console.log("   e = " + this.e);
-		console.log("   i = " + (this.i * Constants$rad2deg));
-		console.log("   raan = " + (this.raan * Constants$rad2deg));
-		console.log("   w = " + (this.w * Constants$rad2deg));
-		console.log("   ta = " + (this.ta * Constants$rad2deg));
+		// console.log(" Kepler Elset: " + title);
+		// console.log("   a = " + this.a);
+		// console.log("   e = " + this.e);
+		// console.log("   i = " + (this.i * Constants$rad2deg));
+		// console.log("   raan = " + (this.raan * Constants$rad2deg));
+		// console.log("   w = " + (this.w * Constants$rad2deg));
+		// console.log("   ta = " + (this.ta * Constants$rad2deg));
 	};
 
 	/** Print the position and velocity vector.
