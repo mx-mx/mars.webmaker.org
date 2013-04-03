@@ -133,6 +133,8 @@ document.addEventListener("DOMContentLoaded", function () {
         animate();
 
         gui.destroy();  //remove the test GUI (used by Ryan)
+        //set time to freeze
+        Tweener(timer, {multiplier:.0}, 1);
 	});
 	
 	basepop.cue( 2, function() {
@@ -198,11 +200,11 @@ document.addEventListener("DOMContentLoaded", function () {
     popcornMedia[2].on( "ended", function() {
     	advancePopcornMedia();
 	});
-    popcornMedia[2].cue( 6, function() {
-    	//Tweener(timer, {multiplier:.00001}, 5000);
-	});
     popcornMedia[2].cue( 2, function() {
        	camTweener( { x: 0, y: 700, z: 0 }, { x: 0, y: 0, z: 0 }, 3000 );
+	});
+    popcornMedia[2].cue( 6, function() {
+    	Tweener(timer, {multiplier:.24}, 2000);
 	});
     popcornMedia[3].on( "ended", function() {
     	advancePopcornMedia();
