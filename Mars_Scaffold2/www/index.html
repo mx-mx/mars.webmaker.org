@@ -290,6 +290,7 @@ document.addEventListener("DOMContentLoaded", function () {
         	$("#threedcontrols").css('pointer-events', 'auto');
     	});
 	});
+
     
     $(document).on('mouseup', function(e) {
         if(!listenToMouseMovements) return;
@@ -729,14 +730,6 @@ document.addEventListener("DOMContentLoaded", function () {
 				//camTweener( camMars, camNextTarget, 1500 );
 				finishFourthCameraLesson();
 		});
-
-		
-		$( "#setDate" )
-			.button()
-			.click(function( event ) {
-
-				console.log("setting date");
-		});
 		
 
 		$( "#speedSlider" ).slider( {
@@ -843,9 +836,43 @@ document.addEventListener("DOMContentLoaded", function () {
 		      changeMonth: true,
 		      changeYear: true,
 		      minDate: new Date(1957, 1 - 1, 25),
-		      maxDate: new Date(3000, 1 - 1, 25)
+		      maxDate: new Date(3000, 1 - 1, 25),
+		      onSelect: function(dateText, inst) { 
+	    			console.log("dateText: ", dateText);
+	    			console.log("inst: ", inst);
+	    			Tweener(timer, {multiplier:0}, 500);
+	    			var jumpToDate = new Date(Date.parse(dateText)).Date2Julian();
+	    			if(timer) {
+
+		    			timer.JD = jumpToDate;
+	    			}
+
+	    			//console.log("jumpToDate: " +  dateFormatter(jumpToDate));
+	    		}
 		    });
-		  });
+		});
+		
+		setInterval(function() { 
+			if(timer) {
+				//var aDate = new Date(Number.Julian2Date(timer.JD));
+				var aDate = new Number(timer.JD).Julian2Date();
+				
+				//console.log("formattedDate: ", dateFormatter(aDate)); 
+				document.getElementById( "datepicker" ).value = dateFormatter(aDate);
+			}
+			
+		}, 100);
+		
+		//we've got simple date formatting needs, so this will be sufficient for our project.
+		var dateFormatter = function(aDate) {
+			var mm = aDate.getMonth() + 1;
+			if(mm<10)mm = "0" + mm;
+		    var dd = aDate.getDate();
+			if(dd<10)dd = "0" + dd;
+		    var yyyy = aDate.getFullYear();
+		    var formattedDate = mm + '/' + dd + '/' + yyyy;
+		    return formattedDate;
+		}
 		
       });
     
