@@ -14,8 +14,9 @@
 <meta name="author" content="MX" />
 <LINK REL="SHORTCUT ICON" HREF="images/mars.ico"> 
 <link rel="stylesheet" type="text/css" href="css/mars.css" />
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
-<link href="./css/smoothness/jquery-ui-1.10.1.custom.css" rel="stylesheet">
+<!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" /> -->
+<link href="css/custom-theme/jquery-ui-1.10.2.custom.css" rel="stylesheet">
+<!-- <link href="./css/smoothness/jquery-ui-1.10.1.custom.css" rel="stylesheet"> -->
 <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
 
 <script type="text/javascript" src="./js/popcorn-complete.js"></script>	
@@ -729,18 +730,26 @@ document.addEventListener("DOMContentLoaded", function () {
 				finishFourthCameraLesson();
 		});
 
+		
+		$( "#setDate" )
+			.button()
+			.click(function( event ) {
+
+				console.log("setting date");
+		});
+		
+
 		$( "#speedSlider" ).slider( {
 			animate: true,
 			range: "min",
 			value: 0,
-			min: 0,
-			max: 50,
-			step: 1,
-			create: function() {
-				timerMultiplier = $( "#speedSlider" ).slider( "option", "value" );
-			},
+			min: -5,
+			max: 5,
+			step: .025,
 			change: function() {
-				timerMultiplier = $( "#speedSlider" ).slider( "option", "value" );
+				var sliderVal = $( "#speedSlider" ).slider( "option", "value" );
+				console.log("sliderVal: " + sliderVal);
+				Tweener(timer, {multiplier:sliderVal}, 1000);
 			}
 		});
 
@@ -828,6 +837,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 	//$("#playbuttonwrapper").css('pointer-events', 'auto');
             	//});
 		});
+		
+		$(function() {
+		    $( "#datepicker" ).datepicker({
+		      changeMonth: true,
+		      changeYear: true,
+		      minDate: new Date(1957, 1 - 1, 25),
+		      maxDate: new Date(3000, 1 - 1, 25)
+		    });
+		  });
 		
       });
     
@@ -935,13 +953,19 @@ document.addEventListener("DOMContentLoaded", function () {
 					<button id="replaybutton" class="replaybutton">REPLAY</button>
 				</div>
 			</div>
-			<div id="bottombarmiddle" class="bottombarmiddle">
+			<div id="bottombarmiddle" class="bottombarmiddle" style="vertical-align: middle;">
 				<div id="threedcontrols" class="threedcontrols">
 					<button id="cam2" class="squarebluebutton">Home</button>
 					<button id="cam3" class="squarebluebutton">Rover</button>
 					<button id="cam4" class="squarebluebutton">Earth</button>
 					<button id="cam5" class="squarebluebutton">Mars</button>
-					<div id="speedSlider" class="speedSlider"></div>
+					<div id="inputwrapper" class="inputwrapper">
+						Date: &nbsp;  <input type="text" id="datepicker" class="datepicker"/>
+					</div>
+					<div id="sliderwrapper" class="sliderwrapper">
+						<div id="speedSlider" class="speedSlider"></div>
+					</div>
+					
 				</div>
 			</div>
 			
