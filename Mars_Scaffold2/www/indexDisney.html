@@ -1,0 +1,1087 @@
+
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html class="ie ie6 no-js" lang="en"> <![endif]-->
+<!--[if IE 7 ]>    <html class="ie ie7 no-js" lang="en"> <![endif]-->
+<!--[if IE 8 ]>    <html class="ie ie8 no-js" lang="en"> <![endif]-->
+<!--[if IE 9 ]>    <html class="ie ie9 no-js" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>DOE</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<meta name="description" content="" />
+<meta name="keywords" content="Mars" />
+<meta name="author" content="MX" />
+<LINK REL="SHORTCUT ICON" HREF="images/mars.ico"> 
+<link rel="stylesheet" type="text/css" href="css/mars.css" />
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
+<link href="./css/smoothness/jquery-ui-1.10.1.custom.css" rel="stylesheet">
+<link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
+
+<script src="js/popcorn-complete.js"></script>	
+<script src="js/popcorn.sequencer.js"></script>	
+<script src="http://beta.openbadges.org/issuer.js"></script>
+<script type="text/javascript" src="https://login.persona.org/include.js"></script>
+<!-- <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script> -->
+<script src="js/libs/jquery-1.9.1.min.js"></script>
+<script src="js/libs/jquery-ui-1.10.1.custom.min.js"></script>
+<script src="js/three.min.js"></script>
+
+<script src="./js/Detector.js"></script>
+<script src="./js/libs/stats.min.js"></script>
+<script src="./js/libs/tween.min.js"></script>
+<script src="./js/libs/dat.gui.min.js"></script>
+<script src="./js/libs/underscore.min.js"></script>
+
+<script src="./js/controls/OrbitControls.js"></script>	
+
+<script src="./js/loaders/ColladaLoader.js"></script>
+<script src="./js/geometries/LatheGeometry.js"></script>
+
+<script src="./js/shaders/ConvolutionShader.js"></script>
+<script src="./js/shaders/CopyShader.js"></script>
+<script src="./js/shaders/FilmShader.js"></script>
+
+<script src="./js/postprocessing/EffectComposer.js"></script>
+<script src="./js/postprocessing/ShaderPass.js"></script>
+<script src="./js/postprocessing/MaskPass.js"></script>
+<script src="./js/postprocessing/RenderPass.js"></script>
+<script src="./js/postprocessing/BloomPass.js"></script>
+<script src="./js/postprocessing/FilmPass.js"></script>
+
+<script src="./js/utils.js"></script>
+<script src="./js/shaderlist.js"></script>
+<script src="./js/ephemeris.js"></script>
+<script src="./js/label.js"></script>
+<script src="./js/lensflare.js"></script>
+<script src="./js/orbit.js"></script>
+<script src="./js/planet.js"></script>
+<script src="./js/sun.js"></script>
+<script src="./js/solarsystem.js"></script>
+<script src="./js/ruler.js"></script>
+<script src="./js/camtweener.js"></script>
+<script src="./js/main.js"></script>
+
+<script src="./js/stars.js"></script>
+<script src="./js/trajectory.js"></script>
+
+<script src="./js/addlensflare.js"></script>
+
+
+<script type="text/javascript">
+//need a value to maintain global user email to check for during session.
+//the following variable and function provide separate backpack window to communicate user email value.
+var userBackpackEmail;
+function setUserBackpackEmail(emailValue) {
+	userBackpackEmail = emailValue;
+	console.log("user email set to: ",userBackpackEmail);
+}
+
+// ensure the web page (DOM) has loaded
+document.addEventListener("DOMContentLoaded", function () {
+	//https://www.youtube.com/watch?v=P4boyXQuUIw - the MSL path
+	//http://www.youtube.com/watch?v=jEXoMpmfJcM - the MSL launch - a better version
+	//https://www.youtube.com/watch?v=lKqr3F73bAI - MSL trajectory
+			
+//blue - 58,132,166 #3a84a6
+//bluebg - 13,30,38 #0d1e26 70%
+//menu/next green - 135,153,72 #7d9948 
+//submenu green - 88,107,54 #586b36
+//submenu greenbg - 42,51,24 #2a3318 80%
+//header greenbg 31,38,18 #1f2612 70%
+
+	//init();
+	//animate();
+	//$("#loadtext").hide();
+ 
+	$contenttarget = $("#contenttarget");
+	// Create a popcorn instance by calling the Youtube player plugin     
+	Popcorn.player( "baseplayer" );
+	
+	var popcornMedia = new Array();
+	var popcornSequenceNumber = 0;
+	popcornMedia[0] = Popcorn( '#video' );
+	popcornMedia[1] = Popcorn('#SEQ2_VO' );
+	popcornMedia[2] = Popcorn('#SEQ3_VOpt1' );
+	popcornMedia[3] = Popcorn('#SEQ3_VOpt2' );
+	popcornMedia[4] = Popcorn( '#SEQ3_VOpt3' );
+	popcornMedia[5] = Popcorn( '#SEQ_3_CAM_1a' );
+	popcornMedia[6] = Popcorn( '#SEQ_3_CAM_1b' );//call to action
+	popcornMedia[7] = Popcorn( '#SEQ_3_CAM_1c' );
+	popcornMedia[8] = Popcorn( '#SEQ_3_CAM_2a' );
+	popcornMedia[9] = Popcorn( '#SEQ_3_CAM_2b' );//call to action
+	popcornMedia[10] = Popcorn( '#SEQ_3_CAM_3a' );
+	popcornMedia[11] = Popcorn( '#SEQ_3_CAM_3b' );//call to action
+	popcornMedia[12] = Popcorn( '#SEQ_3_CAM_3c' );
+	popcornMedia[13] = Popcorn( '#SEQ_3_CAM_4a' );
+	popcornMedia[14] = Popcorn( '#SEQ_3_CAM_4b' );//call to action
+	popcornMedia[15] = Popcorn( '#SEQ_3_CAM_4c' );
+	popcornMedia[16] = Popcorn( '#SEQ_3_CAM_4d' );
+
+	var basepop = Popcorn.baseplayer( "#contenttarget" ); //not sure if I'll need this baseplayer
+	//var popcorn_branch1_video2 = Popcorn.youtube('#videocontenttarget2', 'https://www.youtube.com/watch?v=lKqr3F73bAI' );
+	 
+
+	basepop.cue( 1, function() {
+        init(); //init the 3D background.
+        animate();
+
+        gui.destroy();  //remove the test GUI (used by Ryan)
+	});
+	
+	basepop.cue( 2, function() {
+		popcornMedia[popcornSequenceNumber].play();
+	});
+	
+	popcornMedia[0].footnote({
+	    start: .1,
+	    end: 22,
+	    target: "headerpanel",
+	    text: "Introduction"
+	});
+	popcornMedia[0].footnote({
+	    start: 22,
+	    target: "headerpanel",
+	    text: "Mission to Mars: Setup"
+	});
+	popcornMedia[0].cue( 3, function() {
+		$("#headerpanel").animate({opacity: 1.0}, 100, function() {
+        	$("#headerpanel").css('pointer-events', 'none');
+    	});
+		
+	});
+
+	//basepop.on( "timeupdate", function() {
+		//document.getElementById( "footnotediv1" ).innerHTML = this.currentTime();
+	//});
+	popcornMedia[0].on( "play", function() {
+    	$("#videocontenttarget").animate({opacity: 1.0}, 100, function() {
+           	$("#videocontenttarget").css('pointer-events', 'auto');
+       	});
+		$("#nextbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+        	$("#nextbuttonwrapper").css('pointer-events', 'auto');
+    	});
+
+    	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
+           	$("#backgroundtarget").css('pointer-events', 'none');
+       	});
+	});
+	popcornMedia[0].on( "ended", function() {
+    	$("#videocontenttarget").animate({opacity: 0.0}, 100, function() {
+           	$("#videocontenttarget").css('pointer-events', 'none');
+       	});
+
+    	jumpPopcornMedia(1);
+    	
+	});
+    popcornMedia[1].on( "ended", function() {
+    	advancepopcornMedia();
+	});
+    popcornMedia[2].cue( 19.5, function() { //disney skip
+    	jumpPopcornMedia(4);
+	});
+    
+    popcornMedia[2].on( "ended", function() {
+    	advancepopcornMedia();
+	});
+    popcornMedia[3].on( "ended", function() {
+    	advancepopcornMedia();
+	});
+    popcornMedia[4].on( "ended", function() {
+
+		$("#nextbuttonwrapper").animate({opacity: 0.0}, 200, function() {
+        	$("#nextbuttonwrapper").css('pointer-events', 'none');
+    	});
+		
+		camTweener( { x: 0, y: 100, z: 500 }, { x: 0, y: 0, z: 0 }, 1500 );
+		setTimeout(function(){advancepopcornMedia()},2000);
+	});
+    
+    popcornMedia[5].cue( 8, function() {
+		$("#replaybuttonwrapper").animate({opacity: 1.0}, 200, function() {
+        	$("#replaybuttonwrapper").css('pointer-events', 'auto');
+    	});
+	});popcornMedia[5].cue( 8.9, function() {
+		$("#helpbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+        	$("#helpbuttonwrapper").css('pointer-events', 'auto');
+    	});
+	});
+
+    //setup vars to walk through mouse 3D lesson
+    var cancelCallToAction=false;
+    var listenToMouseMovements=false;
+    var listenToMouseWheel=false;
+    var userLessonNumber=0;
+    var userMouseAction=[false,false,false,false];
+    var mousePosX, mousePosY;
+    var callToActionTimeout = new Array();
+
+    popcornMedia[5].on( "ended", function() {
+    	//the click/drag test
+        listenToMouseMovements=true;
+        userMouseAction[userLessonNumber]=true;
+        cancelCallToAction=false;
+        callToActionTimeout[userLessonNumber] = setTimeout(function(){callToActionUser()},10000);
+	});
+    popcornMedia[8].on( "ended", function() {
+        //the scroll mouse test
+        listenToMouseWheel=true;
+        userMouseAction[userLessonNumber]=true;
+        cancelCallToAction=false;
+        callToActionTimeout[userLessonNumber] = setTimeout(function(){callToActionUser()},10000);
+	});
+    popcornMedia[10].on( "ended", function() {
+        //the planet click test (user to click planet earth)
+        userMouseAction[userLessonNumber]=true;
+        cancelCallToAction=false;
+        callToActionTimeout[userLessonNumber] = setTimeout(function(){callToActionUser()},10000);
+        
+        //temp: just call this until we get needed function from Ryan.
+        setTimeout(function(){advanceUser()},3000);
+	});
+    popcornMedia[13].on( "ended", function() {
+        //the button click test (user to click mars button)
+        //userMouseAction[userLessonNumber]=true;
+        cancelCallToAction=false;
+        callToActionTimeout[userLessonNumber] = setTimeout(function(){callToActionUser()},10000);
+	});
+    
+    popcornMedia[16].cue( 2.2, function() {
+        //show the badge modal
+        //userMouseAction[userLessonNumber]=true;
+        //cancelCallToAction=false;
+        //callToActionTimeout[userLessonNumber] = setTimeout(function(){callToActionUser()},10000);
+
+        //$('#backpackloginpopupcheckbox').prop('checked', true);
+    	//$("#backpackloginpopup").animate({opacity: 1.0}, 200, function() {
+        	//$("#backpackloginpopup").css('pointer-events', 'auto');
+    	//});
+    	
+    	//popBadgeWindow(); //trigger a 'user' button click to avoid popup block
+    	document.getElementById('popit').click();
+	});
+
+    popcornMedia[13].cue( 2.2, function() {
+    	$("#threedcontrols").animate({opacity: 1.0}, 200, function() {
+        	$("#threedcontrols").css('pointer-events', 'auto');
+    	});
+	});
+    
+    $(document).on('mouseup', function(e) {
+        if(!listenToMouseMovements) return;
+        //console.log("got me a mouseup: " + userMouseAction[userLessonNumber]);
+        if(userMouseAction[userLessonNumber]) {
+        	//check to see if the user moved the mouse.
+        	var newMousePosX, newMousePosY;
+        	if (!e) var e = window.event;
+        	if (e.pageX || e.pageY) 	{
+        		newMousePosX = e.pageX;
+        		newMousePosY = e.pageY;
+        	}
+        	else if (e.clientX || e.clientY) 	{
+        		newMousePosX = e.clientX + document.body.scrollLeft
+        			+ document.documentElement.scrollLeft;
+        		newMousePosY = e.clientY + document.body.scrollTop
+        			+ document.documentElement.scrollTop;
+        	}
+
+        	//console.log("x: " + newMousePosX + "   y: " + newMousePosY);
+        	if(mousePosX!=newMousePosX || mousePosY!=newMousePosY ) {
+        		advanceUser();
+        	} else {
+        		congradulateUserForDoingSomethingGood();	
+        	}
+        }
+    });
+    
+    $(document).on('mousedown', function(e) {
+    	if(!listenToMouseMovements) return;
+    	cancelCallToAction=true;
+    	
+    	//record mouse down possition
+    	if (!e) var e = window.event;
+    	if (e.pageX || e.pageY) 	{
+    		mousePosX = e.pageX;
+    		mousePosY = e.pageY;
+    	}
+    	else if (e.clientX || e.clientY) 	{
+    		mousePosX = e.clientX + document.body.scrollLeft
+    			+ document.documentElement.scrollLeft;
+    		mousePosY = e.clientY + document.body.scrollTop
+    			+ document.documentElement.scrollTop;
+    	}
+    	
+    });
+  
+	//Firefox has no implemented $(document).on('mousewheel', function) so we call mousywheely(e) for XBrowser support
+    var mousewheelevt=(/Firefox/i.test(navigator.userAgent))? "DOMMouseScroll" : "mousewheel" //FF doesn't recognize mousewheel as of FF3.x
+    
+   	if (document.attachEvent) //if IE (and Opera depending on user setting)
+   	    document.attachEvent("on"+mousewheelevt, mousywheely)
+   	else if (document.addEventListener) //WC3 browsers
+   	    document.addEventListener(mousewheelevt, mousywheely, false)
+    	
+    function mousywheely(e){
+    	if(!listenToMouseWheel) return;
+    	var evt=window.event || e //equalize event object
+        var delta=evt.detail? evt.detail*(-120) : evt.wheelDelta //check for detail first so Opera uses that instead of wheelDelta
+        console.log("mousewheel delta: " + delta);
+        if(delta>0) { //the user zoomed in
+        	listenToMouseWheel=false;
+        	setTimeout(function(){advanceUser()},1000);
+        }
+    }
+    
+    var congradulateUserForDoingSomethingGood = function () {
+		if(userLessonNumber==0) {
+			jumpPopcornMedia(7);
+		}
+		//listenToMouseMovements=false;
+		//cancelCallToAction=false;
+    	//userLessonNumber++; //update to next lesson
+    }
+    var advanceUser = function () {
+		listenToMouseMovements=false;
+		cancelCallToAction=false;
+		clearTimeout(callToActionTimeout[userLessonNumber]);
+		
+		switch(userLessonNumber)
+    	{
+    	case 0:
+			jumpPopcornMedia(8);
+    	  break;
+    	case 1:
+			jumpPopcornMedia(10);
+    	  break;
+    	case 2:
+			jumpPopcornMedia(13);
+    	  break;
+    	case 3:
+			//no 4th mouse lesson
+    	  break;
+    	default:
+    	  //no default audio
+    	}
+		
+    	userLessonNumber++; //update to next lesson
+		
+    }
+    
+    var replayUser = function () {
+		listenToMouseMovements=false;
+		cancelCallToAction=true;
+		clearTimeout(callToActionTimeout[userLessonNumber-1]);
+		
+		switch(userLessonNumber)
+    	{
+    	case 0:
+    	  break;
+    	case 1:
+			jumpPopcornMedia(5);
+    	  break;
+    	case 2:
+			jumpPopcornMedia(10,1.5);
+    	  break;
+    	case 3:
+			jumpPopcornMedia(13,1.0);
+    	  break;
+    	default:
+    	  //no default audio
+    	}
+		
+    }
+    
+    var callToActionUser = function () {
+    	if(cancelCallToAction) return;
+    	
+    	switch(userLessonNumber)
+    	{
+    	case 0:
+			jumpPopcornMedia(6);
+    	  break;
+    	case 1:
+			jumpPopcornMedia(9);
+    	  break;
+    	case 2:
+			jumpPopcornMedia(11);
+    	  break;
+    	case 3:
+			jumpPopcornMedia(14);
+    	  break;
+    	default:
+    	  //no default audio
+    	}
+    }
+
+    var checkForFourthCameraLesson = function () {
+    	if(!userMouseAction[userLessonNumber]) {
+    		jumpPopcornMedia(15);
+    	}
+    }
+    var finishFourthCameraLesson = function () {
+    	if(!userMouseAction[userLessonNumber]) {
+    		clearTimeout(callToActionTimeout[userLessonNumber]);
+    		userMouseAction[userLessonNumber]=true;
+    		jumpPopcornMedia(16);
+    	}
+    }
+    
+    var advancepopcornMedia = function () {
+		popcornSequenceNumber++;
+    	if(popcornSequenceNumber<popcornMedia.length) {
+    		popcornMedia[popcornSequenceNumber].play();
+    	}
+    }
+    
+    //a way to skip around (needed for Next button and Menu buttons)
+    var jumpPopcornMedia = function (sequenceNum, beginningOffset) {
+		if(popcornSequenceNumber>=popcornMedia.length)return;
+		popcornSequenceNumber=sequenceNum;
+
+		if(popcornSequenceNumber==1) popcornSequenceNumber++;
+		if(popcornSequenceNumber==3) {
+			popcornSequenceNumber=4;
+		}
+		//clear div targets
+    	$("#videocontenttarget").animate({opacity: 0.0}, 1, function() {
+           	$("#videocontenttarget").css('pointer-events', 'none');
+       	});
+    	$("#startmenupanel").animate({opacity: 0.0}, 1, function() {
+        	$("#startmenupanel").css('pointer-events', 'none');
+       	});
+		
+		//stop all other media
+		for(var i=0;i<popcornMedia.length;i++) {
+			popcornMedia[i].pause();
+		}
+		
+		//jump to desired media
+		
+		if(popcornSequenceNumber==0) {
+			basepop.play(0);
+		} else {
+			if(beginningOffset) {
+				popcornMedia[popcornSequenceNumber].play(beginningOffset);
+			} else {
+				popcornMedia[popcornSequenceNumber].play(0);
+			}
+		}
+		
+		//close menu panel if needed
+		if($('#menupanel').css('opacity') != 0) {
+        	$("#menupanel").animate({opacity: 0.0}, 200, function() {
+            	$("#menupanel").css('pointer-events', 'none');
+        	});
+    	} 
+    }
+	
+	// Add popcorn events here and other functionality
+    //SEQ2_VO.image({
+    	//start: 0.1, // Our start time in seconds
+    	//end: 14, // Our end time in seconds
+    	//src: "./images/planetorder.jpg", 
+    	//text: "", 
+    	//target: "imagecontenttarget", 
+		//effect: "applyclass",
+    	//applyclass: "stretchcontent"
+    //});
+	
+    popcornMedia[2].cue( 6, function() {
+       	camTweener( { x: 0, y: 700, z: 0 }, { x: 0, y: 0, z: 0 }, 3000 );
+	});
+    popcornMedia[16].cue( 6, function() {
+       	camTweener( { x: 0, y: 700, z: 0 }, { x: 0, y: 0, z: 0 }, 3000 );
+	});
+    popcornMedia[4].cue( 6, function() {
+       	//camTweener( { x: 0, y: 100, z: 500 }, { x: 0, y: 0, z: 0 }, 1500 );
+	});
+    
+    var pausePoint1=false;
+
+    function flipTimelinePic(picID,imgName)
+    {
+        var pic1 = document.getElementById(picID); 
+        if (pic1 == typeof('undefined')) return;
+        pic1.src = imgName;
+    }
+    
+    
+    //pop the mission complete
+    var popBadgeWindow = function() {
+    	//first we should check to see if the user email has been stored
+    	//if(userBackpackEmail) {}
+    	
+    	//then pop the appropriate window
+    	var winWidth = 750;
+    	var winHeight = 600;
+    	badgeWindow = popupwindow("./badge-it-gadget-lite/process-badges/missionComplete.html",
+    			"New Badge",winWidth, winHeight);
+    }
+    
+    
+    //generic popup window opening function
+    var popitbutton = document.getElementById('popit');
+    popitbutton.onclick = function() {
+    	popBadgeWindow();
+    };
+    
+    function popupwindow(url, title, w, h) {
+    	  var left = (screen.width/2)-(w/2);
+    	  var top = (screen.height/2)-(h/2);
+    	  return window.open(url, title, "titlebar=no,toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no,copyhistory=no,width="+w+", height="+h+", top="+top+", left="+left);
+    }
+    
+    
+    
+    var backpackloginpopupclose = document.getElementById('backpackloginpopupclose');
+    backpackloginpopupclose.style.cursor = 'pointer';
+    backpackloginpopupclose.onclick = function() {
+    	$("#backpackloginpopup").animate({opacity: 0.0}, 200, function() {
+        	$("#backpackloginpopup").css('pointer-events', 'none');
+        });
+    };
+    
+    var aboutpopupclose = document.getElementById('aboutpopupclose');
+    aboutpopupclose.style.cursor = 'pointer';
+    aboutpopupclose.onclick = function() {
+    	$("#aboutpopup").animate({opacity: 0.0}, 200, function() {
+        	$("#aboutpopup").css('pointer-events', 'none');
+        });
+    };
+    
+    var helppopupclose = document.getElementById('helppopupclose');
+    helppopupclose.style.cursor = 'pointer';
+    helppopupclose.onclick = function() {
+    	$("#helppopup").animate({opacity: 0.0}, 200, function() {
+        	$("#helppopup").css('pointer-events', 'none');
+        });
+    };
+    
+    var helpthreedpopupclose = document.getElementById('helpthreedclose');
+    helpthreedclose.style.cursor = 'pointer';
+    helpthreedclose.onclick = function() {
+    	$("#helpthreedpopup").animate({opacity: 0.0}, 200, function() {
+        	$("#helpthreedpopup").css('pointer-events', 'none');
+        });
+    };
+    
+    var browserpopupclose = document.getElementById('browserpopupclose');
+    browserpopupclose.style.cursor = 'pointer';
+    browserpopupclose.onclick = function() {
+    	$("#browserpopup").animate({opacity: 0.0}, 200, function() {
+        	$("#browserpopup").css('pointer-events', 'none');
+        });
+    };
+    
+   
+    $(document).ready(function() {
+    	
+        $('#playtoggle').bind("click", function() {
+          if ($(this).attr("class") == "play") {
+             $(this).attr("class", "pause");
+ 			popcornMedia[1].play();
+ 			basepop.play();
+          } else {
+             $(this).attr("class", "play");
+ 			popcornMedia[1].pause();
+ 			basepop.pause();
+          }
+        });
+        
+        $("#slide2").click(function() {
+        	popcornMedia[1].play(7);
+        });
+        
+        $("#slide3").click(function() {
+        	popcornMedia[1].play(19);
+        });
+        
+        $("#slide4").click(function() {
+        	popcornMedia[1].play(39);
+        });
+        
+        
+        $( "#slider" ).slider( { 
+			animate: true,
+			range: "min",
+			value: 50,
+			min: 10,
+			max: 100,
+			step: 1,
+
+		});
+
+		$( "#replaybutton" )
+			.button()
+			.click(function( event ) {
+			
+			replayUser();
+		    cancelCallToAction=true;
+		    //callToActionTimeout[userLessonNumber] = setTimeout(function(){callToActionUser()},10000);
+
+		});
+
+		$( "#cam2" )
+			.button()
+			.click(function( event ) {
+
+				camNextPosition	= {
+						x: -100, 
+						y: 400, 
+						z: -250 
+					};
+
+					camNextTarget = {
+						x: 0,
+						y: 0,
+						z: 0
+					};
+
+					TWEEN.removeAll();
+					camTweener( camNextPosition, camNextTarget, 1500 );
+					checkForFourthCameraLesson();
+		});	
+
+		$( "#cam3" )
+			.button()
+			.click(function( event ) {
+
+				camNextPosition	= {
+					x: 0, 
+					y: 1000, 
+					z: 5000 
+				};
+
+				camNextTarget = {
+					x: 0,
+					y: 0,
+					z: 0
+				};
+
+				TWEEN.removeAll();
+				camTweener( camNextPosition, camNextTarget, 1500 );
+				checkForFourthCameraLesson();
+		});
+
+		$( "#cam4" )
+			.button()
+			.click(function( event ) {
+
+
+				camNextTarget = {
+					x: 0,
+					y: 50,
+					z: 500
+				};
+
+				//not yet sure how to set this up
+				camEarth = new camPosition( { x: 50, y: 50, z: 250 }, ss[3].position, 1500 );
+				//TWEEN.removeAll();
+				//camTweener( camEarth, camNextTarget, 1500 );
+				checkForFourthCameraLesson();
+				
+		});
+
+		$( "#cam5" )
+			.button()
+			.click(function( event ) {
+
+				camNextTarget	= {
+					x: 0, 
+					y: 50, 
+					z: 500 
+				};
+				//not yet sure how to set this up
+				camMars = new camPosition( { x: 75, y: 50, z: 300 }, ss[4].position, 1500 );
+				//TWEEN.removeAll();
+				//camTweener( camMars, camNextTarget, 1500 );
+				finishFourthCameraLesson();
+		});
+
+		$( "#speedSlider" ).slider( {
+			animate: true,
+			range: "min",
+			value: 0,
+			min: 0,
+			max: 50,
+			step: 1,
+			create: function() {
+				timerMultiplier = $( "#speedSlider" ).slider( "option", "value" );
+			},
+			change: function() {
+				timerMultiplier = $( "#speedSlider" ).slider( "option", "value" );
+			}
+		});
+
+		$( "#menubutton" )
+			.button()
+			.click(function( event ) {
+				if($('#menupanel').css('opacity') != 0) {
+	            	$("#menupanel").animate({opacity: 0.0}, 200, function() {
+	                	$("#menupanel").css('pointer-events', 'none');
+	            	});
+	        	} else {
+	        		$("#menupanel").animate({opacity: 1.0}, 200, function() {
+	                	$("#menupanel").css('pointer-events', 'auto');
+	            	});
+	        	}
+		});
+		
+		$( "#nextbutton" )
+			.button()
+			.click(function( event ) {
+				if(popcornSequenceNumber>=2) {
+			    	//temp get rid of next button
+			    	
+					$("#nextbuttonwrapper").animate({opacity: 0.0}, 200, function() {
+			        	$("#nextbuttonwrapper").css('pointer-events', 'none');
+			    	});
+				}
+				jumpPopcornMedia(popcornSequenceNumber+1);
+		});
+		
+		$( "#threedhelpbutton" )
+			.button()
+			.click(function( event ) {
+				$("#helpthreedpopup").animate({opacity: 1.0}, 200, function() {
+                	$("#helpthreedpopup").css('pointer-events', 'auto');
+            	});
+		});
+		
+		$( "#introduction" )
+			.button()
+			.click(function( event ) {
+				jumpPopcornMedia(0);
+		});
+		
+		$( "#navigation" )
+			.button()
+			.click(function( event ) {
+				jumpPopcornMedia(1);
+		});
+		
+		$( "#trajectory" )
+			.button()
+			.click(function( event ) {
+				jumpPopcornMedia(2);
+		});
+		
+		$( "#about" )
+			.button()
+			.click(function( event ) {
+				console.log("about clicked");
+				$("#aboutpopup").animate({opacity: 1.0}, 200, function() {
+                	$("#aboutpopup").css('pointer-events', 'auto');
+            	});
+		});
+		
+		$( "#help" )
+			.button()
+			.click(function( event ) {
+				$("#helppopup").animate({opacity: 1.0}, 200, function() {
+                	$("#helppopup").css('pointer-events', 'auto');
+            	});
+		});
+		
+		$( "#beginbutton" )
+			.button()
+			.click(function( event ) {
+				basepop.play( 0 );
+				$("#startmenupanel").animate({opacity: 0.0}, 200, function() {
+                	$("#startmenupanel").css('pointer-events', 'none');
+                	//$("#videocontenttarget").animate({opacity: 1.0}, 200, function() {
+                    //	$("#videocontenttarget").css('pointer-events', 'auto');
+                	//});
+            	});
+				//$("#playbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+                	//$("#playbuttonwrapper").css('pointer-events', 'auto');
+            	//});
+		});
+		
+      });
+    
+  //from main.js
+	if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
+	$( '#loadtext' ).show();
+	setLoadMessage("Loading the Solar System");
+
+	loader.options.convertUpAxis = true;
+	loader.load( './models/galaxy.dae', function ( collada ) {
+
+		dae = collada.scene;
+		dae.scale.x = dae.scale.y = dae.scale.z = 50000;
+		dae.updateMatrix();
+
+	} );
+
+	loadShaders( shaderList, function (e) {
+		console.log("loadShaders");
+		shaderList = e;
+		postShadersLoaded();
+	});
+
+	var postShadersLoaded = function () {
+		console.log("postShadersLoaded");
+			$("#loadtext").hide();
+    };
+      
+}, false);
+
+</script>
+	</head>
+	<body>
+		
+		<div id="startmenupanel" class="startmenupanel">
+			<h1>Mission to Mars</h1>
+			<br>
+			<div class="textstyle1">
+			In this simulation of sending spacecraft to Mars you will use a 3D model of the solar system to learn
+			about the science behind the Curiosity rover.
+			</div>
+			<br>
+			<button id="beginbutton" class="beginbutton">BEGIN</button>
+			<br>
+			<br>
+			<br>
+			<div class="textstyle2">
+			This project is a collaboration between the U.S. Department of Energy, the Mozilla Foundation, and MX.</div>
+			<br>
+			<img src="./images/tri_logo.png" style="align: center;">
+			<br>
+		</div>
+		
+		<div id="topbar" class="topbar">
+		
+			<div id="topbarleft" class="topbarleft">
+				<div id="headerpanel" class="headerpanel"></div>
+			</div>
+			<div id="topbarmiddle" class="topbarmiddle">
+				<button id="badgebutton" class="badgebutton">Simple Badge</button>
+			</div>
+			
+			<div id="topbarright" class="topbarright">
+				<button id="menubutton" class="menubutton">MENU</button>
+				<div id="menupanel" class="menupanel">
+					<button id="introduction" class="menupanelbutton">introduction</button>
+					<br>
+					<button id="navigation" class="menupanelbutton">3d navigation</button>
+					<br>
+					<button id="trajectory" class="menupanelbutton">trajectory</button>
+					<br>
+					<button id="about" class="menupanelbutton">about</button>
+					<br>
+					<button id="help" class="menupanelbutton">help</button>
+				</div>
+			</div>
+		</div>	
+		<!-- main content area for video, images, 3D, etc... -->
+		<div id="contenttarget" class="contenttarget">
+		</div>
+		<div id="backgroundtarget" class="backgroundtarget">
+		</div>
+		
+		<div id="imagecontenttarget" class="imagecontenttarget">
+		</div>
+		
+		<div id="videocontenttarget" class="videocontenttarget">
+			<video height="100%" width="100%" id="video" style="background: #00f;">
+         		<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/video/SEQ1_OCVO_v05.mp4">
+         		<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/video/SEQ1_OCVO_v05.webmhd.webm">
+       		</video>
+		</div>
+		
+		<div id="videocontenttarget2" class="videocontenttarget2">
+		</div>
+		
+		<div id="bottombar" class="bottombar">
+			<div id="bottombarleft" class="bottombarleft">
+				<div id="helpbuttonwrapper" class="helpbuttonwrapper" style="opacity: 0.0;pointer-events:none">
+					<button id="threedhelpbutton" class="threedhelpbutton">HELP</button>
+				</div>
+				<div id="replaybuttonwrapper" class="replaybuttonwrapper" style="opacity: 0.0;pointer-events:none">
+					<button id="replaybutton" class="replaybutton">REPLAY</button>
+				</div>
+			</div>
+			<div id="bottombarmiddle" class="bottombarmiddle">
+				<div id="threedcontrols" class="threedcontrols">
+					<button id="cam2" class="squarebluebutton">Home</button>
+					<button id="cam3" class="squarebluebutton">Rover</button>
+					<button id="cam4" class="squarebluebutton">Earth</button>
+					<button id="cam5" class="squarebluebutton">Mars</button>
+					<div id="speedSlider" class="speedSlider"></div>
+				</div>
+			</div>
+			
+			<div id="bottombarright" class="bottombarright">
+			
+				<div id="playbuttonwrapper" class="playbuttonwrapper" style="opacity: 0.0;pointer-events:none">
+					<div id="playtoggle" class="pause"></div>
+				</div>
+				<div id="nextbuttonwrapper" class="nextbuttonwrapper" style="opacity: 0.0;pointer-events:none">
+					<button id="nextbutton" class="nextbutton">NEXT</button>
+				</div>
+			</div>
+		</div>
+		
+		<div style="display:none">
+			<span id="label_template" class="label">
+				<span class="name">
+				</span>
+			</span>
+		</div>
+		<div id="loadtext" style="z-index: 6;"></div>
+		
+		<!-- backpack stuff... in progress -->
+		<form class="signin js-browserid-form" method="POST" action="/backpack/authenticate">
+  			<input class="js-browserid-input" name="assertion" type="hidden"></input>
+  			<input name="_csrf" type="hidden" value="SRvhEkj8KMe5XLCyyVEM6nAw"></input>
+		</form>
+		
+		<div id="backpackloginpopup" class="modalmask">
+			<div id="backpacklogindiv" class="badgecontenttarget">
+				<div id="backpackloginpopupclose" class="closebutton"><p>&#10006;</p></div>
+				<h1>Mission Complete!</h1>
+				<h1>Badge Award!</h1>
+				<br>
+				You've earned a badge!!!
+				<br><br>
+				<!-- <img src="./badge-it-gadget-lite/digital-badges/images/badge_3D.png"> -->
+				<br><br><br>
+				<button id="popit" class="squarebluebutton">pop</button>
+				<br><br>
+				<form id="form" method="POST" action="./badge-it-gadget-lite/process-badges/test.php">
+					<p><label style="float: left;">Email:</label><input type="text" id="email" name="email"/></p>
+					<br><br>
+					<div style="float:right;">
+						<button id="backpackloginpopupcontinue" type="submit" class="squarebluebutton">Continue</button>
+					</div>
+					<br><br><br><br>
+					<div style="display:inline;float:left">
+						<input type="checkbox" id="backpackloginpopupcheckbox" class="regular-checkbox" /> <label class="checkboxlabel">email list</label>
+					</div>
+				</form>
+			</div>
+		</div>
+		
+		<div id="aboutpopup" class="popupdiv">
+			<div id="aboutpopupclose" class="closebutton"><p>&#10006;</p></div>
+			<h1>About</h1>
+			<p>The about page</p>
+		</div>
+		<div id="helppopup" class="popupdiv">
+			<div id="helppopupclose" class="closebutton"><p>&#10006;</p></div>
+			<h1>Help</h1>
+			<p>The help page</p>
+		</div>
+		<div id="helpthreedpopup" class="popupdiv">
+			<div id="helpthreedclose" class="closebutton"><p>&#10006;</p></div>
+			<h1>Help</h1>
+			<p>The 3D help page</p>
+		</div>
+		<div id="browserpopup" class="popupdiv">
+			<div id="browserpopupclose" class="closebutton"><p>&#10006;</p></div>
+			<h1>Browser</h1>
+			<p>The browser page</p>
+		</div>
+		
+		
+		<audio id="SEQ2_VO">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ2_VO.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ2_VO.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+		
+		<audio id="SEQ3_VOpt1">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt1.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt1.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio>
+		
+		<audio id="SEQ3_VOpt2">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt2.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt2.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+		
+		<audio id="SEQ3_VOpt3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt3.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt3.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+		
+		<audio id=SEQ_3_CAM_1a>
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1a.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1a.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+		
+		<audio id="SEQ_3_CAM_1b">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1b.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1b.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+		
+		<audio id="SEQ_3_CAM_1c">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1c.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1c.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+		
+		<audio id=SEQ_3_CAM_2a>
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_2a.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_2a.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+		
+		<audio id="SEQ_3_CAM_2b">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_2b.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_2b.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+		
+		<audio id=SEQ_3_CAM_3a>
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3a.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3a.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+		
+		<audio id="SEQ_3_CAM_3b">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3b.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3b.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+		
+		<audio id="SEQ_3_CAM_3c">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3c.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3c.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+		
+		<audio id=SEQ_3_CAM_4a>
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4a.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4a.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+		
+		<audio id="SEQ_3_CAM_4b">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4b.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4b.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+		
+		<audio id="SEQ_3_CAM_4c">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4c.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4c.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+		
+		<audio id="SEQ_3_CAM_4d">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4d.mp3">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4d.oggvorbis.ogg">
+			Your browser does not support the audio element.  Upgrade the browser.
+		</audio> 
+	</body>
+</html>

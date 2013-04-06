@@ -1,0 +1,18 @@
+{ 
+"recipient": "philip.starner@gmail.com", 
+"evidence": "http://www.ed.gov/", 
+"issued_on": "2012-05-21", 
+"badge": { 
+	"version": "1.0.0", 
+	"name": "Generic", 
+	"image": "http://www.voiceovervinnie.com/popcorn/marsScaffold2/images/badge_generic.png", 
+	"description": "Has displayed expertise in pressing a button with a mouse.", 
+	"criteria": "http://www.ed.gov/", 
+	"issuer": { 
+		"origin": "http://www.ed.gov/", 
+		"name": "Department of Energy", 
+		"org": "U.S. DOE", 
+		"contact": "issuer_email@ed.gov" 
+		} 
+	} 
+}
