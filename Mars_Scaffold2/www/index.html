@@ -96,6 +96,7 @@ document.addEventListener("DOMContentLoaded", function () {
 //submenu green - 88,107,54 #586b36
 //submenu greenbg - 42,51,24 #2a3318 80%
 //header greenbg 31,38,18 #1f2612 70%
+//isle blue 76,173,197 #4cadc5
 
 	//init();
 	//animate();
@@ -164,6 +165,12 @@ document.addEventListener("DOMContentLoaded", function () {
 		//document.getElementById( "footnotediv1" ).innerHTML = this.currentTime();
 	//});
 	popcornMedia[0].on( "play", function() {
+		$("#videocontenttarget").animate({width: 720, height: 405,
+											top: "50%", left: "50%",
+											margin:"-240px 0 0 -335px"}, 1, function() {
+           	//code after completion of animation
+       	});
+		
     	$("#videocontenttarget").animate({opacity: 1.0}, 100, function() {
            	$("#videocontenttarget").css('pointer-events', 'auto');
        	});
@@ -175,21 +182,36 @@ document.addEventListener("DOMContentLoaded", function () {
            	$("#backgroundtarget").css('pointer-events', 'none');
        	});
 	});
+	popcornMedia[0].cue( 8.5, function() {
+		$("#videocontenttarget").animate({width: 360, height: 202,
+											top: "10%", left: "2%",
+											margin:"-0px 0 0 -0px"}, 1000, function() {
+			//code after completion of animation
+		});
+	});
 	popcornMedia[0].on( "ended", function() {
     	$("#videocontenttarget").animate({opacity: 0.0}, 100, function() {
            	$("#videocontenttarget").css('pointer-events', 'none');
        	});
+
+    	$("#incomingmessage").animate({opacity: 1.0}, 1000, function() {
+           	$("#incomingmessage").css('pointer-events', 'auto');
+       	});
+    	
     	advancePopcornMedia();
 	});
     popcornMedia[1].on( "ended", function() {
     	advancePopcornMedia();
 	});
+    
+
 	
     popcornMedia[1].cue( 6.5, function() {
     	Tweener(ssScale, {planetScale:.00001}, 1000);
     	Tweener(ssScale, {sunScale:.000001}, 1000);
     	Tweener(ssScale, {s:.00001}, 1000);
 	});
+    
     popcornMedia[1].cue( 11, function() {
     	Tweener(ssScale, {s:.000001}, 1000);
 	});
@@ -263,6 +285,12 @@ document.addEventListener("DOMContentLoaded", function () {
         //temp: just call this until we get needed function from Ryan.
         setTimeout(function(){advanceUser()},5000);
 	});
+
+    popcornMedia[13].cue( 2.2, function() {
+    	$("#threedcontrols").animate({opacity: 1.0}, 200, function() {
+        	$("#threedcontrols").css('pointer-events', 'auto');
+    	});
+	});
     popcornMedia[13].on( "ended", function() {
         //the button click test (user to click mars button)
         //userMouseAction[userLessonNumber]=true;
@@ -281,13 +309,13 @@ document.addEventListener("DOMContentLoaded", function () {
         	//$("#backpackloginpopup").css('pointer-events', 'auto');
     	//});
     	
-    	//popBadgeWindow(); //trigger a 'user' button click to avoid popup block
+    	//popBadgeWindow(); //trigger a 'user' button click to avoid popup block (which doesn't work...)
     	document.getElementById('popit').click();
 	});
 
-    popcornMedia[13].cue( 2.2, function() {
-    	$("#threedcontrols").animate({opacity: 1.0}, 200, function() {
-        	$("#threedcontrols").css('pointer-events', 'auto');
+    popcornMedia[16].on( "ended", function() {
+        $("#selectmissionrocket").animate({opacity: 1.0}, 200, function() {
+        	$("#selectmissionrocket").css('pointer-events', 'auto');
     	});
 	});
 
@@ -607,6 +635,30 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     };
     
+    var incomingtransmissionclose = document.getElementById('ignorebutton');
+    incomingtransmissionclose.onclick = function() {
+    	$("#incomingmessage").animate({opacity: 0.0}, 200, function() {
+        	$("#incomingmessage").css('pointer-events', 'none');
+        });
+    };
+    
+    //selectmissionrocket div
+    var checkboxrocket1 = document.getElementById('checkboxrocket1');
+    checkboxrocket1.onclick = function() {
+   		$('#checkboxrocket2').prop('checked', false);
+   		$('#checkboxrocket3').prop('checked', false);
+    };
+    var checkboxrocket2 = document.getElementById('checkboxrocket2');
+    checkboxrocket2.onclick = function() {
+   		$('#checkboxrocket1').prop('checked', false);
+   		$('#checkboxrocket3').prop('checked', false);
+    };
+    var checkboxrocket3 = document.getElementById('checkboxrocket3');
+    checkboxrocket3.onclick = function() {
+   		$('#checkboxrocket1').prop('checked', false);
+   		$('#checkboxrocket2').prop('checked', false);
+    };
+    
    
     $(document).ready(function() {
     	
@@ -876,6 +928,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		
       });
     
+    
   //from main.js
   if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
@@ -962,9 +1015,10 @@ document.addEventListener("DOMContentLoaded", function () {
 		</div>
 		
 		<div id="videocontenttarget" class="videocontenttarget">
-			<video height="100%" width="100%" id="video" style="background: #00f;">
-         		<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/video/SEQ1_OCVO_v05.mp4"></source>
-         		<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/video/SEQ1_OCVO_v05.webmhd.webm"></source>
+			<video height="100%" width="100%" id="video" style="background: #000;">
+         		<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/video/SEQ1_OCVO_v05.mp4" type="video/mp4">
+         		<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/video/SEQ1_OCVO_v05.webmhd.webm" type="video/webm">
+         		Please upgrade your browser to view video
        		</video>
 		</div>
 		
@@ -1015,6 +1069,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		</div>
 		<div id="loadtext" style="z-index: 6;"></div>
 		
+		<!--  currently moved into it's own php web page... dealing with popup blocking may be problematic.  would like to move back here -->
 		<div id="backpackloginpopup" class="modalmask">
 			<div id="backpacklogindiv" class="badgecontenttarget">
 				<div id="backpackloginpopupclose" class="closebutton"><p>&#10006;</p></div>
@@ -1060,6 +1115,56 @@ document.addEventListener("DOMContentLoaded", function () {
 			<div id="browserpopupclose" class="closebutton"><p>&#10006;</p></div>
 			<h1>Browser</h1>
 			<p>The browser page</p>
+		</div>
+		
+		<div id="selectmissionrocket" class="selectitemdiv">
+			<h2>Select Mission Rocket</h2>
+			<table style="width: 100%;margin:0;padding:0;">
+				<tr>
+					<td width="33%" align="center" valign="bottom"><img src="./images/rocket_falcon.png"></td>
+					<td width="33%" align="center" valign="bottom"><img src="./images/rocket_deltaIV.png"></td>
+					<td width="33%" align="center" valign="bottom"><img src="./images/rocket_nasasls.png"></td>
+				</tr>
+				<tr>
+					<td width="33%" align="center">Falcon Heavy</td>
+					<td width="33%" align="center">Delta IV Heavy</td>
+					<td width="33%" align="center">NASA SLS</td>
+				</tr>
+				<tr>
+					<td width="33%" align="center"><input type="checkbox" id="checkboxrocket1"  class="regular-checkbox" /></td>
+					<td width="33%" align="center"><input type="checkbox" id="checkboxrocket2"  class="regular-checkbox" /></td>
+					<td width="33%" align="center"><input type="checkbox" id="checkboxrocket3"  class="regular-checkbox" /></td>
+				</tr>
+			</table>
+			
+		</div>
+		
+		<div id="incomingmessage" class="capcommessagediv">
+			<table style="width: 100%;margin:2;padding:0;" >
+				<tr >
+					<td width="50px" rowspan="2" align="left" valign="middle"><img src="./images/phone_icon.png" style="width:45px;height:45px;"></td>
+					
+					<td align="left">...Incoming Transmission</td>
+				</tr>
+				<tr>
+					<td align="left">
+						<button id="answerbutton" class="roundedbluebutton">Answer</button>
+						<button id="ignorebutton" class="roundedbluebutton">Ignore</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<div id="transmissionmessage" class="capcommessagediv">
+			<table style="width: 100%;margin:2;padding:0;" >
+				<tr >
+					<td width="50px" rowspan="2" align="left" valign="middle"><img src="./images/phone_icon.png" style="width:45px;height:45px;"></td>
+					<td align="left">Current Transmission:</td>
+				</tr>
+				<tr>
+					<td align="left" style="font-weight:400;"> Nasa - Capcom </td>
+				</tr>
+			</table>
 		</div>
 		
 		

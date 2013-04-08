@@ -275,11 +275,9 @@ div.pathfindervideo1
 	font-size: 18px;
     border-radius: 5px;
     border:none;
-	width: 720px;
-	height: 405px;
-	top:50%;
+	/*top:50%;
     left:50%;
-    margin:-240px 0 0 -335px;
+    margin:-240px 0 0 -335px;*/
 	z-index: 1;
 }
 .popupdiv
@@ -302,6 +300,70 @@ div.pathfindervideo1
     left:50%;
     margin:-240px 0 0 -335px;
 	z-index: 5;
+}
+.selectitemdiv
+{
+  position: absolute;
+	opacity: 0.0;
+	pointer-events:none;
+	padding: 15px 15px 15px 15px;
+	background: rgba(0,0,0,.85);
+	color: rgba(76,173,197,1.0);
+	font-family: 'Lato', sans-serif;
+	text-transform: none;
+	line-height: 22px;
+	font-size: 18px;
+    border-radius: 10px;
+    border:3px solid rgba(76,173,197,1.0);
+	width: 640px;
+	height: 550px;
+	top:40%;
+    left:50%;
+    margin:-240px 0 0 -335px;
+	z-index: 5;
+}
+.selectitemdiv td
+{
+	color: rgba(200,200,200,1.0);
+}
+.capcommessagediv
+{
+  position: absolute;
+	opacity: 0.0;
+	pointer-events:none;
+	padding: 10px 10px 10px 10px;
+	background: rgba(0,0,0,.85);
+	color: rgba(200,200,200,1.0);
+	font-family: 'Lato', sans-serif;
+	font-weight:bold;
+	text-transform: uppercase;
+	line-height: 18px;
+	font-size: 18px;
+    border-radius: 10px;
+    border:3px solid rgba(76,173,197,1.0);
+	width: 350px;
+	height: 55px;
+	top:5%;
+    right:10%;
+	z-index: 6;
+}
+div .roundedbluebutton{
+    display:inline-block;
+	text-align: center;
+	line-height: 14px;
+	font-size: 14px;
+	margin:5px 5px;
+	padding:3px 20px;
+	text-transform: uppercase;
+	font-family: 'Lato', sans-serif;
+	font-weight:plain;
+	background: rgba(40,40,40,1.0);
+	color: rgba(200,200,200,1.0);
+    border-radius: 5px;
+    border:2px solid rgba(76,173,197,1.0);
+}
+div .roundedbluebutton:hover{
+	background: rgba(58,132,166,0.5);
 }
 .videocontenttarget2
 {
