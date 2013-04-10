@@ -347,6 +347,27 @@ div.pathfindervideo1
     right:10%;
 	z-index: 6;
 }
+.capcommessagereddiv
+{
+  position: absolute;
+	opacity: 0.0;
+	pointer-events:none;
+	padding: 10px 10px 10px 10px;
+	background: rgba(0,0,0,.85);
+	color: rgba(200,200,200,1.0);
+	font-family: 'Lato', sans-serif;
+	font-weight:bold;
+	text-transform: uppercase;
+	line-height: 18px;
+	font-size: 18px;
+    border-radius: 10px;
+    border:3px solid rgba(255,0,0,1.0);
+	width: 350px;
+	height: 55px;
+	top:50%;
+    right:36%;
+	z-index: 6;
+}
 div .roundedbluebutton{
     display:inline-block;
 	text-align: center;
@@ -364,6 +385,62 @@ div .roundedbluebutton{
 }
 div .roundedbluebutton:hover{
 	background: rgba(58,132,166,0.5);
+}
+div .roundedredbutton{
+    display:inline-block;
+	text-align: center;
+	line-height: 14px;
+	font-size: 14px;
+	margin:5px 5px;
+	padding:3px 20px;
+	text-transform: uppercase;
+	font-family: 'Lato', sans-serif;
+	font-weight:plain;
+	background: rgba(40,40,40,1.0);
+	color: rgba(200,200,200,1.0);
+    border-radius: 5px;
+    border:2px solid rgba(255,0,0,1.0);
+}
+div .roundedredbutton:hover{
+	background: rgba(255,0,0,0.5);
+}
+.playbutton{
+    display:inline-block;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 14px;
+	font-size: 14px;
+	margin:5px 2px;
+	padding:5px 9px;
+	text-transform: uppercase;
+	font-family: 'Lato', sans-serif;
+	color: rgba(76,173,197,1.0);
+	font-weight:plain;
+	background: rgba(40,40,40,1.0);
+    border-radius: 5px;
+    border:1px solid rgba(76,173,197,1.0);
+}
+.playbutton:hover{
+	background: rgba(58,132,166,0.5);
+}
+.launchbutton{
+    display:inline-block;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 14px;
+	font-size: 14px;
+	margin:5px 2px;
+	padding:5px 9px;
+	text-transform: uppercase;
+	font-family: 'Lato', sans-serif;
+	color: rgba(76,173,197,1.0);
+	font-weight:plain;
+	background: rgba(20,20,143,0.6);
+    border-radius: 5px;
+    border:1px solid rgba(76,173,197,1.0);
+}
+.launchbutton:hover{
+	background: rgba(255,0,0,0.2);
 }
 .videocontenttarget2
 {
@@ -903,47 +980,58 @@ div .threedcontrols {
 	width: 90%;
 	height: 80%;
 }
-.inputwrapper input[type="text"]{
-	background: #000;
-	color: #fff;
-    border: 1px solid rgba(58,132,166,1.0);
-	line-height: 16px;
-	font-size: 16px;
-	text-align: left;
-	vertical-align: center;
-	padding: 5px;
-	margin-top: 7px;
-	width: 100px;
+.launchcontrols { 
+	position: absolute;
+	display: inline-block;
+	opacity:0;
+	pointer-events:none;
+	background: rgba(13,30,38,0);
+	color: rgba(76,173,197,1.0);
+	font-family: 'Lato', sans-serif;
+	text-transform: uppercase;
+	line-height: 22px;
+	font-size: 18px;
+	vertical-align: top;
+	z-index: 6;
+	width: 90%;
+	height: 70px;
+	bottom:8%;
+    left:5%;
+    padding:10px;
+}
+.launchdiv
+{ 
+	position:absolute;
+	display: inline-block;
+	font-size: 14px;
+    border-radius: 10px;
+    border:1px solid rgba(76,173,197,1.0);
+	width: 400px;
+	height: 75px;
+	top:5%;
+    right:10%;
+	z-index: 6;
 }
 .datepicker {
 	background: #000;
 	color: #fff;
+    border-radius: 5px;
     border: 1px solid rgba(58,132,166,1.0);
 	line-height: 16px;
 	font-size: 16px;
 	text-align: left;
 	vertical-align: center;
 	padding: 5px;
-	margin-top: 7px;
+	margin-top: 2px;
 	width: 100px;
 }
-.inputwrapper label{
-	padding-right: 10px;
-	padding-left: 10px;
-	line-height: 18px;
-	font-size: 18px;
-	font-family: 'Lato', sans-serif;
-}
-div .inputwrapper { 
+.inputwrapper { 
 	display: inline-block;
-	vertical-align: center;
-	line-height: 12px;
-	font-size: 18px;
-	font-family: 'Lato', sans-serif;
-	text-align: center;
 	padding-left:10px;
 	padding-right:10px;
-	height: 100%;
+	text-align: center;
+	width: 130px;
+	height: 20%;
 }
 div .squarebluebutton{
     display:inline-block;
@@ -966,10 +1054,12 @@ div .sliderwrapper {
 	display: inline-block;
 	padding-left:10px;
 	padding-right:10px;
-	width: 150px;
-	height: 60%;
+	text-align: center;
+	width: 100px;
+	height: 20%;
 }
 div .speedSlider {
+	font-size: 12px;
 	dipsplay:inline;
 	width: 90%;
 	height: 10px;

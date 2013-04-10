@@ -580,7 +580,6 @@ document.addEventListener("DOMContentLoaded", function () {
     			"New Badge",winWidth, winHeight);
     }
     
-    
     //generic popup window opening function
     var popitbutton = document.getElementById('popit');
     popitbutton.onclick = function() {
@@ -593,7 +592,16 @@ document.addEventListener("DOMContentLoaded", function () {
     	  return window.open(url, title, "titlebar=no,toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no,copyhistory=no,width="+w+", height="+h+", top="+top+", left="+left);
     }
     
-    
+    var selectmissioncontinue = document.getElementById('selectmissioncontinuebutton');
+    selectmissioncontinue.style.cursor = 'pointer';
+    selectmissioncontinue.onclick = function() {
+    	$("#selectmissionrocket").animate({opacity: 0.0}, 200, function() {
+        	$("#selectmissionrocket").css('pointer-events', 'none');
+        	$("#launchcontrols").animate({opacity: 1.0}, 200, function() {
+            	$("#launchcontrols").css('pointer-events', 'auto');
+            });
+        });
+    };
     
     var backpackloginpopupclose = document.getElementById('backpackloginpopupclose');
     backpackloginpopupclose.style.cursor = 'pointer';
@@ -642,25 +650,76 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     };
     
+    var cmemessageclose = document.getElementById('ignorecmebutton');
+    cmemessageclose.onclick = function() {
+    	$("#cmemessage").animate({opacity: 0.0}, 200, function() {
+        	$("#cmemessage").css('pointer-events', 'none');
+        });
+    };
+    
     //selectmissionrocket div
     var checkboxrocket1 = document.getElementById('checkboxrocket1');
     checkboxrocket1.onclick = function() {
+   		$('#checkboxrocket1').prop('checked', true);
    		$('#checkboxrocket2').prop('checked', false);
    		$('#checkboxrocket3').prop('checked', false);
+   		document.getElementById("rocketselect").src="./images/rocket_falcon.png";
+   		document.getElementById("rocketlaunch").src="./images/rocket_falcon.png";
     };
     var checkboxrocket2 = document.getElementById('checkboxrocket2');
     checkboxrocket2.onclick = function() {
+   		$('#checkboxrocket2').prop('checked', true);
    		$('#checkboxrocket1').prop('checked', false);
    		$('#checkboxrocket3').prop('checked', false);
+   		document.getElementById("rocketselect").src="./images/rocket_deltaIV.png";
+   		document.getElementById("rocketlaunch").src="./images/rocket_deltaIV.png";
     };
     var checkboxrocket3 = document.getElementById('checkboxrocket3');
     checkboxrocket3.onclick = function() {
+   		$('#checkboxrocket3').prop('checked', true);
    		$('#checkboxrocket1').prop('checked', false);
    		$('#checkboxrocket2').prop('checked', false);
+   		document.getElementById("rocketselect").src="./images/rocket_nasasls.png";
+   		document.getElementById("rocketlaunch").src="./images/rocket_nasasls.png";
     };
     
+    $("#rocket1").hover(function() {
+    	$("#rocket1details").animate({opacity: 1.0}, 200, function() {
+        	$("#rocket1details").css('pointer-events', 'auto');
+        });
+    }, function() {
+    	$("#rocket1details").animate({opacity: 0.0}, 200, function() {
+        	$("#rocket1details").css('pointer-events', 'none');
+        });
+    });
+    
+    $("#rocket2").hover(function() {
+    	$("#rocket2details").animate({opacity: 1.0}, 200, function() {
+        	$("#rocket2details").css('pointer-events', 'auto');
+        });
+    }, function() {
+    	$("#rocket2details").animate({opacity: 0.0}, 200, function() {
+        	$("#rocket2details").css('pointer-events', 'none');
+        });
+    });
+    
+    $("#rocket3").hover(function() {
+    	$("#rocket3details").animate({opacity: 1.0}, 200, function() {
+        	$("#rocket3details").css('pointer-events', 'auto');
+        });
+    }, function() {
+    	$("#rocket3details").animate({opacity: 0.0}, 200, function() {
+        	$("#rocket3details").css('pointer-events', 'none');
+        });
+    });
    
+
+	$('#checkboxrocket1').prop('checked', true);
+    
+    
+    
     $(document).ready(function() {
+    	//jQuery style button handling... may change this to avoid jQuery CSS injection.
     	
         $('#playtoggle').bind("click", function() {
           if ($(this).attr("class") == "play") {
@@ -706,7 +765,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		});
 
-		$( "#cam2" )
+		$( "#threedhome" )
 			.button()
 			.click(function( event ) {
 
@@ -727,7 +786,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					checkForFourthCameraLesson();
 		});	
 
-		$( "#cam3" )
+		$( "#threedrover" )
 			.button()
 			.click(function( event ) {
 
@@ -748,7 +807,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				checkForFourthCameraLesson();
 		});
 
-		$( "#cam4" )
+		$( "#threedearth" )
 			.button()
 			.click(function( event ) {
 
@@ -767,7 +826,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				
 		});
 
-		$( "#cam5" )
+		$( "#threedmars" )
 			.button()
 			.click(function( event ) {
 
@@ -892,10 +951,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		      onSelect: function(dateText, inst) { 
 	    			console.log("dateText: ", dateText);
 	    			console.log("inst: ", inst);
-	    			Tweener(timer, {multiplier:0}, 500);
-	    			var jumpToDate = new Date(Date.parse(dateText)).Date2Julian();
 	    			if(timer) {
-
+		    			Tweener(timer, {multiplier:0}, 500);
+		    			var jumpToDate = new Date(Date.parse(dateText)).Date2Julian();
 		    			timer.JD = jumpToDate;
 	    			}
 
@@ -1036,17 +1094,10 @@ document.addEventListener("DOMContentLoaded", function () {
 			</div>
 			<div id="bottombarmiddle" class="bottombarmiddle" style="vertical-align: middle;">
 				<div id="threedcontrols" class="threedcontrols">
-					<button id="cam2" class="squarebluebutton">Home</button>
-					<button id="cam3" class="squarebluebutton">Rover</button>
-					<button id="cam4" class="squarebluebutton">Earth</button>
-					<button id="cam5" class="squarebluebutton">Mars</button>
-					<div id="inputwrapper" class="inputwrapper">
-						Date: &nbsp;  <input type="text" id="datepicker" class="datepicker"/>
-					</div>
-					<div id="sliderwrapper" class="sliderwrapper">
-						<div id="speedSlider" class="speedSlider"></div>
-					</div>
-					
+					<button id="threedhome" class="squarebluebutton">Home</button>
+					<button id="threedrover" class="squarebluebutton">Rover</button>
+					<button id="threedearth" class="squarebluebutton">Earth</button>
+					<button id="threedmars" class="squarebluebutton">Mars</button>
 				</div>
 			</div>
 			
@@ -1117,28 +1168,6 @@ document.addEventListener("DOMContentLoaded", function () {
 			<p>The browser page</p>
 		</div>
 		
-		<div id="selectmissionrocket" class="selectitemdiv">
-			<h2>Select Mission Rocket</h2>
-			<table style="width: 100%;margin:0;padding:0;">
-				<tr>
-					<td width="33%" align="center" valign="bottom"><img src="./images/rocket_falcon.png"></td>
-					<td width="33%" align="center" valign="bottom"><img src="./images/rocket_deltaIV.png"></td>
-					<td width="33%" align="center" valign="bottom"><img src="./images/rocket_nasasls.png"></td>
-				</tr>
-				<tr>
-					<td width="33%" align="center">Falcon Heavy</td>
-					<td width="33%" align="center">Delta IV Heavy</td>
-					<td width="33%" align="center">NASA SLS</td>
-				</tr>
-				<tr>
-					<td width="33%" align="center"><input type="checkbox" id="checkboxrocket1"  class="regular-checkbox" /></td>
-					<td width="33%" align="center"><input type="checkbox" id="checkboxrocket2"  class="regular-checkbox" /></td>
-					<td width="33%" align="center"><input type="checkbox" id="checkboxrocket3"  class="regular-checkbox" /></td>
-				</tr>
-			</table>
-			
-		</div>
-		
 		<div id="incomingmessage" class="capcommessagediv">
 			<table style="width: 100%;margin:2;padding:0;" >
 				<tr >
@@ -1167,6 +1196,195 @@ document.addEventListener("DOMContentLoaded", function () {
 			</table>
 		</div>
 		
+		<div id="cmemessage" class="capcommessagereddiv">
+			<table style="width: 100%;margin:2;padding:0;" >
+				<tr >
+					<td width="50px" rowspan="2" align="left" valign="middle"><img src="./images/cme_icon.png" style="width:45px;height:45px;"></td>
+					
+					<td align="left">Alert: CME Detected!</td>
+				</tr>
+				<tr>
+					<td align="left">
+						<button id="investigatecmebutton" class="roundedredbutton">Investigate</button>
+						<button id="ignorecmebutton" class="roundedredbutton">Ignore</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<div id="selectmissionrocket" class="selectitemdiv">
+			<div style="position:absolute;float:left;font-weight:bold;font-size:30px;">Select Mission Rocket</div>
+			<table style="width: 100%;margin:0;padding:0;">
+				<tr>
+					<td width="33%" align="center" valign="bottom"><img id="rocket1" src="./images/rocket_falcon.png"></td>
+					<td width="33%" align="center" valign="bottom"><img id="rocket2" src="./images/rocket_deltaIV.png"></td>
+					<td width="33%" align="center" valign="bottom"><img id="rocket3" src="./images/rocket_nasasls.png"></td>
+				</tr>
+				<tr>
+					<td width="33%" align="center">Falcon Heavy</td>
+					<td width="33%" align="center">Delta IV Heavy</td>
+					<td width="33%" align="center">NASA SLS</td>
+				</tr>
+				<tr>
+					<td width="33%" align="center"><input type="checkbox" id="checkboxrocket1"  class="regular-checkbox" /></td>
+					<td width="33%" align="center"><input type="checkbox" id="checkboxrocket2"  class="regular-checkbox" /></td>
+					<td width="33%" align="center"><input type="checkbox" id="checkboxrocket3"  class="regular-checkbox" /></td>
+				</tr>	
+			</table>
+			<div style="position:absolute;bottom:2%;right:10px;font-weight:bold;font-size:30px;">
+				<button id="selectmissioncontinuebutton" class="roundedbluebutton">Continue</button>
+			</div>
+			<!-- appears to the right of the mission selector -->
+			<div id="rocket1details" style="opacity: 0.0;pointer-events:none;position:absolute;top:10%;left:101%;width:350px;font-weight:bold;font-size:18px;">
+				<table style="width:100%;margin:0;padding:0;background:rgba(0,0,0,.85);border:1px solid rgba(76,173,197,1.0);">
+					<tr>
+						<td width="100%" align="left" valign="bottom" colspan="3" style="color:rgba(76,173,197,1.0);">Launch Vehicle Layout</td>
+					</tr>
+					<tr>
+						<td width="66%" align="left" valign="bottom">LBS of fuel</td>
+						<td width="4%" align="left" valign="bottom">=</td>
+						<td width="30%" align="left" valign="bottom">5 Million</td>
+					</tr>
+					<tr>
+						<td width="66%" align="left" valign="bottom">LBS of payload</td>
+						<td width="4%" align="left" valign="bottom">=</td>
+						<td width="30%" align="left" valign="bottom">1000</td>
+					</tr>
+					<tr>
+						<td width="66%" align="left" valign="bottom">LBS of consumable supply</td>
+						<td width="4%" align="left" valign="bottom">=</td>
+						<td width="30%" align="left" valign="bottom">400</td>
+					</tr>
+					<tr>
+						<td width="66%" align="left" valign="bottom"># of Launches</td>
+						<td width="4%" align="left" valign="bottom">=</td>
+						<td width="30%" align="left" valign="bottom">1</td>
+					</tr>
+					<tr>
+						<td width="100%" align="left" valign="bottom" colspan="3" style="color:rgba(76,173,197,1.0);">Astronaut Selection</td>
+					</tr>
+					<tr>
+						<td width="66%" align="left" valign="bottom"># of Astronauts</td>
+						<td width="4%" align="left" valign="bottom">=</td>
+						<td width="30%" align="left" valign="bottom">3</td>
+					</tr>
+				</table>
+			</div>
+			<div id="rocket2details" style="opacity: 0.0;pointer-events:none;position:absolute;top:10%;left:101%;width:350px;font-weight:bold;font-size:18px;">
+				<table style="width:100%;margin:0;padding:0;background:rgba(0,0,0,.85);border:1px solid rgba(76,173,197,1.0);">
+					<tr>
+						<td width="100%" align="left" valign="bottom" colspan="3" style="color:rgba(76,173,197,1.0);">Launch Vehicle Layout</td>
+					</tr>
+					<tr>
+						<td width="66%" align="left" valign="bottom">LBS of fuel</td>
+						<td width="4%" align="left" valign="bottom">=</td>
+						<td width="30%" align="left" valign="bottom">8 Million</td>
+					</tr>
+					<tr>
+						<td width="66%" align="left" valign="bottom">LBS of payload</td>
+						<td width="4%" align="left" valign="bottom">=</td>
+						<td width="30%" align="left" valign="bottom">500</td>
+					</tr>
+					<tr>
+						<td width="66%" align="left" valign="bottom">LBS of consumable supply</td>
+						<td width="4%" align="left" valign="bottom">=</td>
+						<td width="30%" align="left" valign="bottom">200</td>
+					</tr>
+					<tr>
+						<td width="66%" align="left" valign="bottom"># of Launches</td>
+						<td width="4%" align="left" valign="bottom">=</td>
+						<td width="30%" align="left" valign="bottom">1</td>
+					</tr>
+					<tr>
+						<td width="100%" align="left" valign="bottom" colspan="3" style="color:rgba(76,173,197,1.0);">Astronaut Selection</td>
+					</tr>
+					<tr>
+						<td width="66%" align="left" valign="bottom"># of Astronauts</td>
+						<td width="4%" align="left" valign="bottom">=</td>
+						<td width="30%" align="left" valign="bottom">2</td>
+					</tr>
+				</table>
+			</div>
+			<div id="rocket3details" style="opacity: 0.0;pointer-events:none;position:absolute;top:10%;left:101%;width:350px;font-weight:bold;font-size:18px;">
+				<table style="width:100%;margin:0;padding:0;background:rgba(0,0,0,.85);border:1px solid rgba(76,173,197,1.0);">
+					<tr>
+						<td width="100%" align="left" valign="bottom" colspan="3" style="color:rgba(76,173,197,1.0);">Launch Vehicle Layout</td>
+					</tr>
+					<tr>
+						<td width="66%" align="left" valign="bottom">LBS of fuel</td>
+						<td width="4%" align="left" valign="bottom">=</td>
+						<td width="30%" align="left" valign="bottom">12 Million</td>
+					</tr>
+					<tr>
+						<td width="66%" align="left" valign="bottom">LBS of payload</td>
+						<td width="4%" align="left" valign="bottom">=</td>
+						<td width="30%" align="left" valign="bottom">12000</td>
+					</tr>
+					<tr>
+						<td width="66%" align="left" valign="bottom">LBS of consumable supply</td>
+						<td width="4%" align="left" valign="bottom">=</td>
+						<td width="30%" align="left" valign="bottom">700</td>
+					</tr>
+					<tr>
+						<td width="66%" align="left" valign="bottom"># of Launches</td>
+						<td width="4%" align="left" valign="bottom">=</td>
+						<td width="30%" align="left" valign="bottom">1</td>
+					</tr>
+					<tr>
+						<td width="100%" align="left" valign="bottom" colspan="3" style="color:rgba(76,173,197,1.0);">Astronaut Selection</td>
+					</tr>
+					<tr>
+						<td width="66%" align="left" valign="bottom"># of Astronauts</td>
+						<td width="4%" align="left" valign="bottom">=</td>
+						<td width="30%" align="left" valign="bottom">3</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		
+		<div id="launchcontrols" class="launchcontrols">
+			 <div id="sliderwrapper" class="sliderwrapper" style="padding-left:120px;">
+				Time
+				<div id="speedSlider" class="speedSlider"></div>
+			</div>
+			<div id="inputwrapper" class="inputwrapper">
+				Orbit Date
+				<input type="text" id="datepicker" class="datepicker"/>
+			</div>
+			
+			<div id="launchdiv" class="launchdiv">
+				<div style="position:absolute;bottom:100%;left:2%;display:inline;font-weight:bold;">
+					Simulation <img style="width:11px;height:47px" id="rocketselect" src="./images/rocket_falcon.png">
+				</div>
+				<table style="width:100%;height:100%;margin:0;padding:0;">
+					<tr>
+						<td align="center">Launch Date</td>
+						<td align="center">Landing Date</td>
+						<td align="center" rowspan="2"><button id="runbutton" class="playbutton">Run<br><img src="./images/playblue.png"></button></td>
+					</tr>
+					<tr>
+						<td align="center">
+				 			<input type="text" id="launchdatepicker" class="datepicker"/>
+						</td>
+						<td align="center">
+				 			<input type="text" id="landdatepicker" class="datepicker"/>
+						</td>
+					</tr>
+				</table>
+				
+				<div style="position:absolute;bottom:6%;right:-20%;display:inline;font-weight:bold;text-align:center;">
+					Launch<br><font color="#14148f">Commit</font><br> 
+					<button id="commitlaunchbutton" class="launchbutton">
+						<table style="width:100%;height:100%;margin:0;padding:0;">
+							<tr>
+								<td align="center"><img style="width:8px;height:35px" id="rocketlaunch" src="./images/rocket_falcon.png"></td>
+								<td align="center" valign="middle">&nbsp;&nbsp;<img src="./images/playblue.png"></td>
+							</tr>
+						</table>
+					</button>
+				</div>
+			</div>
+		</div>
 		
 		<audio id="SEQ2_VO">
 			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ2_VO.mp3"></source>
