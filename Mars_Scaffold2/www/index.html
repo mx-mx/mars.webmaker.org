@@ -847,9 +847,9 @@ document.addEventListener("DOMContentLoaded", function () {
 			animate: true,
 			range: "min",
 			value: 0,
-			min: -5,
-			max: 5,
-			step: .025,
+			min: -3,
+			max: 3,
+			step: .010,
 			change: function() {
 				var sliderVal = $( "#speedSlider" ).slider( "option", "value" );
 				console.log("sliderVal: " + sliderVal);
@@ -942,6 +942,7 @@ document.addEventListener("DOMContentLoaded", function () {
             	//});
 		});
 		
+		/*
 		$(function() {
 		    $( "#datepicker" ).datepicker({
 		      changeMonth: true,
@@ -949,35 +950,86 @@ document.addEventListener("DOMContentLoaded", function () {
 		      minDate: new Date(1957, 1 - 1, 25),
 		      maxDate: new Date(3000, 1 - 1, 25),
 		      onSelect: function(dateText, inst) { 
-	    			console.log("dateText: ", dateText);
-	    			console.log("inst: ", inst);
 	    			if(timer) {
 		    			Tweener(timer, {multiplier:0}, 500);
 		    			var jumpToDate = new Date(Date.parse(dateText)).Date2Julian();
+		    			//console.log("dateText: " +  dateFormatter(jumpToDate));
 		    			timer.JD = jumpToDate;
 	    			}
 
 	    			//console.log("jumpToDate: " +  dateFormatter(jumpToDate));
 	    		}
 		    });
+		});*/
+		var launchDate;
+		var landingDate;
+		$(function() {
+		    $( "#launchdatepicker" ).datepicker({
+		      changeMonth: true,
+		      changeYear: true,
+		      minDate: new Date(1957, 1 - 1, 25),
+		      maxDate: new Date(3000, 1 - 1, 25),
+		      onSelect: function(dateText, inst) { 
+	    			launchDate = new Date(Date.parse(dateText));
+	    			if(timer) {
+		    			Tweener(timer, {multiplier:0}, 500);
+		    			var jumpToDate = new Date(Date.parse(dateText)).Date2Julian();
+		    			timer.JD = jumpToDate;
+	    			}
+	    		    compareDates();
+
+	    			//console.log("jumpToDate: " +  dateFormatter(jumpToDate));
+	    		}
+		    });
+		});
+		$(function() {
+		    $( "#landingdatepicker" ).datepicker({
+		      changeMonth: true,
+		      changeYear: true,
+		      minDate: new Date(1957, 1 - 1, 25),
+		      maxDate: new Date(3000, 1 - 1, 25),
+		      onSelect: function(dateText, inst) { 
+	    			landingDate = new Date(Date.parse(dateText));
+	    			if(timer) {
+		    			Tweener(timer, {multiplier:0}, 500);
+		    			var jumpToDate = new Date(Date.parse(dateText)).Date2Julian();
+		    			timer.JD = jumpToDate;
+	    			}
+	    		    compareDates();
+	    			//console.log("jumpToDate: " +  dateFormatter(jumpToDate));
+	    		}
+		    });
 		});
 		
-		setInterval(function() { 
-			if(timer) {
-				//var aDate = new Date(Number.Julian2Date(timer.JD));
-				var aDate = new Number(timer.JD).Julian2Date();
-				
-				//console.log("formattedDate: ", dateFormatter(aDate)); 
-				document.getElementById( "datepicker" ).value = dateFormatter(aDate);
+		var compareDates = function() {
+			if(!launchDate || !landingDate) {
+				console.log("need both dates to compare");
+				return;
+			} else if (landingDate<launchDate) {
+				console.log("You can't land before you launch");
+				return;
+			} else if (landingDate>launchDate) {
+				console.log("ok, we can launch this!");
+				return;
 			}
 			
+			
+		}
+		
+		//this timer queries the timer object to figure out what the date is 
+		//and then sets the datepicker element every 100 ms.
+		setInterval(function() { 
+			if(timer) {
+				var aDate = new Number(timer.JD).Julian2Date();
+				document.getElementById( "orbitdate" ).value = dateFormatter(aDate);
+			}
 		}, 100);
 		
 		//we've got simple date formatting needs, so this will be sufficient for our project.
 		var dateFormatter = function(aDate) {
 			var mm = aDate.getMonth() + 1;
 			if(mm<10)mm = "0" + mm;
-		    var dd = aDate.getDate();
+		    var dd = aDate.getDate() + 1;
 			if(dd<10)dd = "0" + dd;
 		    var yyyy = aDate.getFullYear();
 		    var formattedDate = mm + '/' + dd + '/' + yyyy;
@@ -1349,7 +1401,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			</div>
 			<div id="inputwrapper" class="inputwrapper">
 				Orbit Date
-				<input type="text" id="datepicker" class="datepicker"/>
+				<input type="text" id="orbitdate" class="datepicker" readonly/>
 			</div>
 			
 			<div id="launchdiv" class="launchdiv">
@@ -1367,7 +1419,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				 			<input type="text" id="launchdatepicker" class="datepicker"/>
 						</td>
 						<td align="center">
-				 			<input type="text" id="landdatepicker" class="datepicker"/>
+				 			<input type="text" id="landingdatepicker" class="datepicker"/>
 						</td>
 					</tr>
 				</table>
