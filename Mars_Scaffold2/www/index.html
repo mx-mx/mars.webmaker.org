@@ -125,18 +125,29 @@ document.addEventListener("DOMContentLoaded", function () {
 	popcornMedia[14] = Popcorn( '#SEQ_3_CAM_4b' );//call to action
 	popcornMedia[15] = Popcorn( '#SEQ_3_CAM_4c' );
 	popcornMedia[16] = Popcorn( '#SEQ_3_CAM_4d' );
+	popcornMedia[17] = Popcorn( '#SEQ_5_CAM' );
+	popcornMedia[18] = Popcorn( '#SEQ_6_CAM' );
 
 	var basepop = Popcorn.baseplayer( "#contenttarget" ); //not sure if I'll need this baseplayer
 	//var popcorn_branch1_video2 = Popcorn.youtube('#videocontenttarget2', 'https://www.youtube.com/watch?v=lKqr3F73bAI' );
 	 
 
-	basepop.cue( 1, function() {
-        init(); //init the 3D background.
-        animate();
 
-        gui.destroy();  //remove the test GUI (used by Ryan)
-        //set time to freeze
-        Tweener(timer, {multiplier:.0}, 1);
+	var threedinitialized;
+	var initializethreed = function() {
+		if(!threedinitialized) {
+			threedinitialized = true;
+	        init(); //init the 3D background.
+	        animate();
+
+	        gui.destroy();  //remove the test GUI (used by Ryan)
+	        //set time to freeze
+	        Tweener(timer, {multiplier:.0}, 1);
+		}
+	}
+	
+	basepop.cue( 1, function() {
+		initializethreed();
 	});
 	
 	basepop.cue( 2, function() {
@@ -500,7 +511,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var advancePopcornMedia = function () {
 		popcornSequenceNumber++;
     	if(popcornSequenceNumber<popcornMedia.length) {
-    		popcornMedia[popcornSequenceNumber].play();
+    		popcornMedia[popcornSequenceNumber].play(0);
     	}
     }
     
@@ -508,13 +519,10 @@ document.addEventListener("DOMContentLoaded", function () {
     var jumpPopcornMedia = function (sequenceNum, beginningOffset) {
 		if(popcornSequenceNumber>=popcornMedia.length)return;
 		popcornSequenceNumber=sequenceNum;
+		console.log("jumping to media: " + popcornSequenceNumber);
 		//clear div targets
-    	$("#videocontenttarget").animate({opacity: 0.0}, 1, function() {
-           	$("#videocontenttarget").css('pointer-events', 'none');
-       	});
-    	$("#startmenupanel").animate({opacity: 0.0}, 1, function() {
-        	$("#startmenupanel").css('pointer-events', 'none');
-       	});
+    	//hideeverything();
+		console.log("jumping to media: " + popcornSequenceNumber);
 		
 		//stop all other media
 		for(var i=0;i<popcornMedia.length;i++) {
@@ -522,8 +530,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 		
 		//jump to desired media
-		
-		if(popcornSequenceNumber==0) {
+		if(popcornSequenceNumber==0 && !threedinitialized) {
 			basepop.play(0);
 		} else {
 			if(beginningOffset) {
@@ -532,14 +539,30 @@ document.addEventListener("DOMContentLoaded", function () {
 				popcornMedia[popcornSequenceNumber].play(0);
 			}
 		}
-		
-		//close menu panel if needed
-		if($('#menupanel').css('opacity') != 0) {
-        	$("#menupanel").animate({opacity: 0.0}, 200, function() {
-            	$("#menupanel").css('pointer-events', 'none');
-        	});
-    	} 
     }
+    
+	var hideeverything = function() {
+		$("#startmenupanel").animate({opacity: 0.0}, 1, function() { $("#startmenupanel").css('pointer-events', 'none'); });
+		$("#menupanel").animate({opacity: 0.0}, 1, function() { $("#menupanel").css('pointer-events', 'none'); });
+		
+		$("#videocontenttarget").animate({opacity: 0.0}, 1, function() { $("#videocontenttarget").css('pointer-events', 'none'); });
+		
+		$("#aboutpopup").animate({opacity: 0.0}, 1, function() { $("#aboutpopup").css('pointer-events', 'none'); });
+		$("#helppopup").animate({opacity: 0.0}, 1, function() { $("#helppopup").css('pointer-events', 'none'); });
+		$("#helpthreedpopup").animate({opacity: 0.0}, 1, function() { $("#helpthreedpopup").css('pointer-events', 'none'); });
+		//$("#browserpopup").animate({opacity: 0.0}, 1, function() { $("#browserpopup").css('pointer-events', 'none'); });
+		
+		$("#incomingmessage").animate({opacity: 0.0}, 1, function() { $("#incomingmessage").css('pointer-events', 'none'); });
+		$("#transmissionmessage").animate({opacity: 0.0}, 1, function() { $("#transmissionmessage").css('pointer-events', 'none'); });
+		$("#cmemessage").animate({opacity: 0.0}, 1, function() { $("#cmemessage").css('pointer-events', 'none'); });
+
+		$("#selectmissionrocket").animate({opacity: 0.0}, 1, function() { $("#selectmissionrocket").css('pointer-events', 'none'); });
+		$("#launchcontrols").animate({opacity: 0.0}, 1, function() { $("#launchcontrols").css('pointer-events', 'none'); });
+		
+		$("#nextbuttonwrapper").animate({opacity: 0.0}, 1, function() { $("#nextbuttonwrapper").css('pointer-events', 'none'); });
+		$("#helpbuttonwrapper").animate({opacity: 0.0}, 1, function() { $("#helpbuttonwrapper").css('pointer-events', 'none'); });
+		$("#replaybuttonwrapper").animate({opacity: 0.0}, 1, function() { $("#replaybuttonwrapper").css('pointer-events', 'none'); });
+	}
 	
 	// Add popcorn events here and other functionality
     //SEQ2_VO.image({
@@ -874,15 +897,62 @@ document.addEventListener("DOMContentLoaded", function () {
 		$( "#nextbutton" )
 			.button()
 			.click(function( event ) {
-				if(popcornSequenceNumber==3) {
-			    	//temp get rid of next button
-			    	
-					$("#nextbuttonwrapper").animate({opacity: 0.0}, 200, function() {
-			        	$("#nextbuttonwrapper").css('pointer-events', 'none');
-			    	});
+				if(popcornSequenceNumber<5) {
+					jumpToThreeDNavigation();
+				} else if(popcornSequenceNumber<17) {
+					jumpToChallenge();
 				}
-				jumpPopcornMedia(popcornSequenceNumber+1);
 		});
+		
+		var jumpToIntroduction = function() {
+			//hide everything
+			hideeverything();
+			//shift 3d model
+			initializethreed();
+			camTweener( { x: 0, y: 100, z: 500 }, { x: 0, y: 0, z: 0 }, 1500 );
+			//show stuff needed
+			
+			jumpPopcornMedia(0);
+		}
+		
+		var jumpToThreeDNavigation = function() {
+			//hide everything
+			hideeverything();
+	    	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
+	           	$("#backgroundtarget").css('pointer-events', 'none');
+	       	});
+	    	//initialize 3d if you need to
+			initializethreed();
+			//shift 3d model
+			camTweener( { x: 0, y: 100, z: 500 }, { x: 0, y: 0, z: 0 }, 1500 );
+			//show stuff needed
+			setTimeout(function(){
+				$("#nextbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+		        	$("#nextbuttonwrapper").css('pointer-events', 'auto');
+		    	});
+			},1000);
+			jumpPopcornMedia(5);
+		}
+		
+		var jumpToChallenge = function () {
+			//hide everything
+			hideeverything();
+	    	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
+	           	$("#backgroundtarget").css('pointer-events', 'none');
+	       	});
+	    	//initialize 3d if you need to
+			initializethreed();
+			//shift 3d model
+			camTweener( { x: 0, y: 700, z: 0 }, { x: 0, y: 0, z: 0 }, 3000 );
+			//show stuff needed
+			setTimeout(function(){
+				$("#selectmissionrocket").animate({opacity: 1.0}, 200, function() {
+	            	$("#selectmissionrocket").css('pointer-events', 'auto');
+	        	});
+			},2000);
+			
+			jumpPopcornMedia(17);
+		}
 		
 		$( "#threedhelpbutton" )
 			.button()
@@ -895,19 +965,19 @@ document.addEventListener("DOMContentLoaded", function () {
 		$( "#introduction" )
 			.button()
 			.click(function( event ) {
-				jumpPopcornMedia(0);
+				jumpToIntroduction();
 		});
 		
 		$( "#navigation" )
 			.button()
 			.click(function( event ) {
-				jumpPopcornMedia(1);
+				jumpToThreeDNavigation();
 		});
 		
-		$( "#trajectory" )
+		$( "#challenge" )
 			.button()
 			.click(function( event ) {
-				jumpPopcornMedia(2);
+				jumpToChallenge();
 		});
 		
 		$( "#about" )
@@ -1107,7 +1177,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					<br>
 					<button id="navigation" class="menupanelbutton">3d navigation</button>
 					<br>
-					<button id="trajectory" class="menupanelbutton">trajectory</button>
+					<button id="challenge" class="menupanelbutton">Challenge</button>
 					<br>
 					<button id="about" class="menupanelbutton">about</button>
 					<br>
@@ -1495,43 +1565,46 @@ document.addEventListener("DOMContentLoaded", function () {
 		<audio id=SEQ_3_CAM_3a>
 			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3a.mp3"></source>
 			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3a.oggvorbis.ogg"></source>
-			
 		</audio> 
 		
 		<audio id="SEQ_3_CAM_3b">
 			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3b.mp3"></source>
 			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3b.oggvorbis.ogg"></source>
-			
 		</audio> 
 		
 		<audio id="SEQ_3_CAM_3c">
 			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3c.mp3"></source>
 			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3c.oggvorbis.ogg"></source>
-			
 		</audio> 
 		
 		<audio id=SEQ_3_CAM_4a>
 			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4a.mp3"></source>
 			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4a.oggvorbis.ogg"></source>
-			
 		</audio> 
 		
 		<audio id="SEQ_3_CAM_4b">
 			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4b.mp3"></source>
 			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4b.oggvorbis.ogg"></source>
-			
 		</audio> 
 		
 		<audio id="SEQ_3_CAM_4c">
 			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4c.mp3"></source>
 			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4c.oggvorbis.ogg"></source>
-			
 		</audio> 
 		
 		<audio id="SEQ_3_CAM_4d">
 			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4d.mp3"></source>
 			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4d.oggvorbis.ogg"></source>
-			
+		</audio> 
+		
+		<audio id="SEQ_5_CAM">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_5_CAM.mp3"></source>
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_5_CAM.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="SEQ_6_CAM">
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_6_CAM.mp3"></source>
+			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_6_CAM.oggvorbis.ogg"></source>
 		</audio> 
 	</body>
 </html>
