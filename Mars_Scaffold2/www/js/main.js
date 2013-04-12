@@ -16,6 +16,10 @@ var stats,
 	tween,
 	camTarget,
 	solarSystem,
+	marsOdyssey,
+	ruler,
+	rulerMidpoint,
+	distance,
 	debugGrid,
 	debugAxis;
 
@@ -148,7 +152,6 @@ function buildGUI(){
 	camFolder.add( camMars, 'tween' ).name( 'Camera Mars' );
 }
 
-var marsOdyssey;
 
 function setupScene(){
 	// geo = new THREE.Mesh( new THREE.PlaneGeometry( 100, 100 ), new THREE.MeshLambertMaterial( { color: 0xCC0000, opacity:0 } ) );
@@ -184,8 +187,16 @@ function setupScene(){
 	scene.add( sunFlare );
 
 
-	// var ruler = new Ruler( ss[3], ss[4] );
-	// scene.add( ruler );
+	ruler = new Ruler( ss[3], ss[4] );
+	scene.add( ruler );
+
+	rulerMidpoint = new THREE.Mesh( new THREE.PlaneGeometry( 0, 0 ), new THREE.MeshLambertMaterial( { color: 0xCC0000, opacity:0 } ) );
+	scene.add( rulerMidpoint );
+
+	var template = document.getElementById('label_template');
+	distance = template.cloneNode(true);
+	distance.nameLayer = distance.children[0];
+	$contenttarget.append( distance );
 	
 	scene.add( dae );
 	scene.add( solarSystem );
@@ -225,8 +236,10 @@ function onDocumentMouseDown( event ) {
 
 				var camCLICKED = new camPosition( lookAtCLICKED, posCLICKED, 1000 );
 				camCLICKED.tween();
+
+				console.log( CLICKED.name + " x: " + posCLICKED.x + " y: " + posCLICKED.y + " z: " + posCLICKED.z );
 			}
-			console.log(CLICKED.name);
+			
 		// }
 	} 
 }
@@ -263,11 +276,23 @@ function animate() {
 	camera.lookAt( camTarget );
 
 	lensFlares.lookAt(camera.position);
-
+	
 	updateRulers();
-    updateLabels();
+
+
+	rulerMidpoint.position = ruler.mid;
+	rulerMidpoint.lookAt( camera.position );
+
+	var vector = new THREE.Vector3();
+	var screenPos = screenXY( vector.getPositionFromMatrix( rulerMidpoint.matrixWorld ) );
+    distance.style.left = screenPos.x + 'px';
+    distance.style.top = screenPos.y + 'px';
+	distance.nameLayer.innerHTML = Math.round( ruler.getDistance() / ssScale.s ) + " km";
+
+
+    // updateLabels();
 	controls.update();
-	//stats.update();
+	// stats.update();
 	TWEEN.update();
 	setSolarSystemScale();
 
