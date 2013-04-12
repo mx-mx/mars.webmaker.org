@@ -165,9 +165,44 @@ document.addEventListener("DOMContentLoaded", function () {
 	    target: "headerpanel",
 	    text: "Mission to Mars: Setup"
 	});
+	popcornMedia[0].footnote({
+		start: 1,
+		end: 8,
+	    target: "subtitlepanela",
+		text: "Mary Beth Vilhelm",
+	});
+	popcornMedia[0].footnote({
+		start: 1,
+		end: 8,
+	    target: "subtitlepanelb",
+		text: "Mars Colony 1 Astronaut & Senior Geologist",
+	});
+
+	/*
+	$("#videocontenttarget").animate({opacity: 1.0,width:720,height:405}, 5000, function() {
+	});
+	$("#subtitlepanel").animate({opacity: 1.0}, 1, function() {
+	});*/
+	
+	popcornMedia[0].subtitle({
+		start: 1,
+		end: 8,
+	    target: "subtitlepanelb",
+		text: "Mars Colony 1 Astronaut & senior geologist",
+	});
+	popcornMedia[0].cue( 1, function() {
+		$("#subtitlepanel").animate({opacity: 1.0}, 500, function() {
+        	//$("#subtitlepanel").css('pointer-events', 'none');
+    	});
+	});
+	popcornMedia[0].cue( 8, function() {
+		$("#subtitlepanel").animate({opacity: 0.0}, 500, function() {
+        	//$("#subtitlepanel").css('pointer-events', 'none');
+    	});
+	});
 	popcornMedia[0].cue( 3, function() {
 		$("#headerpanel").animate({opacity: 1.0}, 100, function() {
-        	$("#headerpanel").css('pointer-events', 'none');
+        	//$("#headerpanel").css('pointer-events', 'none');
     	});
 		
 	});
@@ -519,10 +554,8 @@ document.addEventListener("DOMContentLoaded", function () {
     var jumpPopcornMedia = function (sequenceNum, beginningOffset) {
 		if(popcornSequenceNumber>=popcornMedia.length)return;
 		popcornSequenceNumber=sequenceNum;
-		console.log("jumping to media: " + popcornSequenceNumber);
 		//clear div targets
     	//hideeverything();
-		console.log("jumping to media: " + popcornSequenceNumber);
 		
 		//stop all other media
 		for(var i=0;i<popcornMedia.length;i++) {
@@ -1177,7 +1210,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					<br>
 					<button id="navigation" class="menupanelbutton">3d navigation</button>
 					<br>
-					<button id="challenge" class="menupanelbutton">Challenge</button>
+					<button id="challenge" class="menupanelbutton">Slayton's Isle</button>
 					<br>
 					<button id="about" class="menupanelbutton">about</button>
 					<br>
@@ -1196,10 +1229,18 @@ document.addEventListener("DOMContentLoaded", function () {
 		
 		<div id="videocontenttarget" class="videocontenttarget">
 			<video height="100%" width="100%" id="video" style="background: #000;">
-         		<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/video/SEQ1_OCVO_v05.mp4" type="video/mp4">
-         		<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/video/SEQ1_OCVO_v05.webmhd.webm" type="video/webm">
+         		<source src="http://www.mx-mx.com/lab/moku/video/SEQ1_OCVO_v05.mp4" type="video/mp4">
+         		<source src="http://www.mx-mx.com/lab/moku/video/SEQ1_OCVO_v05.webmhd.webm" type="video/webm">
          		Please upgrade your browser to view video
        		</video>
+       		<div id="subtitlepanel" class="subtitlepanel">
+       			<table style="width:100%;height:100%;margin:2;padding:0;">
+       				<tr><td style="height:50%"><div id="sutbitlepanela" class="subtitlepanela"></div></td></tr>
+       				<tr><td style="height:50%"><div id="sutbitlepanelb" class="subtitlepanelb"></div></td></tr>
+       			</table>
+       			
+       			
+       		</div>
 		</div>
 		
 		<div id="videocontenttarget2" class="videocontenttarget2">
@@ -1509,102 +1550,102 @@ document.addEventListener("DOMContentLoaded", function () {
 		</div>
 		
 		<audio id="SEQ2_VO">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ2_VO.mp3"></source>
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ2_VO.oggvorbis.ogg"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ2_VO.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ2_VO.oggvorbis.ogg"></source>
 			
 		</audio> 
 		
 		<audio id="SEQ3_VOpt1">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt1.mp3"></source>
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt1.oggvorbis.ogg"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ3_VOpt1.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ3_VOpt1.oggvorbis.ogg"></source>
 			
 		</audio>
 		
 		<audio id="SEQ3_VOpt2">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt2.mp3"></source>
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt2.oggvorbis.ogg"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ3_VOpt2.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ3_VOpt2.oggvorbis.ogg"></source>
 			
 		</audio> 
 		
 		<audio id="SEQ3_VOpt3">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt3.mp3"></source>
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ3_VOpt3.oggvorbis.ogg"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ3_VOpt3.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ3_VOpt3.oggvorbis.ogg"></source>
 			
 		</audio> 
 		
 		<audio id=SEQ_3_CAM_1a>
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1a.mp3"></source>
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1a.oggvorbis.ogg"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_1a.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_1a.oggvorbis.ogg"></source>
 			
 		</audio> 
 		
 		<audio id="SEQ_3_CAM_1b">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1b.mp3"></source>
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1b.oggvorbis.ogg"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_1b.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_1b.oggvorbis.ogg"></source>
 			
 		</audio> 
 		
 		<audio id="SEQ_3_CAM_1c">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1c.mp3"></source>
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_1c.oggvorbis.ogg"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_1c.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_1c.oggvorbis.ogg"></source>
 			
 		</audio> 
 		
 		<audio id=SEQ_3_CAM_2a>
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_2a.mp3"></source>
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_2a.oggvorbis.ogg"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_2a.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_2a.oggvorbis.ogg"></source>
 			
 		</audio> 
 		
 		<audio id="SEQ_3_CAM_2b">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_2b.mp3"></source>
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_2b.oggvorbis.ogg"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_2b.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_2b.oggvorbis.ogg"></source>
 			
 		</audio> 
 		
 		<audio id=SEQ_3_CAM_3a>
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3a.mp3"></source>
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3a.oggvorbis.ogg"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_3a.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_3a.oggvorbis.ogg"></source>
 		</audio> 
 		
 		<audio id="SEQ_3_CAM_3b">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3b.mp3"></source>
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3b.oggvorbis.ogg"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_3b.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_3b.oggvorbis.ogg"></source>
 		</audio> 
 		
 		<audio id="SEQ_3_CAM_3c">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3c.mp3"></source>
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_3c.oggvorbis.ogg"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_3c.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_3c.oggvorbis.ogg"></source>
 		</audio> 
 		
 		<audio id=SEQ_3_CAM_4a>
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4a.mp3"></source>
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4a.oggvorbis.ogg"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_4a.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_4a.oggvorbis.ogg"></source>
 		</audio> 
 		
 		<audio id="SEQ_3_CAM_4b">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4b.mp3"></source>
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4b.oggvorbis.ogg"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_4b.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_4b.oggvorbis.ogg"></source>
 		</audio> 
 		
 		<audio id="SEQ_3_CAM_4c">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4c.mp3"></source>
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4c.oggvorbis.ogg"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_4c.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_4c.oggvorbis.ogg"></source>
 		</audio> 
 		
 		<audio id="SEQ_3_CAM_4d">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4d.mp3"></source>
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_3_CAM_4d.oggvorbis.ogg"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_4d.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_4d.oggvorbis.ogg"></source>
 		</audio> 
 		
 		<audio id="SEQ_5_CAM">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_5_CAM.mp3"></source>
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_5_CAM.oggvorbis.ogg"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_5_CAM.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_5_CAM.oggvorbis.ogg"></source>
 		</audio> 
 		
 		<audio id="SEQ_6_CAM">
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_6_CAM.mp3"></source>
-			<source src="http://www.voiceovervinnie.com/popcorn/marsScaffold2/audio/SEQ_6_CAM.oggvorbis.ogg"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_6_CAM.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_6_CAM.oggvorbis.ogg"></source>
 		</audio> 
 	</body>
 </html>
