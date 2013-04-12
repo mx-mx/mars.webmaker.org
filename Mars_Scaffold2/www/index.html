@@ -167,28 +167,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 	popcornMedia[0].footnote({
 		start: 1,
-		end: 8,
-	    target: "subtitlepanela",
-		text: "Mary Beth Vilhelm",
-	});
-	popcornMedia[0].footnote({
-		start: 1,
-		end: 8,
-	    target: "subtitlepanelb",
-		text: "Mars Colony 1 Astronaut & Senior Geologist",
-	});
-
-	/*
-	$("#videocontenttarget").animate({opacity: 1.0,width:720,height:405}, 5000, function() {
-	});
-	$("#subtitlepanel").animate({opacity: 1.0}, 1, function() {
-	});*/
-	
-	popcornMedia[0].subtitle({
-		start: 1,
-		end: 8,
-	    target: "subtitlepanelb",
-		text: "Mars Colony 1 Astronaut & senior geologist",
+		end: 8.5,
+	    target: "subtitlepanel",
+		text: "Mary Beth Vilhelm<br><font style=\"font-size:14px;\">Mars Colony 1 Astronaut & Senior Geologist</font>",
 	});
 	popcornMedia[0].cue( 1, function() {
 		$("#subtitlepanel").animate({opacity: 1.0}, 500, function() {
@@ -1233,14 +1214,7 @@ document.addEventListener("DOMContentLoaded", function () {
          		<source src="http://www.mx-mx.com/lab/moku/video/SEQ1_OCVO_v05.webmhd.webm" type="video/webm">
          		Please upgrade your browser to view video
        		</video>
-       		<div id="subtitlepanel" class="subtitlepanel">
-       			<table style="width:100%;height:100%;margin:2;padding:0;">
-       				<tr><td style="height:50%"><div id="sutbitlepanela" class="subtitlepanela"></div></td></tr>
-       				<tr><td style="height:50%"><div id="sutbitlepanelb" class="subtitlepanelb"></div></td></tr>
-       			</table>
-       			
-       			
-       		</div>
+       		<div id="subtitlepanel" class="subtitlepanel"></div>
 		</div>
 		
 		<div id="videocontenttarget2" class="videocontenttarget2">
