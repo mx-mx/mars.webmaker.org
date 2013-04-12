@@ -139,8 +139,7 @@ MarsOdyssey.prototype.drawTrajectory = function( time, scale ) {
 		end,
 		axisRez,
 		axisPoints = [],
-		splineMat,
-		line	
+		splineMat	
 	;
 
 	if (!this.complete) {
@@ -173,18 +172,18 @@ MarsOdyssey.prototype.drawTrajectory = function( time, scale ) {
 	this.lastTrajectoryPoint = end;
 
 	splineMat = new THREE.LineBasicMaterial( { color: 0x2BBFBD, opacity: 0.25, linewidth: 1.5 } );
-	line = new THREE.Line( new THREE.Geometry(), splineMat );
+	this.line = new THREE.Line( new THREE.Geometry(), splineMat );
 
 	if ( this.prevLine != null ){
-		line.geometry.vertices = this.prevLine.geometry.vertices;
+		this.line.geometry.vertices = this.prevLine.geometry.vertices;
 		solarSystem.remove( this.prevLine );
 		// this.prevLine.geometry.dispose();
 	}
 
-	line.geometry.vertices.push( end );
+	this.line.geometry.vertices.push( end );
 
-	solarSystem.add( line );
-	this.prevLine = line;
+	solarSystem.add( this.line );
+	this.prevLine = this.line;
 }
 
 Number.prototype.Julian2Date = function() {
