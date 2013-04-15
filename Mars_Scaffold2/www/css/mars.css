@@ -780,9 +780,13 @@ div .badgebutton:hover{
 	opacity: 0.0;
 	pointer-events:none;
     display:block;
-	padding: 1px 1px 1px 1px;
+	padding: 1px 1px 1px 5px;
 	background: rgba(140,140,140,0.5);
 	color: rgba(240,240,240,1.0);
+	text-align: left;
+	font-family: 'Lato', sans-serif;
+	text-transform: uppercase;
+	font-size: 16px;
     border-radius: 5px;
     border:2px solid rgba(76,173,197,1.0);
     bottom:20px;
@@ -791,7 +795,7 @@ div .badgebutton:hover{
 	height: 10%;
 }
 .subtitlepanela{
-	position: absolute;
+	/*position: absolute;
     display:inline;
 	text-align: left;
 	padding: 1px 1px 1px 5px;
@@ -800,10 +804,23 @@ div .badgebutton:hover{
 	font-size: 16px;
 	color: rgba(240,240,240,1.0);
     top:0%;
-    left:0%;
+    left:0%;*/
+	position: absolute;
+	opacity: 1.0;
+	pointer-events:none;
+    display:block;
+	padding: 1px 1px 1px 1px;
+	font-family: 'Lato', sans-serif;
+	text-transform: uppercase;
+	font-size: 16px;
+	color: rgba(240,240,240,1.0);
+    bottom:30px;
+    left:20px;
+	width: 50%;
+	height: 10%;
 }
 .subtitlepanelb{
-	position: absolute;
+	/*position: absolute;
     display:inline;
 	text-align: left;
 	padding: 1px 1px 1px 5px;
@@ -813,7 +830,20 @@ div .badgebutton:hover{
 	font-weight: plain;
 	color: rgba(240,240,240,1.0);
     bottom:0%;
-    left:0%;
+    left:0%;*/
+	position: absolute;
+	opacity: 1.0;
+	pointer-events:none;
+    display:block;
+	padding: 1px 1px 1px 1px;
+	font-family: 'Lato', sans-serif;
+	text-transform: uppercase;
+	font-size: 16px;
+	color: rgba(240,240,240,1.0);
+    bottom:10px;
+    left:20px;
+	width: 50%;
+	height: 10%;
 }
 .menupanel{
 	position: absolute;

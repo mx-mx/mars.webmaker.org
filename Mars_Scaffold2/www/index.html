@@ -97,10 +97,6 @@ document.addEventListener("DOMContentLoaded", function () {
 //submenu greenbg - 42,51,24 #2a3318 80%
 //header greenbg 31,38,18 #1f2612 70%
 //isle blue 76,173,197 #4cadc5
-
-	//init();
-	//animate();
-	//$("#loadtext").hide();
  
 	$contenttarget = $("#contenttarget");
 	// Create a popcorn instance by calling the Youtube player plugin     
@@ -143,6 +139,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	        gui.destroy();  //remove the test GUI (used by Ryan)
 	        //set time to freeze
 	        Tweener(timer, {multiplier:.0}, 1);
+	        scene.remove(ruler);
 		}
 	}
 	
@@ -167,28 +164,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 	popcornMedia[0].footnote({
 		start: 1,
-		end: 8,
-	    target: "subtitlepanela",
-		text: "Mary Beth Vilhelm",
-	});
-	popcornMedia[0].footnote({
-		start: 1,
-		end: 8,
-	    target: "subtitlepanelb",
-		text: "Mars Colony 1 Astronaut & Senior Geologist",
-	});
-
-	/*
-	$("#videocontenttarget").animate({opacity: 1.0,width:720,height:405}, 5000, function() {
-	});
-	$("#subtitlepanel").animate({opacity: 1.0}, 1, function() {
-	});*/
-	
-	popcornMedia[0].subtitle({
-		start: 1,
-		end: 8,
-	    target: "subtitlepanelb",
-		text: "Mars Colony 1 Astronaut & senior geologist",
+		end: 8.5,
+	    target: "subtitlepanel",
+		text: "Mary Beth Vilhelm<br><font style=\"font-size:14px;\">Mars Colony 1 Astronaut & Senior Geologist</font>",
 	});
 	popcornMedia[0].cue( 1, function() {
 		$("#subtitlepanel").animate({opacity: 1.0}, 500, function() {
@@ -204,7 +182,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		$("#headerpanel").animate({opacity: 1.0}, 100, function() {
         	//$("#headerpanel").css('pointer-events', 'none');
     	});
-		
 	});
 
 	//basepop.on( "timeupdate", function() {
@@ -227,12 +204,14 @@ document.addEventListener("DOMContentLoaded", function () {
     	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
            	$("#backgroundtarget").css('pointer-events', 'none');
        	});
+
 	});
 	popcornMedia[0].cue( 8.5, function() {
 		$("#videocontenttarget").animate({width: 360, height: 202,
 											top: "10%", left: "2%",
 											margin:"-0px 0 0 -0px"}, 1000, function() {
 			//code after completion of animation
+			//camTweener( { x: 0, y: 700, z: 0 }, { x: 0, y: 0, z: 20 }, 3000 );
 		});
 	});
 	popcornMedia[0].on( "ended", function() {
@@ -266,17 +245,29 @@ document.addEventListener("DOMContentLoaded", function () {
     	Tweener(ssScale, {planetScale:.001}, 1000);
     	Tweener(ssScale, {s:.000001}, 1000);
 	});
+   
+    popcornMedia[2].cue( 2, function() {
+       	camTweener( { x: 0, y: 700, z: 0 }, { x: 0, y: 0, z: 20 }, 3000 );
+	});
+    popcornMedia[2].cue( 6, function() {
+    	//Tweener(timer, {multiplier:.23}, 2000);
+	});
+
+	popcornMedia[2].cue( 10, function() {
+		scene.add(ruler);
+	});
     popcornMedia[2].on( "ended", function() {
     	advancePopcornMedia();
 	});
-    popcornMedia[2].cue( 2, function() {
-       	camTweener( { x: 0, y: 700, z: 0 }, { x: 0, y: 0, z: 0 }, 3000 );
-	});
-    popcornMedia[2].cue( 6, function() {
-    	Tweener(timer, {multiplier:.24}, 2000);
+	popcornMedia[3].cue( 1, function() {
+		scene.remove(ruler);
 	});
     popcornMedia[3].on( "ended", function() {
     	advancePopcornMedia();
+	});
+
+    popcornMedia[3].cue( 15, function() {
+    	Tweener(timer, {multiplier:.10}, 1000);
 	});
     popcornMedia[4].on( "ended", function() {
 
@@ -1107,15 +1098,22 @@ document.addEventListener("DOMContentLoaded", function () {
 		var compareDates = function() {
 			if(!launchDate || !landingDate) {
 				console.log("need both dates to compare");
-				return;
 			} else if (landingDate<launchDate) {
 				console.log("You can't land before you launch");
-				return;
 			} else if (landingDate>launchDate) {
 				console.log("ok, we can launch this!");
-				return;
 			}
-			
+
+	    	console.log("departure time jd_tt: " + departure_time.jd_tt());
+	    	
+	    	var aDate = new Number(timer.JD).Julian2Date();
+	    	console.log("departure time timer.JD: " + aDate);
+
+	    	var jd = new Number(departure_time.jd_tt()).Julian2Date();
+	    	console.log("departure time jd: " + jd);
+
+			console.log("launchDate: " + launchDate);
+			console.log("landingDate: " + landingDate);
 			
 		}
 		
@@ -1233,14 +1231,7 @@ document.addEventListener("DOMContentLoaded", function () {
          		<source src="http://www.mx-mx.com/lab/moku/video/SEQ1_OCVO_v05.webmhd.webm" type="video/webm">
          		Please upgrade your browser to view video
        		</video>
-       		<div id="subtitlepanel" class="subtitlepanel">
-       			<table style="width:100%;height:100%;margin:2;padding:0;">
-       				<tr><td style="height:50%"><div id="sutbitlepanela" class="subtitlepanela"></div></td></tr>
-       				<tr><td style="height:50%"><div id="sutbitlepanelb" class="subtitlepanelb"></div></td></tr>
-       			</table>
-       			
-       			
-       		</div>
+       		<div id="subtitlepanel" class="subtitlepanel"></div>
 		</div>
 		
 		<div id="videocontenttarget2" class="videocontenttarget2">
