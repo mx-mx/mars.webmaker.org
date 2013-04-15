@@ -59,7 +59,7 @@ function init() {
 	scene.fog = new THREE.FogExp2( 0x000000, 0.00005 );
 
 	camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR );
-	camera.position.set( 100, 500, 1000 );
+	camera.position.set( 100, 500, -1000 );
 
 
 	camTarget = new THREE.Vector3();
