@@ -94,6 +94,15 @@ MarsOdyssey.prototype.toString = function() {
 };
 
 MarsOdyssey.prototype.init = function( departure_time, arrival_time) {
+	console.log("new init: " + departure_time.jd_tt());
+
+	this.r0 = null;
+	this.v0 = null;
+	this.rf = null;
+	this.vf = null;
+	this.trajectoryIndex = 0;
+	this.trajectory=null;
+	this.trajectory = new Array();
 	// console.log("MarsOdyssey.init");
 
     var pathUtil = new PathUtil();
@@ -102,6 +111,8 @@ MarsOdyssey.prototype.init = function( departure_time, arrival_time) {
 
     this.departure_time = departure_time;
     this.arrival_time = arrival_time;
+    
+
     // console.log("departure_time = " + this.departure_time.jd_tt() + ", arrival_time = " + this.arrival_time.jd_tt());
     // console.log("departure_time = " + this.departure_time.jd_tt().Julian2Date().toString() + ", arrival_time = " + this.arrival_time.jd_tt().Julian2Date().toString());
 
