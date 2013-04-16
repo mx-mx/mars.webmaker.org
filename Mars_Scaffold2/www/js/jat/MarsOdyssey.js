@@ -23,7 +23,6 @@
 
 function MarsOdyssey() {
 	// console.log("MarsOdyssey");
-	this.ephemeris = null;
 	this.departure_time = null;
 	this.arrival_time = null;
 	this.r0 = null;
@@ -41,16 +40,16 @@ function MarsOdyssey() {
 	if (this.r0 == null) {
 		this.r0 = result;
 		this.r0.print("r0");
-        this.ephemeris.get_planet_vel(DE405Body.EARTH, this.departure_time, this);
+        DE405PlusForTime(this.departure_time).get_planet_vel(DE405Body.EARTH, this.departure_time, this);
 	} else if (this.v0 == null) {
 		this.v0 = result;
 		this.v0.print("v0");
 		// console.log("orbital velocity of earth " + this.v0.mag());
-		this.ephemeris.get_planet_pos(DE405Body.MARS, this.arrival_time, this);
+		DE405PlusForTime(this.arrival_time).get_planet_pos(DE405Body.MARS, this.arrival_time, this);
 	} else if (this.rf == null) {
 		this.rf = result;
 		this.rf.print("rf");
-		this.ephemeris.get_planet_vel(DE405Body.MARS, this.arrival_time, this);
+		DE405PlusForTime(this.arrival_time).get_planet_vel(DE405Body.MARS, this.arrival_time, this);
 	} else {
 		this.vf = result;
 		this.vf.print("vf");
@@ -72,6 +71,7 @@ function MarsOdyssey() {
 		var /*double*/ totaldv;
 //			try {
 			totaldv = lambert.compute(this.r0, this.v0, this.rf, this.vf, tof);
+			console.log("total deltaV = " + totaldv);
 //			} catch (/*LambertException*/ e) {
 //				totaldv = -1;
 //				//e.printStackTrace();
@@ -105,10 +105,6 @@ MarsOdyssey.prototype.init = function( departure_time, arrival_time) {
 	this.trajectory = new Array();
 	// console.log("MarsOdyssey.init");
 
-    var pathUtil = new PathUtil();
-    this.ephemeris = new DE405Plus(pathUtil);
-	// Mars Odyssey Mission
-
     this.departure_time = departure_time;
     this.arrival_time = arrival_time;
     
@@ -117,7 +113,7 @@ MarsOdyssey.prototype.init = function( departure_time, arrival_time) {
     // console.log("departure_time = " + this.departure_time.jd_tt().Julian2Date().toString() + ", arrival_time = " + this.arrival_time.jd_tt().Julian2Date().toString());
 
 	// create a TwoBody orbit using orbit elements
-    this.ephemeris.get_planet_pos(DE405Body.EARTH, this.departure_time, this);
+    DE405PlusForTime(this.departure_time).get_planet_pos(DE405Body.EARTH, this.departure_time, this);
 };
 
 //	public static void main(String[] args) {

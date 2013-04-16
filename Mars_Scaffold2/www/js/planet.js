@@ -40,7 +40,7 @@ var Planet = function( size, material, i ){
 		}
 
 		var time = new Time( { mjd_UTC:TimeUtils$JDtoMJD(JD) } );
-		marsOdyssey.ephemeris.get_planet_pos(body, time, this);
+		DE405PlusForTime(time).get_planet_pos(body, time, this);
 
 		var date = JD.Julian2Date();
 		if ((planetID == 3) && (date.getMonth() != lastDate)) {
