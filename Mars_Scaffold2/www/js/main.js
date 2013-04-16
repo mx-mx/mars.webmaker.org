@@ -27,10 +27,10 @@ var timer;
 
 var clock = new THREE.Clock();
 
-//var departure_time = new Time( { Yr:2014, Mon:4, D:7, Hr:1, Mn:1, S:1 } );
-//var arrival_time = new Time( { Yr:2014, Mon:9, D:24, Hr:1, Mn:1, S:1 } );
-var departure_time = new Time( { Yr:2013, Mon:5, D:1, Hr:1, Mn:1, S:1 } );
-var arrival_time = new Time( { Yr:2013, Mon:10, D:1, Hr:1, Mn:1, S:1 } );
+var departure_time = new Time( { Yr:2011, Mon:11, D:26, Hr:1, Mn:1, S:1 } );
+var arrival_time = new Time( { Yr:2012, Mon:8, D:6, Hr:1, Mn:1, S:1 } );
+//var departure_time = new Time( { Yr:2013, Mon:5, D:1, Hr:1, Mn:1, S:1 } );
+//var arrival_time = new Time( { Yr:2013, Mon:10, D:1, Hr:1, Mn:1, S:1 } );
 
 var mouse = { x: -1000, y: 0 }, 
 	INTERSECTED,
@@ -106,7 +106,7 @@ function init() {
 	timer = new Timer();
 	timer.count = 0;
 	timer.multiplier = .025;
-	timer.JD = new Date().Date2Julian();
+	timer.JD = new Date(2011,6,1).Date2Julian();
 	buildGUI();
 
 	/********************************

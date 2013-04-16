@@ -36,6 +36,7 @@ function MarsOdyssey() {
 	this.lastTrajectoryPoint;
 	this.lastLine;
 	this.lastTime;
+	this.totalDeltaV;
 }
  MarsOdyssey.prototype.ephemerisCallback = function(result) {
 	if (this.r0 == null) {
@@ -77,6 +78,7 @@ function MarsOdyssey() {
 //				//e.printStackTrace();
 			// .log("MarsOdyssey.init LambertException " + e);
 //			}
+		this.totalDeltaV = totaldv;
 		// apply the first delta-v
 		var /*VectorN*/ dv0 = lambert.deltav0;
 		this.v0 = this.v0.plus(dv0);
