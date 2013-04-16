@@ -71,6 +71,7 @@
 		<script src="./js/camtweener.js"></script>
 		<script src="./js/main.js"></script>
 		<script src="./js/stars.js"></script>
+		<script src="./js/jat/Time.js"></script>
 
 		<script src="./js/addlensflare.js"></script>
 
@@ -704,6 +705,52 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     };
     
+    /*
+    var runbutton = document.getElementById('runbutton');
+    runbutton.style.cursor = 'pointer';
+    runbutton.onclick = function() {
+		console.log("run button hit");
+
+	    runSimulation();
+    };
+    
+
+	var launchDate;
+	var landingDate;
+	var runSimulation = function() {
+		if(!launchDate || !landingDate) {
+			console.log("need both dates to compare");
+		} else if (landingDate<launchDate) {
+			console.log("You can't land before you launch");
+		} else if (landingDate>launchDate) {
+			console.log("ok, we can launch this!");
+			
+			departure_time = new Time( dateToTime(launchDate) );
+			arrival_time = new Time( dateToTime(landingDate) );
+
+	    	console.log("departure time jd_tt: " + departure_time.jd_tt());
+	    	
+	    	var aDate = new Number(timer.JD).Julian2Date();
+	    	console.log("timer.JD: " + aDate);
+
+	    	var jd = new Number(departure_time.jd_tt()).Julian2Date();
+	    	console.log("departure time jd: " + jd);
+
+			console.log("launchDate: " + launchDate);
+			console.log("landingDate: " + landingDate);
+
+
+	    	console.log("reinitializing Odyssey: ");
+			marsOdyssey.init( departure_time, arrival_time );
+			
+	    	console.log("setting this bad boy into motion... ");
+	    	Tweener(timer, {multiplier:.05}, 500);
+		}
+	}
+    */
+	
+	
+    
     //selectmissionrocket div
     var checkboxrocket1 = document.getElementById('checkboxrocket1');
     checkboxrocket1.onclick = function() {
@@ -899,7 +946,6 @@ document.addEventListener("DOMContentLoaded", function () {
 			step: .010,
 			change: function() {
 				var sliderVal = $( "#speedSlider" ).slider( "option", "value" );
-				console.log("sliderVal: " + sliderVal);
 				Tweener(timer, {multiplier:sliderVal}, 1000);
 			}
 		});
@@ -1040,6 +1086,80 @@ document.addEventListener("DOMContentLoaded", function () {
             	//});
 		});
 		
+
+		var launchRewindDate; //date to start launch draw sequence, to see initial draw.
+		var launchDate;
+		var landingDate;
+		$( "#runbutton" )
+			.button()
+			.click(function( event ) {
+				if(!launchDate || !landingDate) {
+					console.log("need both dates to compare");
+				} else if (landingDate<launchDate) {
+					console.log("You can't land before you launch");
+				} else if (landingDate>launchDate) {
+			    	Tweener(timer, {multiplier:0}, 500);
+	    			var jumpToDate = new Date(launchRewindDate).Date2Julian();
+	    			timer.JD = jumpToDate;
+					
+					var departure_time = new Time( dateToTime(launchDate) );
+					var arrival_time = new Time( dateToTime(landingDate) );
+					
+					//departure_time = new Time( { Yr:2013, Mon:5, D:1, Hr:1, Mn:1, S:1 } );
+					//arrival_time = new Time( { Yr:2013, Mon:10, D:1, Hr:1, Mn:1, S:1 } );
+					
+
+					//var departure_time = new Time( { Yr:2014, Mon:4, D:7, Hr:1, Mn:1, S:1 } );
+					//var arrival_time = new Time( { Yr:2014, Mon:9, D:24, Hr:1, Mn:1, S:1 } );
+					
+			    	console.log("launchDate: " + launchDate);
+
+			    	console.log("departure time jd_tt: " + Number(departure_time.jd_tt()).Julian2Date());
+			    	
+			    	var aDate = new Number(timer.JD).Julian2Date();
+			    	console.log("timer.JD: " + aDate);
+
+			    	var jd = new Number(departure_time.jd_tt()).Julian2Date();
+			    	console.log("departure time jd: " + jd);
+
+					console.log("launchDate: " + launchDate);
+					console.log("landingDate: " + landingDate);
+
+
+			    	console.log("reinitializing Odyssey: ");
+					marsOdyssey.init( departure_time, arrival_time );
+					
+			    	
+
+	    			
+	    			
+			    	Tweener(timer, {multiplier:.05}, 500);
+				}
+		});
+		
+		//we've got simple date formatting needs, so this will be sufficient for our project.
+		var dateFormatter = function(aDate) {
+			var mm = aDate.getMonth() + 1;
+			if(mm<10)mm = "0" + mm;
+		    var dd = aDate.getDate() + 1;
+			if(dd<10)dd = "0" + dd;
+		    var yyyy = aDate.getFullYear();
+		    var formattedDate = mm + '/' + dd + '/' + yyyy;
+		    return formattedDate;
+		}
+		
+		//change a date to a time object (helps for Time initializer)
+		var dateToTime = function(aDate) {
+			return aLaunchTime = {
+					Yr: aDate.getFullYear(),
+					Mon: aDate.getMonth()+1,
+					D: aDate.getDate(),
+					Hr: 1,
+					Mn: 1,
+					S: 1
+					};
+		}
+		
 		/*
 		$(function() {
 		    $( "#datepicker" ).datepicker({
@@ -1059,8 +1179,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	    		}
 		    });
 		});*/
-		var launchDate;
-		var landingDate;
 		$(function() {
 		    $( "#launchdatepicker" ).datepicker({
 		      changeMonth: true,
@@ -1069,12 +1187,13 @@ document.addEventListener("DOMContentLoaded", function () {
 		      maxDate: new Date(3000, 1 - 1, 25),
 		      onSelect: function(dateText, inst) { 
 	    			launchDate = new Date(Date.parse(dateText));
+	    			launchRewindDate = new Date(Date.parse(dateText));
+	    			launchRewindDate.setDate(launchRewindDate.getDate()-5);
 	    			if(timer) {
 		    			Tweener(timer, {multiplier:0}, 500);
 		    			var jumpToDate = new Date(Date.parse(dateText)).Date2Julian();
 		    			timer.JD = jumpToDate;
 	    			}
-	    		    compareDates();
 
 	    			//console.log("jumpToDate: " +  dateFormatter(jumpToDate));
 	    		}
@@ -1093,33 +1212,10 @@ document.addEventListener("DOMContentLoaded", function () {
 		    			var jumpToDate = new Date(Date.parse(dateText)).Date2Julian();
 		    			timer.JD = jumpToDate;
 	    			}
-	    		    compareDates();
 	    			//console.log("jumpToDate: " +  dateFormatter(jumpToDate));
 	    		}
 		    });
 		});
-		
-		var compareDates = function() {
-			if(!launchDate || !landingDate) {
-				console.log("need both dates to compare");
-			} else if (landingDate<launchDate) {
-				console.log("You can't land before you launch");
-			} else if (landingDate>launchDate) {
-				console.log("ok, we can launch this!");
-			}
-
-	    	console.log("departure time jd_tt: " + departure_time.jd_tt());
-	    	
-	    	var aDate = new Number(timer.JD).Julian2Date();
-	    	console.log("departure time timer.JD: " + aDate);
-
-	    	var jd = new Number(departure_time.jd_tt()).Julian2Date();
-	    	console.log("departure time jd: " + jd);
-
-			console.log("launchDate: " + launchDate);
-			console.log("landingDate: " + landingDate);
-			
-		}
 		
 		//this timer queries the timer object to figure out what the date is 
 		//and then sets the datepicker element every 100 ms.
@@ -1129,17 +1225,6 @@ document.addEventListener("DOMContentLoaded", function () {
 				document.getElementById( "orbitdate" ).value = dateFormatter(aDate);
 			}
 		}, 100);
-		
-		//we've got simple date formatting needs, so this will be sufficient for our project.
-		var dateFormatter = function(aDate) {
-			var mm = aDate.getMonth() + 1;
-			if(mm<10)mm = "0" + mm;
-		    var dd = aDate.getDate() + 1;
-			if(dd<10)dd = "0" + dd;
-		    var yyyy = aDate.getFullYear();
-		    var formattedDate = mm + '/' + dd + '/' + yyyy;
-		    return formattedDate;
-		}
 		
       });
     
@@ -1517,7 +1602,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				<table style="width:100%;height:100%;margin:0;padding:0;">
 					<tr>
 						<td align="center">Launch Date</td>
-						<td align="center">Landing Date</td>
+						<td align="center">Land Date</td>
 						<td align="center" rowspan="2"><button id="runbutton" class="playbutton">Run<br><img src="./images/playblue.png"></button></td>
 					</tr>
 					<tr>
