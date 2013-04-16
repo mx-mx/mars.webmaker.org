@@ -24,6 +24,7 @@ var stats,
 	debugAxis;
 
 var timer;
+var showDistance = false;
 
 var clock = new THREE.Clock();
 
@@ -285,11 +286,15 @@ function animate() {
 	rulerMidpoint.position = ruler.mid;
 	rulerMidpoint.lookAt( camera.position );
 
-	var vector = new THREE.Vector3();
-	var screenPos = screenXY( vector.getPositionFromMatrix( rulerMidpoint.matrixWorld ) );
-    distance.style.left = screenPos.x + 'px';
-    distance.style.top = screenPos.y + 'px';
-	distance.nameLayer.innerHTML = Math.round( ruler.getDistance() / ssScale.s ) + " km";
+	if ( showDistance ){
+		var vector = new THREE.Vector3();
+		var screenPos = screenXY( vector.getPositionFromMatrix( rulerMidpoint.matrixWorld ) );
+	    distance.style.left = screenPos.x + 'px';
+	    distance.style.top = screenPos.y + 'px';
+		distance.nameLayer.innerHTML = Math.round( ruler.getDistance() / ssScale.s ) + " km";
+	}else{
+		distance.nameLayer.innerHTML = "";
+	}
 
 
     // updateLabels();

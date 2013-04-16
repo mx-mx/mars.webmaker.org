@@ -140,7 +140,10 @@
 //	String DE405_path;
 
 	function DE405APL() {
+		this.initialize();
+	}
 
+	DE405APL.prototype.initialize = function() {
 		this.path = new PathUtil();
 		this.DE405_path = this.path.DE405Path;
 		// System.out.println("[DE405APL 1 DE405_path] " + DE405_path);
@@ -201,6 +204,7 @@
 		 */
 		var ephemeris = this;
 		if ((jultime < this.ephemeris_dates[1]) || (jultime > this.ephemeris_dates[2])) {
+			console.log(this + ", jultime = " + jultime + ", this.ephemeris_dates[1] = " + this.ephemeris_dates[1])
 			this.get_ephemeris_coefficients(jultime, function() {
 				ephemeris.update_planetary_ephemeris_internal(jultime);
 				callback();
@@ -512,10 +516,11 @@
 					fileName = "file:" + fileName;
 //				var /*URL*/ url = new URL(fileName);
 				// System.out.println("[DE405APL filename] " + fileName);
+				console.log("[DE405APL filename] " + fileName);
 //				var /*BufferedReader*/ bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
 				var ephemeris = this;
 				jQuery.get(fileName, function(data) {
-					// console.log("Completed read of ephemeris");
+					console.log("Completed read of ephemeris " + fileName + " for " + ephemeris.ephemeris_dates[1]);
 					/* Read each record in the file */
 					var lines = data.split("\n");
 					var index = 0;
@@ -600,6 +605,7 @@
 						index += (341 - 275 + 1);
 
 					}
+					console.log("Callback for read of ephemeris " + fileName + " for " + ephemeris.ephemeris_dates[1]);
 					callback();
 				});
 

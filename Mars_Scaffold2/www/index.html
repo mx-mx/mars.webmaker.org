@@ -132,29 +132,31 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 
 
-	preloadimages(['./images/solarsystem/sunmap.jpg', 
-	               './images/solarsystem/mercurymap.jpg', 
-	               './images/solarsystem/venusmap.jpg', 
-	               './images/solarsystem/earthmap2.jpg',
-	               './images/solarsystem/marsmap.jpg', 
-	               './images/solarsystem/jupitermap.jpg', 
-	               './images/solarsystem/saturnmap.jpg', 
-	               './images/solarsystem/uranusmap.jpg', 
-	               './images/solarsystem/neptunemap.jpg', 
-	               './images/solarsystem/earthmap2.jpg', 
-	               './images/solarsystem/earthmap2.jpg', 
-	               './images/solarsystem/earthmap2.jpg']).done(function(images){
-	 	//code inside here is run after all images have preloaded
-	 	//images parameter is an array of image objects corresponding to the preloaded images
-	 	//images[0] references the 1st image etc
-	 
-	 	console.log("done preloading...");
-	
-		div.removeChild(infinityloader.canvas);
-		$("#loaderdiv").animate({opacity: 0.0}, 500, function() {
-	    	$("#loaderdiv").css('pointer-events', 'none');
-		});
-	});
+    loadDE405Plus(function () {
+	    preloadimages(['./images/solarsystem/sunmap.jpg', 
+	                   './images/solarsystem/mercurymap.jpg', 
+	                   './images/solarsystem/venusmap.jpg', 
+	                   './images/solarsystem/earthmap2.jpg',
+	                   './images/solarsystem/marsmap.jpg', 
+	                   './images/solarsystem/jupitermap.jpg', 
+	                   './images/solarsystem/saturnmap.jpg', 
+	                   './images/solarsystem/uranusmap.jpg', 
+	                   './images/solarsystem/neptunemap.jpg', 
+	                   './images/solarsystem/earthmap2.jpg', 
+	                   './images/solarsystem/earthmap2.jpg', 
+	                   './images/solarsystem/earthmap2.jpg']).done(function(images){
+	        //code inside here is run after all images have preloaded
+	        //images parameter is an array of image objects corresponding to the preloaded images
+	        //images[0] references the 1st image etc
+	     
+	        console.log("done preloading...");
+	    
+	        div.removeChild(infinityloader.canvas);
+	        $("#loaderdiv").animate({opacity: 0.0}, 500, function() {
+	            $("#loaderdiv").css('pointer-events', 'none');
+	        });
+	    });
+    });
 
 
 	//loader
