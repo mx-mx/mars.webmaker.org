@@ -17,7 +17,8 @@ var dae,
 	rover,
 	dt = new Object(); //drivetrain and suspension
 
-var loader = new THREE.ColladaLoader();
+var roverLoader = new THREE.ColladaLoader();
+var terrainLoader = new THREE.ColladaLoader();
 
 var time = 0;
 var toRadians = Math.PI/180;
@@ -40,16 +41,26 @@ $(document).ready( function() {
 	$( '#loadtext' ).show();
 	setLoadMessage("Loading Curiosity");
 
-	loader.options.convertUpAxis = true;
-	loader.load( './models/rover_c4d_001.dae', function ( collada ) {
+	roverLoader.options.convertUpAxis = true;
+	roverLoader.load( './models/rover.dae', function ( collada ) {
 
-		dae = collada.scene;
-		daeAnimation = collada.animations;
+		rover_dae = collada.scene;
+		rover_dae.scale.set( 1, 1, 1 );
+		// rover_dae.traverse( function ( child ) {
+		//     child.castShadow = true;
+		//     child.receiveShadow = true;
+		// } );
 
-		dae.scale.set( 1, 1, 1 );
+		rover_dae.updateMatrix();
 
-		dae.updateMatrix();
-		postColladaLoaded();
+		terrainLoader.options.convertUpAxis = true;
+		terrainLoader.load( './models/terrain.dae', function ( collada ) {
+			
+			terrain = collada.scene;
+			terrain.scale.set( 1, 1, 1 );
+			postColladaLoaded();
+
+		} );
 
 	} );
 
@@ -69,36 +80,50 @@ function init() {
 	$container = $("#container");
 
 	scene = new THREE.Scene();
-	scene.fog = new THREE.FogExp2( 0x000000, 0.000055 );
+	scene.fog = new THREE.Fog( 0x6B7DA0, 0, 300 );
 
 	camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR );
-	camera.position.set( 5, 5, 5 );
+	camera.position.set( 0, 1, -7 );
 
-	camTarget = scene.position;
-	
 	var ambientLight = new THREE.AmbientLight();
 	ambientLight.color.setRGB( .15, .15, .15 );
 	scene.add(ambientLight);
 
-	var pointLight = new THREE.PointLight(0xFFFFFF, 1.3);
-	pointLight.position.set( 0, 100, 0 );
-	scene.add(pointLight);
+	// var pointLight = new THREE.PointLight(0xFFFFFF, 1.3);
+	// pointLight.position.set( 0, 100, 0 );
+	// scene.add(pointLight);
+
+	var directionalLight = new THREE.DirectionalLight( 0x6B7DA0, 1 );
+	directionalLight.position.set( -175, 20, 0 );
+	directionalLight.castShadow = true;
+	scene.add( directionalLight );
+
+	// light = new THREE.SpotLight( 0xFFFFFF, 1, 500 );
+	// light.position.set( 1, 10, 0 );
+	// light.castShadow = true;
+	// light.shadowDarkness = 0.5;
+	// scene.add( light );
 
 
 	/********************************
 		RENDERER
 	********************************/
 
+
+	setupScene();
 	renderer = Detector.webgl? new THREE.WebGLRenderer( { antialias: true } ): new THREE.CanvasRenderer();
 	renderer.setSize( WIDTH, HEIGHT );
+	// renderer.setClearColor( scene.fog.color, 1 );
 
 	$container.append( renderer.domElement );
 	renderer.autoClear = false;
 
 	controls = new THREE.OrbitControls( camera, $container[0] );
 	controls.addEventListener( 'change', render );
+	controls.maxPolarAngle = Math.PI / 2 + ( 3 * toRadians ); 
+	controls.minDistance = 2.5;
+	controls.maxDistance = 25;
 
-	setupScene();
 
 	/********************************
 		STATS
@@ -122,25 +147,13 @@ function init() {
 
 function setupScene(){
 
-	// Grid
-	var material = new THREE.LineBasicMaterial( { color: 0x303030 } );
-	var geometry = new THREE.Geometry();
-	var floor = 0, step = .5, size = 50;
+	var camTarget = new THREE.Mesh( new THREE.PlaneGeometry( 0, 0 ), new THREE.MeshBasicMaterial() );
+	camTarget.position.set( 0, 2, 0 );
+	camTarget.add( camera );
 
-	for ( var i = 0; i <= size / step * 2; i ++ ) {
+	rover = new Rover( rover_dae );
+	rover.mesh.add( camTarget );
 
-		geometry.vertices.push( new THREE.Vector3( - size, floor, i * step - size ) );
-		geometry.vertices.push( new THREE.Vector3(   size, floor, i * step - size ) );
-		geometry.vertices.push( new THREE.Vector3( i * step - size, floor, -size ) );
-		geometry.vertices.push( new THREE.Vector3( i * step - size, floor,  size ) );
-
-	}
-
-	var grid = new THREE.Line( geometry, material, THREE.LinePieces );
-	scene.add( grid );
-
-	rover = new Rover( dae );
-	rover.mesh.add(camera);
 	scene.add( rover.mesh );
 
 	controlsRover = {
@@ -152,6 +165,10 @@ function setupScene(){
 
 	};
 
+	// var grid = CreateGrid( 0, .5, 50 );
+	// scene.add( grid );
+
+	scene.add( terrain );
 	buildGUI();
 
 }
@@ -245,7 +262,6 @@ function animate() {
 	requestAnimationFrame( animate );
 
     camera.updateProjectionMatrix();
-	camera.lookAt( camTarget );
 
 	controls.update();
 	stats.update();
@@ -253,14 +269,7 @@ function animate() {
 
 	rover.updateCarModel( clock, controlsRover );
 
-	// dt.L.steering[0].rotation.setY( Math.sin( -time * 2 * Math.PI ) * .5 );
-	// dt.L.steering[1].rotation.setY( Math.sin( time * 2 * Math.PI ) * .5 );
-	// dt.R.steering[0].rotation.setY( Math.sin( time * 2 * Math.PI ) * .5 );
-	// dt.R.steering[1].rotation.setY( Math.sin( -time * 2 * Math.PI ) * .5 );
-
 	time += .01;
-
-	camera.lookAt( camTarget );
 	render();
 
 }

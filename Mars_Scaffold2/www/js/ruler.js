@@ -51,7 +51,7 @@ var Ruler = function( p1, p2 ){
 		overdraw: true 
 	});
 
-	ruler.textGeo = new THREE.Mesh( new THREE.PlaneGeometry( 100, 100 ), new THREE.MeshLambertMaterial( { color: 0xCC0000, opacity:0 } ) );
+	// ruler.textGeo = new THREE.Mesh( new THREE.PlaneGeometry( 100, 100 ), new THREE.MeshLambertMaterial( { color: 0xCC0000, opacity:0 } ) );
 
 	// ruler.add( ruler.geo );
 	ruler.add( ruler.p1Line );

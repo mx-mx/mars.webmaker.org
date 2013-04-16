@@ -2,6 +2,7 @@ var Rover = function ( dae ) {
 	
 	var scope = this;
 	this.mesh = dae;
+	// this.mesh.useQuaternion = true;
 
 	// car "feel" parameters
 
@@ -117,7 +118,6 @@ var Rover = function ( dae ) {
 		// ARM Animation
 		//this.arm.shoulder.rotation.x = Math.sin( clock.getElapsedTime());
 		//this.arm.hand.rotation.y += clock.getElapsedTime();
-
 
 	};
 
