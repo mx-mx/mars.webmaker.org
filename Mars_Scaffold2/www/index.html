@@ -74,6 +74,8 @@
 		<script src="./js/jat/Time.js"></script>
 
 		<script src="./js/addlensflare.js"></script>
+		
+		<script src="./js/sonic.js"></script>
 
 
 <script type="text/javascript">
@@ -85,11 +87,13 @@ function setUserBackpackEmail(emailValue) {
 	console.log("user email set to: ",userBackpackEmail);
 }
 
+
+
 // ensure the web page (DOM) has loaded
 document.addEventListener("DOMContentLoaded", function () {
-	//https://www.youtube.com/watch?v=P4boyXQuUIw - the MSL path
-	//http://www.youtube.com/watch?v=jEXoMpmfJcM - the MSL launch - a better version
-	//https://www.youtube.com/watch?v=lKqr3F73bAI - MSL trajectory
+//https://www.youtube.com/watch?v=P4boyXQuUIw - the MSL path
+//http://www.youtube.com/watch?v=jEXoMpmfJcM - the MSL launch - a better version
+//https://www.youtube.com/watch?v=lKqr3F73bAI - MSL trajectory
 			
 //blue - 58,132,166 #3a84a6
 //bluebg - 13,30,38 #0d1e26 70%
@@ -98,6 +102,96 @@ document.addEventListener("DOMContentLoaded", function () {
 //submenu greenbg - 42,51,24 #2a3318 80%
 //header greenbg 31,38,18 #1f2612 70%
 //isle blue 76,173,197 #4cadc5
+
+	function preloadimages(arr){
+		var newimages=[], loadedimages=0
+	    var postaction=function(){}
+	    var arr=(typeof arr!="object")? [arr] : arr
+	    function imageloadpost(){
+	        loadedimages++
+	        if (loadedimages==arr.length){
+	            postaction(newimages) //call postaction and pass in newimages array as parameter
+	        }
+	    }
+	    for (var i=0; i<arr.length; i++){
+	        newimages[i]=new Image()
+	        newimages[i].src=arr[i]
+	        newimages[i].onload=function(){
+	            imageloadpost()
+	        }
+	        newimages[i].onerror=function(){
+	            imageloadpost()
+	        }
+	    }
+	    return { //return blank object with done() method
+	        done:function(f){
+	            postaction=f || postaction //remember user defined callback functions to be called when images load
+	        }
+	    }
+
+	}
+
+
+	preloadimages(['./images/solarsystem/sunmap.jpg', 
+	               './images/solarsystem/mercurymap.jpg', 
+	               './images/solarsystem/venusmap.jpg', 
+	               './images/solarsystem/earthmap2.jpg',
+	               './images/solarsystem/marsmap.jpg', 
+	               './images/solarsystem/jupitermap.jpg', 
+	               './images/solarsystem/saturnmap.jpg', 
+	               './images/solarsystem/uranusmap.jpg', 
+	               './images/solarsystem/neptunemap.jpg', 
+	               './images/solarsystem/earthmap2.jpg', 
+	               './images/solarsystem/earthmap2.jpg', 
+	               './images/solarsystem/earthmap2.jpg']).done(function(images){
+	 	//code inside here is run after all images have preloaded
+	 	//images parameter is an array of image objects corresponding to the preloaded images
+	 	//images[0] references the 1st image etc
+	 
+	 	console.log("done preloading...");
+	
+		div.removeChild(infinityloader.canvas);
+		$("#loaderdiv").animate({opacity: 0.0}, 500, function() {
+	    	$("#loaderdiv").css('pointer-events', 'none');
+		});
+	});
+
+
+	//loader
+	var infinityloader = new Sonic({
+	 
+		width: 400,
+		height: 200,
+		padding: 10,
+
+		stepsPerFrame: 2,
+		trailLength: 1,
+		pointDistance: .03,
+
+		strokeColor: '#3a84a6',
+		
+		step: 'fader',
+
+		multiplier: 8,
+
+		setup: function() {
+			this._.lineWidth = 5;
+		},
+
+		path: [
+		
+			['arc', 10, 10, 10, -270, -90],
+			['bezier', 10, 0, 40, 20, 20, 0, 30, 20],
+			['arc', 40, 10, 10, 90, -90],
+			['bezier', 40, 0, 10, 20, 30, 0, 20, 20]
+		]
+
+	 
+	});
+	 
+	infinityloader.play();
+	var div = document.getElementById("canvastarget"); 
+	div.appendChild(infinityloader.canvas);
  
 	$contenttarget = $("#contenttarget");
 	// Create a popcorn instance by calling the Youtube player plugin     
@@ -1262,6 +1356,14 @@ document.addEventListener("DOMContentLoaded", function () {
 	</head>
 	<body>
 		
+		<!-- <div id="loaderdiv" style="z-index:20;background-color:#FFFFFF;width:100px;height:100px;opacity:1.0;"></div> -->
+		<div id="loaderdiv" class="modalmask" style="z-index:20;opacity:1.0;pointer-events:auto;">
+			<div id="loaderpanel" class="badgecontenttarget" style="z-index:21;background-color: rgba(0,0,0,0.8);">
+				<p><font style="color:#3a84a6;">Loading the Solar System</font></p>
+				<br><br><br>
+				<div id="canvastarget"></div>
+			</div>
+		</div>
 		<div id="startmenupanel" class="startmenupanel">
 			<h1>Mission to Mars</h1>
 			<br>
@@ -1629,6 +1731,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			</div>
 		</div>
 		
+		
+		
 		<audio id="SEQ2_VO">
 			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ2_VO.mp3"></source>
 			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ2_VO.oggvorbis.ogg"></source>
@@ -1727,5 +1831,6 @@ document.addEventListener("DOMContentLoaded", function () {
 			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_6_CAM.mp3"></source>
 			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_6_CAM.oggvorbis.ogg"></source>
 		</audio> 
+		
 	</body>
 </html>
