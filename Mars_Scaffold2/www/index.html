@@ -141,10 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	                   './images/solarsystem/jupitermap.jpg', 
 	                   './images/solarsystem/saturnmap.jpg', 
 	                   './images/solarsystem/uranusmap.jpg', 
-	                   './images/solarsystem/neptunemap.jpg', 
-	                   './images/solarsystem/earthmap2.jpg', 
-	                   './images/solarsystem/earthmap2.jpg', 
-	                   './images/solarsystem/earthmap2.jpg']).done(function(images){
+	                   './images/solarsystem/neptunemap.jpg']).done(function(images){
 	        //code inside here is run after all images have preloaded
 	        //images parameter is an array of image objects corresponding to the preloaded images
 	        //images[0] references the 1st image etc
@@ -363,6 +360,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 
 	popcornMedia[2].cue( 10, function() {
+		miles = true;
 		showDistance = true;
 		scene.add(ruler);
 	});
