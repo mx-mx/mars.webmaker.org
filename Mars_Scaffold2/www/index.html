@@ -159,32 +159,83 @@ document.addEventListener("DOMContentLoaded", function () {
 	//loader
 	var infinityloader = new Sonic({
 	 
+		// width: 400,
+		// height: 200,
+		// padding: 10,
+
+		// stepsPerFrame: 2,
+		// trailLength: 1,
+		// pointDistance: .03,
+
+		// strokeColor: '#3a84a6',
+		
+		// step: 'fader',
+
+		// multiplier: 8,
+
+		// setup: function() {
+		// 	this._.lineWidth = 5;
+		// },
+
+		// path: [
+		
+		// 	['arc', 10, 10, 10, -270, -90],
+		// 	['bezier', 10, 0, 40, 20, 20, 0, 30, 20],
+		// 	['arc', 40, 10, 10, 90, -90],
+		// 	['bezier', 40, 0, 10, 20, 30, 0, 20, 20]
+		// ]
+
 		width: 400,
 		height: 200,
-		padding: 10,
 
-		stepsPerFrame: 2,
-		trailLength: 1,
-		pointDistance: .03,
+		stepsPerFrame: 4,
+		trailLength: .75,
+		pointDistance: .01,
+		fps: 25,
 
-		strokeColor: '#3a84a6',
-		
-		step: 'fader',
-
-		multiplier: 8,
+		fillColor: '#FF7B24',
 
 		setup: function() {
-			this._.lineWidth = 5;
+			this._.lineWidth = 10;
+		},
+
+		step: function(point, i, f) {
+
+			var progress = point.progress,
+				degAngle = 360 * progress,
+				angle = Math.PI/180 * degAngle,
+				angleB = Math.PI/180 * (degAngle - 180),
+				size = i*5;
+
+			this._.fillRect(
+				Math.cos(angle) * 50 + (200-size/2),
+				Math.sin(angle) * 20 + (100-size/2),
+				size * .75,
+				size * .75
+			);
+
+			this._.fillStyle = '#63D3FF';
+
+			this._.fillRect(
+				Math.cos(angleB) * 40 + (200-size/2),
+				Math.sin(angleB) * 15 + (100-size/2),
+				size,
+				size
+			);
+
+			this._.fillStyle = '#FFF47A';
+
+			this._.beginPath();
+			this._.arc(200, 100, 10, 0, 360, 0);
+			this._.closePath();
+			this._.fill();
+
+
 		},
 
 		path: [
-		
-			['arc', 10, 10, 10, -270, -90],
-			['bezier', 10, 0, 40, 20, 20, 0, 30, 20],
-			['arc', 40, 10, 10, 90, -90],
-			['bezier', 40, 0, 10, 20, 30, 0, 20, 20]
+			['line', 40, 10, 60, 90]
 		]
-
 	 
 	});
 	 
