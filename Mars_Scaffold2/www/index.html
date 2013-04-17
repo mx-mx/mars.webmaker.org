@@ -245,6 +245,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	        gui.destroy();  //remove the test GUI (used by Ryan)
 	        //set time to freeze
 	        Tweener(timer, {multiplier:.0}, 1);
+			
+	        //initialize mars/earth ruler to off
+			showDistance = false;
 	        scene.remove(ruler);
 		}
 	}
@@ -317,7 +320,7 @@ document.addEventListener("DOMContentLoaded", function () {
 											top: "10%", left: "2%",
 											margin:"-0px 0 0 -0px"}, 1000, function() {
 			//code after completion of animation
-			//camTweener( { x: 0, y: 700, z: 0 }, { x: 0, y: 0, z: 20 }, 3000 );
+			//camTweener( { x: 0, y: 700, z: 0 }, { x: 0, y: 0, z: -20 }, 3000 );
 		});
 	});
 	popcornMedia[0].on( "ended", function() {
@@ -353,27 +356,29 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
    
     popcornMedia[2].cue( 2, function() {
-       	camTweener( { x: 0, y: 700, z: 0 }, { x: 0, y: 0, z: 20 }, 3000 );
+       	camTweener( { x: 0, y: 800, z: 0 }, { x: 0, y: 0, z: -20 }, 3000 );
 	});
     popcornMedia[2].cue( 6, function() {
-    	//Tweener(timer, {multiplier:.23}, 2000);
+    	Tweener(timer, {multiplier:.23}, 2000);
 	});
 
 	popcornMedia[2].cue( 10, function() {
+		showDistance = true;
 		scene.add(ruler);
 	});
     popcornMedia[2].on( "ended", function() {
     	advancePopcornMedia();
 	});
 	popcornMedia[3].cue( 1, function() {
+		showDistance = false;
 		scene.remove(ruler);
 	});
     popcornMedia[3].on( "ended", function() {
     	advancePopcornMedia();
 	});
 
-    popcornMedia[3].cue( 15, function() {
-    	Tweener(timer, {multiplier:.10}, 1000);
+    popcornMedia[3].cue( 20, function() {
+    	Tweener(timer, {multiplier:.05}, 1000);
 	});
     popcornMedia[4].on( "ended", function() {
 
@@ -383,6 +388,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		
 		camTweener( { x: 0, y: 100, z: 500 }, { x: 0, y: 0, z: 0 }, 1500 );
 		setTimeout(function(){advancePopcornMedia()},2000);
+
+		//erase line if necessary
+		solarSystem.remove( marsOdyssey.line );
 	});
     
     popcornMedia[5].cue( 8, function() {
@@ -971,6 +979,11 @@ document.addEventListener("DOMContentLoaded", function () {
 			.button()
 			.click(function( event ) {
 
+		       	//camTweener( { x: 100, y: 400, z: 250 }, { x: 0, y: 0, z: -20 }, 1500 );
+		       	camTweener( { x: -400, y: 400, z: 500 }, { x: 0, y: 0, z: -20 }, 3000 );
+
+				checkForFourthCameraLesson();
+		       	/*
 				camNextPosition	= {
 						x: -100, 
 						y: 400, 
@@ -986,6 +999,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					TWEEN.removeAll();
 					camTweener( camNextPosition, camNextTarget, 1500 );
 					checkForFourthCameraLesson();
+					*/
 		});	
 
 		$( "#threedrover" )
@@ -1004,9 +1018,9 @@ document.addEventListener("DOMContentLoaded", function () {
 					z: 0
 				};
 
-				TWEEN.removeAll();
-				camTweener( camNextPosition, camNextTarget, 1500 );
-				checkForFourthCameraLesson();
+				//TWEEN.removeAll();
+				//camTweener( { x: 75, y: 50, z: 300 }, ss[4].position, 1500 );
+				//checkForFourthCameraLesson();
 		});
 
 		$( "#threedearth" )
@@ -1021,7 +1035,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				};
 
 				//not yet sure how to set this up
-				camEarth = new camPosition( { x: 50, y: 50, z: 250 }, ss[3].position, 1500 );
+				camTweener( { x: 50, y: 50, z: 250 }, ss[3].position, 1500 );
 				//TWEEN.removeAll();
 				//camTweener( camEarth, camNextTarget, 1500 );
 				checkForFourthCameraLesson();
@@ -1038,7 +1052,9 @@ document.addEventListener("DOMContentLoaded", function () {
 					z: 500 
 				};
 				//not yet sure how to set this up
-				camMars = new camPosition( { x: 75, y: 50, z: 300 }, ss[4].position, 1500 );
+				//camMars = new camPosition( { x: 75, y: 50, z: 300 }, ss[4].position, 1500 );
+				
+				camTweener( { x: 75, y: 50, z: 300 }, ss[4].position, 1500 );
 				//TWEEN.removeAll();
 				//camTweener( camMars, camNextTarget, 1500 );
 				finishFourthCameraLesson();
@@ -1075,6 +1091,12 @@ document.addEventListener("DOMContentLoaded", function () {
 		$( "#nextbutton" )
 			.button()
 			.click(function( event ) {
+				//erase line if necessary
+				solarSystem.remove( marsOdyssey.line );
+				//remove the ruler
+				showDistance = false;
+				scene.remove(ruler);
+				
 				if(popcornSequenceNumber<5) {
 					jumpToThreeDNavigation();
 				} else if(popcornSequenceNumber<17) {
@@ -1104,7 +1126,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			//show stuff needed
 			setTimeout(function(){
 				//shift 3d model
-				camTweener( { x: 0, y: 100, z: 500 }, { x: 0, y: 0, z: 0 }, 1500 );
+				camTweener( { x: 0, y: 100, z: 500 }, { x: 0, y: 0, z: -20 }, 1500 );
 				$("#nextbuttonwrapper").animate({opacity: 1.0}, 200, function() {
 		        	$("#nextbuttonwrapper").css('pointer-events', 'auto');
 		    	});
@@ -1206,6 +1228,9 @@ document.addEventListener("DOMContentLoaded", function () {
 				} else if (landingDate<launchDate) {
 					console.log("You can't land before you launch");
 				} else if (landingDate>launchDate) {
+					//erase line if necessary
+					solarSystem.remove( marsOdyssey.line );
+					
 			    	Tweener(timer, {multiplier:0}, 500);
 	    			var jumpToDate = new Date(launchRewindDate).Date2Julian();
 	    			timer.JD = jumpToDate;
