@@ -1,3 +1,5 @@
+var PlanetOrbitTime = [ 88.0, 224.7, 365.2, 687, 4332, 10760, 30700, 60200 ];
+
 var Planet = function( size, material, i ){
 
 	var LOD,
@@ -46,7 +48,7 @@ var Planet = function( size, material, i ){
 		if ((planetID == 3) && (date.getMonth() != lastDate)) {
 			lastDate = date.getMonth();
 		}
-
+		this.rotation.y = JD * PlanetOrbitTime[planetID - 1]/1000;
 	};
 
 	LOD.ephemerisCallback = function(result) {
