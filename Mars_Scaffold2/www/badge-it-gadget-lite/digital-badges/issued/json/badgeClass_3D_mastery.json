@@ -1,0 +1,8 @@
+{
+  "name": "3D Mastery Badge",
+  "description": "The 3D Mastery Badge",
+  "image": "http://www.voiceovervinnie.com/popcorn/marsScaffold2/badge-it-gadget-lite/digital-badges/images/badge_3D.png",
+  "criteria": "http://www.voiceovervinnie.com/popcorn/marsScaffold2/badge-it-gadget-lite/digital-badges/badge_3D_mastery.html",
+  "tags": ["mars", "3D"],
+  "issuer": "http://www.voiceovervinnie.com/popcorn/marsScaffold2/badge-it-gadget-lite/digital-badges/issued/json/organization.json"
+}

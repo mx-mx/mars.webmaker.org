@@ -101,7 +101,7 @@ $(document).ready(function() {
 		</header>
 		<section id="badge-container">
 			<div id="js-required">Javascript is required to get your badge. Please enable it in your preferences.</div>
-			<ul class="criteria-no-style">
+			<ul class="evidence-no-style">
 				<li>Badge Name: <?php echo $badges_array[$badgeId]['name']; ?></li>
 				<li>Badge Earner: <?php echo $recipient_name; ?></li>
 				<li>

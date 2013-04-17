@@ -1,0 +1,8 @@
+{
+  "name": "Pilot",
+  "description": "The Pilot Badge",
+  "image": "http://www.voiceovervinnie.com/popcorn/marsScaffold2/badge-it-gadget-lite/digital-badges/images/badge_pilot.png",
+  "criteria": "http://www.voiceovervinnie.com/popcorn/marsScaffold2/badge-it-gadget-lite/digital-badges/badge_pilot.html",
+  "tags": ["mars", "pilot"],
+  "issuer": "http://www.voiceovervinnie.com/popcorn/marsScaffold2/badge-it-gadget-lite/digital-badges/issued/json/organization.json"
+}

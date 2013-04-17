@@ -48,6 +48,10 @@ $issuer_contact = "";
 
 $json_dir = $_SERVER['DOCUMENT_ROOT']."/popcorn/marsScaffold2/badge-it-gadget-lite/digital-badges/issued/json/";
 
+/* url location of json badge storage */
+
+$json_url_dir = "/badge-it-gadget-lite/digital-badges/issued/json/";
+
 /* badge images directory - REQUIRED. Set the path to the directory where your badge images are stored. They should be stored on the same domain as OpenBadifier since the images should be on the issuing site. Don't have badge images yet? You can mae some here (note: they must be PNG) - http://www.onlineiconmaker.com/application/ */
 
 $badge_images_dir = "/badge-it-gadget-lite/digital-badges/images/";
@@ -62,40 +66,46 @@ info on how to learn about arrays in php: http://devzone.zend.com/8/php-101-part
 
 Here are the values (all REQUIRED unless noted otherwise):
 
+uid = Unique Identifier should be locally unique.
 name = The name of your badge. Example "Badge-It Gadget Lite Badgee" (max 128 characters)
 image = The filename of the image. Example "badge-it-gadget-lite.png". This image should be in your $badge_images_dir. (Badge must be a .png) 
-description = "Short text describing the badge. Example "Earner is ready to award badges with Badget-It Gadget Lite.". (max 128 characters)
-criteria_url =  Relative URL describing the badge and criteria for earning the badge. It should be on the same server as Badge-It Gadget Lite. If you keep the directory structure as is, you can just change the .html file name in the example.
+evidence_url =  Relative URL (In this example we are using the criteria URL as evidence URL... Ideally, a unique page that represents the actual work of the user). 
+                It should be on the same server as Badge-It Gadget Lite. If you keep the directory structure as is, you can just change the .html file name in the example.
 expires = OPTIONAL. Date when the badge expires. If omitted, the badge never expires. Format: YYYY-MM-DD
 
-Notice there is a number and an array of values for each badge. The example below has two badges.
+Notice there is a number and an array of values for each badge. The example below has five badges.
 */
 
 $badges_array = array(
 	1 => array(
+	"uid" => "0",
 	"name" => "Badge-It Gadget Lite Badge", 
 	"image" => "badge-it-gadget-lite.png", 
-	"description" => "Earner is ready to award badges with Badge-It Gadget Lite.", 
-	"criteria_url" => "http://www.voiceovervinnei.com/popcorn/marsScaffold2/badge-it-gadget-lite/digital-badges/badge-it-gadget-lite-badge-criteria.html",
+	"evidence_url" => "http://www.voiceovervinnie.com/popcorn/marsScaffold2/badge-it-gadget-lite/digital-badges/badge-it-gadget-lite-badge-evidence.html",
+	"badge_class" => "http://www.voiceovervinnie.com/popcorn/marsScaffold2/badge-it-gadget-lite/digital-badges/issued/json/badgeClass_badger.json",
 	"expires" => "2014-02-02"), 
 	2 => array(
+	"uid" => "gsb0",
 	"name" => "Generic Space Badge", 
 	"image" => "badge_generic.png", 
-	"description" => "Generic space badge", 
-	"criteria_url" => "http://www.voiceovervinnei.com/popcorn/marsScaffold2/badge-it-gadget-lite/digital-badges/generic_space.html"), 
+	"evidence_url" => "http://www.voiceovervinnie.com/popcorn/marsScaffold2/badge-it-gadget-lite/digital-badges/generic_space.html", 
+	"badge_class" => "http://www.voiceovervinnie.com/popcorn/marsScaffold2/badge-it-gadget-lite/digital-badges/issued/json/badgeClass_generic.json"),
 	3 => array(
+	"uid" => "3dm0",
 	"name" => "3DMastery", 
 	"image" => "badge_3D.png", 
-	"description" => "The 3D Mastery Badge", 
-	"criteria_url" => "http://www.voiceovervinnei.com/popcorn/marsScaffold2/badge-it-gadget-lite/digital-badges/badge_3D_mastery.html"), 
+	"evidence_url" => "http://www.voiceovervinnie.com/popcorn/marsScaffold2/badge-it-gadget-lite/digital-badges/badge_3D_mastery.html", 
+	"badge_class" => "http://www.voiceovervinnie.com/popcorn/marsScaffold2/badge-it-gadget-lite/digital-badges/issued/json/badgeClass_3D_mastery.json"),
 	4 => array(
+	"uid" => "p0",
 	"name" => "Pilot", 
 	"image" => "badge_pilot.png", 
-	"description" => "The Space Pilot Badge", 
-	"criteria_url" => "http://www.voiceovervinnei.com/popcorn/marsScaffold2/badge-it-gadget-lite/digital-badges/badge_pilot.html"), 
+	"evidence_url" => "http://www.voiceovervinnie.com/popcorn/marsScaffold2/badge-it-gadget-lite/digital-badges/badge_pilot.html",
+	"badge_class" => "http://www.voiceovervinnie.com/popcorn/marsScaffold2/badge-it-gadget-lite/digital-badges/issued/json/badgeClass_pilot.json"), 
 	5 => array(
+	"uid" => "d0",
 	"name" => "Driver", 
 	"image" => "badge_driver.png", 
-	"description" => "The Rover Driver Badge", 
-	"criteria_url" => "http://www.voiceovervinnei.com/popcorn/marsScaffold2/badge-it-gadget-lite/digital-badges/badge_driver.html")
+	"evidence_url" => "http://www.voiceovervinnie.com/popcorn/marsScaffold2/badge-it-gadget-lite/digital-badges/badge_driver.html",
+	"badge_class" => "http://www.voiceovervinnie.com/popcorn/marsScaffold2/badge-it-gadget-lite/digital-badges/issued/json/badgeClass_driver.json")
 	);
