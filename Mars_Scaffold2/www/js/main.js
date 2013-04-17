@@ -24,7 +24,8 @@ var stats,
 	debugAxis;
 
 var timer;
-var showDistance = false;
+var showDistance = false,
+	miles = true;
 
 var clock = new THREE.Clock();
 
@@ -293,7 +294,11 @@ function animate() {
 		var screenPos = screenXY( vector.getPositionFromMatrix( rulerMidpoint.matrixWorld ) );
 	    distance.style.left = screenPos.x + 'px';
 	    distance.style.top = screenPos.y + 'px';
-		distance.nameLayer.innerHTML = Math.round( ruler.getDistance() / ssScale.s ) + " km";
+	    if( miles ){
+			distance.nameLayer.innerHTML = Math.round( ( ruler.getDistance() / ssScale.s ) * 0.621371 ) + " miles";
+		}else{
+			distance.nameLayer.innerHTML = Math.round( ruler.getDistance() / ssScale.s ) + " km";
+		}
 	}else{
 		distance.nameLayer.innerHTML = "";
 	}
