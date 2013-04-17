@@ -36,6 +36,7 @@ function MarsOdyssey() {
 	this.lastLine;
 	this.lastTime;
 	this.totalDeltaV;
+	this.finishedDrawingCallback;
 }
  MarsOdyssey.prototype.ephemerisCallback = function(result) {
 	if (this.r0 == null) {
@@ -95,9 +96,10 @@ MarsOdyssey.prototype.toString = function() {
 	return "MarsOdyssey";
 };
 
-MarsOdyssey.prototype.init = function( departure_time, arrival_time) {
+MarsOdyssey.prototype.init = function( departure_time, arrival_time, drawingCallback) {
 	console.log("new init: " + departure_time.jd_tt());
 
+	this.finishedDrawingCallback = drawingCallback;
 	this.r0 = null;
 	this.v0 = null;
 	this.rf = null;
@@ -191,6 +193,10 @@ MarsOdyssey.prototype.drawTrajectory = function( time, scale ) {
 
 	this.line.geometry.vertices.push( end );
 
+	if(time >= this.trajectory[this.trajectory.length - 2].time) {
+		this.finishedDrawingCallback.call();
+	}
+	
 	solarSystem.add( this.line );
 	this.prevLine = this.line;
 }

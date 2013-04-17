@@ -133,6 +133,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     loadDE405Plus(function () {
+    	console.log("loadDE405Plus callback");
 	    preloadimages(['./images/solarsystem/sunmap.jpg', 
 	                   './images/solarsystem/mercurymap.jpg', 
 	                   './images/solarsystem/venusmap.jpg', 
@@ -194,6 +195,10 @@ document.addEventListener("DOMContentLoaded", function () {
 	infinityloader.play();
 	var div = document.getElementById("canvastarget"); 
 	div.appendChild(infinityloader.canvas);
+	
+	var drawingDone = function() {
+		console.log("drawing done!!!");
+	}
  
 	$contenttarget = $("#contenttarget");
 	// Create a popcorn instance by calling the Youtube player plugin     
@@ -220,6 +225,11 @@ document.addEventListener("DOMContentLoaded", function () {
 	popcornMedia[16] = Popcorn( '#SEQ_3_CAM_4d' );
 	popcornMedia[17] = Popcorn( '#SEQ_5_CAM' );
 	popcornMedia[18] = Popcorn( '#SEQ_6_CAM' );
+	popcornMedia[19] = Popcorn( '#ROCKET_SUCCESS' );
+	popcornMedia[20] = Popcorn( '#ROCKET_FAIL1' );
+	popcornMedia[21] = Popcorn( '#ROCKET_FAIL2' );
+	popcornMedia[22] = Popcorn( '#ROCKET_FAIL3' );
+	popcornMedia[23] = Popcorn( '#ROCKET_FAIL4' );
 
 	var basepop = Popcorn.baseplayer( "#contenttarget" ); //not sure if I'll need this baseplayer
 	//var popcorn_branch1_video2 = Popcorn.youtube('#videocontenttarget2', 'https://www.youtube.com/watch?v=lKqr3F73bAI' );
@@ -847,6 +857,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	
     
     //selectmissionrocket div
+    var rocketChoice = 0;
     var checkboxrocket1 = document.getElementById('checkboxrocket1');
     checkboxrocket1.onclick = function() {
    		$('#checkboxrocket1').prop('checked', true);
@@ -854,6 +865,7 @@ document.addEventListener("DOMContentLoaded", function () {
    		$('#checkboxrocket3').prop('checked', false);
    		document.getElementById("rocketselect").src="./images/rocket_falcon.png";
    		document.getElementById("rocketlaunch").src="./images/rocket_falcon.png";
+   		rocketChoice=0;
     };
     var checkboxrocket2 = document.getElementById('checkboxrocket2');
     checkboxrocket2.onclick = function() {
@@ -862,6 +874,7 @@ document.addEventListener("DOMContentLoaded", function () {
    		$('#checkboxrocket3').prop('checked', false);
    		document.getElementById("rocketselect").src="./images/rocket_deltaIV.png";
    		document.getElementById("rocketlaunch").src="./images/rocket_deltaIV.png";
+   		rocketChoice=1;
     };
     var checkboxrocket3 = document.getElementById('checkboxrocket3');
     checkboxrocket3.onclick = function() {
@@ -870,6 +883,7 @@ document.addEventListener("DOMContentLoaded", function () {
    		$('#checkboxrocket2').prop('checked', false);
    		document.getElementById("rocketselect").src="./images/rocket_nasasls.png";
    		document.getElementById("rocketlaunch").src="./images/rocket_nasasls.png";
+   		rocketChoice=2;
     };
     
     $("#rocket1").hover(function() {
@@ -1222,12 +1236,75 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 			    	//console.log("reinitializing Odyssey: ");
-					marsOdyssey.init( departure_time, arrival_time );
+					marsOdyssey.init( departure_time, arrival_time, function () {
+					    console.log("heard the done drawing callback");
+					    playTrajectoryAudio();
+					});
 					console.log("DeltaV index: " + marsOdyssey.totalDeltaV);
 	    			
 			    	Tweener(timer, {multiplier:.05}, 500);
 				}
 		});
+		
+		var rocketDeltas = new Arra(22.3, 21.1, 25.2);
+		
+		var playTrajectoryAudio = function() {
+			var deltaDif;
+			switch(rocketChoice)
+	    	{
+	    	case 0:
+	    		//check to see if deltaV is under minimum for this rocket
+	    		deltaDif = rocketDeltas[rocketChoice] - marsOdyssey.totalDeltaV;
+				console.log("deltaDif: " + deltaDif);
+				
+				if(deltaDif>=0) {
+					jumpPopcornMedia(19); //landed
+				} else if(deltaDif>=-4.8) {
+					jumpPopcornMedia(20); //bad
+				} else if(deltaDif>=-6.3) {
+					jumpPopcornMedia(21); //worse
+				} else if(deltaDif>=-7.0) {
+					jumpPopcornMedia(22); //even worse
+				} else {
+					jumpPopcornMedia(23); //just aweful
+				}
+	    	  break;
+	    	case 1:
+	    		deltaDif = rocketDeltas[rocketChoice] - marsOdyssey.totalDeltaV;
+				console.log("deltaDif: " + deltaDif);
+				
+				if(deltaDif>=0) {
+					jumpPopcornMedia(19); //landed
+				} else if(deltaDif>=-4.8) {
+					jumpPopcornMedia(20); //bad
+				} else if(deltaDif>=-6.3) {
+					jumpPopcornMedia(21); //worse
+				} else if(deltaDif>=-7.0) {
+					jumpPopcornMedia(22); //even worse
+				} else {
+					jumpPopcornMedia(23); //just aweful
+				}
+	    	  break;
+	    	case 2:
+	    		deltaDif = rocketDeltas[rocketChoice] - marsOdyssey.totalDeltaV;
+				console.log("deltaDif: " + deltaDif);
+				
+				if(deltaDif>=0) {
+					jumpPopcornMedia(19); //landed
+				} else if(deltaDif>=-4.8) {
+					jumpPopcornMedia(20); //bad
+				} else if(deltaDif>=-6.3) {
+					jumpPopcornMedia(21); //worse
+				} else if(deltaDif>=-7.0) {
+					jumpPopcornMedia(22); //even worse
+				} else {
+					jumpPopcornMedia(23); //just aweful
+				}
+	    	  break;
+	    	default:
+		    	break;
+	    	}
+		}
 		
 		//we've got simple date formatting needs, so this will be sufficient for our project.
 		var dateFormatter = function(aDate) {
@@ -1238,7 +1315,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		    var yyyy = aDate.getFullYear();
 		    var formattedDate = mm + '/' + dd + '/' + yyyy;
 		    return formattedDate;
-		}
+		};
 		
 		//change a date to a time object (helps for Time initializer)
 		var dateToTime = function(aDate) {
@@ -1250,7 +1327,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					Mn: 1,
 					S: 1
 					};
-		}
+		};
 		
 		/*
 		$(function() {
@@ -1355,8 +1432,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	<body>
 		
 		<!-- <div id="loaderdiv" style="z-index:20;background-color:#FFFFFF;width:100px;height:100px;opacity:1.0;"></div> -->
-		<div id="loaderdiv" class="modalmask" style="z-index:20;opacity:1.0;pointer-events:auto;">
-			<div id="loaderpanel" class="badgecontenttarget" style="z-index:21;background-color: rgba(0,0,0,0.8);">
+		<div id="loaderdiv" class="modalmask" style="z-index:10;opacity:1.0;pointer-events:auto;">
+			<div id="loaderpanel" class="badgecontenttarget" style="z-index:11;background-color: rgba(0,0,0,0.8);">
 				<p><font style="color:#3a84a6;">Loading the Solar System</font></p>
 				<br><br><br>
 				<div id="canvastarget"></div>
@@ -1828,6 +1905,31 @@ document.addEventListener("DOMContentLoaded", function () {
 		<audio id="SEQ_6_CAM">
 			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_6_CAM.mp3"></source>
 			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_6_CAM.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="ROCKET_SUCCESS">
+			<source src="http://www.mx-mx.com/lab/moku/audio/ROCKET_SUCCESS.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/ROCKET_SUCCESS.ogg"></source>
+		</audio> 
+		
+		<audio id="ROCKET_FAIL1">
+			<source src="http://www.mx-mx.com/lab/moku/audio/ROCKET_FAIL1.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/ROCKET_FAIL1.ogg"></source>
+		</audio> 
+		
+		<audio id="ROCKET_FAIL2">
+			<source src="http://www.mx-mx.com/lab/moku/audio/ROCKET_FAIL2.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/ROCKET_FAIL2.ogg"></source>
+		</audio> 
+		
+		<audio id="ROCKET_FAIL3">
+			<source src="http://www.mx-mx.com/lab/moku/audio/ROCKET_FAIL3.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/ROCKET_FAIL3.ogg"></source>
+		</audio> 
+		
+		<audio id="ROCKET_FAIL4">
+			<source src="http://www.mx-mx.com/lab/moku/audio/ROCKET_FAIL4.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/ROCKET_FAIL4.ogg"></source>
 		</audio> 
 		
 	</body>

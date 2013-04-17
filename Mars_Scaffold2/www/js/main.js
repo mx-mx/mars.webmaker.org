@@ -176,7 +176,9 @@ function setupScene(){
 	// scene.add( object );
 
 	marsOdyssey = new MarsOdyssey();
-	marsOdyssey.init( departure_time, arrival_time );
+	marsOdyssey.init( departure_time, arrival_time, function () {
+	    console.log("finished drawing this trajectory");
+	});
 
 	solarSystem = makeSolarSystem();
 	solarSystem.rotation.x = -2;
