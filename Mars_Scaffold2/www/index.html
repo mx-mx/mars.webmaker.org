@@ -188,7 +188,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				size * .75
 			);
 			
-			this._.fillStyle = '#63D3FF';
+			this._.fillStyle = '#3a84a6';
 
 			this._.fillRect(
 				Math.cos(angleB) * 25 + (100-size/2),
@@ -492,6 +492,10 @@ document.addEventListener("DOMContentLoaded", function () {
         	$("#selectmissionrocket").css('pointer-events', 'auto');
     	});
 	});
+
+    //$("#selectmissionrocket").animate({opacity: 1.0}, 200, function() {
+    //	$("#selectmissionrocket").css('pointer-events', 'auto');
+	//});
     
     $(document).on('mouseup', function(e) {
         if(!listenToMouseMovements) return;
@@ -1678,12 +1682,12 @@ document.addEventListener("DOMContentLoaded", function () {
 		</div>
 		
 		<div id="selectmissionrocket" class="selectitemdiv">
-			<div style="position:absolute;float:left;font-weight:bold;font-size:20px;">Select Mission Rocket</div>
+			<div style="font-weight:bold;font-size:20px;">Select Mission Rocket</div>
 			<table style="width: 100%;margin:0;padding:0;">
 				<tr>
-					<td width="33%" align="center" valign="bottom"><img id="rocket1" src="./images/rocket_falcon.png"></td>
-					<td width="33%" align="center" valign="bottom"><img id="rocket2" src="./images/rocket_deltaIV.png"></td>
-					<td width="33%" align="center" valign="bottom"><img id="rocket3" src="./images/rocket_nasasls.png"></td>
+					<td width="33%" align="center" valign="bottom"><img id="rocket1" src="./images/rocket_falcon_heavy_n.png"></td>
+					<td width="33%" align="center" valign="bottom"><img id="rocket2" src="./images/rocket_delta_iv_heavy_n.png"></td>
+					<td width="33%" align="center" valign="bottom"><img id="rocket3" src="./images/rocket_nasa_sls_n.png"></td>
 				</tr>
 				<tr>
 					<td width="33%" align="center">Falcon Heavy</td>
@@ -1696,114 +1700,10 @@ document.addEventListener("DOMContentLoaded", function () {
 					<td width="33%" align="center"><input type="checkbox" id="checkboxrocket3"  class="regular-checkbox" /></td>
 				</tr>	
 			</table>
-			<div style="position:absolute;bottom:2%;right:10px;font-weight:bold;font-size:30px;">
-				<button id="selectmissioncontinuebutton" class="squarebluebutton">Continue</button>
-			</div>
 			<!-- appears to the right of the mission selector -->
-			<div id="rocket1details" style="opacity: 0.0;pointer-events:none;position:absolute;top:10%;left:101%;width:350px;font-weight:bold;font-size:18px;">
-				<table style="width:100%;margin:0;padding:0;background:rgba(0,0,0,.85);border:1px solid rgba(76,173,197,1.0);">
-					<tr>
-						<td width="100%" align="left" valign="bottom" colspan="3" style="color:rgba(76,173,197,1.0);">Launch Vehicle Layout</td>
-					</tr>
-					<tr>
-						<td width="66%" align="left" valign="bottom">ΔV</td>
-						<td width="4%" align="left" valign="bottom">=</td>
-						<td width="30%" align="left" valign="bottom">22.3 km/s</td>
-					</tr>
-					<tr>
-						<td width="66%" align="left" valign="bottom">LBS of payload</td>
-						<td width="4%" align="left" valign="bottom">=</td>
-						<td width="30%" align="left" valign="bottom">1000</td>
-					</tr>
-					<tr>
-						<td width="66%" align="left" valign="bottom">LBS of consumable supply</td>
-						<td width="4%" align="left" valign="bottom">=</td>
-						<td width="30%" align="left" valign="bottom">400</td>
-					</tr>
-					<tr>
-						<td width="66%" align="left" valign="bottom"># of Launches</td>
-						<td width="4%" align="left" valign="bottom">=</td>
-						<td width="30%" align="left" valign="bottom">1</td>
-					</tr>
-					<tr>
-						<td width="100%" align="left" valign="bottom" colspan="3" style="color:rgba(76,173,197,1.0);">Astronaut Selection</td>
-					</tr>
-					<tr>
-						<td width="66%" align="left" valign="bottom"># of Astronauts</td>
-						<td width="4%" align="left" valign="bottom">=</td>
-						<td width="30%" align="left" valign="bottom">3</td>
-					</tr>
-				</table>
-			</div>
-			<div id="rocket2details" style="opacity: 0.0;pointer-events:none;position:absolute;top:10%;left:101%;width:350px;font-weight:bold;font-size:18px;">
-				<table style="width:100%;margin:0;padding:0;background:rgba(0,0,0,.85);border:1px solid rgba(76,173,197,1.0);">
-					<tr>
-						<td width="100%" align="left" valign="bottom" colspan="3" style="color:rgba(76,173,197,1.0);">Launch Vehicle Layout</td>
-					</tr>
-					<tr>
-						<td width="66%" align="left" valign="bottom">ΔV</td>
-						<td width="4%" align="left" valign="bottom">=</td>
-						<td width="30%" align="left" valign="bottom">21.1 km/s</td>
-					</tr>
-					<tr>
-						<td width="66%" align="left" valign="bottom">LBS of payload</td>
-						<td width="4%" align="left" valign="bottom">=</td>
-						<td width="30%" align="left" valign="bottom">500</td>
-					</tr>
-					<tr>
-						<td width="66%" align="left" valign="bottom">LBS of consumable supply</td>
-						<td width="4%" align="left" valign="bottom">=</td>
-						<td width="30%" align="left" valign="bottom">200</td>
-					</tr>
-					<tr>
-						<td width="66%" align="left" valign="bottom"># of Launches</td>
-						<td width="4%" align="left" valign="bottom">=</td>
-						<td width="30%" align="left" valign="bottom">1</td>
-					</tr>
-					<tr>
-						<td width="100%" align="left" valign="bottom" colspan="3" style="color:rgba(76,173,197,1.0);">Astronaut Selection</td>
-					</tr>
-					<tr>
-						<td width="66%" align="left" valign="bottom"># of Astronauts</td>
-						<td width="4%" align="left" valign="bottom">=</td>
-						<td width="30%" align="left" valign="bottom">2</td>
-					</tr>
-				</table>
-			</div>
-			<div id="rocket3details" style="opacity: 0.0;pointer-events:none;position:absolute;top:10%;left:101%;width:350px;font-weight:bold;font-size:18px;">
-				<table style="width:100%;margin:0;padding:0;background:rgba(0,0,0,.85);border:1px solid rgba(76,173,197,1.0);">
-					<tr>
-						<td width="100%" align="left" valign="bottom" colspan="3" style="color:rgba(76,173,197,1.0);">Launch Vehicle Layout</td>
-					</tr>
-					<tr>
-						<td width="66%" align="left" valign="bottom">ΔV</td>
-						<td width="4%" align="left" valign="bottom">=</td>
-						<td width="30%" align="left" valign="bottom">25.2 km/s</td>
-					</tr>
-					<tr>
-						<td width="66%" align="left" valign="bottom">LBS of payload</td>
-						<td width="4%" align="left" valign="bottom">=</td>
-						<td width="30%" align="left" valign="bottom">12000</td>
-					</tr>
-					<tr>
-						<td width="66%" align="left" valign="bottom">LBS of consumable supply</td>
-						<td width="4%" align="left" valign="bottom">=</td>
-						<td width="30%" align="left" valign="bottom">700</td>
-					</tr>
-					<tr>
-						<td width="66%" align="left" valign="bottom"># of Launches</td>
-						<td width="4%" align="left" valign="bottom">=</td>
-						<td width="30%" align="left" valign="bottom">1</td>
-					</tr>
-					<tr>
-						<td width="100%" align="left" valign="bottom" colspan="3" style="color:rgba(76,173,197,1.0);">Astronaut Selection</td>
-					</tr>
-					<tr>
-						<td width="66%" align="left" valign="bottom"># of Astronauts</td>
-						<td width="4%" align="left" valign="bottom">=</td>
-						<td width="30%" align="left" valign="bottom">3</td>
-					</tr>
-				</table>
+			
+			<div style="font-weight:bold;font-size:30px;">
+				<button id="selectmissioncontinuebutton" class="squarebluebutton">Continue</button>
 			</div>
 		</div>
 		

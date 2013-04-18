@@ -303,12 +303,13 @@ div.pathfindervideo1
 }
 .selectitemdiv
 {
-  position: absolute;
+  	position: absolute;
 	opacity: 0.0;
 	pointer-events:none;
 	padding: 15px 15px 15px 15px;
 	background: rgba(13,30,38,0.7);
 	color: rgba(200,200,200,1.0);
+	text-align: center;
 	font-family: 'Lato', sans-serif;
 	text-transform: none;
 	line-height: 22px;
@@ -316,10 +317,10 @@ div.pathfindervideo1
     border-radius: 0px;
     border:none;
 	width: 740px;
-	height: 550px;
+	height: 450px;
 	top:40%;
     left:50%;
-    margin:-240px 0 0 -385px;
+    margin:-190px 0 0 -385px;
 	z-index: 5;
 }
 .selectitemdiv td
