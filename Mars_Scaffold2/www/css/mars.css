@@ -307,19 +307,19 @@ div.pathfindervideo1
 	opacity: 0.0;
 	pointer-events:none;
 	padding: 15px 15px 15px 15px;
-	background: rgba(0,0,0,.85);
-	color: rgba(76,173,197,1.0);
+	background: rgba(13,30,38,0.7);
+	color: rgba(200,200,200,1.0);
 	font-family: 'Lato', sans-serif;
 	text-transform: none;
 	line-height: 22px;
 	font-size: 18px;
-    border-radius: 10px;
-    border:3px solid rgba(76,173,197,1.0);
-	width: 640px;
+    border-radius: 0px;
+    border:none;
+	width: 740px;
 	height: 550px;
 	top:40%;
     left:50%;
-    margin:-240px 0 0 -335px;
+    margin:-240px 0 0 -385px;
 	z-index: 5;
 }
 .selectitemdiv td
@@ -495,6 +495,25 @@ div .roundedredbutton:hover{
 	top:50%;
 	left:50%;
 	margin:-240px 0 0 -335px;
+}
+.loadercontenttarget
+{
+  	position: absolute;
+  	display:inline;
+	text-align: left;
+	padding: 15px 15px 15px 15px;
+	background: rgba(0.0.0,.8);
+	color: rgba(200,200,200,1.0);
+	font-family: 'Lato', sans-serif;
+	text-transform: none;
+	line-height: 22px;
+	font-size: 18px;
+	border-radius: 5px;
+	border:none;
+	width: 80%;
+	height: 80%;
+	top:0px;
+	left:0px;
 }
 /* top control area */
 .topbar{
@@ -730,27 +749,6 @@ div .menubutton{
     border:none;
 }
 div .menubutton:hover{
-	background: rgba(135,153,72,0.8);
-}
-div .badgebutton{
-    display:inline;
-    float:right;
-    opacity: 0.0;
-    top:10px;
-    right:10px;
-	text-align: center;
-	line-height: 20px;
-	font-size: 16px;
-	margin:0px 0px;
-	text-transform: uppercase;
-	font-family: 'Lato', sans-serif;
-	font-weight:bold;
-	background: rgba(135,153,72,1.0);
-	color: rgba(200,200,200,1.0);
-    border-radius: 5px;
-    border:none;
-}
-div .badgebutton:hover{
 	background: rgba(135,153,72,0.8);
 }
 .headerpanel{

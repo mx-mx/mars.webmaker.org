@@ -108,7 +108,7 @@ function init() {
 	timer = new Timer();
 	timer.count = 0;
 	timer.multiplier = .025;
-	timer.JD = new Date(2010,12,1).Date2Julian();
+	timer.JD = new Date(2010,11,1).Date2Julian();
 	buildGUI();
 
 	/********************************

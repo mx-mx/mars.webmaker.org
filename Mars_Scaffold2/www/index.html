@@ -158,45 +158,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	//loader
 	var infinityloader = new Sonic({
-	 
-		// width: 400,
-		// height: 200,
-		// padding: 10,
 
-		// stepsPerFrame: 2,
-		// trailLength: 1,
-		// pointDistance: .03,
+		width: 160,
+		height: 80,
 
-		// strokeColor: '#3a84a6',
-		
-		// step: 'fader',
-
-		// multiplier: 8,
-
-		// setup: function() {
-		// 	this._.lineWidth = 5;
-		// },
-
-		// path: [
-		
-		// 	['arc', 10, 10, 10, -270, -90],
-		// 	['bezier', 10, 0, 40, 20, 20, 0, 30, 20],
-		// 	['arc', 40, 10, 10, 90, -90],
-		// 	['bezier', 40, 0, 10, 20, 30, 0, 20, 20]
-		// ]
-
-		width: 400,
-		height: 200,
-
-		stepsPerFrame: 4,
-		trailLength: .75,
+		stepsPerFrame: 2,
+		trailLength: .35,
 		pointDistance: .01,
 		fps: 25,
 
 		fillColor: '#FF7B24',
 
 		setup: function() {
-			this._.lineWidth = 10;
+			this._.lineWidth = 3;
 		},
 
 		step: function(point, i, f) {
@@ -205,20 +179,20 @@ document.addEventListener("DOMContentLoaded", function () {
 				degAngle = 360 * progress,
 				angle = Math.PI/180 * degAngle,
 				angleB = Math.PI/180 * (degAngle - 180),
-				size = i*5;
+				size = i*3;
 
 			this._.fillRect(
-				Math.cos(angle) * 50 + (200-size/2),
-				Math.sin(angle) * 20 + (100-size/2),
+				Math.cos(angle) * 35 + (100-size/2),
+				Math.sin(angle) * 15 + (50-size/2),
 				size * .75,
 				size * .75
 			);
-
+			
 			this._.fillStyle = '#63D3FF';
 
 			this._.fillRect(
-				Math.cos(angleB) * 40 + (200-size/2),
-				Math.sin(angleB) * 15 + (100-size/2),
+				Math.cos(angleB) * 25 + (100-size/2),
+				Math.sin(angleB) * 10 + (50-size/2),
 				size,
 				size
 			);
@@ -226,7 +200,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			this._.fillStyle = '#FFF47A';
 
 			this._.beginPath();
-			this._.arc(200, 100, 10, 0, 360, 0);
+			this._.arc(100, 50, 5, 0, 360, 0);
 			this._.closePath();
 			this._.fill();
 
@@ -234,7 +208,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		},
 
 		path: [
-			['line', 40, 10, 60, 90]
+			['line', 20, 5, 30, 45]
 		]
 	 
 	});
@@ -292,7 +266,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	        gui.destroy();  //remove the test GUI (used by Ryan)
 	        //set time to freeze
-	        Tweener(timer, {multiplier:.0}, 1);
+	        Tweener(timer, {multiplier:.01}, 1);
 			
 	        //initialize mars/earth ruler to off
 			showDistance = false;
@@ -1206,7 +1180,6 @@ document.addEventListener("DOMContentLoaded", function () {
 			
 			jumpPopcornMedia(17);
 		}
-		
 		$( "#threedhelpbutton" )
 			.button()
 			.click(function( event ) {
@@ -1505,13 +1478,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	<body>
 		
 		<!-- <div id="loaderdiv" style="z-index:20;background-color:#FFFFFF;width:100px;height:100px;opacity:1.0;"></div> -->
-		<div id="loaderdiv" class="modalmask" style="z-index:10;opacity:1.0;pointer-events:auto;">
-			<div id="loaderpanel" class="badgecontenttarget" style="z-index:11;background-color: rgba(0,0,0,0.8);">
-				<p><font style="color:#3a84a6;">Loading the Solar System</font></p>
-				<br><br><br>
-				<div id="canvastarget"></div>
-			</div>
-		</div>
+		
 		<div id="startmenupanel" class="startmenupanel">
 			<h1>Mission to Mars</h1>
 			<br>
@@ -1537,7 +1504,12 @@ document.addEventListener("DOMContentLoaded", function () {
 				<div id="headerpanel" class="headerpanel"></div>
 			</div>
 			<div id="topbarmiddle" class="topbarmiddle">
-				<button id="badgebutton" class="badgebutton">Simple Badge</button>
+				<div id="loaderdiv" style="z-index:10;opacity:1.0;pointer-events:auto; width:100%">
+					<div id="loaderpanel" class="loadercontenttarget" style="z-index:11;">
+						<font style="color:#3a84a6;">Loading the Solar System</font>
+						<div id="canvastarget" style="position:absolute;left:-130px;top:-22px"></div>
+					</div>
+				</div>
 			</div>
 			
 			<div id="topbarright" class="topbarright">
@@ -1664,14 +1636,14 @@ document.addEventListener("DOMContentLoaded", function () {
 		<div id="incomingmessage" class="capcommessagediv">
 			<table style="width: 100%;margin:2;padding:0;" >
 				<tr >
-					<td width="50px" rowspan="2" align="left" valign="middle"><img src="./images/phone_icon.png" style="width:45px;height:45px;"></td>
+					<td width="50px" rowspan="2" align="left" valign="middle"><img src="./images/icon_satellite.png" style="width:45px;height:45px;"></td>
 					
 					<td align="left">...Incoming Transmission</td>
 				</tr>
 				<tr>
 					<td align="left">
-						<button id="answerbutton" class="roundedbluebutton">Answer</button>
-						<button id="ignorebutton" class="roundedbluebutton">Ignore</button>
+						<button id="answerbutton" class="squarebluebutton">Answer</button>
+						<button id="ignorebutton" class="squarebluebutton">Ignore</button>
 					</td>
 				</tr>
 			</table>
@@ -1680,7 +1652,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		<div id="transmissionmessage" class="capcommessagediv">
 			<table style="width: 100%;margin:2;padding:0;" >
 				<tr >
-					<td width="50px" rowspan="2" align="left" valign="middle"><img src="./images/phone_icon.png" style="width:45px;height:45px;"></td>
+					<td width="50px" rowspan="2" align="left" valign="middle"><img src="./images/icon_satellite.png" style="width:45px;height:45px;"></td>
 					<td align="left">Current Transmission:</td>
 				</tr>
 				<tr>
@@ -1706,7 +1678,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		</div>
 		
 		<div id="selectmissionrocket" class="selectitemdiv">
-			<div style="position:absolute;float:left;font-weight:bold;font-size:30px;">Select Mission Rocket</div>
+			<div style="position:absolute;float:left;font-weight:bold;font-size:20px;">Select Mission Rocket</div>
 			<table style="width: 100%;margin:0;padding:0;">
 				<tr>
 					<td width="33%" align="center" valign="bottom"><img id="rocket1" src="./images/rocket_falcon.png"></td>
@@ -1725,7 +1697,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				</tr>	
 			</table>
 			<div style="position:absolute;bottom:2%;right:10px;font-weight:bold;font-size:30px;">
-				<button id="selectmissioncontinuebutton" class="roundedbluebutton">Continue</button>
+				<button id="selectmissioncontinuebutton" class="squarebluebutton">Continue</button>
 			</div>
 			<!-- appears to the right of the mission selector -->
 			<div id="rocket1details" style="opacity: 0.0;pointer-events:none;position:absolute;top:10%;left:101%;width:350px;font-weight:bold;font-size:18px;">
