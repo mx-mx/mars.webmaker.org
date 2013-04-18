@@ -493,8 +493,8 @@ document.addEventListener("DOMContentLoaded", function () {
     	});
 	});
 
-    //$("#selectmissionrocket").animate({opacity: 1.0}, 200, function() {
-    //	$("#selectmissionrocket").css('pointer-events', 'auto');
+    //$("#launchcontrols").animate({opacity: 1.0}, 200, function() {
+    //	$("#launchcontrols").css('pointer-events', 'auto');
 	//});
     
     $(document).on('mouseup', function(e) {
@@ -887,11 +887,10 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	}
     */
-	
-	
     
     //selectmissionrocket div
     var rocketChoice = 0;
+    /*
     var checkboxrocket1 = document.getElementById('checkboxrocket1');
     checkboxrocket1.onclick = function() {
    		$('#checkboxrocket1').prop('checked', true);
@@ -918,7 +917,48 @@ document.addEventListener("DOMContentLoaded", function () {
    		document.getElementById("rocketselect").src="./images/rocket_nasasls.png";
    		document.getElementById("rocketlaunch").src="./images/rocket_nasasls.png";
    		rocketChoice=2;
+    };*/
+	
+
+    var rocket1div = document.getElementById('rocket1div');
+    rocket1div.style.cursor = 'pointer';
+    rocket1div.onclick = function() {
+   		//$("#rocket1div").css('outline', '4px solid rgba(200,200,200,1.0');
+   		//document.getElementById('rocket1div').style.outline = '1px solid rgba(200,200,200,1.0';
+   		document.getElementById("rocket1").src="./images/rocket_falcon_heavy_s.png";
+   		document.getElementById("rocket2").src="./images/rocket_delta_iv_heavy_n.png";
+   		document.getElementById("rocket3").src="./images/rocket_nasa_sls_n.png";
+   		rocketChoice=0;
     };
+    var rocket2div = document.getElementById('rocket2div');
+    rocket2div.style.cursor = 'pointer';
+    rocket2div.onclick = function() {
+   		//$('#checkboxrocket1').prop('checked', true);
+   		//$('#checkboxrocket2').prop('checked', false);
+   		//$('#checkboxrocket3').prop('checked', false);
+   		//document.getElementById("rocketselect").src="./images/rocket_falcon.png";
+   		//document.getElementById("rocketlaunch").src="./images/rocket_falcon.png";
+   		document.getElementById('rocket2div').style.outline = '1px solid rgba(200,200,200,1.0';
+   		document.getElementById("rocket1").src="./images/rocket_falcon_heavy_n.png";
+   		document.getElementById("rocket2").src="./images/rocket_delta_iv_heavy_s.png";
+   		document.getElementById("rocket3").src="./images/rocket_nasa_sls_n.png";
+   		rocketChoice=1;
+    };
+    var rocket3div = document.getElementById('rocket3div');
+    rocket3div.style.cursor = 'pointer';
+    rocket3div.onclick = function() {
+   		//$('#checkboxrocket1').prop('checked', true);
+   		//$('#checkboxrocket2').prop('checked', false);
+   		//$('#checkboxrocket3').prop('checked', false);
+   		//document.getElementById("rocketselect").src="./images/rocket_falcon.png";
+   		//document.getElementById("rocketlaunch").src="./images/rocket_falcon.png";
+   		document.getElementById('rocket3div').style.outline = '1px solid rgba(200,200,200,1.0';
+   		document.getElementById("rocket1").src="./images/rocket_falcon_heavy_n.png";
+   		document.getElementById("rocket2").src="./images/rocket_delta_iv_heavy_n.png";
+   		document.getElementById("rocket3").src="./images/rocket_nasa_sls_s.png";
+   		rocketChoice=2;
+    };
+    
     
     $("#rocket1").hover(function() {
     	$("#rocket1details").animate({opacity: 1.0}, 200, function() {
@@ -1682,7 +1722,84 @@ document.addEventListener("DOMContentLoaded", function () {
 		</div>
 		
 		<div id="selectmissionrocket" class="selectitemdiv">
-			<div style="font-weight:bold;font-size:20px;">Select Mission Rocket</div>
+			<div style="font-weight:bold;font-size:20px;margin:0px 0px 10px 0px;">Select Mission Rocket</div>
+			<div style="display:inline;width:900px;height:500px;">
+				<div id="rocket1div" class="selectitemdetaildiv">
+					<table style="width: 100%;height: 100%;margin:0;padding:0;">
+						<tr>
+							<td width="70%" align="left" valign="top">
+								Falcon Heavy
+								<br><br>
+								<font style="font-family: 'Lato', sans-serif;font-size:14px;line-height:16px;font-weight:300;">
+								Small. Lightweight. 
+								<br> 
+								Private! The vanguard of the for-profit rocket!
+								<br> <br> 
+								Pro: Selling shares now!
+								<br> <br> 
+								Con: No safety net
+								<br> <br> <br>  
+								ΔV: 22.3 km/s
+								<br> <br>
+								Max Fuel: 100,000 LBS
+								<br> <br>
+								Max Payload: 20,000 LBS
+								</font>
+							</td>
+							<td width="30%" align="center" valign="bottom"><img id="rocket1" src="./images/rocket_falcon_heavy_s.png"></td>
+						</tr>
+					</table>
+				</div>
+				<div id="rocket2div" class="selectitemdetaildiv">
+					<table style="width: 100%;height: 100%;margin:0;padding:0;">
+						<tr>
+							<td width="70%" align="left" valign="top">
+								Delta IV Heavy
+								<br><br>
+								<font style="font-family: 'Lato', sans-serif;font-size:14px;line-height:16px;font-weight:300;">
+								The premium choice in rockets. Old faithful.
+								<br> <br> <br>
+								Pro: Stable
+								<br> <br> 
+								Con: Not exciting
+								<br> <br> <br> 
+								ΔV: 21.1 km/s
+								<br> <br>
+								Max Fuel: 100,000 LBS
+								<br> <br>
+								Max Payload: 20,000 LBS
+								</font>
+							</td>
+							<td width="30%" align="center" valign="bottom"><img id="rocket2" src="./images/rocket_delta_iv_heavy_n.png"></td>
+						</tr>
+					</table>
+				</div>
+				<div id="rocket3div" class="selectitemdetaildiv">
+					<table style="width: 100%;height: 100%;margin:0;padding:0;">
+						<tr>
+							<td width="70%" align="left" valign="top">
+								NASA SLS
+								<br><br>
+								<font style="font-family: 'Lato', sans-serif;font-size:14px;line-height:16px;font-weight:300;">
+								The big dog. If you gotta send something to space, this is your rocket.
+								<br> <br> 
+								Pro: It’s HUGE!
+								<br> <br> 
+								Con: It ain’t cheap..
+								<br> <br> <br> 
+								ΔV: 25.2 km/s
+								<br> <br>
+								Max Fuel: 100,000 LBS
+								<br> <br>
+								Max Payload: 20,000 LBS
+								</font>
+							</td>
+							<td width="30%" align="center" valign="bottom"><img id="rocket3" src="./images/rocket_nasa_sls_n.png"></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<!-- 
 			<table style="width: 100%;margin:0;padding:0;">
 				<tr>
 					<td width="33%" align="center" valign="bottom"><img id="rocket1" src="./images/rocket_falcon_heavy_n.png"></td>
@@ -1699,8 +1816,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					<td width="33%" align="center"><input type="checkbox" id="checkboxrocket2"  class="regular-checkbox" /></td>
 					<td width="33%" align="center"><input type="checkbox" id="checkboxrocket3"  class="regular-checkbox" /></td>
 				</tr>	
-			</table>
-			<!-- appears to the right of the mission selector -->
+			</table> -->
 			
 			<div style="font-weight:bold;font-size:30px;">
 				<button id="selectmissioncontinuebutton" class="squarebluebutton">Continue</button>

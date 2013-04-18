@@ -316,16 +316,50 @@ div.pathfindervideo1
 	font-size: 18px;
     border-radius: 0px;
     border:none;
-	width: 740px;
+	width: 940px;
 	height: 450px;
 	top:40%;
     left:50%;
-    margin:-190px 0 0 -385px;
+    margin:-190px 0 0 -485px;
 	z-index: 5;
 }
 .selectitemdiv td
 {
 	color: rgba(200,200,200,1.0);
+}
+div .selectitemdetaildiv
+{
+	float:left;
+	padding: 5px 5px 5px 5px;
+	margin: 5px 10px 5px 20px;
+	color: rgba(200,200,200,1.0);
+	text-align: left;
+	font-family: 'Lato', sans-serif;
+	text-transform: none;
+	line-height: 20px;
+	font-size: 18px;
+	width: 270px;
+	height: 360px;
+	z-index: 6;
+    /*border:5px solid rgba(32,124,202,1.0);*/
+    outline:4px solid rgba(5,157,160,0.0);
+    background: #1e5799; /* Old browsers */
+	background: -moz-linear-gradient(top,  #1e5799 0%, #199da0 0%, #207cca 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#1e5799), color-stop(0%,#199da0), color-stop(100%,#207cca)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #1e5799 0%,#199da0 0%,#207cca 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #1e5799 0%,#199da0 0%,#207cca 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #1e5799 0%,#199da0 0%,#207cca 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #1e5799 0%,#199da0 0%,#207cca 100%); /* W3C */
+	/*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#207cca',GradientType=0 );  IE6-9 */
+}
+div .selectitemdetaildiv:hover{
+    outline:4px solid rgba(200,200,200,1.0);
+}
+.selectitemdetaildiv td
+{
+	font-family: 'Lato', sans-serif;
+	line-height: 20px;
+	font-size: 18px;
 }
 .capcommessagediv
 {
@@ -333,15 +367,15 @@ div.pathfindervideo1
 	opacity: 0.0;
 	pointer-events:none;
 	padding: 10px 10px 10px 10px;
-	background: rgba(0,0,0,.85);
+	background: rgba(13,30,38,.7);
 	color: rgba(200,200,200,1.0);
 	font-family: 'Lato', sans-serif;
 	font-weight:bold;
 	text-transform: uppercase;
 	line-height: 18px;
 	font-size: 18px;
-    border-radius: 10px;
-    border:3px solid rgba(76,173,197,1.0);
+    border-radius: 0px;
+    border:none;
 	width: 350px;
 	height: 55px;
 	top:5%;
