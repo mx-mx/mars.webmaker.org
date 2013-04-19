@@ -451,12 +451,12 @@ div .roundedredbutton:hover{
 	font-family: 'Lato', sans-serif !important;
 	color: rgba(200,200,2050,1.0) !important;
 	font-weight:300 !important;
-	background: rgba(58,132,166,0.5) !important;
+	background: rgba(58,132,166,1.0) !important;
     border-radius: 0px !important;
     border:4px solid rgba(200,200,200,1.0) !important;
 }
 .playbutton:hover{
-	background: rgba(58,132,166,1.0);
+	background: rgba(58,132,166,.5) !important;
 }
 .videocontenttarget2
 {
@@ -1080,7 +1080,7 @@ div .threedcontrols {
 	z-index: 6;
 	width: 90%;
 	height: 90px;
-	bottom:8%;
+	bottom:9%;
     left:5%;
     padding:10px;
 }
@@ -1182,8 +1182,9 @@ div .speedSlider {
 	border-right: 3px solid rgba(13,30,38,1.0);
 	border-top: 3px solid rgba(13,30,38,1.0);
 	border-bottom: 3px solid rgba(13,30,38,1.0);  
-	background: rgba(58,132,166,0.9); 
+	background: rgba(200,200,200,0.9); 
 	height: 14px;
+	width: 10px;
 	border-radius: 0px;
 }
 ::-webkit-scrollbar {

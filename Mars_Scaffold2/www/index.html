@@ -413,7 +413,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		setTimeout(function(){advancePopcornMedia()},2000);
 
 		//erase line if necessary
-		solarSystem.remove( marsOdyssey.line );
+		if(marsOdyssey) {
+			solarSystem.remove( marsOdyssey.line );
+		}
 	});
     
     popcornMedia[5].cue( 8, function() {
@@ -491,6 +493,27 @@ document.addEventListener("DOMContentLoaded", function () {
         $("#selectmissionrocket").animate({opacity: 1.0}, 200, function() {
         	$("#selectmissionrocket").css('pointer-events', 'auto');
     	});
+	});
+
+    popcornMedia[19].cue( 2, function() {
+    	//if this audio plays, that means we're ready to launch.
+    	//disable test controls
+		
+        $("#runbutton").animate({opacity: 0.0}, 200, function() {
+        	$("#runbutton").css('pointer-events', 'none');
+    	});
+    	$("#rocketbutton").animate({opacity: 0.0}, 200, function() {
+        	$("#rocketbutton").css('pointer-events', 'none');
+    	});
+    	$("#landingdatepicker").css('pointer-events', 'none');
+    	$("#launchdatepicker").css('pointer-events', 'none');
+    	
+    	//show launch control
+        $("#commitlaunchbutton").animate({opacity: 1.0}, 200, function() {
+        	$("#commitlaunchbutton").css('pointer-events', 'auto');
+    	});
+    	
+    	
 	});
     
     $(document).on('mouseup', function(e) {
@@ -840,6 +863,17 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     };
     
+    var rocketbutton = document.getElementById('rocketbutton');
+    rocketbutton.style.cursor = 'pointer';
+    rocketbutton.onclick = function() {
+    	$("#launchcontrols").animate({opacity: 0.0}, 200, function() {
+        	$("#launchcontrols").css('pointer-events', 'none');
+        	$("#selectmissionrocket").animate({opacity: 1.0}, 200, function() {
+            	$("#selectmissionrocket").css('pointer-events', 'auto');
+            });
+        });
+    };
+    
     /*
     var runbutton = document.getElementById('runbutton');
     runbutton.style.cursor = 'pointer';
@@ -896,6 +930,7 @@ document.addEventListener("DOMContentLoaded", function () {
    		document.getElementById("rocket3").src="./images/rocket_nasa_sls_n.png";
    		rocketChoice=0;
    		document.getElementById("rocketselect").src="./images/icon_rocket_falcon_heavy.png";
+   		document.getElementById("rocketbuttontext").innerHTML="Falcon Heavy";
     };
     var rocket2div = document.getElementById('rocket2div');
     rocket2div.style.cursor = 'pointer';
@@ -906,6 +941,7 @@ document.addEventListener("DOMContentLoaded", function () {
    		document.getElementById("rocket3").src="./images/rocket_nasa_sls_n.png";
    		rocketChoice=1;
    		document.getElementById("rocketselect").src="./images/icon_rocket_delta_iv_heavy.png";
+   		document.getElementById("rocketbuttontext").innerHTML="Delta IV Heavy";
     };
     var rocket3div = document.getElementById('rocket3div');
     rocket3div.style.cursor = 'pointer';
@@ -916,6 +952,8 @@ document.addEventListener("DOMContentLoaded", function () {
    		document.getElementById("rocket3").src="./images/rocket_nasa_sls_s.png";
    		rocketChoice=2;
    		document.getElementById("rocketselect").src="./images/icon_rocket_nasa_sls.png";
+   		document.getElementById("rocketbuttontext").innerHTML="Nasa<br>SLS";
+   		
     };
     
     
@@ -1118,7 +1156,9 @@ document.addEventListener("DOMContentLoaded", function () {
 			.button()
 			.click(function( event ) {
 				//erase line if necessary
-				solarSystem.remove( marsOdyssey.line );
+				if(marsOdyssey) {
+					solarSystem.remove( marsOdyssey.line );
+				}
 				//remove the ruler
 				showDistance = false;
 				scene.remove(ruler);
@@ -1245,7 +1285,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		var launchRewindDate; //date to start launch draw sequence, to see initial draw.
 		var launchDate;
 		var landingDate;
-		$(".runbutton").removeClass("ui-state-default").addClass("playbutton");
+		var rocketDeltas = new Array(22.3, 21.1, 25.2);
+		
 		$( "#runbutton" )
 			.button()
 			.click(function( event ) {
@@ -1255,7 +1296,9 @@ document.addEventListener("DOMContentLoaded", function () {
 					console.log("You can't land before you launch");
 				} else if (landingDate>launchDate) {
 					//erase line if necessary
-					solarSystem.remove( marsOdyssey.line );
+					if(marsOdyssey) {
+						solarSystem.remove( marsOdyssey.line );
+					}
 					
 			    	Tweener(timer, {multiplier:0}, 500);
 	    			var jumpToDate = new Date(launchRewindDate).Date2Julian();
@@ -1264,39 +1307,68 @@ document.addEventListener("DOMContentLoaded", function () {
 					var departure_time = new Time( dateToTime(launchDate) );
 					var arrival_time = new Time( dateToTime(landingDate) );
 					
-					//departure_time = new Time( { Yr:2013, Mon:5, D:1, Hr:1, Mn:1, S:1 } );
-					//arrival_time = new Time( { Yr:2013, Mon:10, D:1, Hr:1, Mn:1, S:1 } );
-					
-
-					//var departure_time = new Time( { Yr:2014, Mon:4, D:7, Hr:1, Mn:1, S:1 } );
-					//var arrival_time = new Time( { Yr:2014, Mon:9, D:24, Hr:1, Mn:1, S:1 } );
-					
-			    	//console.log("launchDate: " + launchDate);
-
-			    	//console.log("departure time jd_tt: " + Number(departure_time.jd_tt()).Julian2Date());
 			    	
 			    	var aDate = new Number(timer.JD).Julian2Date();
-			    	//console.log("timer.JD: " + aDate);
 
 			    	var jd = new Number(departure_time.jd_tt()).Julian2Date();
-			    	//console.log("departure time jd: " + jd);
-
-					//console.log("launchDate: " + launchDate);
-					//console.log("landingDate: " + landingDate);
-
-
-			    	//console.log("reinitializing Odyssey: ");
+			    	
+			    	marsOdyssey = null;
+			    	marsOdyssey = new MarsOdyssey();
 					marsOdyssey.init( departure_time, arrival_time, function () {
 					    console.log("heard the done drawing callback");
 					    playTrajectoryAudio();
 					});
+					
 					console.log("DeltaV index: " + marsOdyssey.totalDeltaV);
 	    			
 			    	Tweener(timer, {multiplier:.05}, 500);
 				}
 		});
 		
-		var rocketDeltas = new Array(22.3, 21.1, 25.2);
+		$( "#commitlaunchbutton" )
+		.button()
+		.click(function( event ) {
+			if(!launchDate || !landingDate) {
+				console.log("need both dates to compare");
+			} else if (landingDate<launchDate) {
+				console.log("You can't land before you launch");
+			} else if (landingDate>launchDate) {
+				//erase line if necessary
+
+				$("#launchcontrols").animate({opacity: 0.0}, 200, function() {
+                	$("#launchcontrols").css('pointer-events', 'none');
+            	});
+
+				if(marsOdyssey) {
+					solarSystem.remove( marsOdyssey.line );
+				}
+				
+		    	Tweener(timer, {multiplier:0}, 500);
+    			var jumpToDate = new Date(launchRewindDate).Date2Julian();
+    			timer.JD = jumpToDate;
+				
+				var departure_time = new Time( dateToTime(launchDate) );
+				var arrival_time = new Time( dateToTime(landingDate) );
+				
+		    	
+		    	var aDate = new Number(timer.JD).Julian2Date();
+
+		    	var jd = new Number(departure_time.jd_tt()).Julian2Date();
+		    	
+		    	marsOdyssey = null;
+		    	marsOdyssey = new MarsOdyssey();
+				marsOdyssey.init( departure_time, arrival_time, function () {
+				    console.log("heard the done drawing callback");
+				    //move cam to mars for effect.
+					camTweener( { x: 75, y: 50, z: 300 }, ss[4].position, 1500 );
+				    
+				});
+				
+				console.log("DeltaV index: " + marsOdyssey.totalDeltaV);
+    			
+		    	Tweener(timer, {multiplier:.05}, 500);
+			}
+		});
 		
 		var playTrajectoryAudio = function() {
 			var deltaDif;
@@ -1405,6 +1477,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		      minDate: new Date(1957, 1 - 1, 25),
 		      maxDate: new Date(3000, 1 - 1, 25),
 		      onSelect: function(dateText, inst) { 
+		    	  
 	    			launchDate = new Date(Date.parse(dateText));
 	    			launchRewindDate = new Date(Date.parse(dateText));
 	    			launchRewindDate.setDate(launchRewindDate.getDate()-5);
@@ -1413,7 +1486,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		    			var jumpToDate = new Date(Date.parse(dateText)).Date2Julian();
 		    			timer.JD = jumpToDate;
 	    			}
-
+					if(marsOdyssey) {
+						solarSystem.remove( marsOdyssey.line );
+					}
 	    			//console.log("jumpToDate: " +  dateFormatter(jumpToDate));
 	    		}
 		    });
@@ -1431,6 +1506,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		    			var jumpToDate = new Date(Date.parse(dateText)).Date2Julian();
 		    			timer.JD = jumpToDate;
 	    			}
+					if(marsOdyssey) {
+						solarSystem.remove( marsOdyssey.line );
+					}
 	    			//console.log("jumpToDate: " +  dateFormatter(jumpToDate));
 	    		}
 		    });
@@ -1808,7 +1886,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				 			<button id="rocketbutton" class="playbutton" style="padding:2px 9px">
 								<table style="width:60px;height:100%;margin:0;padding:0;">
 									<tr>
-										<td>Falcon Heavy</td>
+										<td id="rocketbuttontext">Falcon Heavy</td>
 									</tr>
 								</table>
 							</button>
@@ -1829,7 +1907,7 @@ document.addEventListener("DOMContentLoaded", function () {
 							</button>
 						</td>
 						<td align="right" valign="bottom">
-				 			<button id="commitlaunchbutton" class="playbutton" style="padding:2px 9px">
+				 			<button id="commitlaunchbutton" class="playbutton" style="padding:2px 9px; opacity:0.0;pointer-events:none;">
 								<table style="width:100%;height:100%;margin:0;padding:0;">
 									<tr>
 										<td>Launch<br>Commit</td>

@@ -33,8 +33,6 @@ function MarsOdyssey() {
 	this.trajectory = new Array();
 	this.complete = false;
 	this.lastTrajectoryPoint;
-	this.lastLine;
-	this.lastTime;
 	this.totalDeltaV;
 	this.finishedDrawingCallback;
 }
@@ -99,6 +97,7 @@ MarsOdyssey.prototype.toString = function() {
 MarsOdyssey.prototype.init = function( departure_time, arrival_time, drawingCallback) {
 	console.log("new init: " + departure_time.jd_tt());
 
+	this.finishedDrawingCallback = null;
 	this.finishedDrawingCallback = drawingCallback;
 	this.r0 = null;
 	this.v0 = null;
@@ -107,6 +106,9 @@ MarsOdyssey.prototype.init = function( departure_time, arrival_time, drawingCall
 	this.trajectoryIndex = 0;
 	this.trajectory=null;
 	this.trajectory = new Array();
+	this.complete = false;
+	this.lastTrajectoryPoint = null;
+	
 	// console.log("MarsOdyssey.init");
 
     this.departure_time = departure_time;
