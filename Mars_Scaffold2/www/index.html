@@ -246,11 +246,11 @@ document.addEventListener("DOMContentLoaded", function () {
 	popcornMedia[22] = Popcorn( '#ROCKET_FAIL3' );
 	popcornMedia[23] = Popcorn( '#ROCKET_FAIL4' );
 
-	var basepop = Popcorn.baseplayer( "#contenttarget" ); //not sure if I'll need this baseplayer
+	//not sure if I'll need this baseplayer
+	//decided to keep basepop in as a convenient way to initialize the 3D and fire up the first video player.  
+	var basepop = Popcorn.baseplayer( "#contenttarget" ); 
 	//var popcorn_branch1_video2 = Popcorn.youtube('#videocontenttarget2', 'https://www.youtube.com/watch?v=lKqr3F73bAI' );
 	 
-
-
 	var threedinitialized;
 	var initializethreed = function() {
 		if(!threedinitialized) {
