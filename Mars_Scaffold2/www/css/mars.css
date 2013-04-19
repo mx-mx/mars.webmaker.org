@@ -874,8 +874,8 @@ div .menubutton:hover{
     border:none;
 	top: 60px;
 	right: 10px;
-	width: 270px;
-	height: 270px;
+	width: 210px;
+	height: 230px;
 	float: right;
 }
 .menupanel:after
@@ -1131,6 +1131,7 @@ div .squarebluebutton{
 	line-height: 20px;
 	font-size: 16px;
 	margin:0px 10px;
+	padding:5px 10px;
 	text-transform: uppercase;
 	font-family: 'Lato', sans-serif;
 	font-weight:bold;

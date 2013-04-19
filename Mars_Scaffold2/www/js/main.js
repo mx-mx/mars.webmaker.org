@@ -219,12 +219,10 @@ function setupScene(){
 }
 
 function onDocumentMouseDown( event ) {
-
 	var vector = new THREE.Vector3( mouse.x, mouse.y, 1 );
 	projector.unprojectVector( vector, camera );
 
 	var raycaster = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
-
 	intersects = raycaster.intersectObjects( solarSystem.children );
 
 	if ( intersects.length > 0 ) {

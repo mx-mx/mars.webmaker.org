@@ -459,7 +459,7 @@ document.addEventListener("DOMContentLoaded", function () {
         callToActionTimeout[userLessonNumber] = setTimeout(function(){callToActionUser()},10000);
         
         //temp: just call this until we get needed function from Ryan.
-        setTimeout(function(){advanceUser()},5000);
+        //setTimeout(function(){advanceUser()},5000);
 	});
 
     popcornMedia[13].cue( 2.2, function() {
@@ -549,6 +549,48 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     
     $(document).on('mousedown', function(e) {
+		//planet clicking
+    	if(projector) {
+        	var vector = new THREE.Vector3( mouse.x, mouse.y, 1 );
+        	projector.unprojectVector( vector, camera );
+
+        	var raycaster = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
+        	intersects = raycaster.intersectObjects( solarSystem.children );
+
+        	if ( intersects.length > 0 ) {
+
+        		// if ( CLICKED != intersects[ 0 ].object ) {
+
+        			CLICKED = intersects[ 0 ].object;
+
+        			if( clickMove ){
+        				var posCLICKED = new THREE.Vector3();
+        				posCLICKED.getPositionFromMatrix( CLICKED.matrixWorld );
+
+        				var zScale = 250;
+        				lookAtCLICKED = { x: posCLICKED.x + 50, y: posCLICKED.y + 50, z: posCLICKED.z + zScale };
+
+        				var camCLICKED = new camPosition( lookAtCLICKED, posCLICKED, 1000 );
+        				camCLICKED.tween();
+
+        				console.log( CLICKED.name + " x: " + posCLICKED.x + " y: " + posCLICKED.y + " z: " + posCLICKED.z );
+
+    					console.log("userLessonNumber: " + userLessonNumber);
+    					console.log("userMouseAction[2]: " + userMouseAction[2]);
+        				
+        				if(CLICKED.name=="Earth" && userMouseAction[2]==true) {
+        					console.log("planet earth clicked, time to move on to next lesson");
+        					advanceUser();
+        				} else if(CLICKED.name!="Earth" && userMouseAction[2]==true) {
+							//no audio, do nothing
+        				}
+        			}
+        			
+        		// }
+        	} 
+    	}
+    	
+    	//lesson listening
     	if(!listenToMouseMovements) return;
     	cancelCallToAction=true;
     	
@@ -568,6 +610,8 @@ document.addEventListener("DOMContentLoaded", function () {
     		mousePosY = e.clientY + document.body.scrollTop
     			+ document.documentElement.scrollTop;
     	}
+    	
+    	
     	
     });
   
@@ -623,16 +667,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     var replayUser = function () {
-		clearTimeout(callToActionTimeout[userLessonNumber]);
 		
-		cancelCallToAction=false;
-	    listenToMouseMovements=false;
-	    listenToMouseWheel=false;
-	    userLessonNumber=0;
-	    for(var i=0;i<userMouseAction.length;i++) {
-	    	userMouseAction[i]=false;
-	    }
-		
+    	resetMouseMovementTrackingLession();
 		
 		camTweener( { x: 0, y: 100, z: 500 }, { x: 0, y: 0, z: 0 }, 1500 );
 		
@@ -658,7 +694,20 @@ document.addEventListener("DOMContentLoaded", function () {
 		*/
     }
     
+    var resetMouseMovementTrackingLession = function () {
+        clearTimeout(callToActionTimeout[userLessonNumber]);
+    	
+    	cancelCallToAction=true;
+        listenToMouseMovements=false;
+        listenToMouseWheel=false;
+        userLessonNumber=0;
+        for(var i=0;i<userMouseAction.length;i++) {
+        	userMouseAction[i]=false;
+        }
+    }
+    
     var callToActionUser = function () {
+    	console.log("call to action: ", cancelCallToAction);
     	if(cancelCallToAction) return;
     	
     	switch(userLessonNumber)
@@ -1155,6 +1204,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		$( "#nextbutton" )
 			.button()
 			.click(function( event ) {
+				//reset mouse tracking lesson
+				resetMouseMovementTrackingLession();
 				//erase line if necessary
 				if(marsOdyssey) {
 					solarSystem.remove( marsOdyssey.line );
