@@ -869,6 +869,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     };
     
+    //TODO: this probably isn't needed.
     var backpackloginpopupclose = document.getElementById('backpackloginpopupclose');
     backpackloginpopupclose.style.cursor = 'pointer';
     backpackloginpopupclose.onclick = function() {
@@ -880,48 +881,49 @@ document.addEventListener("DOMContentLoaded", function () {
     var aboutpopupclose = document.getElementById('aboutpopupclose');
     aboutpopupclose.style.cursor = 'pointer';
     aboutpopupclose.onclick = function() {
-    	$("#aboutpopup").animate({opacity: 0.0}, 200, function() {
-        	$("#aboutpopup").css('pointer-events', 'none');
-        });
+    	closeAllSubMenus();
     };
     
     var helppopupclose = document.getElementById('helppopupclose');
     helppopupclose.style.cursor = 'pointer';
     helppopupclose.onclick = function() {
-    	$("#helppopup").animate({opacity: 0.0}, 200, function() {
-        	$("#helppopup").css('pointer-events', 'none');
-        });
+    	closeAllSubMenus();
     };
     
     var helpthreedpopupclose = document.getElementById('helpthreedclose');
     helpthreedclose.style.cursor = 'pointer';
     helpthreedclose.onclick = function() {
-    	$("#helpthreedpopup").animate({opacity: 0.0}, 200, function() {
-        	$("#helpthreedpopup").css('pointer-events', 'none');
-        });
+    	closeAllSubMenus();
     };
     
     var browserpopupclose = document.getElementById('browserpopupclose');
     browserpopupclose.style.cursor = 'pointer';
     browserpopupclose.onclick = function() {
-    	$("#browserpopup").animate({opacity: 0.0}, 200, function() {
-        	$("#browserpopup").css('pointer-events', 'none');
-        });
+    	closeAllSubMenus();
     };
     
     var incomingtransmissionclose = document.getElementById('ignorebutton');
     incomingtransmissionclose.onclick = function() {
-    	$("#incomingmessage").animate({opacity: 0.0}, 200, function() {
-        	$("#incomingmessage").css('pointer-events', 'none');
-        });
+    	closeAllSubMenus();
     };
     
     var cmemessageclose = document.getElementById('ignorecmebutton');
     cmemessageclose.onclick = function() {
-    	$("#cmemessage").animate({opacity: 0.0}, 200, function() {
-        	$("#cmemessage").css('pointer-events', 'none');
-        });
+    	closeAllSubMenus();
     };
+
+    
+    var closeAllSubMenus = function() {
+		console.log("closeAllSubMenus");
+    	$("#aboutpopup").animate({opacity: 0.0}, 200, function() {$("#aboutpopup").css('pointer-events', 'none');});
+    	$("#helppopup").animate({opacity: 0.0}, 200, function() {$("#helppopup").css('pointer-events', 'none');});
+    	$("#helpthreedpopup").animate({opacity: 0.0}, 200, function() {$("#helpthreedpopup").css('pointer-events', 'none');});
+    	$("#browserpopup").animate({opacity: 0.0}, 200, function() {$("#browserpopup").css('pointer-events', 'none');});
+    	$("#incomingmessage").animate({opacity: 0.0}, 200, function() {$("#incomingmessage").css('pointer-events', 'none');});
+    	$("#cmemessage").animate({opacity: 0.0}, 200, function() {$("#cmemessage").css('pointer-events', 'none');});
+		$("#transmissionmessage").animate({opacity: 0.0}, 1, function() { $("#transmissionmessage").css('pointer-events', 'none'); });
+		
+    }
     
     var rocketbutton = document.getElementById('rocketbutton');
     rocketbutton.style.cursor = 'pointer';
@@ -1757,7 +1759,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		<div id="aboutpopup" class="popupdiv">
 			<div id="aboutpopupclose" class="closebutton"><p>&#10006;</p></div>
 			<h1>About</h1>
-			<p>The about page</p>
+			<p>A 3D web experience built in conjuction with MX, the Deparment of Energy and Mozilla.  
+			We have combined <a href="http://popcornjs.org/" target="_new">Popcorn</a> with a 3D experience to all on a Mars journey.
+			</p>
 		</div>
 		<div id="helppopup" class="popupdiv">
 			<div id="helppopupclose" class="closebutton"><p>&#10006;</p></div>

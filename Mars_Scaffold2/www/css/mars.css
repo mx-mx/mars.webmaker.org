@@ -285,7 +285,7 @@ div.pathfindervideo1
   position: absolute;
 	opacity: 0.0;
 	pointer-events:none;
-	padding: 15px 15px 15px 15px;
+	padding: 15px 15px 30px 30px;
 	background: rgba(13,30,38,.95);
 	color: rgba(200,200,200,1.0);
 	font-family: 'Lato', sans-serif;
@@ -875,7 +875,7 @@ div .menubutton:hover{
 	top: 60px;
 	right: 10px;
 	width: 210px;
-	height: 230px;
+	height: 227px;
 	float: right;
 }
 .menupanel:after
