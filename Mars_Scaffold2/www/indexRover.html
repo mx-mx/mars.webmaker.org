@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html class="ie ie6 no-js" lang="en"> <![endif]-->
+<!--[if IE 7 ]>    <html class="ie ie7 no-js" lang="en"> <![endif]-->
+<!--[if IE 8 ]>    <html class="ie ie8 no-js" lang="en"> <![endif]-->
+<!--[if IE 9 ]>    <html class="ie ie9 no-js" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>MSL Curiosity</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<meta name="description" content="" />
+<meta name="keywords" content="Curiosity" />
+<meta name="author" content="MX" />
+<LINK REL="SHORTCUT ICON" HREF="images/mars.ico"> 
+<link rel="stylesheet" type="text/css" href="css/mars.css" />
+
+<script src="./js/libs/jquery-1.9.1.min.js"></script>
+<script src="./js/libs/jquery-ui-1.10.1.custom.min.js"></script>
+
+<script src="./js/Detector.js"></script>
+
+<script src="./js/libs/three.min.js"></script>
+<script src="./js/libs/physi.js"></script>
+
+<script src="./js/libs/stats.min.js"></script>
+<script src="./js/libs/dat.gui.min.js"></script>
+<script src="./js/libs/tween.min.js"></script>
+
+<script src="./js/controls/OrbitControls.js"></script>
+<script src="./js/loaders/ColladaLoader.js"></script>
+
+<script src="./js/utils.js"></script>
+<script src="./js/rover.js"></script>
+<script src="./js/camtweenerrover.js"></script>
+<script src="./js/mainRover.js"></script>
+
+
+<script src="./js/sonic.js"></script>
+		
+<script type="text/javascript">
+//need a value to maintain global user email to check for during session.
+//the following variable and function provide separate backpack window to communicate user email value.
+var userBackpackEmail;
+function setUserBackpackEmail(emailValue) {
+	userBackpackEmail = emailValue;
+	console.log("user email set to: ",userBackpackEmail);
+}
+
+
+
+// ensure the web page (DOM) has loaded
+document.addEventListener("DOMContentLoaded", function () {
+	
+	var threedinitialized;
+	var initializethreed = function() {
+		if(!threedinitialized) {
+			threedinitialized = true;
+			console.log("initializing MSL on Mars...");
+	        init(); //init the 3D background.
+	        animate();
+
+	        gui.destroy();  //remove the test GUI (used by Ryan)
+			
+		}
+	}
+	
+	//loader
+	var infinityloader = new Sonic({
+
+		width: 160,
+		height: 80,
+
+		stepsPerFrame: 2,
+		trailLength: .35,
+		pointDistance: .01,
+		fps: 25,
+
+		fillColor: '#FF7B24',
+
+		setup: function() {
+			this._.lineWidth = 3;
+		},
+
+		step: function(point, i, f) {
+
+			var progress = point.progress,
+				degAngle = 360 * progress,
+				angle = Math.PI/180 * degAngle,
+				angleB = Math.PI/180 * (degAngle - 180),
+				size = i*3;
+
+			this._.fillRect(
+				Math.cos(angle) * 35 + (100-size/2),
+				Math.sin(angle) * 15 + (50-size/2),
+				size * .75,
+				size * .75
+			);
+			
+			this._.fillStyle = '#3a84a6';
+
+			this._.fillRect(
+				Math.cos(angleB) * 25 + (100-size/2),
+				Math.sin(angleB) * 10 + (50-size/2),
+				size,
+				size
+			);
+
+			this._.fillStyle = '#FFF47A';
+
+			this._.beginPath();
+			this._.arc(100, 50, 5, 0, 360, 0);
+			this._.closePath();
+			this._.fill();
+
+
+		},
+
+		path: [
+			['line', 20, 5, 30, 45]
+		]
+	 
+	});
+	 
+	infinityloader.play();
+	var div = document.getElementById("canvastarget"); 
+	div.appendChild(infinityloader.canvas);
+	
+	$(document).ready( function() {
+
+		if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
+		$( '#loadtext' ).show();
+		setLoadMessage("Loading Curiosity");
+
+		roverLoader.options.convertUpAxis = true;
+		roverLoader.load( './models/rover.dae', function ( collada ) {
+
+			rover_dae = collada.scene;
+			rover_dae.scale.set( 1, 1, 1 );
+			// rover_dae.traverse( function ( child ) {
+			//     child.castShadow = true;
+			//     child.receiveShadow = true;
+			// } );
+
+			rover_dae.updateMatrix();
+
+			terrainLoader.options.convertUpAxis = true;
+			terrainLoader.load( './models/terrain.dae', function ( collada ) {
+				
+				terrain = collada.scene;
+				terrain.scale.set( 1, 1, 1 );
+				postColladaLoaded();
+
+			} );
+
+		} );
+
+		var postColladaLoaded = function () {
+			initializethreed();
+			$("#loadtext").hide();
+			
+			setTimeout(function() {
+
+		    	$("#backgroundtarget").animate({opacity: 0.0}, 1000, function() {
+		           	$("#backgroundtarget").css('pointer-events', 'none');
+		       	});
+		        div.removeChild(infinityloader.canvas);
+		        $("#loaderdiv").animate({opacity: 0.0}, 500, function() {
+		            $("#loaderdiv").css('pointer-events', 'none');
+		        });
+				
+			},2000)
+
+	    };
+	});
+
+}, false);
+
+</script>
+	</head>
+
+	<body>
+
+	<div id="loadtext"></div>
+    <!-- <div id="container"></div> -->
+	<div id="info"></div>
+	
+		<div id="topbar" class="topbar">
+		
+			<div id="topbarleft" class="topbarleft">
+				<div id="headerpanel" class="headerpanel"></div>
+			</div>
+			<div id="topbarmiddle" class="topbarmiddle">
+				<div id="loaderdiv" style="z-index:10;opacity:1.0;pointer-events:auto; width:100%">
+					<div id="loaderpanel" class="loadercontenttarget" style="z-index:11;">
+						<font style="color:#3a84a6;">Loading the Curiosity MSL</font>
+						<div id="canvastarget" style="position:absolute;left:-130px;top:-22px"></div>
+					</div>
+				</div>
+			</div>
+			
+			<div id="topbarright" class="topbarright">
+				<button id="menubutton" class="menubutton">MENU</button>
+				<div id="menupanel" class="menupanel">
+					<button id="introduction" class="menupanelbutton">introduction</button>
+					<br>
+					<button id="navigation" class="menupanelbutton">3d navigation</button>
+					<br>
+					<button id="challenge" class="menupanelbutton">Slayton's Isle</button>
+					<br>
+					<button id="about" class="menupanelbutton">about</button>
+					<br>
+					<button id="help" class="menupanelbutton">help</button>
+				</div>
+			</div>
+		</div>	
+		<!-- main content area for video, images, 3D, etc... -->
+		<div id="contenttarget" class="contenttarget">
+		</div>
+		<div id="backgroundtarget" class="curiositybackgroundtarget">
+		</div>
+
+	</body>
+</html>

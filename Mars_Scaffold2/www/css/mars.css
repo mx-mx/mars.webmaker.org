@@ -226,6 +226,22 @@ div.pathfindervideo1
   background-size: 100%;
   background-image: url(../images/solar_bg.jpg);
 }
+.curiositybackgroundtarget
+{
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  text-align: center;
+  background: #000;
+  width: 100%;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 1;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-image: url(../images/curiosity_bg.jpg);
+}
 .contenttarget
 {
   position: absolute;
