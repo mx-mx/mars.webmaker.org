@@ -1004,13 +1004,13 @@ div .threedhelpbutton{
 	text-transform: uppercase;
 	font-family: 'Lato', sans-serif;
 	font-weight: bold;
-	background: rgba(135,153,72,1.0);
+	background: rgba(135,153,72,.8);
 	color: rgba(200,200,200,1.0);
     border-radius: 5px;
     border: none;
 }
 div .threedhelpbutton:hover{
-	background: rgba(135,153,72,0.8);
+	background: rgba(135,153,72,1.0);
 }
 div .replaybutton{
     display: absolute;
@@ -1024,13 +1024,13 @@ div .replaybutton{
 	text-transform: uppercase;
 	font-family: 'Lato', sans-serif;
 	font-weight: bold;
-	background: rgba(135,153,72,1.0);
+	background: rgba(135,153,72,0.8);
 	color: rgba(200,200,200,1.0);
     border-radius: 5px;
     border: none;
 }
 div .replaybutton:hover{
-	background: rgba(135,153,72,0.8);
+	background: rgba(135,153,72,1.0);
 }
 div .helpbuttonwrapper { 
 	z-index: 3;

@@ -412,10 +412,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		camTweener( { x: 0, y: 100, z: 500 }, { x: 0, y: 0, z: 0 }, 1500 );
 		setTimeout(function(){advancePopcornMedia()},2000);
 
-		//erase line if necessary
-		if(marsOdyssey) {
-			solarSystem.remove( marsOdyssey.line );
-		}
+		//erase 3d drawings if necessary
+		clear3DDrawings();
 	});
     
     popcornMedia[5].cue( 8, function() {
@@ -772,6 +770,19 @@ document.addEventListener("DOMContentLoaded", function () {
 			}
 		}
     }
+    
+    var clear3DDrawings = function() {
+
+		if(marsOdyssey) {
+			solarSystem.remove( marsOdyssey.line );
+		}
+		
+        //initialize mars/earth ruler to off
+		showDistance = false;
+        scene.remove(ruler);
+    	
+    }
+    
     
 	var hideeverything = function() {
 		$("#startmenupanel").animate({opacity: 0.0}, 1, function() { $("#startmenupanel").css('pointer-events', 'none'); });
@@ -1207,9 +1218,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				//reset mouse tracking lesson
 				resetMouseMovementTrackingLession();
 				//erase line if necessary
-				if(marsOdyssey) {
-					solarSystem.remove( marsOdyssey.line );
-				}
+				clear3DDrawings();
 				//remove the ruler
 				showDistance = false;
 				scene.remove(ruler);
@@ -1222,6 +1231,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 		
 		var jumpToIntroduction = function() {
+			//clear 3d lines
+			clear3DDrawings();
 			//hide everything
 			hideeverything();
 			//shift 3d model
@@ -1233,6 +1244,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 		
 		var jumpToThreeDNavigation = function() {
+			//clear 3d lines
+			clear3DDrawings();
 			//hide everything
 			hideeverything();
 	    	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
@@ -1252,6 +1265,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 		
 		var jumpToChallenge = function () {
+			//clear 3d lines
+			clear3DDrawings();
 			//hide everything
 			hideeverything();
 	    	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
@@ -1347,9 +1362,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					console.log("You can't land before you launch");
 				} else if (landingDate>launchDate) {
 					//erase line if necessary
-					if(marsOdyssey) {
-						solarSystem.remove( marsOdyssey.line );
-					}
+					clear3DDrawings();
 					
 			    	Tweener(timer, {multiplier:0}, 500);
 	    			var jumpToDate = new Date(launchRewindDate).Date2Julian();
@@ -1390,9 +1403,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 	$("#launchcontrols").css('pointer-events', 'none');
             	});
 
-				if(marsOdyssey) {
-					solarSystem.remove( marsOdyssey.line );
-				}
+				clear3DDrawings();
 				
 		    	Tweener(timer, {multiplier:0}, 500);
     			var jumpToDate = new Date(launchRewindDate).Date2Julian();
@@ -1422,6 +1433,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 		
 		var playTrajectoryAudio = function() {
+			console.log("rocketChoice: " + rocketChoice);
 			var deltaDif;
 			switch(rocketChoice)
 	    	{
@@ -1475,6 +1487,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				}
 	    	  break;
 	    	default:
+	    		jumpPopcornMedia(23); //just aweful
 		    	break;
 	    	}
 		}
@@ -1537,9 +1550,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		    			var jumpToDate = new Date(Date.parse(dateText)).Date2Julian();
 		    			timer.JD = jumpToDate;
 	    			}
-					if(marsOdyssey) {
-						solarSystem.remove( marsOdyssey.line );
-					}
+	    			clear3DDrawings();
 	    			//console.log("jumpToDate: " +  dateFormatter(jumpToDate));
 	    		}
 		    });
@@ -1557,9 +1568,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		    			var jumpToDate = new Date(Date.parse(dateText)).Date2Julian();
 		    			timer.JD = jumpToDate;
 	    			}
-					if(marsOdyssey) {
-						solarSystem.remove( marsOdyssey.line );
-					}
+	    			clear3DDrawings();
 	    			//console.log("jumpToDate: " +  dateFormatter(jumpToDate));
 	    		}
 		    });
