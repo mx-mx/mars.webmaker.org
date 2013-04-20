@@ -487,21 +487,13 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
     
     popcornMedia[23].cue( 8, function() {
-        //show the badge modal
-        //userMouseAction[userLessonNumber]=true;
-        //cancelCallToAction=false;
-        //callToActionTimeout[userLessonNumber] = setTimeout(function(){callToActionUser()},10000);
-
-        //$('#backpackloginpopupcheckbox').prop('checked', true);
-    	//$("#backpackloginpopup").animate({opacity: 1.0}, 200, function() {
-        	//$("#backpackloginpopup").css('pointer-events', 'auto');
-    	//});
-    	
     	//popBadgeWindow(); //trigger a 'user' button click to avoid popup block (which doesn't work...)
     	document.getElementById('popit').click();
+    	setTimeout(function(){jumpPopcornMedia(24)},10000);
 	});
-
-    popcornMedia[24].on( "ended", function() {
+    
+    
+    popcornMedia[24].cue( 32, function() {
         $("#selectmissionrocket").animate({opacity: 1.0}, 200, function() {
         	$("#selectmissionrocket").css('pointer-events', 'auto');
     	});
@@ -556,7 +548,7 @@ document.addEventListener("DOMContentLoaded", function () {
         	if(mousePosX!=newMousePosX || mousePosY!=newMousePosY ) {
         		advanceUser();
         	} else {
-        		congradulateUserForDoingSomethingGood();	
+    			jumpPopcornMedia(8);
         	}
         }
     });
@@ -591,10 +583,10 @@ document.addEventListener("DOMContentLoaded", function () {
     					console.log("userLessonNumber: " + userLessonNumber);
     					console.log("userMouseAction[2]: " + userMouseAction[2]);
         				
-        				if(CLICKED.name=="Earth" && userMouseAction[2]==true) {
+        				if(CLICKED.name=="Earth" && userMouseAction[2]) {
         					console.log("planet earth clicked, time to move on to next lesson");
         					advanceUser();
-        				} else if(CLICKED.name!="Earth" && userMouseAction[2]==true) {
+        				} else if(CLICKED.name!="Earth" && userMouseAction[2] && userLessonNumber==2) {
 							//no audio, do nothing
 							jumpPopcornMedia(12);
         				}
@@ -642,18 +634,14 @@ document.addEventListener("DOMContentLoaded", function () {
     	var evt=window.event || e //equalize event object
         var delta=evt.detail? evt.detail*(-120) : evt.wheelDelta //check for detail first so Opera uses that instead of wheelDelta
         console.log("mousewheel delta: " + delta);
-        if(delta>0) { //the user zoomed in
+        if(delta>0 || delta<0) { //the user zoomed in
         	listenToMouseWheel=false;
         	setTimeout(function(){advanceUser()},1000);
         }
     }
     
-    var congradulateUserForDoingSomethingGood = function () {
-		if(userLessonNumber==0) {
-			jumpPopcornMedia(7);
-		}
-    }
     var advanceUser = function () {
+    	console.log("advancing user from: " + userLessonNumber);
 		listenToMouseMovements=false;
 		cancelCallToAction=false;
 		clearTimeout(callToActionTimeout[userLessonNumber]);
@@ -671,8 +659,13 @@ document.addEventListener("DOMContentLoaded", function () {
     	  break;
     	case 3:
 			jumpPopcornMedia(17);
+	    	break;
     	case 4:
 			jumpPopcornMedia(20);
+	    	break;
+    	case 5:
+			jumpPopcornMedia(23);
+	    	break;
     	  break;
     	default:
     	  //no default audio
@@ -735,17 +728,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //user has to select mars button
     var checkForFourthCameraLesson = function () {
-    	if(!userMouseAction[userLessonNumber]) {
+    	if(!userMouseAction[userLessonNumber] && userLessonNumber==3) {
     		jumpPopcornMedia(16);
     	}
     }
     
     var finishFourthCameraLesson = function () {
-    	if(!userMouseAction[userLessonNumber]) {
+    	if(!userMouseAction[userLessonNumber] && userLessonNumber==3) {
     		clearTimeout(callToActionTimeout[userLessonNumber]);
     		userMouseAction[userLessonNumber]=true;
     		//jumpPopcornMedia(17);
-    		advanceUser();
+    		setTimeout(function(){advanceUser();},1000);
+    		
     		
             $("#launchcontrols").animate({opacity: 1.0}, 200, function() {
             	$("#launchcontrols").css('pointer-events', 'auto');
@@ -788,6 +782,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		if(marsOdyssey) {
 			solarSystem.remove( marsOdyssey.line );
+			marsOdyssey=null;
 		}
 		
         //initialize mars/earth ruler to off
@@ -831,11 +826,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		//effect: "applyclass",
     	//applyclass: "stretchcontent"
     //});
-    popcornMedia[16].cue( 6, function() {
-       	camTweener( { x: 0, y: 1100, z: 0 }, { x: 0, y: 0, z: 0 }, 3000 );
-	});
-    popcornMedia[4].cue( 6, function() {
-       	//camTweener( { x: 0, y: 100, z: 500 }, { x: 0, y: 0, z: 0 }, 1500 );
+    popcornMedia[17].cue( 3, function() {
+       	camTweener( { x: 0, y: 1100, z: 0 }, { x: 0, y: 0, z: -20 }, 3000 );
 	});
     
     var pausePoint1=false;
@@ -877,9 +869,10 @@ document.addEventListener("DOMContentLoaded", function () {
     selectmissioncontinue.onclick = function() {
     	$("#selectmissionrocket").animate({opacity: 0.0}, 200, function() {
         	$("#selectmissionrocket").css('pointer-events', 'none');
-        	$("#launchcontrols").animate({opacity: 1.0}, 200, function() {
-            	$("#launchcontrols").css('pointer-events', 'auto');
-            });
+            $("#launchdiv").animate({opacity: 1.0}, 200, function() {
+            	$("#launchdiv").css('pointer-events', 'auto');
+        	});
+            jumpPopcornMedia(26);
         });
     };
     
@@ -1200,7 +1193,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				finishFourthCameraLesson();
 		});
 		
-
+		var savedSliderVal;
 		$( "#speedSlider" ).slider( {
 			animate: true,
 			range: "min",
@@ -1209,8 +1202,24 @@ document.addEventListener("DOMContentLoaded", function () {
 			max: 3,
 			step: .010,
 			change: function() {
-				var sliderVal = $( "#speedSlider" ).slider( "option", "value" );
-				Tweener(timer, {multiplier:sliderVal}, 1000);
+				var newSliderVal = $( "#speedSlider" ).slider( "option", "value" );
+				console.log("newSliderVal: " + newSliderVal);
+				console.log("userLessonNumber: " + userLessonNumber);
+				if(userLessonNumber==4) {
+					if(newSliderVal>0) {
+						advanceUser();
+					} else {
+						jumpPopcornMedia(19);
+					}
+				} else if(userLessonNumber==5) {
+					if(newSliderVal<0) {
+						advanceUser();
+					} else {
+						jumpPopcornMedia(22);
+					}
+				}
+				savedSliderVal = newSliderVal;
+				Tweener(timer, {multiplier:savedSliderVal}, 1000);
 			}
 		});
 
