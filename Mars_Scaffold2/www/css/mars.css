@@ -474,7 +474,7 @@ div .roundedredbutton:hover{
 .playbutton:hover{
 	background: rgba(58,132,166,.5) !important;
 }
-.videocontenttarget2
+.videointrocontenttarget
 {
   position: absolute;
 	opacity: 0.0;
@@ -490,7 +490,7 @@ div .roundedredbutton:hover{
     border-radius: 5px;
     border:none;
 	width: 640px;
-	height: 480px;
+	height: 360px;
 	top:50%;
     left:50%;
     margin:-240px 0 0 -335px;
@@ -1073,12 +1073,12 @@ div .threedcontrols {
 	display: inline-block;
 	opacity:0;
 	pointer-events:none;
-	background: rgba(13,30,38,0.7);
-	vertical-align: top;
+	background: rgba(13,30,38,0.0);
+	vertical-align: bottom;
 	z-index: 3;
 	padding:0px;
-	width: 70%;
-	height: 80%;
+	width: 90%;
+	height: 70%;
 }
 .launchcontrols { 
 	position: absolute;
