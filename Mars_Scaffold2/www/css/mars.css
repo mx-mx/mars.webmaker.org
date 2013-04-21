@@ -1065,9 +1065,9 @@ div .replaybuttonwrapper {
 div .playbuttonwrapper { 
 	z-index: 3;
 	position:absolute; 
-	width:50%; 
+	height:100%;
 	left:10px;
-	bottom:10px;
+	top:10px;
 }
 div .threedcontrols { 
 	display: inline-block;

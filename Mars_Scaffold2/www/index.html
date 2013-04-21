@@ -270,8 +270,10 @@ document.addEventListener("DOMContentLoaded", function () {
 	        animate();
 
 	        gui.destroy();  //remove the test GUI (used by Ryan)
-	        //set time to freeze
-	        Tweener(timer, {multiplier:.01}, 1);
+	        
+	        //set time to slight move
+			$("#speedSlider").slider('value',.01);
+	        //Tweener(timer, {multiplier:.01}, 1);
 			
 	        //initialize mars/earth ruler to off
 			showDistance = false;
@@ -403,7 +405,8 @@ document.addEventListener("DOMContentLoaded", function () {
        	camTweener( { x: 0, y: 800, z: 0 }, { x: 0, y: 0, z: -20 }, 3000 );
 	});
     popcornMedia[3].cue( 6, function() {
-    	Tweener(timer, {multiplier:.23}, 2000);
+    	//Tweener(timer, {multiplier:.23}, 2000);
+		$("#speedSlider").slider('value',.23);
 	});
 
 	popcornMedia[3].cue( 10, function() {
@@ -493,8 +496,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
     
     
-    popcornMedia[24].cue( 32, function() {
-        $("#selectmissionrocket").animate({opacity: 1.0}, 200, function() {
+    popcornMedia[24].cue( 34, function() {
+        $("#selectmissionrocket").animate({opacity: 1.0}, 1000, function() {
         	$("#selectmissionrocket").css('pointer-events', 'auto');
     	});
 	});
@@ -1067,12 +1070,15 @@ document.addEventListener("DOMContentLoaded", function () {
         $('#playtoggle').bind("click", function() {
           if ($(this).attr("class") == "play") {
              $(this).attr("class", "pause");
- 			popcornMedia[1].play();
- 			basepop.play();
+ 			popcornMedia[popcornSequenceNumber].play();
+ 			//basepop.play();
+ 			$("#speedSlider").slider('value',previousSliderVal);
           } else {
              $(this).attr("class", "play");
- 			popcornMedia[1].pause();
- 			basepop.pause();
+ 			popcornMedia[popcornSequenceNumber].pause();
+ 			//basepop.pause();
+ 			previousSliderVal = savedSliderVal;
+ 			$("#speedSlider").slider('value',0);
           }
         });
         
@@ -1194,10 +1200,11 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 		
 		var savedSliderVal;
+		var previousSliderVal;
 		$( "#speedSlider" ).slider( {
 			animate: true,
 			range: "min",
-			value: 0,
+			value: .23,
 			min: -3,
 			max: 3,
 			step: .010,
@@ -1262,6 +1269,10 @@ document.addEventListener("DOMContentLoaded", function () {
 			initializethreed();
 			//clear 3d lines
 			clear3DDrawings();
+			//show stuff needed
+			$("#playbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+            	$("#playbuttonwrapper").css('pointer-events', 'auto');
+        	});
 			
 			camTweener( { x: 0, y: 100, z: 500 }, { x: 0, y: 0, z: 0 }, 1500 );
 			
@@ -1278,13 +1289,21 @@ document.addEventListener("DOMContentLoaded", function () {
 			initializethreed();
 			//clear 3d lines
 			clear3DDrawings();
-			//show stuff needed
 			setTimeout(function(){
 				//shift 3d model
 				camTweener( { x: 0, y: 100, z: 500 }, { x: 0, y: 0, z: -20 }, 1500 );
+
+		    	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
+		           	$("#backgroundtarget").css('pointer-events', 'none');
+		       	});
+		    	
 				$("#nextbuttonwrapper").animate({opacity: 1.0}, 200, function() {
 		        	$("#nextbuttonwrapper").css('pointer-events', 'auto');
 		    	});
+
+				$("#playbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+	            	$("#playbuttonwrapper").css('pointer-events', 'auto');
+	        	});
 			},1000);
 			jumpPopcornMedia(6);
 		}
@@ -1308,6 +1327,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	        	});
 				$("#threedcontrols").animate({opacity: 1.0}, 200, function() {
 	            	$("#threedcontrols").css('pointer-events', 'auto');
+	        	});
+				$("#playbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+	            	$("#playbuttonwrapper").css('pointer-events', 'auto');
 	        	});
 				
 			},2000);
@@ -1367,9 +1389,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     //	$("#videocontenttarget").css('pointer-events', 'auto');
                 	//});
             	});
-				//$("#playbuttonwrapper").animate({opacity: 1.0}, 200, function() {
-                	//$("#playbuttonwrapper").css('pointer-events', 'auto');
-            	//});
+				$("#playbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+                	$("#playbuttonwrapper").css('pointer-events', 'auto');
+            	});
 		});
 		
 
@@ -1680,6 +1702,10 @@ document.addEventListener("DOMContentLoaded", function () {
 			</div>
 			
 			<div id="topbarright" class="topbarright">
+			
+				<div id="playbuttonwrapper" class="playbuttonwrapper" style="opacity:0.0;pointer-events:none">
+					<div id="playtoggle" class="pause"></div>
+				</div>
 				<button id="menubutton" class="menubutton">MENU</button>
 				<div id="menupanel" class="menupanel">
 					<button id="introduction" class="menupanelbutton">introduction</button>
@@ -1741,9 +1767,6 @@ document.addEventListener("DOMContentLoaded", function () {
 			
 			<div id="bottombarright" class="bottombarright">
 			
-				<div id="playbuttonwrapper" class="playbuttonwrapper" style="opacity: 0.0;pointer-events:none">
-					<div id="playtoggle" class="pause"></div>
-				</div>
 				<div id="nextbuttonwrapper" class="nextbuttonwrapper" style="opacity: 0.0;pointer-events:none">
 					<button id="nextbutton" class="nextbutton">NEXT</button>
 				</div>
