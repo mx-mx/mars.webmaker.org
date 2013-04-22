@@ -337,7 +337,7 @@ div.pathfindervideo1
 	top:40%;
     left:50%;
     margin:-190px 0 0 -485px;
-	z-index: 5;
+	z-index: 6;
 }
 .selectitemdiv td
 {
@@ -603,6 +603,7 @@ div .roundedredbutton:hover{
 	possition:absolute;
 	flaot:left;
 	top:10px;
+	left:0px;
 	width:30px;
 	height:30px;
 	background-image: url(../images/play.png);
@@ -610,7 +611,9 @@ div .roundedredbutton:hover{
 .pause
 {
 	possition:absolute;
+	flaot:left;
 	bottom:10px;
+	left:0px;
 	width:30px;
 	height:30px;
 	background-image: url(../images/pause.png);
@@ -1093,7 +1096,7 @@ div .threedcontrols {
 	line-height: 18px;
 	font-size: 16px;
 	vertical-align: top;
-	z-index: 6;
+	z-index: 4;
 	width: 90%;
 	height: 90px;
 	bottom:9%;
@@ -1110,7 +1113,7 @@ div .threedcontrols {
 	height: 75px;
 	top:5%;
     right:2%;
-	z-index: 6;
+	z-index: 5;
 }
 .datediv
 { 
@@ -1120,7 +1123,7 @@ div .threedcontrols {
 	height: 75px;
 	top:5%;
     left:2%;
-	z-index: 6;
+	z-index: 5;
 }
 .datepicker {
 	background: rgba(18,40,51,1.0);
