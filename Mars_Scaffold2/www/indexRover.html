@@ -128,11 +128,12 @@ document.addEventListener("DOMContentLoaded", function () {
 	 
 	});
 	 
-	infinityloader.play();
-	var div = document.getElementById("canvastarget"); 
-	div.appendChild(infinityloader.canvas);
 	
 	$(document).ready( function() {
+		infinityloader.play();
+		var div = document.getElementById("canvastarget"); 
+		div.appendChild(infinityloader.canvas);
+		
 		if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 		var postColladaLoaded = function () {
 			initializethreed();
@@ -165,7 +166,31 @@ document.addEventListener("DOMContentLoaded", function () {
 			});
 		});
 		
+		var popcornMedia = new Array();
+		var popcornSequenceNumber = 0;
+		popcornMedia[0] = Popcorn.youtube('#youtubetarget', 'http://www.youtube.com/watch?v=_hN4XdS7NMY&list=PL56421C9A51D1F427' );
+		
+	    popcornMedia[0].on( "play", function() {
+	    	$("#youtubetarget").animate({opacity: 1.0}, 100, function() {
+	           	$("#youtubetarget").css('pointer-events', 'auto');
+	       	});
 
+	    	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
+	           	$("#backgroundtarget").css('pointer-events', 'none');
+	       	});
+	    	
+			$("#nextbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+	        	$("#nextbuttonwrapper").css('pointer-events', 'auto');
+	    	});
+		});
+	    
+		popcornMedia[0].on( "ended", function() {
+	    	$("#videocontenttarget").animate({opacity: 0.0}, 100, function() {
+	           	$("#videocontenttarget").css('pointer-events', 'none');
+	       	});
+	    	
+	    	//advancePopcornMedia();
+		});
 
 		$( "#menubutton" )
 			.button()
@@ -186,6 +211,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			.button()
 			.click(function( event ) {
 				//basepop.play( 0 );
+				popcornMedia[0].play( 0 );
 				$("#startmenupanel").animate({opacity: 0.0}, 200, function() {
                 	$("#startmenupanel").css('pointer-events', 'none');
             	});
@@ -208,8 +234,9 @@ document.addEventListener("DOMContentLoaded", function () {
 			<br>
 			<div class="textstyle1">
 			In this simulation of exploring the Mars Science Lab Curiosity you will use a 3D model of the Curiosity on Mars to learn
-			about the science behind the Curiosity rover.
+			about the science behind the rover.
 			</div>
+			<br>
 			<button id="beginbutton" class="beginbutton">BEGIN</button>
 			<br>
 			<br>
@@ -253,6 +280,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		<!-- main content area for video, images, 3D, etc... -->
 		<div id="contenttarget" class="contenttarget">
 		</div>
+		<div id="youtubetarget" class="youtubetarget"></div>
 		<div id="backgroundtarget" class="curiositybackgroundtarget">
 		</div>
 		
