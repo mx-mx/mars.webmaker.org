@@ -153,7 +153,7 @@ function buildGUI(){
 	camFolder.add( camTwo, 'tween' ).name( 'Camera Two' );
 	camFolder.add( camThree, 'tween' ).name( 'Camera Three' );
 	camFolder.add( camEarth, 'tween' ).name( 'Camera Earth' );
-	camFolder.add( camg1g, 'tween' ).name( 'Camera Mars' );
+	//camFolder.add( camg1g, 'tween' ).name( 'Camera Mars' );
 }
 
 
