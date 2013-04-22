@@ -623,9 +623,9 @@ div .roundedredbutton:hover{
 .play
 {
 	possition:absolute;
-	flaot:left;
+	flaot:right;
 	top:10px;
-	left:0px;
+	right:0px;
 	width:30px;
 	height:30px;
 	background-image: url(../images/play.png);
@@ -633,9 +633,9 @@ div .roundedredbutton:hover{
 .pause
 {
 	possition:absolute;
-	flaot:left;
+	flaot:right;
 	bottom:10px;
-	left:0px;
+	right:0px;
 	width:30px;
 	height:30px;
 	background-image: url(../images/pause.png);
@@ -1091,7 +1091,7 @@ div .playbuttonwrapper {
 	z-index: 3;
 	position:absolute; 
 	height:100%;
-	left:10px;
+	right:10px;
 	top:10px;
 }
 div .threedcontrols { 
