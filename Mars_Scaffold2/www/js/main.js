@@ -153,7 +153,7 @@ function buildGUI(){
 	camFolder.add( camTwo, 'tween' ).name( 'Camera Two' );
 	camFolder.add( camThree, 'tween' ).name( 'Camera Three' );
 	camFolder.add( camEarth, 'tween' ).name( 'Camera Earth' );
-	camFolder.add( camMars, 'tween' ).name( 'Camera Mars' );
+	camFolder.add( camg1g, 'tween' ).name( 'Camera Mars' );
 }
 
 
@@ -246,6 +246,21 @@ function onDocumentMouseDown( event ) {
 			
 		// }
 	} 
+}
+
+function touchdown(){
+	var marsPosFromMatrix = new THREE.Vector3();
+	marsPosFromMatrix.getPositionFromMatrix( solarSystem.children[8].matrixWorld );
+
+	var marsPos = solarSystem.children[8].position;
+
+	var marsRadius = ssScale.planetScale * ephemeris[4].size;
+	var trajLen = marsOdyssey.line.geometry.vertices.length - 1
+	var trajFinalPoint = marsOdyssey.line.geometry.vertices[ trajLen ];
+
+	if( marsPos.distanceTo( trajFinalPoint ) < radius ){
+		return true;
+	}else return false;
 }
 
 function onDocumentMouseMove( event ) {
