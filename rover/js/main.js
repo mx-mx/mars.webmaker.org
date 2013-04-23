@@ -14,11 +14,18 @@ var stats,
 	tween;
 
 var dae,
-	rover,
-	dt = new Object(); //drivetrain and suspension
+	rover;
+
+var target,
+	targetSize = 5;
 
 var roverLoader = new THREE.ColladaLoader();
 var terrainLoader = new THREE.ColladaLoader();
+
+var armStowed = true,
+	mastStowed = true;
+
+var touchdownSensitivity = .75;
 
 var time = 0;
 var toRadians = Math.PI/180;
@@ -153,6 +160,7 @@ function setupScene(){
 
 	rover = new Rover( rover_dae );
 	rover.mesh.add( camTarget );
+	rover.mesh.position.set( 0, 0, -20 );
 
 	scene.add( rover.mesh );
 
@@ -165,11 +173,29 @@ function setupScene(){
 
 	};
 
+	var targetMaterial = new THREE.MeshBasicMaterial( { 
+		map: THREE.ImageUtils.loadTexture( './images/target1.png' ), 
+		overdraw: true,
+		transparent: true
+	});
+
+	target = new THREE.Mesh( new THREE.PlaneGeometry(targetSize, targetSize), targetMaterial );
+	target.rotation.x = -90 * toRadians;
+	target.position.set( 0, .01, 20 ); 
+	scene.add( target );
+
 	// var grid = CreateGrid( 0, .5, 50 );
 	// scene.add( grid );
 
 	scene.add( terrain );
 	buildGUI();
+
+	rover.arm.rotation.y = -90 * toRadians;
+	rover.arm.shoulder.rotation.x = -10 * toRadians;
+	rover.arm.elbow.rotation.x = -75 * toRadians;
+
+	rover.mast.rotation.z = -85 * toRadians;
+	rover.mast.head.rotation.y = -55 * toRadians;
 
 }
 
@@ -222,6 +248,48 @@ function buildGUI(){
 	camFolder.add( camTweens.two, 'tween' ).name( 'Camera Two' );
 	camFolder.add( camTweens.three, 'tween' ).name( 'Camera Three' );
 	camFolder.add( camTweens.four, 'tween' ).name( 'Camera Four' );
+
+	gui.close();
+}
+
+function stowArm( stowTime ){
+	if (stowTime === undefined) stowTime = 1500;
+	if( armStowed ){
+		Tweener(rover.arm.rotation, {x:0, y: 0, z:0}, stowTime);
+		Tweener(rover.arm.elbow.rotation, {x:0, y:0, z:0}, stowTime);
+		Tweener(rover.arm.shoulder.rotation, {x:0, y:0, z:0}, stowTime);
+		armStowed = false;
+	}else{
+		Tweener(rover.arm.rotation, {x:0, y:-90 * toRadians, z:0}, stowTime);
+		Tweener(rover.arm.elbow.rotation, {x:-75 * toRadians, y:0, z:0}, stowTime);
+		Tweener(rover.arm.shoulder.rotation, {x:-10 * toRadians, y:0, z:0}, stowTime);
+		armStowed = true;
+	}
+}
+
+function stowMast( stowTime ){
+	if (stowTime === undefined) stowTime = 1500;
+	if( mastStowed ){
+		Tweener(rover.mast.rotation, {x:0, y:33 * toRadians, z:0}, stowTime);
+		Tweener(rover.mast.head.rotation, {x:0, y:0, z:0}, stowTime);
+		mastStowed = false;
+	}else{
+		Tweener(rover.mast.rotation, {x:0, y:33 * toRadians, z:-85 * toRadians}, stowTime);
+		Tweener(rover.mast.head.rotation, {x:0, y:-55 * toRadians, z:0}, stowTime);
+		mastStowed = true;
+	}
+}
+
+function touchdown(){
+	var roverPosFromMatrix = new THREE.Vector3();
+	roverPosFromMatrix.getPositionFromMatrix( rover.mesh.matrixWorld );
+
+	var marsPos = rover.mesh.position;
+	var targetPos = target.position;
+
+	if( marsPos.distanceTo( targetPos ) <= targetSize * touchdownSensitivity ){
+		return true;
+	}else return false;
 }
 
 function onKeyDown ( event ) {
