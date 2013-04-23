@@ -131,13 +131,13 @@ document.addEventListener("DOMContentLoaded", function () {
 	//start popcorn definitions/array
 	var popcornMedia = new Array();
 	var popcornSequenceNumber = 0;
-	popcornMedia[0] = Popcorn.youtube('#youtubetarget', 'http://www.youtube.com/watch?v=_hN4XdS7NMY&list=PL56421C9A51D1F427' );
+	popcornMedia[0] = Popcorn('#UNIT2_VO_intro' );
 	
     popcornMedia[0].on( "play", function() {
     	console.log("on play");
-    	$("#youtubetarget").animate({opacity: 1.0}, 100, function() {
-           	$("#youtubetarget").css('pointer-events', 'auto');
-       	});
+    	//$("#youtubetarget").animate({opacity: 1.0}, 100, function() {
+        //   	$("#youtubetarget").css('pointer-events', 'auto');
+       	//});
 
     	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
            	$("#backgroundtarget").css('pointer-events', 'none');
@@ -160,9 +160,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
     
 	popcornMedia[0].on( "ended", function() {
-    	$("#videocontenttarget").animate({opacity: 0.0}, 100, function() {
-           	$("#videocontenttarget").css('pointer-events', 'none');
-       	});
+    	//$("#youtubetarget").animate({opacity: 0.0}, 100, function() {
+        //   	$("#youtubetarget").css('pointer-events', 'none');
+       	//});
     	
     	//advancePopcornMedia();
 	});
@@ -326,6 +326,81 @@ document.addEventListener("DOMContentLoaded", function () {
 				</div>
 			</div>
 		</div>
+		
+		<audio id="UNIT2_VO_intro">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_intro.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_intro.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="UNIT2_VO_1">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_1.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_1.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="UNIT2_VO_1e1">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_1e1.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_1e1.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="UNIT2_VO_1e2">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_1e2.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_1e2.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="UNIT2_VO_2">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_2.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_2.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="UNIT2_VO_3">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_3.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_3.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="UNIT2_VO_3e1">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_3e1.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_3e1.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="UNIT2_VO_3e2">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_3e2.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_3e2.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="UNIT2_VO_4">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_4.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_4.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="UNIT2_VO_4a">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_4a.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_4a.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="UNIT2_VO_4b">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_4b.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_4b.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="UNIT2_VO_4e1">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_4e1.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_4e1.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="UNIT2_VO_4e2">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_4e2.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_4e2.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="UNIT2_VO_4e3">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_4e3.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_4e3.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="UNIT2_VO_conclusion">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_conclusion.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_conclusion.oggvorbis.ogg"></source>
+		</audio> 
 
 	<!-- old divs by Ryan, probably unneeded -->
 	<div id="loadtext"></div>
