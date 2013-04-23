@@ -132,6 +132,19 @@ document.addEventListener("DOMContentLoaded", function () {
 	var popcornMedia = new Array();
 	var popcornSequenceNumber = 0;
 	popcornMedia[0] = Popcorn('#UNIT2_VO_intro' );
+	popcornMedia[1] = Popcorn('#UNIT2_VO_1' );
+	popcornMedia[2] = Popcorn('#UNIT2_VO_1e1' );
+	popcornMedia[3] = Popcorn('#UNIT2_VO_1e2' );
+	popcornMedia[4] = Popcorn('#UNIT2_VO_2' );
+	popcornMedia[5] = Popcorn('#UNIT2_VO_3' );
+	popcornMedia[6] = Popcorn('#UNIT2_VO_3e1' );
+	popcornMedia[7] = Popcorn('#UNIT2_VO_3e2' );
+	popcornMedia[8] = Popcorn('#UNIT2_VO_4' );
+	popcornMedia[9] = Popcorn('#UNIT2_VO_4a' );
+	popcornMedia[10] = Popcorn('#UNIT2_VO_4b' );
+	popcornMedia[11] = Popcorn('#UNIT2_VO_4e2' );
+	popcornMedia[12] = Popcorn('#UNIT2_VO_4e3' );
+	popcornMedia[13] = Popcorn('#UNIT2_VO_conclusion' );
 	
     popcornMedia[0].on( "play", function() {
     	console.log("on play");
@@ -164,8 +177,41 @@ document.addEventListener("DOMContentLoaded", function () {
         //   	$("#youtubetarget").css('pointer-events', 'none');
        	//});
     	
-    	//advancePopcornMedia();
+    	advancePopcornMedia();
 	});
+	
+
+    
+    var advancePopcornMedia = function () {
+		popcornSequenceNumber++;
+    	if(popcornSequenceNumber<popcornMedia.length) {
+    		popcornMedia[popcornSequenceNumber].play(0);
+    	}
+    }
+    
+  //a way to skip around (needed for Next button and Menu buttons)
+    var jumpPopcornMedia = function (sequenceNum, beginningOffset) {
+		if(popcornSequenceNumber>=popcornMedia.length)return;
+		popcornSequenceNumber=sequenceNum;
+		//clear div targets
+    	//hideeverything();
+		
+		//stop all other media
+		for(var i=0;i<popcornMedia.length;i++) {
+			popcornMedia[i].pause();
+		}
+		
+		//jump to desired media
+		if(popcornSequenceNumber==0 && !threedinitialized) {
+			basepop.play(0);
+		} else {
+			if(beginningOffset) {
+				popcornMedia[popcornSequenceNumber].play(beginningOffset);
+			} else {
+				popcornMedia[popcornSequenceNumber].play(0);
+			}
+		}
+    }
 	 
 	
 	$(document).ready( function() {
