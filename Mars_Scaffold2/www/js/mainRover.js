@@ -17,16 +17,13 @@ var dae,
 	rover,
 	dt = new Object(); //drivetrain and suspension
 
-var target,
-	targetSize = 5;
-
 var roverLoader = new THREE.ColladaLoader();
 var terrainLoader = new THREE.ColladaLoader();
 
+var outcropOne;
+
 var armStowed = true,
 	mastStowed = true;
-
-var touchdownSensitivity = .75;
 
 var time = 0;
 var toRadians = Math.PI/180;
@@ -41,8 +38,6 @@ var delta = clock.getDelta();
 function setLoadMessage( msg ){
 	$( '#loadtext' ).html(msg + "...");
 }
-
-
 
 function init() {
 
@@ -102,10 +97,10 @@ function init() {
 		STATS
 	********************************/
 
-	//stats = new Stats();
-	//stats.domElement.style.position = 'absolute';
-	//stats.domElement.style.top = '0px';
-	//$container.append( stats.domElement );
+	stats = new Stats();
+	stats.domElement.style.position = 'absolute';
+	stats.domElement.style.top = '0px';
+	$container.append( stats.domElement );
 
 	/********************************
 		EVENTS
@@ -137,16 +132,16 @@ function setupScene(){
 		moveRight: false
 
 	};
-	var targetMaterial = new THREE.MeshBasicMaterial( { 
-		map: THREE.ImageUtils.loadTexture( './images/target1.png' ), 
-		overdraw: true,
-		transparent: true
-	});
 
-	target = new THREE.Mesh( new THREE.PlaneGeometry(targetSize, targetSize), targetMaterial );
-	target.rotation.x = -90 * toRadians;
-	target.position.set( 0, .01, 20 ); 
-	//scene.add( target );
+	// rover.arm.rotation.y = -90 * toRadians;
+	// rover.arm.shoulder.rotation.x = -10 * toRadians;
+	// rover.arm.elbow.rotation.x = -75 * toRadians;
+
+	// rover.mast.rotation.z = -85 * toRadians;
+	// rover.mast.head.rotation.y = -55 * toRadians;
+
+	// outcropOne = new Outcrop();
+	// scene.add( outcropOne );
 
 	// var grid = CreateGrid( 0, .5, 50 );
 	// scene.add( grid );
@@ -154,15 +149,16 @@ function setupScene(){
 	scene.add( terrain );
 	buildGUI();
 
+
 }
 var gui;
 function buildGUI(){
 
 	var camTweens = { 
-		one: new CAMTWEEN( { x:5, y:5, z:5 }, { x:0, y:0, z:0 }, 1 ),
-		two: new CAMTWEEN( { x:0, y:4, z:-10 }, { x:0, y:0, z:0 }, 1 ),
-		three: new CAMTWEEN( { x:-.36, y:2.1, z:.65 }, { x:0, y:0, z:10 }, 1 ),
-		four: new CAMTWEEN( { x:-5, y:3, z:-2 }, { x:0, y:0, z:0 }, 1 )
+		one: new camPosition( { x:5, y:5, z:5 }, { x:0, y:0, z:0 }, 1 ),
+		two: new camPosition( { x:0, y:4, z:-10 }, { x:0, y:0, z:0 }, 1 ),
+		three: new camPosition( { x:-.36, y:2.1, z:.65 }, { x:0, y:0, z:10 }, 1 ),
+		four: new camPosition( { x:-5, y:3, z:-2 }, { x:0, y:0, z:0 }, 1 )
 	};
 
 	gui = new dat.GUI();
@@ -207,46 +203,6 @@ function buildGUI(){
 	camFolder.add( camTweens.four, 'tween' ).name( 'Camera Four' );
 }
 
-function stowArm( stowTime ){
-	if (stowTime === undefined) stowTime = 1500;
-	if( armStowed ){
-		Tweener(rover.arm.rotation, {x:0, y: 0, z:0}, stowTime);
-		Tweener(rover.arm.elbow.rotation, {x:0, y:0, z:0}, stowTime);
-		Tweener(rover.arm.shoulder.rotation, {x:0, y:0, z:0}, stowTime);
-		armStowed = false;
-	}else{
-		Tweener(rover.arm.rotation, {x:0, y:-90 * toRadians, z:0}, stowTime);
-		Tweener(rover.arm.elbow.rotation, {x:-75 * toRadians, y:0, z:0}, stowTime);
-		Tweener(rover.arm.shoulder.rotation, {x:-10 * toRadians, y:0, z:0}, stowTime);
-		armStowed = true;
-	}
-}
-
-function stowMast( stowTime ){
-	if (stowTime === undefined) stowTime = 1500;
-	if( mastStowed ){
-		Tweener(rover.mast.rotation, {x:0, y:33 * toRadians, z:0}, stowTime);
-		Tweener(rover.mast.head.rotation, {x:0, y:0, z:0}, stowTime);
-		mastStowed = false;
-	}else{
-		Tweener(rover.mast.rotation, {x:0, y:33 * toRadians, z:-85 * toRadians}, stowTime);
-		Tweener(rover.mast.head.rotation, {x:0, y:-55 * toRadians, z:0}, stowTime);
-		mastStowed = true;
-	}
-}
-
-function touchdown(){
-	var roverPosFromMatrix = new THREE.Vector3();
-	roverPosFromMatrix.getPositionFromMatrix( rover.mesh.matrixWorld );
-
-	var marsPos = rover.mesh.position;
-	var targetPos = target.position;
-
-	if( marsPos.distanceTo( targetPos ) <= targetSize * touchdownSensitivity ){
-		return true;
-	}else return false;
-}
-
 function onKeyDown ( event ) {
 
 	switch( event.keyCode ) {
@@ -266,7 +222,10 @@ function onKeyUp ( event ) {
 		case 37: /*left*/ controlsRover.moveLeft = false; break;
 		case 39: /*right*/ controlsRover.moveRight = false; break;
 	}
-	if(touchdown()) console.log("got a touchdown");
+	for( var i = 0; i < OUTCROPS.length; i++ ){
+		if( OUTCROPS[i].touchdown( rover.mesh, .75 ) ) console.log( OUTCROPS[i].name + " got a touchdown" );
+		if( OUTCROPS[i].touchdown( rover.arm.hand, .25 ) ) console.log( "The Rover eye saw " + OUTCROPS[i].name );
+	}
 };
 
 function onWindowResize() {
@@ -284,12 +243,15 @@ function onWindowResize() {
 function animate() {
 
 	requestAnimationFrame( animate );
-
     camera.updateProjectionMatrix();
 
 	controls.update();
-	//stats.update();
+	stats.update();
 	TWEEN.update();
+
+	for( var i = 0; i < OUTCROPS.length; i++ ){
+		OUTCROPS[i].updateArrow();
+	}
 
 	rover.updateCarModel( clock, controlsRover );
 

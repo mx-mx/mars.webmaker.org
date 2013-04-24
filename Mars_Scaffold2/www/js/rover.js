@@ -209,3 +209,31 @@ var Rover = function ( dae ) {
 	function exponentialEaseOut( k ) { return k === 1 ? 1 : - Math.pow( 2, - 10 * k ) + 1; }
 
 };
+
+function stowArm( stowTime ){
+	if (stowTime === undefined) stowTime = 1500;
+	if( armStowed ){
+		Tweener(rover.arm.rotation, {x:0, y: 0, z:0}, stowTime);
+		Tweener(rover.arm.elbow.rotation, {x:0, y:0, z:0}, stowTime);
+		Tweener(rover.arm.shoulder.rotation, {x:0, y:0, z:0}, stowTime);
+		armStowed = false;
+	}else{
+		Tweener(rover.arm.rotation, {x:0, y:-90 * toRadians, z:0}, stowTime);
+		Tweener(rover.arm.elbow.rotation, {x:-75 * toRadians, y:0, z:0}, stowTime);
+		Tweener(rover.arm.shoulder.rotation, {x:-10 * toRadians, y:0, z:0}, stowTime);
+		armStowed = true;
+	}
+}
+
+function stowMast( stowTime ){
+	if (stowTime === undefined) stowTime = 1500;
+	if( mastStowed ){
+		Tweener(rover.mast.rotation, {x:0, y:33 * toRadians, z:0}, stowTime);
+		Tweener(rover.mast.head.rotation, {x:0, y:0, z:0}, stowTime);
+		mastStowed = false;
+	}else{
+		Tweener(rover.mast.rotation, {x:0, y:33 * toRadians, z:-85 * toRadians}, stowTime);
+		Tweener(rover.mast.head.rotation, {x:0, y:-55 * toRadians, z:0}, stowTime);
+		mastStowed = true;
+	}
+}

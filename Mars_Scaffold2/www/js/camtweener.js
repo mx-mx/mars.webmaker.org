@@ -29,6 +29,4 @@ function camTweener( newCamPosition, newTarget, time ) {
 	Tweener( camTarget, newTarget, time );	
 }
 
-a = new TWEEN.Tween(ssScale).to( {s:.000001}, 2000);
-
 
