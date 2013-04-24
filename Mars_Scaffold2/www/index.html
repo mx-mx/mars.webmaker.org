@@ -497,9 +497,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
     
     popcornMedia[23].cue( 8, function() {
-    	//popBadgeWindow(); //trigger a 'user' button click to avoid popup block (which doesn't work...)
-    	document.getElementById('popit').click();
-    	setTimeout(function(){jumpPopcornMedia(24)},10000);
+    	$("#solarsystembadge").animate({opacity: 1.0}, 200, function() {
+        	$("#solarsystembadge").css('pointer-events', 'auto');
+        });
 	});
     
     
@@ -874,8 +874,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     //generic popup window opening function
-    var popitbutton = document.getElementById('popit');
-    popitbutton.onclick = function() {
+    var solarsystembadgeuploadbutton = document.getElementById('solarsystembadgeuploadbutton');
+    solarsystembadgeuploadbutton.onclick = function() {
     	popBadgeWindow();
     };
     
@@ -900,14 +900,14 @@ document.addEventListener("DOMContentLoaded", function () {
             jumpPopcornMedia(26);
         });
     };
-    
-    //TODO: this probably isn't needed.
-    var backpackloginpopupclose = document.getElementById('backpackloginpopupclose');
-    backpackloginpopupclose.style.cursor = 'pointer';
-    backpackloginpopupclose.onclick = function() {
-    	$("#backpackloginpopup").animate({opacity: 0.0}, 200, function() {
-        	$("#backpackloginpopup").css('pointer-events', 'none');
+
+    var solarsystembadgeskipbutton = document.getElementById('solarsystembadgeskipbutton');
+    solarsystembadgeskipbutton.onclick = function() {
+    	$("#solarsystembadge").animate({opacity: 0.0}, 200, function() {
+        	$("#solarsystembadge").css('pointer-events', 'none');
         });
+    	
+    	setTimeout(function(){jumpPopcornMedia(24)},2000);
     };
     
     var aboutpopupclose = document.getElementById('aboutpopupclose');
@@ -1765,30 +1765,44 @@ document.addEventListener("DOMContentLoaded", function () {
 		</div>
 		<div id="loadtext" style="z-index: 6;"></div>
 		
-		<!--  currently moved into it's own php web page... dealing with popup blocking may be problematic.  would like to move back here -->
-		<div id="backpackloginpopup" class="modalmask">
+		<div id="solarsystembadge" class="modalmask">
 			<div id="backpacklogindiv" class="badgecontenttarget">
-				<div id="backpackloginpopupclose" class="closebutton"><p>&#10006;</p></div>
 				<h1>Mission Complete!</h1>
 				<h1>Badge Award!</h1>
 				<br>
-				You've earned a badge!!!
+				Upload your Badge
 				<br><br>
-				<!-- <img src="./badge-it-gadget-lite/digital-badges/images/badge_3D.png"> -->
-				<br><br><br>
-				<button id="popit" class="squarebluebutton">pop</button>
-				<br><br>
-				<form id="form" method="POST" action="./badge-it-gadget-lite/process-badges/test.php">
-					<p><label style="float: left;">Email:</label><input type="text" id="email" name="email"/></p>
-					<br><br>
-					<div style="float:right;">
-						<button id="backpackloginpopupcontinue" type="submit" class="squarebluebutton">Continue</button>
+				<div style="text-align: center;width:100%">
+					<table style="position: absolute; width: 80%;margin:0;padding:0; float:middle;left:15%" >
+						<tr >
+							<td align="left" valign="top">
+								<br>
+								<font style="font-weight:300;">
+								The Solar System Badge awarded for 3D simulation mastery.
+								<br><br>
+								 - panning
+								<br>
+								 - zooming
+								<br>
+								 - planet selection
+								<br>
+								 - camera jumps
+								<br>
+								 - time slider
+								 </font>
+							
+							</td>
+							<td align="right" valign="top"><img src="./badge-it-gadget-lite/digital-badges/images/badge_3D.png"> </td>
+							
+						</tr>
+					</table>
+				</div>
+					
+				<br><br><br><br><br><br><br><br><br><br><br><br>
+					<div style="float:middle;">
+						<button id="solarsystembadgeskipbutton" class="squarebluebutton">Skip</button>
+						<button id="solarsystembadgeuploadbutton" type="submit" class="squarebluebutton">Upload</button>
 					</div>
-					<br><br><br><br>
-					<div style="display:inline;float:left">
-						<input type="checkbox" id="backpackloginpopupcheckbox" class="regular-checkbox" /> <label class="checkboxlabel">email list</label>
-					</div>
-				</form>
 			</div>
 		</div>
 		
