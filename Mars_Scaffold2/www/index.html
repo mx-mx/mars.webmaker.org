@@ -273,7 +273,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	        
 	        //set time to slight move
 			$("#speedSlider").slider('value',.01);
-	        //Tweener(timer, {multiplier:.01}, 1);
 			
 	        //initialize mars/earth ruler to off
 			showDistance = false;
@@ -405,7 +404,6 @@ document.addEventListener("DOMContentLoaded", function () {
        	camTweener( { x: 0, y: 800, z: 0 }, { x: 0, y: 0, z: -20 }, 3000 );
 	});
     popcornMedia[3].cue( 6, function() {
-    	//Tweener(timer, {multiplier:.23}, 2000);
 		$("#speedSlider").slider('value',.23);
 	});
 
@@ -496,9 +494,16 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
     
     
-    popcornMedia[24].cue( 34, function() {
+    popcornMedia[24].cue( 32, function() {
+		var jumpToDate = new Date(2036,0,1).Date2Julian();
+		timer.JD = jumpToDate;
+		$("#speedSlider").slider('value',.01);
+		
         $("#selectmissionrocket").animate({opacity: 1.0}, 1000, function() {
         	$("#selectmissionrocket").css('pointer-events', 'auto');
+    	});
+        $("#launchcontrols").animate({opacity: 0.0}, 1000, function() {
+        	$("#launchcontrols").css('pointer-events', 'none');
     	});
 	});
 
@@ -779,6 +784,8 @@ document.addEventListener("DOMContentLoaded", function () {
 				popcornMedia[popcornSequenceNumber].play(0);
 			}
 		}
+		//show pause toggle
+		$("#playtoggle").attr("class", "pause");
     }
     
     var clear3DDrawings = function() {
@@ -817,6 +824,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		$("#nextbuttonwrapper").animate({opacity: 0.0}, 1, function() { $("#nextbuttonwrapper").css('pointer-events', 'none'); });
 		$("#helpbuttonwrapper").animate({opacity: 0.0}, 1, function() { $("#helpbuttonwrapper").css('pointer-events', 'none'); });
 		$("#replaybuttonwrapper").animate({opacity: 0.0}, 1, function() { $("#replaybuttonwrapper").css('pointer-events', 'none'); });
+		
+
+		$("#subtitlepanel").animate({opacity: 0.0}, 1, function() {});
 	}
 	
 	// Add popcorn events here and other functionality
@@ -833,7 +843,6 @@ document.addEventListener("DOMContentLoaded", function () {
        	camTweener( { x: 0, y: 1100, z: 0 }, { x: 0, y: 0, z: -20 }, 3000 );
 	});
     
-    var pausePoint1=false;
 
     function flipTimelinePic(picID,imgName)
     {
@@ -872,8 +881,12 @@ document.addEventListener("DOMContentLoaded", function () {
     selectmissioncontinue.onclick = function() {
     	$("#selectmissionrocket").animate({opacity: 0.0}, 200, function() {
         	$("#selectmissionrocket").css('pointer-events', 'none');
-            $("#launchdiv").animate({opacity: 1.0}, 200, function() {
-            	$("#launchdiv").css('pointer-events', 'auto');
+
+            $("#launchcontrols").animate({opacity: 1.0}, 200, function() {
+            	$("#launchcontrols").css('pointer-events', 'auto');
+                $("#launchdiv").animate({opacity: 1.0}, 200, function() {
+                	$("#launchdiv").css('pointer-events', 'auto');
+            	});
         	});
             jumpPopcornMedia(26);
         });
@@ -945,50 +958,6 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
     };
-    
-    /*
-    var runbutton = document.getElementById('runbutton');
-    runbutton.style.cursor = 'pointer';
-    runbutton.onclick = function() {
-		console.log("run button hit");
-
-	    runSimulation();
-    };
-    
-
-	var launchDate;
-	var landingDate;
-	var runSimulation = function() {
-		if(!launchDate || !landingDate) {
-			console.log("need both dates to compare");
-		} else if (landingDate<launchDate) {
-			console.log("You can't land before you launch");
-		} else if (landingDate>launchDate) {
-			console.log("ok, we can launch this!");
-			
-			departure_time = new Time( dateToTime(launchDate) );
-			arrival_time = new Time( dateToTime(landingDate) );
-
-	    	console.log("departure time jd_tt: " + departure_time.jd_tt());
-	    	
-	    	var aDate = new Number(timer.JD).Julian2Date();
-	    	console.log("timer.JD: " + aDate);
-
-	    	var jd = new Number(departure_time.jd_tt()).Julian2Date();
-	    	console.log("departure time jd: " + jd);
-
-			console.log("launchDate: " + launchDate);
-			console.log("landingDate: " + landingDate);
-
-
-	    	console.log("reinitializing Odyssey: ");
-			marsOdyssey.init( departure_time, arrival_time );
-			
-	    	console.log("setting this bad boy into motion... ");
-	    	Tweener(timer, {multiplier:.05}, 500);
-		}
-	}
-    */
     
     //selectmissionrocket div
     var rocketChoice = 0;
@@ -1275,6 +1244,11 @@ document.addEventListener("DOMContentLoaded", function () {
         	});
 			
 			camTweener( { x: 0, y: 100, z: 500 }, { x: 0, y: 0, z: 0 }, 1500 );
+
+
+			var jumpToDate = new Date(2010,11,1).Date2Julian();
+			timer.JD = jumpToDate;
+			$("#speedSlider").slider('value',.01);
 			
 			jumpPopcornMedia(0);
 		}
@@ -1333,6 +1307,10 @@ document.addEventListener("DOMContentLoaded", function () {
 	        	});
 				
 			},2000);
+			
+			var jumpToDate = new Date(2036,0,1).Date2Julian();
+			timer.JD = jumpToDate;
+			$("#speedSlider").slider('value',.01);
 			
 			jumpPopcornMedia(24);
 		}
@@ -1411,7 +1389,6 @@ document.addEventListener("DOMContentLoaded", function () {
 					//erase line if necessary
 					clear3DDrawings();
 					
-			    	Tweener(timer, {multiplier:0}, 500);
 	    			var jumpToDate = new Date(launchRewindDate).Date2Julian();
 	    			timer.JD = jumpToDate;
 					
@@ -1431,8 +1408,8 @@ document.addEventListener("DOMContentLoaded", function () {
 					});
 					
 					console.log("DeltaV index: " + marsOdyssey.totalDeltaV);
-	    			
-			    	Tweener(timer, {multiplier:.05}, 500);
+
+					$("#speedSlider").slider('value',.05);
 				}
 		});
 		
@@ -1452,7 +1429,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 				clear3DDrawings();
 				
-		    	Tweener(timer, {multiplier:0}, 500);
     			var jumpToDate = new Date(launchRewindDate).Date2Julian();
     			timer.JD = jumpToDate;
 				
@@ -1474,8 +1450,8 @@ document.addEventListener("DOMContentLoaded", function () {
 				});
 				
 				console.log("DeltaV index: " + marsOdyssey.totalDeltaV);
-    			
-		    	Tweener(timer, {multiplier:.05}, 500);
+
+				$("#speedSlider").slider('value',.05);
 			}
 		});
 		
@@ -1562,38 +1538,19 @@ document.addEventListener("DOMContentLoaded", function () {
 					};
 		};
 		
-		/*
-		$(function() {
-		    $( "#datepicker" ).datepicker({
-		      changeMonth: true,
-		      changeYear: true,
-		      minDate: new Date(1957, 1 - 1, 25),
-		      maxDate: new Date(3000, 1 - 1, 25),
-		      onSelect: function(dateText, inst) { 
-	    			if(timer) {
-		    			Tweener(timer, {multiplier:0}, 500);
-		    			var jumpToDate = new Date(Date.parse(dateText)).Date2Julian();
-		    			//console.log("dateText: " +  dateFormatter(jumpToDate));
-		    			timer.JD = jumpToDate;
-	    			}
-
-	    			//console.log("jumpToDate: " +  dateFormatter(jumpToDate));
-	    		}
-		    });
-		});*/
 		$(function() {
 		    $( "#launchdatepicker" ).datepicker({
 		      changeMonth: true,
 		      changeYear: true,
-		      minDate: new Date(1957, 1 - 1, 25),
-		      maxDate: new Date(3000, 1 - 1, 25),
+		      minDate: new Date(2036, 0, 1),
+		      maxDate: new Date(2080, 0, 1),
 		      onSelect: function(dateText, inst) { 
 		    	  
 	    			launchDate = new Date(Date.parse(dateText));
 	    			launchRewindDate = new Date(Date.parse(dateText));
 	    			launchRewindDate.setDate(launchRewindDate.getDate()-5);
 	    			if(timer) {
-		    			Tweener(timer, {multiplier:0}, 500);
+	    				$("#speedSlider").slider('value',0);
 		    			var jumpToDate = new Date(Date.parse(dateText)).Date2Julian();
 		    			timer.JD = jumpToDate;
 	    			}
@@ -1606,12 +1563,12 @@ document.addEventListener("DOMContentLoaded", function () {
 		    $( "#landingdatepicker" ).datepicker({
 		      changeMonth: true,
 		      changeYear: true,
-		      minDate: new Date(1957, 1 - 1, 25),
-		      maxDate: new Date(3000, 1 - 1, 25),
+		      minDate: new Date(2036, 0, 1),
+		      maxDate: new Date(2080, 0, 1),
 		      onSelect: function(dateText, inst) { 
 	    			landingDate = new Date(Date.parse(dateText));
 	    			if(timer) {
-		    			Tweener(timer, {multiplier:0}, 500);
+		    			$("#speedSlider").slider('value',0);
 		    			var jumpToDate = new Date(Date.parse(dateText)).Date2Julian();
 		    			timer.JD = jumpToDate;
 	    			}
