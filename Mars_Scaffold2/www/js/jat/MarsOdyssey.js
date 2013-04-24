@@ -184,7 +184,7 @@ MarsOdyssey.prototype.drawTrajectory = function( time, scale ) {
 	end = new THREE.Vector3(x, y, z);
 	this.lastTrajectoryPoint = end;
 
-	splineMat = new THREE.LineBasicMaterial( { color: 0x2BBFBD, opacity: 0.25, linewidth: 1.5 } );
+	splineMat = new THREE.LineBasicMaterial( { color: 0x3A84A6, opacity: 0.25, linewidth: 1.5 } );
 	this.line = new THREE.Line( new THREE.Geometry(), splineMat );
 
 	if ( this.prevLine != null ){

@@ -438,7 +438,7 @@ div .selectitemdetaildiv:hover{
     border:none;
 	width: 350px;
 	height: 55px;
-	top:5%;
+	top:10%;
     right:10%;
 	z-index: 6;
 }
