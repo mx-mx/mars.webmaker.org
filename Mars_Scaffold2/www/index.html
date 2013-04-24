@@ -368,13 +368,22 @@ document.addEventListener("DOMContentLoaded", function () {
 			//camTweener( { x: 0, y: 700, z: 0 }, { x: 0, y: 0, z: -20 }, 3000 );
 		});
 	});
+
+	popcornMedia[1].cue( 18.5, function() {
+		$("#incomingmessage").animate({opacity: 1.0}, 1000, function() {
+	       	$("#incomingmessage").css('pointer-events', 'auto');
+	   	});
+		
+		setTimeout(function() {
+			$("#incomingmessage").animate({opacity: 0.0}, 1000, function() {
+		       	$("#incomingmessage").css('pointer-events', 'none');
+		   	});
+		}, 15000);
+	});
+
 	popcornMedia[1].on( "ended", function() {
     	$("#videocontenttarget").animate({opacity: 0.0}, 100, function() {
            	$("#videocontenttarget").css('pointer-events', 'none');
-       	});
-
-    	$("#incomingmessage").animate({opacity: 1.0}, 1000, function() {
-           	$("#incomingmessage").css('pointer-events', 'auto');
        	});
     	
     	advancePopcornMedia();
@@ -925,11 +934,6 @@ document.addEventListener("DOMContentLoaded", function () {
     	closeAllSubMenus();
     };
     
-    var incomingtransmissionclose = document.getElementById('ignorebutton');
-    incomingtransmissionclose.onclick = function() {
-    	closeAllSubMenus();
-    };
-    
     var cmemessageclose = document.getElementById('ignorecmebutton');
     cmemessageclose.onclick = function() {
     	closeAllSubMenus();
@@ -1216,19 +1220,23 @@ document.addEventListener("DOMContentLoaded", function () {
 		$( "#nextbutton" )
 			.button()
 			.click(function( event ) {
-				//reset mouse tracking lesson
-				resetMouseMovementTrackingLession();
-				//erase line if necessary
-				clear3DDrawings();
-				//remove the ruler
-				showDistance = false;
-				scene.remove(ruler);
-				
 				if(popcornSequenceNumber<5) {
 					jumpToThreeDNavigation();
 				} else if(popcornSequenceNumber<17) {
 					jumpToChallenge();
 				}
+		});
+		
+		$( "#ignorebutton" )
+			.button()
+			.click(function( event ) {
+				closeAllSubMenus();
+		});
+		
+		$( "#answerbutton" )
+			.button()
+			.click(function( event ) {
+				jumpToChallenge();
 		});
 		
 		var jumpToIntroduction = function() {
@@ -1239,6 +1247,11 @@ document.addEventListener("DOMContentLoaded", function () {
 			//clear 3d lines
 			clear3DDrawings();
 			//show stuff needed
+			//reset mouse tracking lesson
+			resetMouseMovementTrackingLession();
+			//remove the ruler
+			showDistance = false;
+			scene.remove(ruler);
 			$("#playbuttonwrapper").animate({opacity: 1.0}, 200, function() {
             	$("#playbuttonwrapper").css('pointer-events', 'auto');
         	});
@@ -1263,6 +1276,12 @@ document.addEventListener("DOMContentLoaded", function () {
 			initializethreed();
 			//clear 3d lines
 			clear3DDrawings();
+			//reset mouse tracking lesson
+			resetMouseMovementTrackingLession();
+			//remove the ruler
+			showDistance = false;
+			scene.remove(ruler);
+			
 			setTimeout(function(){
 				//shift 3d model
 				camTweener( { x: 0, y: 100, z: 500 }, { x: 0, y: 0, z: -20 }, 1500 );
@@ -1283,8 +1302,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 		
 		var jumpToChallenge = function () {
-			//clear 3d lines
-			clear3DDrawings();
 			//hide everything
 			hideeverything();
 	    	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
@@ -1292,6 +1309,13 @@ document.addEventListener("DOMContentLoaded", function () {
 	       	});
 	    	//initialize 3d if you need to
 			initializethreed();
+			//clear 3d lines
+			clear3DDrawings();
+			//reset mouse tracking lesson
+			resetMouseMovementTrackingLession();
+			//remove the ruler
+			showDistance = false;
+			scene.remove(ruler);
 			//show stuff needed
 			setTimeout(function(){
 				//shift 3d model
@@ -1312,7 +1336,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			timer.JD = jumpToDate;
 			$("#speedSlider").slider('value',.01);
 			
-			jumpPopcornMedia(24);
+			jumpPopcornMedia(24,6);
 		}
 		$( "#threedhelpbutton" )
 			.button()
