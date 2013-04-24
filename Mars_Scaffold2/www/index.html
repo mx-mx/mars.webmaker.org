@@ -433,7 +433,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
     popcornMedia[5].on( "ended", function() {
 		
-		camTweener( { x: 0, y: 100, z: 500 }, { x: 0, y: 0, z: 0 }, 1500 );
+		camTweener( { x: 0, y: 100, z: 500 }, { x: 0, y: 0, z: -20 }, 1500 );
 		setTimeout(function(){advancePopcornMedia()},2000);
 
 		//erase 3d drawings if necessary
@@ -696,7 +696,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		
     	resetMouseMovementTrackingLession();
 		
-		camTweener( { x: 0, y: 100, z: 500 }, { x: 0, y: 0, z: 0 }, 1500 );
+		camTweener( { x: 0, y: 100, z: 500 }, { x: 0, y: 0, z: -20 }, 1500 );
 		
 		jumpPopcornMedia(6);
 		
@@ -1114,7 +1114,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					*/
 		});	
 
-		$( "#threedrover" )
+		$( "#cam2" )
 			.button()
 			.click(function( event ) {
 
@@ -1131,7 +1131,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				};
 
 				//TWEEN.removeAll();
-				//camTweener( { x: 75, y: 50, z: 300 }, ss[4].position, 1500 );
+				camTweener( { x: 0, y: 1100, z: 0 }, { x: 0, y: 0, z: -20 }, 1500 );
 				//checkForFourthCameraLesson();
 		});
 
@@ -1323,6 +1323,9 @@ document.addEventListener("DOMContentLoaded", function () {
 				$("#selectmissionrocket").animate({opacity: 1.0}, 200, function() {
 	            	$("#selectmissionrocket").css('pointer-events', 'auto');
 	        	});
+		        $("#launchcontrols").animate({opacity: 0.0}, 1000, function() {
+		        	$("#launchcontrols").css('pointer-events', 'none');
+		    	});
 				$("#threedcontrols").animate({opacity: 1.0}, 200, function() {
 	            	$("#threedcontrols").css('pointer-events', 'auto');
 	        	});
@@ -1740,7 +1743,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			<div id="bottombarmiddle" class="bottombarmiddle" style="vertical-align: bottom;align:center">
 				<div id="threedcontrols" class="threedcontrols">
 					<button id="threedhome" class="squarebluebutton">Home</button>
-					<button id="threedrover" class="squarebluebutton">Rover</button>
+					<button id="cam2" class="squarebluebutton">Camera 1</button>
 					<button id="threedearth" class="squarebluebutton">Earth</button>
 					<button id="threedmars" class="squarebluebutton">Mars</button>
 				</div>
