@@ -898,6 +898,12 @@ document.addEventListener("DOMContentLoaded", function () {
     var selectmissioncontinue = document.getElementById('selectmissioncontinuebutton');
     selectmissioncontinue.style.cursor = 'pointer';
     selectmissioncontinue.onclick = function() {
+
+		//set the date to 2036 prior to simulation run.
+		var jumpToDate = new Date(2036,0,1).Date2Julian();
+		timer.JD = jumpToDate;
+		$("#speedSlider").slider('value',.01);
+		
     	$("#selectmissionrocket").animate({opacity: 0.0}, 200, function() {
         	$("#selectmissionrocket").css('pointer-events', 'none');
 
@@ -983,10 +989,6 @@ document.addEventListener("DOMContentLoaded", function () {
     var rocketbutton = document.getElementById('rocketbutton');
     rocketbutton.style.cursor = 'pointer';
     rocketbutton.onclick = function() {
-		//set the date to 2036 prior to simulation run.
-		var jumpToDate = new Date(2036,0,1).Date2Julian();
-		timer.JD = jumpToDate;
-		$("#speedSlider").slider('value',.01);
 		
     	$("#launchcontrols").animate({opacity: 0.0}, 200, function() {
         	$("#launchcontrols").css('pointer-events', 'none');
