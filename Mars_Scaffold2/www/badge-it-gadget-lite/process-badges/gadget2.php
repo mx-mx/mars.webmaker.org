@@ -178,7 +178,6 @@ document.addEventListener("DOMContentLoaded", function () {
 				<?php echo $badgeName; ?>
 				<br><br>
 				<img src="<?php echo $imageURL; ?>">
-				<?php echo $imageURL; ?>
 				<br><br><br>
 				<br><br>
 				<div style="float:right;">
