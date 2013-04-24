@@ -80,6 +80,15 @@ function setUserBackpackEmail(emailValue) {
 	console.log("user email set to: ",userBackpackEmail);
 }
 
+function solarsystembadgefinish() {
+	$("#solarsystembadge").animate({opacity: 0.0}, 200, function() {
+    	$("#solarsystembadge").css('pointer-events', 'none');
+    });
+	$("#solarsystembadgecomplete").animate({opacity: 1.0}, 200, function() {
+    	$("#solarsystembadgecomplete").css('pointer-events', 'auto');
+    });
+}
+
 
 
 // ensure the web page (DOM) has loaded
@@ -835,6 +844,10 @@ document.addEventListener("DOMContentLoaded", function () {
 		$("#replaybuttonwrapper").animate({opacity: 0.0}, 1, function() { $("#replaybuttonwrapper").css('pointer-events', 'none'); });
 		
 
+		$("#solarsystembadge").animate({opacity: 0.0}, 1, function() { $("#solarsystembadge").css('pointer-events', 'none'); });
+		$("#solarsystembadgecomplete").animate({opacity: 0.0}, 1, function() { $("#solarsystembadgecomplete").css('pointer-events', 'none'); });
+		
+
 		$("#subtitlepanel").animate({opacity: 0.0}, 1, function() {});
 	}
 	
@@ -909,6 +922,23 @@ document.addEventListener("DOMContentLoaded", function () {
     	
     	setTimeout(function(){jumpPopcornMedia(24)},2000);
     };
+
+
+    var solarsystembadgecompletereplaybutton = document.getElementById('solarsystembadgecompletereplaybutton');
+    solarsystembadgecompletereplaybutton.onclick = function() {
+    	jumpToChallenge();
+    };
+    
+
+    var solarsystembadgecompletecontinuebutton = document.getElementById('solarsystembadgecompletecontinuebutton');
+    solarsystembadgecompletecontinuebutton.onclick = function() {
+    	$("#solarsystembadgecomplete").animate({opacity: 0.0}, 200, function() {
+        	$("#solarsystembadgecomplete").css('pointer-events', 'none');
+        });
+    	$("#solarsystembadgeskipbutton").click();
+    };
+    
+    
     
     var aboutpopupclose = document.getElementById('aboutpopupclose');
     aboutpopupclose.style.cursor = 'pointer';
@@ -1802,6 +1832,37 @@ document.addEventListener("DOMContentLoaded", function () {
 					<div style="float:middle;">
 						<button id="solarsystembadgeskipbutton" class="squarebluebutton">Skip</button>
 						<button id="solarsystembadgeuploadbutton" type="submit" class="squarebluebutton">Upload</button>
+					</div>
+			</div>
+		</div>
+		
+		<div id="solarsystembadgecomplete" class="modalmask">
+			<div id="backpacklogindiv" class="badgecontenttarget">
+				<h1>Mission Complete!</h1>
+				<h1>Badge Award!</h1>
+				<br>
+				Thanks for playing
+				<br><br>
+				<div style="text-align: center;width:100%">
+					<table style="position: absolute; width: 80%;margin:0;padding:0; float:middle;left:15%" >
+						<tr >
+							<td align="left" valign="top">
+								<br>
+								<font style="font-weight:300;">
+								Congradulations and thanks. 
+								 </font>
+							
+							</td>
+							<td align="right" valign="top"><img src="./badge-it-gadget-lite/digital-badges/images/badge_3D.png"> </td>
+							
+						</tr>
+					</table>
+				</div>
+					
+				<br><br><br><br><br><br><br><br><br><br><br><br>
+					<div style="float:middle;">
+						<button id="solarsystembadgecompletereplaybutton" class="squarebluebutton">Replay</button>
+						<button id="solarsystembadgecompletecontinuebutton" type="submit" class="squarebluebutton">Continue</button>
 					</div>
 			</div>
 		</div>

@@ -30,6 +30,13 @@ document.addEventListener("DOMContentLoaded", function () {
         //window.close();
     };
     
+    var solarsystembadgeskipbutton = document.getElementById('solarsystembadgeskipbutton');
+    solarsystembadgeskipbutton.onclick = function() {
+
+        window.opener.solarsystembadgefinish();
+        close();
+    };
+    
 	
 }, false);
 </script>
@@ -56,6 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					<p><label style="float: left;" >Email:</label><input type="text" id="email" name="badge_recipient_email"/></p>
 					<br>
 					<div style="float:right;">
+						<button id="solarsystembadgeskipbutton" class="squarebluebutton">Skip</button>
 						<button id="backpackloginpopupcontinue" type="submit" class="squarebluebutton">Continue</button>
 					</div>
 					<br><br><br>
