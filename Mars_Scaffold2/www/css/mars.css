@@ -224,7 +224,7 @@ div.pathfindervideo1
   z-index: 1;
   background-repeat: no-repeat;
   background-size: 100%;
-  background-image: url(../images/solar_bg.jpg);
+  background-image: url(../images/moku_unit1_start.jpg);
 }
 .curiositybackgroundtarget
 {
@@ -240,7 +240,7 @@ div.pathfindervideo1
   z-index: 1;
   background-repeat: no-repeat;
   background-size: 100%;
-  background-image: url(../images/curiosity_bg.jpg);
+  background-image: url(../images/moku_unit2_start.jpg);
 }
 .contenttarget
 {
