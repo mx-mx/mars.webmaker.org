@@ -88,7 +88,14 @@ function solarsystembadgefinish() {
     	$("#solarsystembadgecomplete").css('pointer-events', 'auto');
     });
 }
-
+function rocketbadgefinish() {
+	$("#rocketbadge").animate({opacity: 0.0}, 200, function() {
+    	$("#rocketbadge").css('pointer-events', 'none');
+    });
+	$("#rocketbadgecomplete").animate({opacity: 1.0}, 200, function() {
+    	$("#rocketbadgecomplete").css('pointer-events', 'auto');
+    });
+}
 
 
 // ensure the web page (DOM) has loaded
@@ -844,6 +851,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		$("#solarsystembadge").animate({opacity: 0.0}, 1, function() { $("#solarsystembadge").css('pointer-events', 'none'); });
 		$("#solarsystembadgecomplete").animate({opacity: 0.0}, 1, function() { $("#solarsystembadgecomplete").css('pointer-events', 'none'); });
 		
+		$("#rocketbadge").animate({opacity: 0.0}, 1, function() { $("#rocketbadge").css('pointer-events', 'none'); });
+		$("#rocketbadgecomplete").animate({opacity: 0.0}, 1, function() { $("#rocketbadgecomplete").css('pointer-events', 'none'); });
+		
 
 		$("#subtitlepanel").animate({opacity: 0.0}, 1, function() {});
 	}
@@ -872,21 +882,36 @@ document.addEventListener("DOMContentLoaded", function () {
     
     
     //pop the mission complete
-    var popBadgeWindow = function() {
+    var popSolarSystemBadgeWindow = function() {
     	//first we should check to see if the user email has been stored
     	//if(userBackpackEmail) {}
     	
     	//then pop the appropriate window
     	var winWidth = 750;
     	var winHeight = 600;
-    	badgeWindow = popupwindow("./badge-it-gadget-lite/process-badges/missionComplete.html",
-    			"New Badge",winWidth, winHeight);
+    	badgeWindow = popupwindow("./badge-it-gadget-lite/process-badges/missionSolarSystemComplete.html",
+    			"Solar System Badge",winWidth, winHeight);
+    }
+    var popRockeyBadgeWindow = function() {
+    	//first we should check to see if the user email has been stored
+    	//if(userBackpackEmail) {}
+    	
+    	//then pop the appropriate window
+    	var winWidth = 750;
+    	var winHeight = 600;
+    	badgeWindow = popupwindow("./badge-it-gadget-lite/process-badges/missionRocketComplete.html",
+    			"Rocket Badge",winWidth, winHeight);
     }
     
     //generic popup window opening function
     var solarsystembadgeuploadbutton = document.getElementById('solarsystembadgeuploadbutton');
     solarsystembadgeuploadbutton.onclick = function() {
-    	popBadgeWindow();
+    	popSolarSystemBadgeWindow();
+    };
+    
+    var rocketbadgeuploadbutton = document.getElementById('rocketbadgeuploadbutton');
+    rocketbadgeuploadbutton.onclick = function() {
+    	popRocketBadgeWindow();
     };
     
     function popupwindow(url, title, w, h) {
@@ -942,7 +967,32 @@ document.addEventListener("DOMContentLoaded", function () {
     	$("#solarsystembadgeskipbutton").click();
     };
     
+
+    var rocketbadgeskipbutton = document.getElementById('rocketbadgeskipbutton');
+    rocketbadgeskipbutton.onclick = function() {
+    	$("#rocketbadge").animate({opacity: 0.0}, 200, function() {
+        	$("#rocketbadge").css('pointer-events', 'none');
+        });
+    	
+
+    	$("#rocketbadgecomplete").animate({opacity: 1.0}, 200, function() {
+        	$("#rocketbadgecomplete").css('pointer-events', 'auto');
+        });
+    	
+    };
+
+
+    var rocketbadgecompletereplaybutton = document.getElementById('rocketbadgecompletereplaybutton');
+    rocketbadgecompletereplaybutton.onclick = function() {
+    	//this will take you back to the 3D navigation lesson.
+    	$("#challenge").click();
+    };
     
+
+    var rocketbadgecompletecontinuebutton = document.getElementById('rocketbadgecompletecontinuebutton');
+    rocketbadgecompletecontinuebutton.onclick = function() {
+    	window.open ('indexRover.html','_self',false);
+    };
     
     var aboutpopupclose = document.getElementById('aboutpopupclose');
     aboutpopupclose.style.cursor = 'pointer';
@@ -1122,7 +1172,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		});
 
-		$( "#threedhome" )
+		$( "#threedhomebutton" )
 			.button()
 			.click(function( event ) {
 
@@ -1149,7 +1199,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					*/
 		});	
 
-		$( "#cam2" )
+		$( "#threedcam2button" )
 			.button()
 			.click(function( event ) {
 
@@ -1170,7 +1220,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				//checkForFourthCameraLesson();
 		});
 
-		$( "#threedearth" )
+		$( "#threedearthbutton" )
 			.button()
 			.click(function( event ) {
 
@@ -1189,7 +1239,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				
 		});
 
-		$( "#threedmars" )
+		$( "#threedmarsbutton" )
 			.button()
 			.click(function( event ) {
 
@@ -1488,6 +1538,15 @@ document.addEventListener("DOMContentLoaded", function () {
 				$("#launchcontrols").animate({opacity: 0.0}, 200, function() {
                 	$("#launchcontrols").css('pointer-events', 'none');
             	});
+				
+				$("#launchdiv").animate({opacity: 0.0}, 200, function() {
+                	$("#launchdiv").css('pointer-events', 'none');
+            	});
+				
+				$("#commitlaunchbutton").animate({opacity: 0.0}, 200, function() {
+                	$("#commitlaunchbutton").css('pointer-events', 'none');
+            	});
+				
 
 				clear3DDrawings();
 				
@@ -1505,9 +1564,12 @@ document.addEventListener("DOMContentLoaded", function () {
 		    	marsOdyssey = null;
 		    	marsOdyssey = new MarsOdyssey();
 				marsOdyssey.init( departure_time, arrival_time, function () {
+					//once drawing is done for launch, then we're done with the second lesson
 				    console.log("heard the done drawing callback");
-				    //move cam to mars for effect.
-					camTweener( { x: 75, y: 50, z: 300 }, ss[4].position, 1500 );
+					//award rocket badge
+					$("#rocketbadge").animate({opacity: 1.0}, 200, function() {
+				    	$("#rocketbadge").css('pointer-events', 'auto');
+				    });
 				    
 				});
 				
@@ -1676,7 +1738,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 
 	var postShadersLoaded = function () {
-		console.log("v:0.3");
+		console.log("v:0.5");
 	        //init();
 	        //animate();
 			$("#loadtext").hide();
@@ -1780,10 +1842,10 @@ document.addEventListener("DOMContentLoaded", function () {
 			</div>
 			<div id="bottombarmiddle" class="bottombarmiddle" style="vertical-align: bottom;align:center">
 				<div id="threedcontrols" class="threedcontrols">
-					<button id="threedhome" class="squarebluebutton">Home</button>
-					<button id="cam2" class="squarebluebutton">Above</button>
-					<button id="threedearth" class="squarebluebutton">Earth</button>
-					<button id="threedmars" class="squarebluebutton">Mars</button>
+					<button id="threedhomebutton" class="squarebluebutton">Home</button>
+					<button id="threedcam2button" class="squarebluebutton">Above</button>
+					<button id="threedearthbutton" class="squarebluebutton">Earth</button>
+					<button id="threedmarsbutton" class="squarebluebutton">Mars</button>
 				</div>
 			</div>
 			
@@ -1871,6 +1933,70 @@ document.addEventListener("DOMContentLoaded", function () {
 					<div style="float:middle;">
 						<button id="solarsystembadgecompletereplaybutton" class="squarebluebutton">Replay</button>
 						<button id="solarsystembadgecompletecontinuebutton" type="submit" class="squarebluebutton">Continue</button>
+					</div>
+			</div>
+		</div>
+		
+		<div id="rocketbadge" class="modalmask">
+			<div id="backpacklogindiv" class="badgecontenttarget">
+				<h1>Mission Complete!</h1>
+				<h1>Badge Award!</h1>
+				<br>
+				Upload your Badge
+				<br><br>
+				<div style="text-align: center;width:100%">
+					<table style="position: absolute; width: 80%;margin:0;padding:0; float:middle;left:15%" >
+						<tr >
+							<td align="left" valign="top">
+								<br>
+								<font style="font-weight:300;">
+								The Rocket Badge awarded for 3D simulation mastery.
+								<br><br>
+								 - successfully launching a rocket to Mars.
+								 </font>
+							
+							</td>
+							<td align="right" valign="top"><img src="./badge-it-gadget-lite/digital-badges/images/badge_pilot.png"> </td>
+							
+						</tr>
+					</table>
+				</div>
+					
+				<br><br><br><br><br><br><br><br><br><br><br><br>
+					<div style="float:middle;">
+						<button id="rocketbadgeskipbutton" class="squarebluebutton">Skip</button>
+						<button id="rocketbadgeuploadbutton" type="submit" class="squarebluebutton">Upload</button>
+					</div>
+			</div>
+		</div>
+		
+		<div id="rocketbadgecomplete" class="modalmask">
+			<div id="backpacklogindiv" class="badgecontenttarget">
+				<h1>Mission Complete!</h1>
+				<h1>Badge Award!</h1>
+				<br>
+				Thanks for playing
+				<br><br>
+				<div style="text-align: center;width:100%">
+					<table style="position: absolute; width: 80%;margin:0;padding:0; float:middle;left:15%" >
+						<tr >
+							<td align="left" valign="top">
+								<br>
+								<font style="font-weight:300;">
+								Congradulations and thanks. 
+								 </font>
+							
+							</td>
+							<td align="right" valign="top"><img src="./badge-it-gadget-lite/digital-badges/images/badge_3D.png"> </td>
+							
+						</tr>
+					</table>
+				</div>
+					
+				<br><br><br><br><br><br><br><br><br><br><br><br>
+					<div style="float:middle;">
+						<button id="rocketbadgecompletereplaybutton" class="squarebluebutton">Replay</button>
+						<button id="rocketbadgecompletecontinuebutton" type="submit" class="squarebluebutton">Continue</button>
 					</div>
 			</div>
 		</div>

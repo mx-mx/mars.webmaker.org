@@ -30,8 +30,8 @@ document.addEventListener("DOMContentLoaded", function () {
         //window.close();
     };
     
-    var solarsystembadgeskipbutton = document.getElementById('solarsystembadgeskipbutton');
-    solarsystembadgeskipbutton.onclick = function() {
+    var badgeskipbutton = document.getElementById('badgeskipbutton');
+    badgeskipbutton.onclick = function() {
 
         window.opener.solarsystembadgefinish();
         close();
@@ -55,15 +55,13 @@ document.addEventListener("DOMContentLoaded", function () {
 				<br><br>
 				<form id="form" method="POST" action="gadget2.php">
 				
-					<input type="hidden" id="badge_info" name="badge_info" value="3" > <!-- 3 is index in badgesArray -->
-					<!-- <input type="hidden" id="name" name="badge_recipient_name" value="recipient name" /> -->
-					<input type="hidden" id="badge_evidence_url" name="badge_evidence_url" value="http://www.voiceovervinnie.com"/>
+					<input type="hidden" id="badge_info" name="badge_info" value="3" > <!-- 3 is index in badgesArray (see gadget-settings.php -->
 					
 					<p><label style="float: left;" >Name:</label><input type="text" id="name" name="badge_recipient_name"/></p>
 					<p><label style="float: left;" >Email:</label><input type="text" id="email" name="badge_recipient_email"/></p>
 					<br>
 					<div style="float:right;">
-						<button id="solarsystembadgeskipbutton" class="squarebluebutton">Skip</button>
+						<button id="badgeskipbutton" class="squarebluebutton">Skip</button>
 						<button id="backpackloginpopupcontinue" type="submit" class="squarebluebutton">Continue</button>
 					</div>
 					<br><br><br>

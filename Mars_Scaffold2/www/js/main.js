@@ -249,6 +249,7 @@ function onDocumentMouseDown( event ) {
 }
 
 function touchdown(){
+	console.log("touchdown?");
 	var marsPosFromMatrix = new THREE.Vector3();
 	marsPosFromMatrix.getPositionFromMatrix( solarSystem.children[8].matrixWorld );
 
