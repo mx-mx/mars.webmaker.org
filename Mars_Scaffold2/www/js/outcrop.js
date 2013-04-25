@@ -1,6 +1,6 @@
 var OUTCROPS = new Array();
 
-var Outcrop = function(){
+var Outcrop = function(imgFile){
 
 	this.name = "Outcrop " + ( OUTCROPS.length + 1 );
 	this.x = 0;
@@ -10,7 +10,7 @@ var Outcrop = function(){
 	this.targetHidden = true;
 
 	var targetMaterial = new THREE.MeshBasicMaterial( { 
-		map: THREE.ImageUtils.loadTexture( './images/target1.png' ), 
+		map: THREE.ImageUtils.loadTexture( imgFile ), 
 		overdraw: true,
 		transparent: true
 	});

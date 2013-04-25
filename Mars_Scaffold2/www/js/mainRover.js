@@ -140,13 +140,13 @@ function setupScene(){
 	// rover.mast.rotation.z = -85 * toRadians;
 	// rover.mast.head.rotation.y = -55 * toRadians;
 
-	var oc = new Outcrop();
+	var oc = new Outcrop('./images/target1_clay.png');
 	oc.setPosition(5,5); //always call set position first before showing target and arrow
 	oc.showTarget();
 	oc.showArrow();
 
 
-	var ocTwo = new Outcrop();
+	var ocTwo = new Outcrop('./images/target4_choc_blueberry.png');
 	ocTwo.setPosition(-10, 10);
 	ocTwo.showTarget();
 	ocTwo.showArrow();
