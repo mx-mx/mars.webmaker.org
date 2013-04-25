@@ -217,6 +217,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		
 		if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 		var postColladaLoaded = function () {
+
+			console.log("v:0.1");
+			
 			initializethreed();
 			$("#loadtext").hide();
 			
