@@ -162,9 +162,14 @@ document.addEventListener("DOMContentLoaded", function () {
     	});
 	});
     
+    popcornMedia[0].cue( .1, function() {
+    	console.log("tweening arm");
+		Tweener(rover.arm.rotation, { x:1, y: 1, z:1 }, 1000);
+	});
+    
     popcornMedia[0].cue( 3, function() {
     	console.log("stowing arm");
-    	scene.add(target);
+    	// scene.add(target);
     	stowArm();
 	});
     
@@ -217,9 +222,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		
 		if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 		var postColladaLoaded = function () {
-
-			console.log("v:0.1");
-			
 			initializethreed();
 			$("#loadtext").hide();
 			
