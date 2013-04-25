@@ -97,10 +97,10 @@ function init() {
 		STATS
 	********************************/
 
-	stats = new Stats();
-	stats.domElement.style.position = 'absolute';
-	stats.domElement.style.top = '0px';
-	$container.append( stats.domElement );
+	//stats = new Stats();
+	//stats.domElement.style.position = 'absolute';
+	//stats.domElement.style.top = '0px';
+	//$container.append( stats.domElement );
 
 	/********************************
 		EVENTS
@@ -246,7 +246,7 @@ function animate() {
     camera.updateProjectionMatrix();
 
 	controls.update();
-	stats.update();
+	//stats.update();
 	TWEEN.update();
 
 	for( var i = 0; i < OUTCROPS.length; i++ ){
