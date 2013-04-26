@@ -96,6 +96,8 @@ function init() {
 
 	controls = new THREE.OrbitControls( camera, $contenttarget[0] );
 	controls.addEventListener( 'change', render );
+	controls.minDistance = 100;
+	controls.maxDistance = 10000;
 
 	setupScene();
 	
