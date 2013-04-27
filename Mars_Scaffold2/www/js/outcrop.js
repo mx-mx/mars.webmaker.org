@@ -1,19 +1,29 @@
 var OUTCROPS = new Array();
 
-var Outcrop = function(imgFile){
+var Outcrop = function(imgFile, trgtSize, useLambert){
 
 	this.name = "Outcrop " + ( OUTCROPS.length + 1 );
 	this.x = 0;
 	this.z = 0;
 	this.targetSize = 5;
+	if(trgtSize) this.targetSize = trgtSize;
 	this.arrowHidden = true;
 	this.targetHidden = true;
-
-	var targetMaterial = new THREE.MeshLambertMaterial( { 
-		map: THREE.ImageUtils.loadTexture( imgFile ), 
-		overdraw: true,
-		transparent: true
-	});
+	
+	var targetMaterial;
+	if(useLambert) {
+		targetMaterial = new THREE.MeshLambertMaterial( { 
+			map: THREE.ImageUtils.loadTexture( imgFile ), 
+			overdraw: true,
+			transparent: true
+		});
+	} else {
+		targetMaterial = new THREE.MeshBasicMaterial( { 
+			map: THREE.ImageUtils.loadTexture( imgFile ), 
+			overdraw: true,
+			transparent: true
+		});
+	}
 
 	this.target = new THREE.Mesh( new THREE.PlaneGeometry( 1, 1 ), targetMaterial );
 	this.target.rotation.x = -90 * toRadians;

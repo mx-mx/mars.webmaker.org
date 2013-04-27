@@ -133,18 +133,18 @@ document.addEventListener("DOMContentLoaded", function () {
 	var popcornSequenceNumber = 0;
 	popcornMedia[0] = Popcorn('#UNIT2_VO_intro' );
 	popcornMedia[1] = Popcorn('#UNIT2_VO_1' );
-	popcornMedia[2] = Popcorn('#UNIT2_VO_1e1' );
-	popcornMedia[3] = Popcorn('#UNIT2_VO_1e2' );
-	popcornMedia[4] = Popcorn('#UNIT2_VO_2' );
-	popcornMedia[5] = Popcorn('#UNIT2_VO_3' );
-	popcornMedia[6] = Popcorn('#UNIT2_VO_3e1' );
-	popcornMedia[7] = Popcorn('#UNIT2_VO_3e2' );
-	popcornMedia[8] = Popcorn('#UNIT2_VO_4' );
-	popcornMedia[9] = Popcorn('#UNIT2_VO_4a' );
-	popcornMedia[10] = Popcorn('#UNIT2_VO_4b' );
-	popcornMedia[11] = Popcorn('#UNIT2_VO_4e2' );
-	popcornMedia[12] = Popcorn('#UNIT2_VO_4e3' );
-	popcornMedia[13] = Popcorn('#UNIT2_VO_conclusion' );
+	popcornMedia[2] = Popcorn('#UNIT2_VO_1e1' ); //call to action
+	popcornMedia[3] = Popcorn('#UNIT2_VO_1e2' ); //if up wasn't used 
+	popcornMedia[4] = Popcorn('#UNIT2_VO_2' ); //good job
+	popcornMedia[5] = Popcorn('#UNIT2_VO_3' ); //lesson 2 calibration plate
+	popcornMedia[6] = Popcorn('#UNIT2_VO_3e1' ); //call to action mast cam button
+	popcornMedia[7] = Popcorn('#UNIT2_VO_3e2' ); //call to action no touch down
+	popcornMedia[8] = Popcorn('#UNIT2_VO_4' ); //good job be sure of data (need to stow instruments)
+	popcornMedia[9] = Popcorn('#UNIT2_VO_4a' ); // good job, calibrated! (show outcrops)
+	popcornMedia[10] = Popcorn('#UNIT2_VO_4b' ); //great, outcrop found, run again 
+	popcornMedia[11] = Popcorn('#UNIT2_VO_4e2' ); //call to action instruments used, not in front of outcrop
+	popcornMedia[12] = Popcorn('#UNIT2_VO_4e3' ); //not what we're looking for
+	popcornMedia[13] = Popcorn('#UNIT2_VO_conclusion' ); //badge
 	
     popcornMedia[0].on( "play", function() {
     	console.log("on play");
@@ -169,12 +169,6 @@ document.addEventListener("DOMContentLoaded", function () {
         	});
     	});
 	});
-
-    //convert a number to a percentage string
-    /*
-	var percentCaculator = function(num) {
-		return num + "%";
-	}*/
     
     $("#energybar").css({'background-color':'rgba(58,132,166,1.0)'});
 	
@@ -193,28 +187,165 @@ document.addEventListener("DOMContentLoaded", function () {
 			}
 		}
 	}, 200);
-	
-	
+
+
     
-    //popcornMedia[0].cue( .1, function() {
-    //	console.log("tweening arm");
-	//	Tweener(rover.arm.rotation, { x:1, y: 1, z:1 }, 1000);
-	//});
+    var useCalibration = function() {
+
+    	Tweener(rover.arm.hand.rotation, { x:0, y: 0.2, z:0 }, 1000);
+    } 
+    
+    var useDrill = function() {
+
+    	Tweener(rover.arm.hand.rotation, { x:0, y: 1.7, z:0 }, 1000);
+    }
+    
+    var extendArm = function () {
+
+    	//Tweener(rover.arm.rotation, { x:0, y: 0, z:0 }, 1000);
+    	Tweener(rover.arm.shoulder.rotation, { x:0, y: -0.85, z:-0.2 }, 1000);
+    	setTimeout(function(){
+        	Tweener(rover.arm.elbow.rotation, { x:0, y: -0.6, z:-2.1 }, 3000);
+        	Tweener(rover.arm.wrist.rotation, { x:0, y: 0, z:0.7 }, 2000);
+        	useCalibration();
+        	setTimeout(function(){
+        		//check to see if we hit a target.
+
+        		for( var i = 0; i < OUTCROPS.length; i++ ){
+        			if( OUTCROPS[i].touchdown( rover.arm.hand, .5 ) ) console.log( "The Rover eye saw " + OUTCROPS[i].name );
+        		}
+        	},3000);
+    	},1000);
+    }
     
     popcornMedia[0].cue( 3, function() {
-    	console.log("stowing arm");
-    	// scene.add(target);
-    	stowArm();
+    	console.log("extending arm");
+    	extendArm();
+	});
+    
+    popcornMedia[0].cue( 10, function() {
+    	console.log("using drill");
+    	useDrill();
+	});
+    
+    popcornMedia[0].cue( 14, function() {
+
+    	stowArm(2500);
 	});
     
 	popcornMedia[0].on( "ended", function() {
     	//$("#youtubetarget").animate({opacity: 0.0}, 100, function() {
         //   	$("#youtubetarget").css('pointer-events', 'none');
        	//});
-    	
     	advancePopcornMedia();
 	});
 	
+	popcornMedia[1].on( "ended", function() {
+    	//setup call to action
+    	
+		cancelCallToAction=false;
+		callToActionLesson1 = setTimeout(function(){callToActionUser()},10000);
+
+		document.addEventListener( 'keyup', onKeyUp, false );
+	});
+	
+	function onKeyUp ( event ) {
+
+		switch( event.keyCode ) {
+			case 38: 
+				cancelCallToAction=true;
+				
+				document.removeEventListener( 'keyup', onKeyUp ); //this may break keyup elsewhere
+				advanceUser();
+				break;
+			case 40: 
+				cancelCallToAction=true;
+				jumpPopcornMedia(3);
+				break;
+			case 37: 
+				cancelCallToAction=true;
+				jumpPopcornMedia(3);
+				break;
+			case 39: 
+				cancelCallToAction=true;
+				jumpPopcornMedia(3);
+				break;
+		}
+		
+	};
+	
+	var callToActionLesson1;
+	
+    //setup vars to walk through mouse 3D lesson
+    var cancelCallToAction=false;
+    var userLessonNumber=0;
+    var userMouseAction=[false,false,false,false];
+    
+    var resetMouseMovementTrackingLession = function () {
+        clearTimeout(callToActionLesson1);
+    	
+    	cancelCallToAction=true;
+        userLessonNumber=0;
+    }
+    
+    var advanceUser = function () {
+    	console.log("advancing user from: " + userLessonNumber);
+		listenToMouseMovements=false;
+		cancelCallToAction=false;
+		clearTimeout(callToActionLesson1);
+		
+		switch(userLessonNumber)
+    	{
+    	case 0:
+			jumpPopcornMedia(4); //calibration plate
+    	  break;
+    	case 1:
+			jumpPopcornMedia(5); //calibrate again
+    	  break;
+    	case 2:
+			jumpPopcornMedia(8); //analyze rock
+	    	break;
+    	case 3:
+			jumpPopcornMedia(10);  //analyze rock again
+	    	break;
+    	case 4:
+			jumpPopcornMedia(13); //badge
+	    	break;
+    	  break;
+    	default:
+    	  //no default audio
+    	}
+		
+    	userLessonNumber++; //update to next lesson
+		
+    }
+    
+    var callToActionUser = function () {
+    	console.log("call to action: ", cancelCallToAction);
+    	if(cancelCallToAction) return;
+    	
+    	switch(userLessonNumber)
+    	{
+    	case 0:
+			jumpPopcornMedia(2);
+    	  break;
+    	default:
+    	  //no default audio
+    	}
+    }
+    
+    popcornMedia[1].on( "ended", function() {
+    	//the click/drag test
+        listenToMouseMovements=true;
+        userMouseAction[userLessonNumber]=true;
+        cancelCallToAction=false;
+        callToActionTimeoutLesson1 = setTimeout(function(){callToActionUser()},10000);
+	});
+    
+    popcornMedia[5].on( "ended", function() {
+    	//the click/drag test
+    	advancePopcornMedia(6);
+	});
 
     
     var advancePopcornMedia = function () {

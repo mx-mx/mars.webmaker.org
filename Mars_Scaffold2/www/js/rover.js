@@ -216,11 +216,15 @@ function stowArm( stowTime ){
 		Tweener(rover.arm.rotation, {x:0, y: 0, z:0}, stowTime);
 		Tweener(rover.arm.elbow.rotation, {x:0, y:0, z:0}, stowTime);
 		Tweener(rover.arm.shoulder.rotation, {x:0, y:0, z:0}, stowTime);
+    	Tweener(rover.arm.wrist.rotation, { x:0, y: 0, z:0 }, stowTime);
+    	Tweener(rover.arm.hand.rotation, { x:0, y: 0, z:0 }, stowTime);
 		armStowed = false;
 	}else{
 		Tweener(rover.arm.rotation, {x:0, y:-90 * toRadians, z:0}, stowTime);
 		Tweener(rover.arm.elbow.rotation, {x:-75 * toRadians, y:0, z:0}, stowTime);
 		Tweener(rover.arm.shoulder.rotation, {x:-10 * toRadians, y:0, z:0}, stowTime);
+    	Tweener(rover.arm.wrist.rotation, { x:0, y: 0, z:0 }, stowTime);
+    	Tweener(rover.arm.hand.rotation, { x:0, y: 0, z:0 }, stowTime);
 		armStowed = true;
 	}
 }

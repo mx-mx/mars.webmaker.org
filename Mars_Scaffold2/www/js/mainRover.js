@@ -140,14 +140,19 @@ function setupScene(){
 	// rover.mast.rotation.z = -85 * toRadians;
 	// rover.mast.head.rotation.y = -55 * toRadians;
 
-	var oc = new Outcrop('./images/target1_clay.png');
-	oc.setPosition(5,35); //always call set position first before showing target and arrow
+	var ocCalibration = new Outcrop('./images/calibration_plate.png', 2, false);
+	ocCalibration.setPosition(0, 10); //always call set position first before showing target and arrow
+	ocCalibration.showTarget();
+	ocCalibration.showArrow();
+	
+	var oc = new Outcrop('./images/target1_clay.png', 5, true);
+	oc.setPosition(-20, 35); //always call set position first before showing target and arrow
 	oc.showTarget();
 	oc.showArrow();
 
 
-	var ocTwo = new Outcrop('./images/target4_choc_blueberry.png');
-	ocTwo.setPosition(-20, 35);
+	var ocTwo = new Outcrop('./images/target4_choc_blueberry.png', 5, true);
+	ocTwo.setPosition(5,35);
 	ocTwo.showTarget();
 	ocTwo.showArrow();
 
@@ -261,7 +266,7 @@ function onKeyUp ( event ) {
 	}
 	for( var i = 0; i < OUTCROPS.length; i++ ){
 		if( OUTCROPS[i].touchdown( rover.mesh, .75 ) ) console.log( OUTCROPS[i].name + " got a touchdown" );
-		if( OUTCROPS[i].touchdown( rover.arm.hand, .25 ) ) console.log( "The Rover eye saw " + OUTCROPS[i].name );
+		if( OUTCROPS[i].touchdown( rover.arm.hand, .5 ) ) console.log( "The Rover eye saw " + OUTCROPS[i].name );
 	}
 };
 
