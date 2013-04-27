@@ -1101,7 +1101,7 @@ div .threedcontrols {
 	display: inline-block;
 	opacity:0;
 	pointer-events:none;
-	background: rgba(13,30,38,0.7);
+	background: rgba(13,30,38,0.5);
 	color: rgba(150,150,150,1.0);
 	font-family: 'Lato', sans-serif;
 	font-weight: 300;
