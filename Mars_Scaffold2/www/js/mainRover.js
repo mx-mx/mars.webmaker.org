@@ -211,14 +211,43 @@ function buildGUI(){
 	camFolder.add( camTweens.four, 'tween' ).name( 'Camera Four' );
 }
 
+var currentEnergyLevel = 100;
+
 function onKeyDown ( event ) {
+	if(currentEnergyLevel<10) {
+		controlsRover.moveForward = false;
+		controlsRover.moveBackward = false;
+		controlsRover.moveLeft = false;
+		controlsRover.moveRight = false;
+		return;
+	}
 
 	switch( event.keyCode ) {
 
-		case 38: /*up*/ controlsRover.moveForward = true; break;
-		case 40: /*up*/ controlsRover.moveBackward = true; break;
-		case 37: /*left*/ controlsRover.moveLeft = true; break;
-		case 39: /*right*/ controlsRover.moveRight = true; break;
+		case 38:
+			/*up*/ controlsRover.moveForward = true; 
+    		if(currentEnergyLevel>=0) {
+        		currentEnergyLevel--;
+    		}
+			break;
+		case 40: 
+			/*up*/ controlsRover.moveBackward = true; 
+    		if(currentEnergyLevel>=0) {
+        		currentEnergyLevel--;
+    		}
+			break;
+		case 37: 
+			/*left*/ controlsRover.moveLeft = true; 
+    		if(currentEnergyLevel>=0) {
+        		currentEnergyLevel--;
+    		}
+			break;
+		case 39: 
+			/*right*/ controlsRover.moveRight = true; 
+    		if(currentEnergyLevel>=0) {
+        		currentEnergyLevel--;
+    		}
+			break;
 	}
 };
 

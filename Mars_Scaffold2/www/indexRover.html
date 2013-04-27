@@ -17,7 +17,6 @@
 <link href="css/custom-theme/jquery-ui-1.10.2.custom.css" rel="stylesheet">
 <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
 
-
 <script type="text/javascript" src="./js/popcorn-complete.js"></script>	
 <script type="text/javascript" src="./js/libs/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="./js/libs/jquery-ui-1.10.1.custom.min.js"></script>
@@ -162,6 +161,41 @@ document.addEventListener("DOMContentLoaded", function () {
     	});
 	});
     
+    popcornMedia[0].cue( 1, function() {
+        $("#rovercontrols").animate({opacity: 1.0}, 200, function() {
+        	$("#rovercontrols").css('pointer-events', 'auto');
+            $("#launchdiv").animate({opacity: 1.0}, 200, function() {
+            	$("#launchdiv").css('pointer-events', 'auto');
+        	});
+    	});
+	});
+
+    //convert a number to a percentage string
+    /*
+	var percentCaculator = function(num) {
+		return num + "%";
+	}*/
+    
+    $("#energybar").css({'background-color':'rgba(58,132,166,1.0)'});
+	
+	
+	//increase energy bar by 1 every half second
+	setInterval(function() { 
+		if(currentEnergyLevel<=100) {
+			currentEnergyLevel++;
+			//our energy div visual reflect the opposite (full looks empty and vice versa)
+			var flipNumber = 100-currentEnergyLevel;
+		    $("#energylevel").css({height:(flipNumber+"%")});
+			if(currentEnergyLevel<30) {
+			    $("#energybar").css({'background-color':'rgba(250,30,30,1.0)'});
+			} else {
+			    $("#energybar").css({'background-color':'rgba(58,132,166,1.0)'});
+			}
+		}
+	}, 200);
+	
+	
+    
     popcornMedia[0].cue( .1, function() {
     	console.log("tweening arm");
 		Tweener(rover.arm.rotation, { x:1, y: 1, z:1 }, 1000);
@@ -212,6 +246,47 @@ document.addEventListener("DOMContentLoaded", function () {
 				popcornMedia[popcornSequenceNumber].play(0);
 			}
 		}
+    }
+  
+    $(document).on('mousedown', function(e) {
+		$("#menupanel").animate({opacity: 0.0}, 1, function() { $("#menupanel").css('pointer-events', 'none'); });
+    });
+  
+    var aboutpopupclose = document.getElementById('aboutpopupclose');
+    aboutpopupclose.style.cursor = 'pointer';
+    aboutpopupclose.onclick = function() {
+    	closeAllSubMenus();
+    };
+    
+    var helppopupclose = document.getElementById('helppopupclose');
+    helppopupclose.style.cursor = 'pointer';
+    helppopupclose.onclick = function() {
+    	closeAllSubMenus();
+    };
+    
+    var helpthreedpopupclose = document.getElementById('helpthreedclose');
+    helpthreedclose.style.cursor = 'pointer';
+    helpthreedclose.onclick = function() {
+    	closeAllSubMenus();
+    };
+    
+    var browserpopupclose = document.getElementById('browserpopupclose');
+    browserpopupclose.style.cursor = 'pointer';
+    browserpopupclose.onclick = function() {
+    	closeAllSubMenus();
+    };
+    
+    var closeAllSubMenus = function() {
+
+		$("#menupanel").animate({opacity: 0.0}, 1, function() { $("#menupanel").css('pointer-events', 'none'); });
+    	$("#aboutpopup").animate({opacity: 0.0}, 200, function() {$("#aboutpopup").css('pointer-events', 'none');});
+    	$("#helppopup").animate({opacity: 0.0}, 200, function() {$("#helppopup").css('pointer-events', 'none');});
+    	$("#helpthreedpopup").animate({opacity: 0.0}, 200, function() {$("#helpthreedpopup").css('pointer-events', 'none');});
+    	$("#browserpopup").animate({opacity: 0.0}, 200, function() {$("#browserpopup").css('pointer-events', 'none');});
+    	$("#incomingmessage").animate({opacity: 0.0}, 200, function() {$("#incomingmessage").css('pointer-events', 'none');});
+    	$("#cmemessage").animate({opacity: 0.0}, 200, function() {$("#cmemessage").css('pointer-events', 'none');});
+		$("#transmissionmessage").animate({opacity: 0.0}, 1, function() { $("#transmissionmessage").css('pointer-events', 'none'); });
+		
     }
 	 
 	
@@ -267,6 +342,16 @@ document.addEventListener("DOMContentLoaded", function () {
 	        	}
 		});
 		
+		$( "#nextbutton" )
+			.button()
+			.click(function( event ) {
+				if(popcornSequenceNumber<5) {
+					jumpToThreeDNavigation();
+				} else if(popcornSequenceNumber<17) {
+					jumpToChallenge();
+				}
+		});
+		
 
 		$( "#beginbutton" )
 			.button()
@@ -281,6 +366,45 @@ document.addEventListener("DOMContentLoaded", function () {
 		       	});
 		});
 		
+		$( "#introduction" )
+			.button()
+			.click(function( event ) {
+				$("#menupanel").animate({opacity: 0.0}, 1, function() { $("#menupanel").css('pointer-events', 'none'); });
+				jumpToIntroduction();
+		});
+		$( "#navigation" )
+			.button()
+			.click(function( event ) {
+				$("#menupanel").animate({opacity: 0.0}, 1, function() { $("#menupanel").css('pointer-events', 'none'); });
+				jumpToThreeDNavigation();
+		});
+		
+		$( "#challenge" )
+			.button()
+			.click(function( event ) {
+				$("#menupanel").animate({opacity: 0.0}, 1, function() { $("#menupanel").css('pointer-events', 'none'); });
+				jumpToChallenge();
+		});
+
+		$( "#about" )
+			.button()
+			.click(function( event ) {
+				$("#menupanel").animate({opacity: 0.0}, 1, function() { $("#menupanel").css('pointer-events', 'none'); });
+				$("#aboutpopup").animate({opacity: 1.0}, 200, function() {
+	            	$("#aboutpopup").css('pointer-events', 'auto');
+	        	});
+		});
+
+
+		$( "#help" )
+			.button()
+			.click(function( event ) {
+				$("#menupanel").animate({opacity: 0.0}, 1, function() { $("#menupanel").css('pointer-events', 'none'); });
+				$("#helppopup").animate({opacity: 1.0}, 200, function() {
+	            	$("#helppopup").css('pointer-events', 'auto');
+	        	});
+		});
+
 	});
 
 }, false);
@@ -347,10 +471,10 @@ document.addEventListener("DOMContentLoaded", function () {
 		
 		<div id="bottombar" class="bottombar">
 			<div id="bottombarleft" class="bottombarleft">
-				<div id="helpbuttonwrapper" class="helpbuttonwrapper" style="opacity: 0.0;pointer-events:none">
+				<div id="helpbuttonwrapper" class="helpbuttonwrapper" style="opacity: 1.0;pointer-events:none">
 					<button id="threedhelpbutton" class="threedhelpbutton">HELP</button>
 				</div>
-				<div id="replaybuttonwrapper" class="replaybuttonwrapper" style="opacity: 0.0;pointer-events:none">
+				<div id="replaybuttonwrapper" class="replaybuttonwrapper" style="opacity: 1.0;pointer-events:none">
 					<button id="replaybutton" class="replaybutton">REPLAY</button>
 				</div>
 			</div>
@@ -364,13 +488,151 @@ document.addEventListener("DOMContentLoaded", function () {
 			</div>
 			
 			<div id="bottombarright" class="bottombarright">
+				
+				<div id="nextbuttonwrapper" class="nextbuttonwrapper" style="opacity: 1.0;pointer-events:none">
+					<div id="playbuttonwrapper" class="playbuttonwrapper" style="opacity: 1.0;pointer-events:none">
+						<div id="playtoggle" class="pause"></div>
+					</div>
+					<button id="nextbutton" class="nextbutton">SKIP</button>
+				</div>
+			</div>
+		</div>
+		
+		<div id="aboutpopup" class="popupdiv">
+			<div id="aboutpopupclose" class="closebutton"><p>&#10006;</p></div>
+			<h1>About</h1>
+			<p>A 3D web experience built in conjuction with MX, the Deparment of Energy and Mozilla.  
+			We have combined <a href="http://popcornjs.org/" target="_new">Popcorn</a> with a 3D experience to all on a Mars journey.
+			</p>
+		</div>
+		<div id="helppopup" class="popupdiv">
+			<div id="helppopupclose" class="closebutton"><p>&#10006;</p></div>
+			<h1>Help</h1>
+			<p>The help page</p>
+		</div>
+		<div id="helpthreedpopup" class="popupdiv">
+			<div id="helpthreedclose" class="closebutton"><p>&#10006;</p></div>
+			<h1>Help</h1>
+			<p>The 3D help page</p>
+		</div>
+		<div id="browserpopup" class="popupdiv">
+			<div id="browserpopupclose" class="closebutton"><p>&#10006;</p></div>
+			<h1>Browser</h1>
+			<p>The browser page</p>
+		</div>
+		
+		<div id="incomingmessage" class="capcommessagediv">
+			<table style="width: 100%;margin:2;padding:0;" >
+				<tr >
+					<td width="50px" rowspan="2" align="left" valign="middle"><img src="./images/icon_satellite.png" style="width:45px;height:45px;"></td>
+					
+					<td align="left">...Incoming Transmission</td>
+				</tr>
+				<tr>
+					<td align="left">
+						<button id="answerbutton" class="squarebluebutton">Answer</button>
+						<button id="ignorebutton" class="squarebluebutton">Ignore</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<div id="transmissionmessage" class="capcommessagediv">
+			<table style="width: 100%;margin:2;padding:0;" >
+				<tr >
+					<td width="50px" rowspan="2" align="left" valign="middle"><img src="./images/icon_satellite.png" style="width:45px;height:45px;"></td>
+					<td align="left">Current Transmission:</td>
+				</tr>
+				<tr>
+					<td align="left" style="font-weight:400;"> Nasa - Capcom </td>
+				</tr>
+			</table>
+		</div>
+		
+		<div id="cmemessage" class="capcommessagereddiv">
+			<table style="width: 100%;margin:2;padding:0;" >
+				<tr >
+					<td width="50px" rowspan="2" align="left" valign="middle"><img src="./images/cme_icon.png" style="width:45px;height:45px;"></td>
+					
+					<td align="left">Alert: CME Detected!</td>
+				</tr>
+				<tr>
+					<td align="left">
+						<button id="investigatecmebutton" class="roundedredbutton">Investigate</button>
+						<button id="ignorecmebutton" class="roundedredbutton">Ignore</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<div id="rovercontrols" class="launchcontrols">
 			
-				<div id="playbuttonwrapper" class="playbuttonwrapper" style="opacity: 0.0;pointer-events:none">
-					<div id="playtoggle" class="pause"></div>
-				</div>
-				<div id="nextbuttonwrapper" class="nextbuttonwrapper" style="opacity: 0.0;pointer-events:none">
-					<button id="nextbutton" class="nextbutton">NEXT</button>
-				</div>
+			<div id="datediv" class="datediv" >
+				<table style="width:100%;height:100%;margin:0;padding:0;" >
+					<tr>
+						<td align="center" valign="bottom" height="20px">Energy</td>
+						<td align="center" valign="bottom">Power Source</td>
+						<td align="center" valign="bottom">Mast Cam</td>
+						<td align="center" valign="bottom">Instruments</td>
+					</tr>
+					<tr>
+						<td align="center" valign="middle" style="height:54px;width:120px;">
+							<div id="energybar" class="energybar">
+								<div id="energylevel" class="energylevel"></div>
+							</div>
+							
+						</td>
+						<td align="center" valign="middle" style="height:54px;width:120px;">
+							<img src="./images/icon_rtg.png" >
+						</td>
+						<td align="center" valign="middle" style="height:54px;width:120px;">
+							<img src="./images/icon_mastcams.png">
+						</td>
+						<td align="center" valign="middle" style="height:54px;width:120px;">
+							<img src="./images/icon_instruments.png">
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<div id="launchdiv" class="launchdiv" >
+				<table style="width:100%;height:100%;margin:0;padding:0;">
+					<tr>
+						<td align="center" valign="bottom" height="20px">Pilot view</td>
+						<td align="center" valign="bottom">Wide View</td>
+						<td align="center" valign="bottom">Side View</td>
+					</tr>
+					<tr>
+						<td align="center" valign="middle" height="54px">
+				 			<button id="rocketbutton" class="playbutton" style="padding:2px 9px">
+								<table style="width:70px;height:100%;margin:0;padding:0;">
+									<tr>
+										<td id="rocketbuttontext">Pilot View</td>
+									</tr>
+								</table>
+							</button>
+						</td>
+						<td align="center" valign="middle">
+				 			<button id="rocketbutton" class="playbutton" style="padding:2px 9px">
+								<table style="width:60px;height:100%;margin:0;padding:0;">
+									<tr>
+										<td id="rocketbuttontext">Wide View</td>
+									</tr>
+								</table>
+							</button>
+						</td>
+						<td align="center" valign="middle">
+				 			<button id="rocketbutton" class="playbutton" style="padding:2px 9px">
+								<table style="width:60px;height:100%;margin:0;padding:0;">
+									<tr>
+										<td id="rocketbuttontext">Side View</td>
+									</tr>
+								</table>
+							</button>
+						</td>
+						
+					</tr>
+				</table>
 			</div>
 		</div>
 		

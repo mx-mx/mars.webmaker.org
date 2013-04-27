@@ -9,7 +9,7 @@ var Outcrop = function(imgFile){
 	this.arrowHidden = true;
 	this.targetHidden = true;
 
-	var targetMaterial = new THREE.MeshBasicMaterial( { 
+	var targetMaterial = new THREE.MeshLambertMaterial( { 
 		map: THREE.ImageUtils.loadTexture( imgFile ), 
 		overdraw: true,
 		transparent: true

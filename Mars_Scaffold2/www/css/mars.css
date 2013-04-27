@@ -622,20 +622,12 @@ div .roundedredbutton:hover{
 }
 .play
 {
-	possition:absolute;
-	flaot:right;
-	top:10px;
-	right:0px;
 	width:30px;
 	height:30px;
 	background-image: url(../images/play.png);
 }
 .pause
 {
-	possition:absolute;
-	flaot:right;
-	bottom:10px;
-	right:0px;
 	width:30px;
 	height:30px;
 	background-image: url(../images/pause.png);
@@ -1090,9 +1082,8 @@ div .replaybuttonwrapper {
 div .playbuttonwrapper { 
 	z-index: 3;
 	position:absolute; 
-	height:100%;
-	right:10px;
-	top:10px;
+	right:100px;
+	bottom:3px;
 }
 div .threedcontrols { 
 	display: inline-block;
@@ -1146,6 +1137,21 @@ div .threedcontrols {
 	top:5%;
     left:2%;
 	z-index: 5;
+}
+.energybar
+{ 
+	padding:0px 0px 0px 0px;
+	display: inline-block;
+	/*background: rgba(58,132,166,1.0);*/
+	border: 2px solid rgba(13,30,38,1.0);
+	outline: 2px solid rgba(58,132,166,1.0);
+	height: 30px;
+	width: 15px;
+	align:bottom;
+}
+.energylevel
+{ 
+	background: rgba(13,30,38,1.0);
 }
 .datepicker {
 	background: rgba(18,40,51,1.0);

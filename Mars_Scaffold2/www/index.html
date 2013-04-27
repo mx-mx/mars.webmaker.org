@@ -584,6 +584,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     
     $(document).on('mousedown', function(e) {
+		$("#menupanel").animate({opacity: 0.0}, 1, function() { $("#menupanel").css('pointer-events', 'none'); });
 		//planet clicking
     	if(projector) {
         	var vector = new THREE.Vector3( mouse.x, mouse.y, 1 );
@@ -646,8 +647,6 @@ document.addEventListener("DOMContentLoaded", function () {
     		mousePosY = e.clientY + document.body.scrollTop
     			+ document.documentElement.scrollTop;
     	}
-    	
-    	
     	
     });
   
@@ -1455,7 +1454,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		$( "#about" )
 			.button()
 			.click(function( event ) {
-				console.log("about clicked");
 				$("#aboutpopup").animate({opacity: 1.0}, 200, function() {
                 	$("#aboutpopup").css('pointer-events', 'auto');
             	});
@@ -1783,9 +1781,6 @@ document.addEventListener("DOMContentLoaded", function () {
 						<div id="canvastarget" style="position:absolute;left:-130px;top:-22px"></div>
 					</div>
 				</div>
-				<div id="playbuttonwrapper" class="playbuttonwrapper" style="opacity:0.0;pointer-events:none">
-					<div id="playtoggle" class="pause"></div>
-				</div>
 			</div>
 			
 			<div id="topbarright" class="topbarright">
@@ -1852,7 +1847,10 @@ document.addEventListener("DOMContentLoaded", function () {
 			<div id="bottombarright" class="bottombarright">
 			
 				<div id="nextbuttonwrapper" class="nextbuttonwrapper" style="opacity: 0.0;pointer-events:none">
-					<button id="nextbutton" class="nextbutton">NEXT</button>
+					<div id="playbuttonwrapper" class="playbuttonwrapper" style="opacity: 0.0;pointer-events:none">
+						<div id="playtoggle" class="pause"></div>
+					</div>
+					<button id="nextbutton" class="nextbutton">SKIP</button>
 				</div>
 			</div>
 		</div>
@@ -1919,7 +1917,7 @@ document.addEventListener("DOMContentLoaded", function () {
 							<td align="left" valign="top">
 								<br>
 								<font style="font-weight:300;">
-								Congradulations and thanks. 
+								Congratulations and thanks. 
 								 </font>
 							
 							</td>
@@ -1983,7 +1981,7 @@ document.addEventListener("DOMContentLoaded", function () {
 							<td align="left" valign="top">
 								<br>
 								<font style="font-weight:300;">
-								Congradulations and thanks. 
+								Congratulations and thanks. 
 								 </font>
 							
 							</td>

@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html class="ie ie6 no-js" lang="en"> <![endif]-->
+<!--[if IE 7 ]>    <html class="ie ie7 no-js" lang="en"> <![endif]-->
+<!--[if IE 8 ]>    <html class="ie ie8 no-js" lang="en"> <![endif]-->
+<!--[if IE 9 ]>    <html class="ie ie9 no-js" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<link rel="stylesheet" type="text/css" href="../../css/mars.css" />
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
+<link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
+
+<script src="../../js/libs/jquery-1.9.1.min.js"></script>
+<script src="../../js/libs/jquery-ui-1.10.1.custom.min.js"></script>
+
+<script src="http://beta.openbadges.org/issuer.js"></script>
+
+<script type="text/javascript">
+document.addEventListener("DOMContentLoaded", function () {
+	
+	$('#backpackloginpopupcheckbox').prop('checked', true);
+	
+	var popitbutton = document.getElementById('backpackloginpopupcontinue');
+    popitbutton.onclick = function() {
+    	//alert("want to send message back to main window.");
+    	
+    	//probably do some rudimentary client-side email checking here.
+    	var userEmailValue = document.getElementById('email').value;
+        window.opener.setUserBackpackEmail(userEmailValue);
+        //window.close();
+    };
+    
+    var badgeskipbutton = document.getElementById('badgeskipbutton');
+    badgeskipbutton.onclick = function() {
+
+        window.opener.rocketbadgefinish();
+        close();
+    };
+    
+	
+}, false);
+</script>
+</head>
+	<body>
+		
+		<div id="backpackloginpopup" class="modalmask" style="opacity:1.0;pointer-events:auto;">
+			<div id="backpacklogindiv" class="badgecontenttarget">
+				<h1>Mission Complete!</h1>
+				<h1>Badge Award!</h1>
+				<br>
+				You've earned a badge!!!
+				<br><br>
+				<!-- <img src="./badge-it-gadget-lite/digital-badges/images/badge_3D.png"> -->
+				<br><br><br>
+				<br><br>
+				<form id="form" method="POST" action="gadget2.php">
+				
+					<input type="hidden" id="badge_info" name="badge_info" value="4" > <!-- 4 is index in badgesArray (see gadget-settings.php -->
+					
+					<p><label style="float: left;" >Name:</label><input type="text" id="name" name="badge_recipient_name"/></p>
+					<p><label style="float: left;" >Email:</label><input type="text" id="email" name="badge_recipient_email"/></p>
+					<br>
+					<div style="float:right;">
+						<button id="badgeskipbutton" class="squarebluebutton">Skip</button>
+						<button id="backpackloginpopupcontinue" type="submit" class="squarebluebutton">Continue</button>
+					</div>
+					<br><br><br>
+					<div style="display:inline;float:left">
+						<input type="checkbox" id="backpackloginpopupcheckbox"  class="regular-checkbox" /> <label class="checkboxlabel">email list</label>
+					</div>
+				</form>
+			</div>
+		</div>
+		
+	</body>
+</html>
