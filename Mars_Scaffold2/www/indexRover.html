@@ -300,16 +300,16 @@ document.addEventListener("DOMContentLoaded", function () {
 			jumpPopcornMedia(4); //calibration plate
     	  break;
     	case 1:
-			jumpPopcornMedia(5); //calibrate again
+			jumpPopcornMedia(8); //calibrate again
     	  break;
     	case 2:
-			jumpPopcornMedia(8); //analyze rock
+			jumpPopcornMedia(10); //analyze rock
 	    	break;
     	case 3:
-			jumpPopcornMedia(10);  //analyze rock again
+			jumpPopcornMedia(13);  //analyze rock again
 	    	break;
     	case 4:
-			jumpPopcornMedia(13); //badge
+			//jumpPopcornMedia(13); //badge
 	    	break;
     	  break;
     	default:
@@ -342,9 +342,9 @@ document.addEventListener("DOMContentLoaded", function () {
         callToActionTimeoutLesson1 = setTimeout(function(){callToActionUser()},10000);
 	});
     
-    popcornMedia[5].on( "ended", function() {
+    popcornMedia[4].on( "ended", function() {
     	//the click/drag test
-    	advancePopcornMedia(6);
+    	advancePopcornMedia(5);
 	});
 
     
