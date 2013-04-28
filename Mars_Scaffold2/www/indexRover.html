@@ -187,51 +187,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			}
 		}
 	}, 200);
-
-
     
-    var useCalibration = function() {
-
-    	Tweener(rover.arm.hand.rotation, { x:0, y: 0.2, z:0 }, 1000);
-    } 
     
-    var useDrill = function() {
-
-    	Tweener(rover.arm.hand.rotation, { x:0, y: 1.7, z:0 }, 1000);
-    }
-    
-    var extendArm = function () {
-
-    	//Tweener(rover.arm.rotation, { x:0, y: 0, z:0 }, 1000);
-    	Tweener(rover.arm.shoulder.rotation, { x:0, y: -0.85, z:-0.2 }, 1000);
-    	setTimeout(function(){
-        	Tweener(rover.arm.elbow.rotation, { x:0, y: -0.6, z:-2.1 }, 3000);
-        	Tweener(rover.arm.wrist.rotation, { x:0, y: 0, z:0.7 }, 2000);
-        	useCalibration();
-        	setTimeout(function(){
-        		//check to see if we hit a target.
-
-        		for( var i = 0; i < OUTCROPS.length; i++ ){
-        			if( OUTCROPS[i].touchdown( rover.arm.hand, .5 ) ) console.log( "The Rover eye saw " + OUTCROPS[i].name );
-        		}
-        	},3000);
-    	},1000);
-    }
-    
-    popcornMedia[0].cue( 3, function() {
-    	console.log("extending arm");
-    	extendArm();
-	});
-    
-    popcornMedia[0].cue( 10, function() {
-    	console.log("using drill");
-    	useDrill();
-	});
-    
-    popcornMedia[0].cue( 14, function() {
-
-    	stowArm(2500);
-	});
     
 	popcornMedia[0].on( "ended", function() {
     	//$("#youtubetarget").animate({opacity: 0.0}, 100, function() {
@@ -252,21 +209,20 @@ document.addEventListener("DOMContentLoaded", function () {
 	function onKeyUp ( event ) {
 
 		switch( event.keyCode ) {
-			case 38: 
+			case 38: //up
 				cancelCallToAction=true;
-				
 				document.removeEventListener( 'keyup', onKeyUp ); //this may break keyup elsewhere
 				advanceUser();
 				break;
-			case 40: 
+			case 40: //down
 				cancelCallToAction=true;
 				jumpPopcornMedia(3);
 				break;
-			case 37: 
+			case 37: //left
 				cancelCallToAction=true;
 				jumpPopcornMedia(3);
 				break;
-			case 39: 
+			case 39: //right
 				cancelCallToAction=true;
 				jumpPopcornMedia(3);
 				break;
@@ -420,6 +376,66 @@ document.addEventListener("DOMContentLoaded", function () {
 		
     }
 	 
+    var instrumentsbutton = document.getElementById('instrumentsbutton');
+    instrumentsbutton.style.cursor = 'pointer';
+    instrumentsbutton.onclick = function() {
+    	console.log("rover armStowed: " + rover.armStowed);
+    	
+    	if(rover.armStowed) {
+        	rover.extendArm(4000);
+    	} else {
+    		rover.stowArm();
+    	}
+    }
+    $("#instrumentsbutton").hover(function() {
+    	$("#instrumentsbutton").animate({opacity: 0.8}, 100, function() {
+        });
+    }, function() {
+    	$("#instrumentsbutton").animate({opacity: 1.0}, 100, function() {
+        });
+    });
+
+    var camsbutton = document.getElementById('camsbutton');
+    camsbutton.style.cursor = 'pointer';
+    camsbutton.onclick = function() {
+    	console.log("rover camsStowed: " + rover.mastStowed);
+    	/*
+    	if(rover.mastStowed) {
+        	rover.extendMast(4000);
+    	} else {
+    		rover.stowMast();
+    	}*/
+    	rover.scanMast(4000);
+    }
+    $("#camsbutton").hover(function() {
+    	$("#camsbutton").animate({opacity: 0.8}, 100, function() {
+        });
+    }, function() {
+    	$("#camsbutton").animate({opacity: 1.0}, 100, function() {
+        });
+    });
+    
+    var checkInstrumentsOnTarget = function() {
+    	for( var i = 0; i < OUTCROPS.length; i++ ){
+    		if( OUTCROPS[i].touchdown( rover.arm.hand, .5 ) )  {
+    			console.log( "The Rover eye saw " + OUTCROPS[i].name );
+    			return OUTCROPS[i].name;
+    		} else {
+    			return null;
+    		}
+    	}
+    }
+    
+    var checkRoverOnTarget = function() {
+    	for( var i = 0; i < OUTCROPS.length; i++ ){
+    		if( OUTCROPS[i].touchdown( rover.mesh, .75 ) ) { 
+    			console.log( OUTCROPS[i].name + " got a touchdown" );
+    			return OUTCROPS[i].name;
+    		} else {
+    			return null;
+    		}
+    	}
+    }
 	
 	$(document).ready( function() {
 		infinityloader.play();
@@ -703,7 +719,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					<tr>
 						<td align="center" valign="bottom" height="20px">Energy</td>
 						<td align="center" valign="bottom">Power Source</td>
-						<td align="center" valign="bottom">Mast Cam</td>
+						<td align="center" valign="bottom">Mast Cams</td>
 						<td align="center" valign="bottom">Instruments</td>
 					</tr>
 					<tr>
@@ -717,10 +733,10 @@ document.addEventListener("DOMContentLoaded", function () {
 							<img src="./images/icon_rtg.png" >
 						</td>
 						<td align="center" valign="middle" style="height:54px;width:110px;">
-							<img src="./images/icon_mastcams.png">
+							<img id="camsbutton" src="./images/icon_mastcams.png">
 						</td>
 						<td align="center" valign="middle" style="height:54px;width:110px;">
-							<img src="./images/icon_instruments.png">
+							<img id="instrumentsbutton" src="./images/icon_instruments.png">
 						</td>
 					</tr>
 				</table>

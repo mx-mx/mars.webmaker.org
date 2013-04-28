@@ -22,8 +22,6 @@ var terrainLoader = new THREE.ColladaLoader();
 
 var outcropOne;
 
-var armStowed = true,
-	mastStowed = true;
 
 var time = 0;
 var toRadians = Math.PI/180;

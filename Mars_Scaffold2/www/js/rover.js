@@ -18,6 +18,12 @@ var Rover = function ( dae ) {
 	this.BACK_DECCELERATION = 5000;
 	this.LEFT_DECCELERATION = 1000;
 	this.RIGHT_DECCELERATION = 1000;
+	
+
+	this.armStowed = true;
+	this.mastStowed = false;
+	this.isMovingInstrument = false;
+	this.isMovingMast = false;
 
 	// internal control variables
 
@@ -208,36 +214,104 @@ var Rover = function ( dae ) {
 	function sinusoidalEaseOut( k ) { return Math.sin( k * Math.PI / 2 ); }
 	function exponentialEaseOut( k ) { return k === 1 ? 1 : - Math.pow( 2, - 10 * k ) + 1; }
 
+
+	this.extendArm = function(duration) {
+		if(!this.isMovingInstrument) {
+			if(!this.armStowed) return;
+			this.isMovingInstrument=true;
+
+			if (duration === undefined) duration = 3000;
+			//Tweener(rover.arm.rotation, { x:0, y: 0, z:0 }, 1000);
+			Tweener(this.arm.shoulder.rotation, { x:0, y: -0.85, z:-0.2 }, (duration/3));
+			Tweener(this.arm.elbow.rotation, { x:0, y: -0.6, z:-2.1 }, duration);
+	    	Tweener(this.arm.wrist.rotation, { x:0, y: 0, z:0.7 }, (duration/2));
+	    	this.useCalibration();
+	    	setTimeout(function(){
+	    		scope.isMovingInstrument=false;
+	    		scope.armStowed=false;
+	    	},duration);
+		}
+	};
+	
+	this.stowArm = function ( duration ){
+		if(!this.isMovingInstrument) {
+			if(this.armStowed) return;
+			this.isMovingInstrument=true;
+			if (duration === undefined) duration = 1500;
+			Tweener(rover.arm.rotation, {x:0, y: 0, z:0}, duration);
+			Tweener(rover.arm.elbow.rotation, {x:0, y:0, z:0}, duration);
+			Tweener(rover.arm.shoulder.rotation, {x:0, y:0, z:0}, duration);
+	    	Tweener(rover.arm.wrist.rotation, { x:0, y: 0, z:0 }, duration);
+	    	Tweener(rover.arm.hand.rotation, { x:0, y: 0, z:0 }, duration);
+	    	setTimeout(function(){
+	    		scope.isMovingInstrument=false;
+	    		scope.armStowed=true;
+	    	},duration);
+		}
+
+	};
+
+	this.stowMast = function ( duration ){
+		if(!this.isMovingMast) {
+			if(this.mastStowed) return;
+			this.isMovingMast=true;
+			if (duration === undefined) duration = 1500;
+			Tweener(rover.mast.rotation, {x:0, y:33 * toRadians, z:-85 * toRadians}, duration);
+			Tweener(rover.mast.head.rotation, {x:0, y:-55 * toRadians, z:0}, duration);
+			
+			setTimeout(function(){
+	    		scope.isMovingMast=false;
+	    		scope.mastStowed=true;
+	    	},duration);
+		}
+	};
+	
+	this.extendMast = function ( duration ){
+
+		if(!this.isMovingMast) {
+			if(!this.mastStowed) return;
+			this.isMovingMast=true;
+			if (duration === undefined) duration = 1500;
+			Tweener(rover.mast.rotation, {x:0, y:33 * toRadians, z:0}, duration);
+			Tweener(rover.mast.head.rotation, {x:0, y:0, z:0}, duration);
+			
+			setTimeout(function(){
+	    		scope.isMovingMast=false;
+	    		scope.mastStowed=false;
+	    	},duration);
+		}
+	};
+	
+	this.scanMast = function ( duration ){
+		if(!this.isMovingMast) {
+			if(this.mastStowed) return;
+			this.isMovingMast=true;
+			if (duration === undefined) duration = 1500;
+			Tweener(rover.mast.head.rotation, {x:0, y:-55 * toRadians, z:0}, (duration/4));
+			setTimeout(function(){
+				Tweener(scope.mast.head.rotation, {x:0, y:55 * toRadians, z:0}, (duration/2));
+				
+				setTimeout(function(){
+					Tweener(rover.mast.head.rotation, {x:0, y:0, z:0}, (duration/4));
+		    	},(duration/2));
+				
+	    	},(duration/4));
+			
+			setTimeout(function(){
+	    		scope.isMovingMast=false;
+	    	},duration);
+		}
+	};
+
+	this.useCalibration = function (){
+		Tweener(this.arm.hand.rotation, { x:0, y: 0.2, z:0 }, 1000);
+	};
+
+	this.useDrill = function (){
+		Tweener(this.arm.hand.rotation, { x:0, y: 1.7, z:0 }, 1000);
+	};
 };
 
-function stowArm( stowTime ){
-	if (stowTime === undefined) stowTime = 1500;
-	if( armStowed ){
-		Tweener(rover.arm.rotation, {x:0, y: 0, z:0}, stowTime);
-		Tweener(rover.arm.elbow.rotation, {x:0, y:0, z:0}, stowTime);
-		Tweener(rover.arm.shoulder.rotation, {x:0, y:0, z:0}, stowTime);
-    	Tweener(rover.arm.wrist.rotation, { x:0, y: 0, z:0 }, stowTime);
-    	Tweener(rover.arm.hand.rotation, { x:0, y: 0, z:0 }, stowTime);
-		armStowed = false;
-	}else{
-		Tweener(rover.arm.rotation, {x:0, y:-90 * toRadians, z:0}, stowTime);
-		Tweener(rover.arm.elbow.rotation, {x:-75 * toRadians, y:0, z:0}, stowTime);
-		Tweener(rover.arm.shoulder.rotation, {x:-10 * toRadians, y:0, z:0}, stowTime);
-    	Tweener(rover.arm.wrist.rotation, { x:0, y: 0, z:0 }, stowTime);
-    	Tweener(rover.arm.hand.rotation, { x:0, y: 0, z:0 }, stowTime);
-		armStowed = true;
-	}
-}
 
-function stowMast( stowTime ){
-	if (stowTime === undefined) stowTime = 1500;
-	if( mastStowed ){
-		Tweener(rover.mast.rotation, {x:0, y:33 * toRadians, z:0}, stowTime);
-		Tweener(rover.mast.head.rotation, {x:0, y:0, z:0}, stowTime);
-		mastStowed = false;
-	}else{
-		Tweener(rover.mast.rotation, {x:0, y:33 * toRadians, z:-85 * toRadians}, stowTime);
-		Tweener(rover.mast.head.rotation, {x:0, y:-55 * toRadians, z:0}, stowTime);
-		mastStowed = true;
-	}
-}
+
+
