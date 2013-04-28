@@ -127,6 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		]
 	 
 	});
+	
 
 	//start popcorn definitions/array
 	var popcornMedia = new Array();
@@ -168,6 +169,17 @@ document.addEventListener("DOMContentLoaded", function () {
             	$("#launchdiv").css('pointer-events', 'auto');
         	});
     	});
+        
+	});
+    
+    popcornMedia[5].cue( 1, function() {
+    	ocCalibration.setPosition(0, 10); //always call set position first before showing target and arrow
+    	ocCalibration.showTarget();
+    	ocCalibration.showArrow();
+	});
+    
+    popcornMedia[8].cue( 2, function() {
+    	rover.stowArm();
 	});
     
     $("#energybar").css({'background-color':'rgba(58,132,166,1.0)'});
@@ -212,19 +224,19 @@ document.addEventListener("DOMContentLoaded", function () {
 			case 38: //up
 				cancelCallToAction=true;
 				document.removeEventListener( 'keyup', onKeyUp ); //this may break keyup elsewhere
-				advanceUser();
+				setTimeout(function(){advanceUser();}, 800);
 				break;
 			case 40: //down
 				cancelCallToAction=true;
-				jumpPopcornMedia(3);
+				setTimeout(function(){jumpPopcornMedia(3);}, 800);
 				break;
 			case 37: //left
 				cancelCallToAction=true;
-				jumpPopcornMedia(3);
+				setTimeout(function(){jumpPopcornMedia(3);}, 800);
 				break;
 			case 39: //right
 				cancelCallToAction=true;
-				jumpPopcornMedia(3);
+				setTimeout(function(){jumpPopcornMedia(3);}, 800);
 				break;
 		}
 		
@@ -246,7 +258,6 @@ document.addEventListener("DOMContentLoaded", function () {
     
     var advanceUser = function () {
     	console.log("advancing user from: " + userLessonNumber);
-		listenToMouseMovements=false;
 		cancelCallToAction=false;
 		clearTimeout(callToActionLesson1);
 		
@@ -382,7 +393,32 @@ document.addEventListener("DOMContentLoaded", function () {
     	console.log("rover armStowed: " + rover.armStowed);
     	
     	if(rover.armStowed) {
-        	rover.extendArm(4000);
+    		var duration = 4000;
+        	rover.extendArm(duration);
+        	setTimeout(function(){
+
+        		//for procedural reasons... we're placing 2 test in front of 1 test. (the both call advanceUser)  TODO: fix this!
+        		if(userLessonNumber==2) {
+    	    		if(checkInstrumentsOnTarget()) {
+    	    			advanceUser();
+    	    			//hide calibration plate
+    	    			ocCalibration.hideTarget();
+						ocCalibration.hideArrow();
+    	    		} else {
+    	    			//jumpPopcornMedia(10);
+    	    		}
+        		}
+        		//first check to see if the lesson is live, if so call the audio
+        		
+        		if(userLessonNumber==1) {
+
+    	    		if(checkInstrumentsOnTarget()) {
+    	    			advanceUser();
+    	    		} else {
+    	    			jumpPopcornMedia(7);
+    	    		}
+        		}
+	    	}, (duration+10));
     	} else {
     		rover.stowArm();
     	}

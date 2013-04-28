@@ -20,9 +20,6 @@ var dae,
 var roverLoader = new THREE.ColladaLoader();
 var terrainLoader = new THREE.ColladaLoader();
 
-var outcropOne;
-
-
 var time = 0;
 var toRadians = Math.PI/180;
 
@@ -110,6 +107,10 @@ function init() {
 	window.addEventListener( 'resize', onWindowResize, false );
 
 }
+//TODO: clean this up.  make an array.
+var ocCalibration;
+var oc;
+var ocTwo;
 
 function setupScene(){
 
@@ -138,21 +139,21 @@ function setupScene(){
 	// rover.mast.rotation.z = -85 * toRadians;
 	// rover.mast.head.rotation.y = -55 * toRadians;
 
-	var ocCalibration = new Outcrop('./images/calibration_plate.png', 2, false);
-	ocCalibration.setPosition(0, 10); //always call set position first before showing target and arrow
-	ocCalibration.showTarget();
-	ocCalibration.showArrow();
+	ocCalibration = new Outcrop('./images/calibration_plate.png', 2, false);
+	//ocCalibration.setPosition(0, 10); //always call set position first before showing target and arrow
+	//ocCalibration.showTarget();
+	//ocCalibration.showArrow();
 	
-	var oc = new Outcrop('./images/target1_clay.png', 5, true);
+	oc = new Outcrop('./images/target1_clay.png', 5, true);
 	oc.setPosition(-20, 35); //always call set position first before showing target and arrow
-	oc.showTarget();
-	oc.showArrow();
+	//oc.showTarget();
+	//oc.showArrow();
 
 
-	var ocTwo = new Outcrop('./images/target4_choc_blueberry.png', 5, true);
+	ocTwo = new Outcrop('./images/target4_choc_blueberry.png', 5, true);
 	ocTwo.setPosition(5,35);
-	ocTwo.showTarget();
-	ocTwo.showArrow();
+	//ocTwo.showTarget();
+	//ocTwo.showArrow();
 
 	// var grid = CreateGrid( 0, .5, 50 );
 	// scene.add( grid );
