@@ -94,6 +94,10 @@ Outcrop.prototype.touchdown = function( mesh, sensitivity ){
 Outcrop.prototype.updateArrow = function(){
 	var vector = new THREE.Vector3();
 	vector.getPositionFromMatrix( this.arrow.matrixWorld );
-	vector.sub( camera.position );
+
+	var camVec = new THREE.Vector3();
+	camVec.getPositionFromMatrix( camera.matrixWorld );
+
+	vector.sub( camVec );
 	this.arrow.rotation.y = Math.atan2( vector.x, vector.z) + 3;	
 }
