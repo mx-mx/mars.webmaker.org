@@ -22,6 +22,8 @@ function rand_string( $length ) { //this function just obscures the users name a
 
 if( isset($_POST) ){
 	
+	//set default timezone
+	date_default_timezone_set('America/Los_Angeles');
 	
 	//set all variables
 	

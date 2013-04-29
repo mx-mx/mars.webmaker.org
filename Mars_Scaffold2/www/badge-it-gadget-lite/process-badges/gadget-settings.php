@@ -28,7 +28,7 @@ $issuer_url = "http://www.mx-mx.com/lab/moku/";
 
 /*NOTE: your server may require the path to be: $root_path = $_SERVER['DOCUMENT_ROOT']."/badge-it-gadget-lite/process-badges/"; (Notice forward slash before "badge-it-gadget-lite" */
 
-$root_path = $_SERVER['DOCUMENT_ROOT']."/popcorn/marsScaffold2/badge-it-gadget-lite/process-badges/";
+$root_path = $_SERVER['DOCUMENT_ROOT']."/lab/moku/badge-it-gadget-lite/process-badges/";
 
 /* issuer name  - REQUIRED. name of organization or person that is issuing the badges. */
 
@@ -44,9 +44,9 @@ $issuer_contact = "";
 
 /* JSON file directory - REQUIRED. CHMOD 777. OpenBadgifier generates JSON file for each issued badge (per person). The JSON files need to be in a publicly accessible but not obvious directory. This should start at the document root of your host. Note that example has slashes at the end of the path. Please be sure to include. */
 
-/*NOTE: your server may require the path to be: $json_dir = $_SERVER['DOCUMENT_ROOT']."/popcorn/marsScaffold2/badge-it-gadget-lite/digital-badges/issued/json/"; (Notice forward slash before "badge-it-gadget-lite" */
+/*NOTE: your server may require the path to be: $json_dir = $_SERVER['DOCUMENT_ROOT']."/lab/moku/badge-it-gadget-lite/digital-badges/issued/json/"; (Notice forward slash before "badge-it-gadget-lite" */
 
-$json_dir = $_SERVER['DOCUMENT_ROOT']."/popcorn/marsScaffold2/badge-it-gadget-lite/digital-badges/issued/json/";
+$json_dir = $_SERVER['DOCUMENT_ROOT']."/lab/moku/badge-it-gadget-lite/digital-badges/issued/json/";
 
 /* url location of json badge storage */
 
