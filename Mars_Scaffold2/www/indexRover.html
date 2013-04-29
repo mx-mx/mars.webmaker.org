@@ -51,7 +51,14 @@ function setUserBackpackEmail(emailValue) {
 	console.log("user email set to: ",userBackpackEmail);
 }
 
-
+function roverpilotbadgefinish() {
+	$("#roverpilotbadge").animate({opacity: 0.0}, 200, function() {
+    	$("#roverpilotbadge").css('pointer-events', 'none');
+    });
+	$("#roverpilotbadgecomplete").animate({opacity: 1.0}, 200, function() {
+    	$("#roverpilotbadgecomplete").css('pointer-events', 'auto');
+    });
+}
 
 // ensure the web page (DOM) has loaded
 document.addEventListener("DOMContentLoaded", function () {
@@ -329,10 +336,6 @@ document.addEventListener("DOMContentLoaded", function () {
     	case 3:
 			jumpPopcornMedia(13);  //badge
 	    	break;
-    	case 4:
-			//jumpPopcornMedia(13); //badge
-	    	break;
-    	  break;
     	default:
     	  //no default audio
     	}
@@ -438,26 +441,45 @@ document.addEventListener("DOMContentLoaded", function () {
         	if(lessonOpen) {
 				
             	setTimeout(function(){
-            		//for procedural reasons... we're placing 2 test in front of 1 test. (the both call advanceUser)  TODO: fix this!
-            		if(userLessonNumber==2) {
-        	    		if(checkInstrumentsOnTarget()) {
+            		var theTargetSeen = checkInstrumentsOnTarget();
+            		console.log("Target Seen: " + theTargetSeen);
+            		//for procedural reasons... we're placing 3 test in front of 2 test in front of 1 test. (the both call advanceUser)  TODO: fix this!
+            		if(userLessonNumber==3) {
+        	    		if(theTargetSeen=="Outcrop 2") {
         	    			advanceUser();
+        	    	    	rover.stowArm();
+        	    		} else if (theTargetSeen=="Outcrop 1" || theTargetSeen=="Outcrop 3") {
+        	    			jumpPopcornMedia(12);
+        	    	    	rover.stowArm();
         	    		} else {
-        	    			//jumpPopcornMedia(10);
+        	    			jumpPopcornMedia(11);
+        	    	    	rover.stowArm();
+        	    		}
+            		}
+            		
+            		if(userLessonNumber==2) {
+        	    		if(theTargetSeen=="Outcrop 2") {
+        	    			advanceUser();
+        	    	    	rover.stowArm();
+        	    		} else if (theTargetSeen=="Outcrop 1" || theTargetSeen=="Outcrop 3") {
+        	    			jumpPopcornMedia(12);
+        	    	    	rover.stowArm();
+        	    		} else {
+        	    			jumpPopcornMedia(11);
+        	    	    	rover.stowArm();
         	    		}
             		}
             		//first check to see if the lesson is live, if so call the audio
-            		
             		if(userLessonNumber==1) {
-
-        	    		if(checkInstrumentsOnTarget()) {
+        	    		if(theTargetSeen=="Outcrop 1") {
         	    			advanceUser();
         	    		} else {
         	    			jumpPopcornMedia(7);
         	    	    	rover.stowArm();
         	    		}
             		}
-    	    	}, (duration+10));
+            		
+    	    	}, (duration+1000));
         	}
     	} else {
     		rover.stowArm();
@@ -503,6 +525,80 @@ document.addEventListener("DOMContentLoaded", function () {
 		ocTwo.showTarget();
 		ocTwo.showArrow();
 	});
+    
+	popcornMedia[13].cue( 3, function() {
+		//TODO: show badge
+
+    	$("#roverpilotbadge").animate({opacity: 1.0}, 200, function() {
+        	$("#roverpilotbadge").css('pointer-events', 'auto');
+        });
+	});
+	
+	//pop the mission complete
+    var poproverpilotBadgeWindow = function() {
+    	//first we should check to see if the user email has been stored
+    	//if(userBackpackEmail) {}
+    	
+    	//then pop the appropriate window
+    	var winWidth = 750;
+    	var winHeight = 600;
+    	badgeWindow = popupwindow("./badge-it-gadget-lite/process-badges/missionRoverpilotComplete.html",
+    			"Rover Pilot Badge",winWidth, winHeight);
+    }
+	
+    //generic popup window opening function
+    var roverpilotbadgeuploadbutton = document.getElementById('roverpilotbadgeuploadbutton');
+    roverpilotbadgeuploadbutton.onclick = function() {
+    	poproverpilotBadgeWindow();
+    };
+    
+    var roverpilotbadgeskipbutton = document.getElementById('roverpilotbadgeskipbutton');
+    roverpilotbadgeskipbutton.onclick = function() {
+    	$("#roverpilotbadge").animate({opacity: 0.0}, 200, function() {
+        	$("#roverpilotbadge").css('pointer-events', 'none');
+        });
+    	
+    	setTimeout(function(){jumpPopcornMedia(24)},2000);
+    };
+    
+    var roverpilotbadgecompletecontinuebutton = document.getElementById('roverpilotbadgecompletecontinuebutton');
+    roverpilotbadgecompletecontinuebutton.onclick = function() {
+    	$("#roverpilotbadgecomplete").animate({opacity: 0.0}, 200, function() {
+        	$("#roverpilotbadgecomplete").css('pointer-events', 'none');
+        });
+    	$("#roverpilotbadgeskipbutton").click();
+    };
+    
+    var roverpilotbadgecompletereplaybutton = document.getElementById('roverpilotbadgecompletereplaybutton');
+    roverpilotbadgecompletereplaybutton.onclick = function() {
+    	//this will take you back to the 3D navigation lesson.
+    	$("#navigation").click();
+    };
+	
+	var hideeverything = function() {
+		$("#startmenupanel").animate({opacity: 0.0}, 1, function() { $("#startmenupanel").css('pointer-events', 'none'); });
+		$("#menupanel").animate({opacity: 0.0}, 1, function() { $("#menupanel").css('pointer-events', 'none'); });
+		
+		$("#aboutpopup").animate({opacity: 0.0}, 1, function() { $("#aboutpopup").css('pointer-events', 'none'); });
+		$("#helppopup").animate({opacity: 0.0}, 1, function() { $("#helppopup").css('pointer-events', 'none'); });
+		$("#helpthreedpopup").animate({opacity: 0.0}, 1, function() { $("#helpthreedpopup").css('pointer-events', 'none'); });
+		//$("#browserpopup").animate({opacity: 0.0}, 1, function() { $("#browserpopup").css('pointer-events', 'none'); });
+		
+		$("#incomingmessage").animate({opacity: 0.0}, 1, function() { $("#incomingmessage").css('pointer-events', 'none'); });
+		$("#transmissionmessage").animate({opacity: 0.0}, 1, function() { $("#transmissionmessage").css('pointer-events', 'none'); });
+		$("#cmemessage").animate({opacity: 0.0}, 1, function() { $("#cmemessage").css('pointer-events', 'none'); });
+
+		$("#rovercontrols").animate({opacity: 0.0}, 1, function() { $("#rovercontrols").css('pointer-events', 'none'); });
+		
+		$("#nextbuttonwrapper").animate({opacity: 0.0}, 1, function() { $("#nextbuttonwrapper").css('pointer-events', 'none'); });
+		$("#helpbuttonwrapper").animate({opacity: 0.0}, 1, function() { $("#helpbuttonwrapper").css('pointer-events', 'none'); });
+		$("#replaybuttonwrapper").animate({opacity: 0.0}, 1, function() { $("#replaybuttonwrapper").css('pointer-events', 'none'); });
+		
+
+		$("#roverpilotbadge").animate({opacity: 0.0}, 1, function() { $("#roverpilotbadge").css('pointer-events', 'none'); });
+		$("#roverpilotbadgecomplete").animate({opacity: 0.0}, 1, function() { $("#roverpilotbadgecomplete").css('pointer-events', 'none'); });
+
+	}
 	
     $("#camsbutton").hover(function() {
     	$("#camsbutton").animate({opacity: 0.8}, 100, function() {
@@ -513,25 +609,29 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     
     var checkInstrumentsOnTarget = function() {
+    	var returnVal;
     	for( var i = 0; i < OUTCROPS.length; i++ ){
-    		if( OUTCROPS[i].touchdown( rover.arm.hand, .5 ) )  {
+    		if( OUTCROPS[i].touchdown( rover.arm.hand, .75 ) )  {
     			console.log( "The Rover eye saw " + OUTCROPS[i].name );
-    			return OUTCROPS[i].name;
+    			return returnVal = OUTCROPS[i].name;
     		} else {
-    			return null;
+    			returnVal = null;
     		}
     	}
+    	return returnVal;
     }
     
     var checkRoverOnTarget = function() {
+    	var returnVal;
     	for( var i = 0; i < OUTCROPS.length; i++ ){
     		if( OUTCROPS[i].touchdown( rover.mesh, .75 ) ) { 
-    			console.log( OUTCROPS[i].name + " got a touchdown" );
-    			return OUTCROPS[i].name;
+    			console.log( "Ran over " + OUTCROPS[i].name + " got a touchdown" );
+    			return returnVal = OUTCROPS[i].name;
     		} else {
-    			return null;
+    			returnVal = null;
     		}
     	}
+    	return returnVal;
     }
 	
 	$(document).ready( function() {
@@ -895,6 +995,76 @@ document.addEventListener("DOMContentLoaded", function () {
 						
 					</tr>
 				</table>
+			</div>
+		</div>
+		
+		<div id="roverpilotbadge" class="modalmask">
+			<div id="backpacklogindiv" class="badgecontenttarget">
+				<h1>Mission Complete!</h1>
+				<h1>Badge Award!</h1>
+				<br>
+				Upload your Badge
+				<br><br>
+				<div style="text-align: center;width:100%">
+					<table style="position: absolute; width: 80%;margin:0;padding:0; float:middle;left:15%" >
+						<tr >
+							<td align="left" valign="top">
+								<br>
+								<font style="font-weight:300;">
+								The Rover Pilot Badge awarded for 3D simulation mastery.
+								<br><br>
+								 - driving rover
+								<br>
+								 - calibrating instruments
+								<br>
+								 - finding evidence
+								<br>
+								 - confirming evidence
+								 </font>
+							
+							</td>
+							<td align="right" valign="top"><img src="./badge-it-gadget-lite/digital-badges/images/badge_driver.png"> </td>
+							
+						</tr>
+					</table>
+				</div>
+					
+				<br><br><br><br><br><br><br><br><br><br><br><br>
+					<div style="float:middle;">
+						<button id="roverpilotbadgeskipbutton" class="squarebluebutton">Skip</button>
+						<button id="roverpilotbadgeuploadbutton" type="submit" class="squarebluebutton">Upload</button>
+					</div>
+			</div>
+		</div>
+		
+		<div id="roverpilotbadgecomplete" class="modalmask">
+			<div id="backpacklogindiv" class="badgecontenttarget">
+				<h1>Mission Complete!</h1>
+				<h1>Badge Award!</h1>
+				<br>
+				Thanks for playing
+				<br><br>
+				<div style="text-align: center;width:100%">
+					<table style="position: absolute; width: 80%;margin:0;padding:0; float:middle;left:15%" >
+						<tr >
+							<td align="left" valign="top">
+								<br>
+								<font style="font-weight:300;">
+								Congratulations and thanks. 
+								 </font>
+							
+							</td>
+							<td align="right" valign="top"><img src="./badge-it-gadget-lite/digital-badges/images/badge_driver.png"> </td>
+							
+						</tr>
+					</table>
+				</div>
+					
+				<br><br><br><br><br><br><br><br><br><br><br><br>
+					<div style="float:middle;">
+						<button id="roverpilotbadgecompletereplaybutton" class="squarebluebutton">Replay</button>
+						<button id="roverpilotbadgecompletecontinuebutton" type="submit" class="squarebluebutton">Continue</button>
+					</div>
 			</div>
 		</div>
 		
