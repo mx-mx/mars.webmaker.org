@@ -111,10 +111,11 @@ function init() {
 var ocCalibration;
 var oc;
 var ocTwo;
+var camTarget;
 
 function setupScene(){
 
-	var camTarget = new THREE.Mesh( new THREE.PlaneGeometry( 0, 0 ), new THREE.MeshBasicMaterial() );
+	camTarget = new THREE.Mesh( new THREE.PlaneGeometry( 0, 0 ), new THREE.MeshBasicMaterial() );
 	camTarget.position.set( 0, 2, 0 );
 	camTarget.add( camera );
 

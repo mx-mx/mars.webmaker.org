@@ -18,7 +18,7 @@ $open_badges_api = "http://beta.openbadges.org/issuer.js";
 
 /*version - REQUIRED. Use "0.5.0" for the beta. */
 
-$version = "0.5.0";
+$version = "1.0.0";
 
 /*issuer url - REQUIRED. This is the domain name of the site that will be issuing the badges. It should be the domain where you're installing the OpenBadgifier.*/
 
