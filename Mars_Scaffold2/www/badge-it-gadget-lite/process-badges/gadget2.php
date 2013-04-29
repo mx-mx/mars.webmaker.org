@@ -115,6 +115,9 @@ if( isset($_POST) ){
 	'errors' => $err
 	);
 	
+
+	//instead of the Badgers session return, I'd like a new page!
+	
 	//go back to Gadget Badger page with results
 	/*
 	if(empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest'){
@@ -127,9 +130,6 @@ if( isset($_POST) ){
 		header('location: ' . $_SERVER['HTTP_REFERER']);
 	}
 	*/
-	
-	//instead of the Badgers session return, I'd like a new page!
-	
 }
 ?>
 

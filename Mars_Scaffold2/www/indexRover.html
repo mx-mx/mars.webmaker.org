@@ -169,38 +169,9 @@ document.addEventListener("DOMContentLoaded", function () {
             	$("#launchdiv").css('pointer-events', 'auto');
         	});
     	});
+        $("#pilotviewbutton").click();
         
 	});
-    
-    popcornMedia[5].cue( 1, function() {
-    	ocCalibration.setPosition(0, 10); //always call set position first before showing target and arrow
-    	ocCalibration.showTarget();
-    	ocCalibration.showArrow();
-	});
-    
-    popcornMedia[8].cue( 2, function() {
-    	rover.stowArm();
-	});
-    
-    $("#energybar").css({'background-color':'rgba(58,132,166,1.0)'});
-	
-	
-	//increase energy bar by 1 every half second
-	setInterval(function() { 
-		if(currentEnergyLevel<=100) {
-			currentEnergyLevel++;
-			//our energy div visual reflect the opposite (full looks empty and vice versa)
-			var flipNumber = 100-currentEnergyLevel;
-		    $("#energylevel").css({height:(flipNumber+"%")});
-			if(currentEnergyLevel<30) {
-			    $("#energybar").css({'background-color':'rgba(250,30,30,1.0)'});
-			} else {
-			    $("#energybar").css({'background-color':'rgba(58,132,166,1.0)'});
-			}
-		}
-	}, 200);
-    
-    
     
 	popcornMedia[0].on( "ended", function() {
     	//$("#youtubetarget").animate({opacity: 0.0}, 100, function() {
@@ -217,6 +188,87 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		document.addEventListener( 'keyup', onKeyUp, false );
 	});
+	
+    popcornMedia[1].on( "ended", function() {
+    	//the click/drag test
+        lessonOpen=true;
+        userMouseAction[userLessonNumber]=true;
+        cancelCallToAction=false;
+        callToActionTimeoutLesson1 = setTimeout(function(){callToActionUser()},10000);
+	});
+    
+    popcornMedia[4].on( "ended", function() {
+    	//the click/drag test
+    	advancePopcornMedia(5);
+	});
+
+    popcornMedia[5].cue( 1, function() {
+    	ocCalibration.setPosition(0, 10); //always call set position first before showing target and arrow
+    	ocCalibration.showTarget();
+    	ocCalibration.showArrow();
+	});
+    popcornMedia[5].on( "ended", function() {
+    	//the click/drag test
+        lessonOpen=true;
+	});
+    
+    popcornMedia[9].cue( 3, function() {
+    	rover.stowArm();
+    	//show outcrop
+	});
+    
+    popcornMedia[9].cue( 5, function() {
+    	//hide calibration plate
+    	ocCalibration.hideTarget();
+    	ocCalibration.hideArrow();
+    	//swing camera back
+	});
+    popcornMedia[9].cue( 6, function() {
+    	//swing camera back to wide view
+    	$("#wideviewbutton").click();
+    	
+	});
+    
+    
+	popcornMedia[9].cue( 9, function() {
+    	//show outcrop
+    	oc.setPosition(-20, 35);
+    	oc.showTarget();
+		oc.showArrow();
+	});
+    
+	popcornMedia[9].cue( 11, function() {
+    	//show outcrop
+		ocTwo.setPosition(5,35);
+		ocTwo.showTarget();
+		ocTwo.showArrow();
+	});
+    
+    popcornMedia[9].on( "ended", function() {
+		//analyze rock first time.
+        lessonOpen=true;
+	});
+    
+    popcornMedia[10].on( "ended", function() {
+		//analyze rock second time.
+        lessonOpen=true;
+	});
+    
+    $("#energybar").css({'background-color':'rgba(58,132,166,1.0)'});
+	//increase energy bar by 1 every half second
+	setInterval(function() { 
+		if(currentEnergyLevel<=100) {
+			currentEnergyLevel++;
+			//our energy div visual reflect the opposite (full looks empty and vice versa)
+			var flipNumber = 100-currentEnergyLevel;
+		    $("#energylevel").css({height:(flipNumber+"%")});
+			if(currentEnergyLevel<30) {
+			    $("#energybar").css({'background-color':'rgba(250,30,30,1.0)'});
+			} else {
+			    $("#energybar").css({'background-color':'rgba(58,132,166,1.0)'});
+			}
+		}
+	}, 200);
 	
 	function onKeyUp ( event ) {
 
@@ -247,6 +299,7 @@ document.addEventListener("DOMContentLoaded", function () {
     //setup vars to walk through mouse 3D lesson
     var cancelCallToAction=false;
     var userLessonNumber=0;
+    var lessonOpen=false;
     var userMouseAction=[false,false,false,false];
     
     var resetMouseMovementTrackingLession = function () {
@@ -259,6 +312,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var advanceUser = function () {
     	console.log("advancing user from: " + userLessonNumber);
 		cancelCallToAction=false;
+        lessonOpen=false;
 		clearTimeout(callToActionLesson1);
 		
 		switch(userLessonNumber)
@@ -267,13 +321,13 @@ document.addEventListener("DOMContentLoaded", function () {
 			jumpPopcornMedia(4); //calibration plate
     	  break;
     	case 1:
-			jumpPopcornMedia(8); //calibrate again
+			jumpPopcornMedia(9); //that's it! calibration success and move on to rocks
     	  break;
     	case 2:
-			jumpPopcornMedia(10); //analyze rock
+			jumpPopcornMedia(10); //analyze rock, please analyze again.
 	    	break;
     	case 3:
-			jumpPopcornMedia(13);  //analyze rock again
+			jumpPopcornMedia(13);  //badge
 	    	break;
     	case 4:
 			//jumpPopcornMedia(13); //badge
@@ -300,20 +354,6 @@ document.addEventListener("DOMContentLoaded", function () {
     	  //no default audio
     	}
     }
-    
-    popcornMedia[1].on( "ended", function() {
-    	//the click/drag test
-        listenToMouseMovements=true;
-        userMouseAction[userLessonNumber]=true;
-        cancelCallToAction=false;
-        callToActionTimeoutLesson1 = setTimeout(function(){callToActionUser()},10000);
-	});
-    
-    popcornMedia[4].on( "ended", function() {
-    	//the click/drag test
-    	advancePopcornMedia(5);
-	});
-
     
     var advancePopcornMedia = function () {
 		popcornSequenceNumber++;
@@ -395,30 +435,29 @@ document.addEventListener("DOMContentLoaded", function () {
     	if(rover.armStowed) {
     		var duration = 4000;
         	rover.extendArm(duration);
-        	setTimeout(function(){
+        	if(lessonOpen) {
+				
+            	setTimeout(function(){
+            		//for procedural reasons... we're placing 2 test in front of 1 test. (the both call advanceUser)  TODO: fix this!
+            		if(userLessonNumber==2) {
+        	    		if(checkInstrumentsOnTarget()) {
+        	    			advanceUser();
+        	    		} else {
+        	    			//jumpPopcornMedia(10);
+        	    		}
+            		}
+            		//first check to see if the lesson is live, if so call the audio
+            		
+            		if(userLessonNumber==1) {
 
-        		//for procedural reasons... we're placing 2 test in front of 1 test. (the both call advanceUser)  TODO: fix this!
-        		if(userLessonNumber==2) {
-    	    		if(checkInstrumentsOnTarget()) {
-    	    			advanceUser();
-    	    			//hide calibration plate
-    	    			ocCalibration.hideTarget();
-						ocCalibration.hideArrow();
-    	    		} else {
-    	    			//jumpPopcornMedia(10);
-    	    		}
-        		}
-        		//first check to see if the lesson is live, if so call the audio
-        		
-        		if(userLessonNumber==1) {
-
-    	    		if(checkInstrumentsOnTarget()) {
-    	    			advanceUser();
-    	    		} else {
-    	    			jumpPopcornMedia(7);
-    	    		}
-        		}
-	    	}, (duration+10));
+        	    		if(checkInstrumentsOnTarget()) {
+        	    			advanceUser();
+        	    		} else {
+        	    			jumpPopcornMedia(7);
+        	    		}
+            		}
+    	    	}, (duration+10));
+        	}
     	} else {
     		rover.stowArm();
     	}
@@ -434,15 +473,36 @@ document.addEventListener("DOMContentLoaded", function () {
     var camsbutton = document.getElementById('camsbutton');
     camsbutton.style.cursor = 'pointer';
     camsbutton.onclick = function() {
-    	console.log("rover camsStowed: " + rover.mastStowed);
-    	/*
-    	if(rover.mastStowed) {
-        	rover.extendMast(4000);
-    	} else {
-    		rover.stowMast();
-    	}*/
     	rover.scanMast(4000);
+    	setTimeout(function() {
+        	//show outcrop
+        	oc.setPosition(-20, 35);
+        	oc.showTarget();
+    		oc.showArrow();
+    	},1000); 
+    	setTimeout(function() {
+        	//show outcrop
+    		ocTwo.setPosition(5,35);
+    		ocTwo.showTarget();
+    		ocTwo.showArrow();
+    	},3000); 
     }
+    
+
+	popcornMedia[9].cue( 9, function() {
+    	//show outcrop
+    	oc.setPosition(-20, 35);
+    	oc.showTarget();
+		oc.showArrow();
+	});
+    
+	popcornMedia[9].cue( 11, function() {
+    	//show outcrop
+		ocTwo.setPosition(5,35);
+		ocTwo.showTarget();
+		ocTwo.showArrow();
+	});
+	
     $("#camsbutton").hover(function() {
     	$("#camsbutton").animate({opacity: 0.8}, 100, function() {
         });
@@ -510,7 +570,6 @@ document.addEventListener("DOMContentLoaded", function () {
 			});
 		});
 		
-
 		$( "#menubutton" )
 			.button()
 			.click(function( event ) {
@@ -524,6 +583,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	            	});
 	        	}
 		});
+		
 		
 		$( "#nextbutton" )
 			.button()
@@ -586,6 +646,24 @@ document.addEventListener("DOMContentLoaded", function () {
 				$("#helppopup").animate({opacity: 1.0}, 200, function() {
 	            	$("#helppopup").css('pointer-events', 'auto');
 	        	});
+		});
+
+		$( "#pilotviewbutton" )
+			.button()
+			.click(function( event ) {
+		    	camTweener( { x:0, y:4, z:-10 }, { x:0, y:0, z:0 }, 1500 );
+		});
+
+		$( "#sideviewbutton" )
+			.button()
+			.click(function( event ) {
+		    	camTweener( { x:-5, y:3, z:-2 }, { x:0, y:0, z:0 }, 2000 );
+		});
+
+		$( "#wideviewbutton" )
+			.button()
+			.click(function( event ) {
+		    	camTweener( { x:0, y:8, z:-20 }, { x:0, y:0, z:0 }, 3000 );
 		});
 
 	});
@@ -787,28 +865,28 @@ document.addEventListener("DOMContentLoaded", function () {
 					</tr>
 					<tr>
 						<td align="center" valign="middle" style="height:54px;width:110px;">
-				 			<button id="rocketbutton" class="playbutton" style="padding:2px 9px">
+				 			<button id="pilotviewbutton" class="playbutton" style="padding:2px 9px">
 								<table style="width:70px;height:100%;margin:0;padding:0;">
 									<tr>
-										<td id="rocketbuttontext">Pilot View</td>
+										<td id="pilotviewbutton">Pilot View</td>
 									</tr>
 								</table>
 							</button>
 						</td>
 						<td align="center" valign="middle" style="height:54px;width:110px;">
-				 			<button id="rocketbutton" class="playbutton" style="padding:2px 9px">
+				 			<button id="wideviewbutton" class="playbutton" style="padding:2px 9px">
 								<table style="width:60px;height:100%;margin:0;padding:0;">
 									<tr>
-										<td id="rocketbuttontext">Wide View</td>
+										<td id="wideviewbutton">Wide View</td>
 									</tr>
 								</table>
 							</button>
 						</td>
 						<td align="center" valign="middle" style="height:54px;width:110px;">
-				 			<button id="rocketbutton" class="playbutton" style="padding:2px 9px">
+				 			<button id="sideviewbutton" class="playbutton" style="padding:2px 9px">
 								<table style="width:60px;height:100%;margin:0;padding:0;">
 									<tr>
-										<td id="rocketbuttontext">Side View</td>
+										<td id="sideviewbutton">Side View</td>
 									</tr>
 								</table>
 							</button>
