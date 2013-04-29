@@ -378,14 +378,10 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 		
 		//jump to desired media
-		if(popcornSequenceNumber==0 && !threedinitialized) {
-			basepop.play(0);
+		if(beginningOffset) {
+			popcornMedia[popcornSequenceNumber].play(beginningOffset);
 		} else {
-			if(beginningOffset) {
-				popcornMedia[popcornSequenceNumber].play(beginningOffset);
-			} else {
-				popcornMedia[popcornSequenceNumber].play(0);
-			}
+			popcornMedia[popcornSequenceNumber].play(0);
 		}
     }
   
@@ -542,9 +538,15 @@ document.addEventListener("DOMContentLoaded", function () {
     	//then pop the appropriate window
     	var winWidth = 750;
     	var winHeight = 600;
-    	badgeWindow = popupwindow("./badge-it-gadget-lite/process-badges/missionRoverpilotComplete.html",
+    	badgeWindow = popupwindow("./badge-it-gadget-lite/process-badges/missionRoverPilotComplete.html",
     			"Rover Pilot Badge",winWidth, winHeight);
     }
+	
+    function popupwindow(url, title, w, h) {
+  	  var left = (screen.width/2)-(w/2);
+  	  var top = (screen.height/2)-(h/2);
+  	  return window.open(url, title, "titlebar=no,toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no,copyhistory=no,width="+w+", height="+h+", top="+top+", left="+left);
+  }
 	
     //generic popup window opening function
     var roverpilotbadgeuploadbutton = document.getElementById('roverpilotbadgeuploadbutton');
@@ -558,7 +560,7 @@ document.addEventListener("DOMContentLoaded", function () {
         	$("#roverpilotbadge").css('pointer-events', 'none');
         });
     	
-    	setTimeout(function(){jumpPopcornMedia(24)},2000);
+    	//setTimeout(function(){jumpPopcornMedia(24)},2000);
     };
     
     var roverpilotbadgecompletecontinuebutton = document.getElementById('roverpilotbadgecompletecontinuebutton');
@@ -700,7 +702,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		$( "#beginbutton" )
 			.button()
 			.click(function( event ) {
-				//basepop.play( 0 );
 				popcornMedia[0].play( 0 );
 				$("#startmenupanel").animate({opacity: 0.0}, 200, function() {
                 	$("#startmenupanel").css('pointer-events', 'none');
