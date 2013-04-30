@@ -196,7 +196,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	popcornMedia[1].on( "ended", function() {
     	//setup call to action
 
-		document.addEventListener( 'roverkeyup', onRoverKeyUp, false );
+		document.addEventListener( 'keyup', onRoverKeyUp, false );
 	});
 	
     popcornMedia[1].on( "ended", function() {
@@ -293,7 +293,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		switch( event.keyCode ) {
 			case 38: //up
 				cancelCallToAction=true;
-				document.removeEventListener( 'roverkeyup', onRoverKeyUp ); //this may break keyup elsewhere
+				document.removeEventListener( 'keyup', onRoverKeyUp ); 
 				setTimeout(function(){advanceUser();}, 800);
 				break;
 			case 40: //down
