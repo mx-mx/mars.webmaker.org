@@ -390,9 +390,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		$("#playtoggle").attr("class", "pause");
     }
   
-    /*$(document).on('mousedown', function(e) {
-		$("#menupanel").animate({opacity: 0.0}, 1, function() { $("#menupanel").css('pointer-events', 'none'); });
-    });*/
+    $(document).on('mousedown', function(e) {
+		$("#menupanel").animate({opacity: 0.0}, 200, function() { $("#menupanel").css('pointer-events', 'none'); });
+    });
   
     
     var aboutpopupclose = document.getElementById('aboutpopupclose');
