@@ -937,8 +937,8 @@ div .menubutton:hover{
     border:none;
 	width: 420px;
 	height: 400px;
-	top:48%;
-    left:50%;
+	top:34%;
+    left:25%;
     margin:-200px 0 0 -250px;
 	z-index: 2;
 }
