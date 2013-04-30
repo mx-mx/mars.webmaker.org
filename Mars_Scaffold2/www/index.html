@@ -795,6 +795,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		popcornSequenceNumber++;
     	if(popcornSequenceNumber<popcornMedia.length) {
     		popcornMedia[popcornSequenceNumber].play(0);
+        	
+            showTransmissionMessage();
     	}
     }
     
@@ -822,7 +824,16 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 		//show pause toggle
 		$("#playtoggle").attr("class", "pause");
+        showTransmissionMessage();
     }
+    
+  	var showTransmissionMessage = function() {
+  		if(popcornSequenceNumber<6) return;
+  		$("#transmissionmessage").animate({opacity: 1.0}, 300, function() { $("#transmissionmessage").css('pointer-events', 'auto'); });
+  	  	setTimeout(function() {
+  	  		$("#transmissionmessage").animate({opacity: 0.0}, 300, function() { $("#transmissionmessage").css('pointer-events', 'none'); });
+  	  	},4000);
+  	}
     
     var clear3DDrawings = function() {
 
@@ -2046,8 +2057,8 @@ document.addEventListener("DOMContentLoaded", function () {
 				</tr>
 				<tr>
 					<td align="left">
-						<button id="answerbutton" class="squarebluebutton">Answer</button>
-						<button id="ignorebutton" class="squarebluebutton">Ignore</button>
+						<button id="answerbutton" class="roundedbluebutton">Answer</button>
+						<button id="ignorebutton" class="roundedbluebutton">Ignore</button>
 					</td>
 				</tr>
 			</table>

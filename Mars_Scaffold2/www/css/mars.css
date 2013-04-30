@@ -434,12 +434,12 @@ div .selectitemdetaildiv:hover{
 	text-transform: uppercase;
 	line-height: 18px;
 	font-size: 18px;
-    border-radius: 0px;
+    border-radius: 5px;
     border:none;
 	width: 350px;
 	height: 55px;
-	top:10%;
-    right:10%;
+	top:60px;
+    right:15px;
 	z-index: 6;
 }
 .capcommessagereddiv

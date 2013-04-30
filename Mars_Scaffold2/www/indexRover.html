@@ -196,7 +196,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	popcornMedia[1].on( "ended", function() {
     	//setup call to action
 
-		document.addEventListener( 'keyup', onKeyUp, false );
+		document.addEventListener( 'roverkeyup', onRoverKeyUp, false );
 	});
 	
     popcornMedia[1].on( "ended", function() {
@@ -292,7 +292,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		switch( event.keyCode ) {
 			case 38: //up
 				cancelCallToAction=true;
-				document.removeEventListener( 'keyup', onKeyUp ); //this may break keyup elsewhere
+				document.removeEventListener( 'roverkeyup', onRoverKeyUp ); //this may break keyup elsewhere
 				setTimeout(function(){advanceUser();}, 800);
 				break;
 			case 40: //down
@@ -363,6 +363,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var advancePopcornMedia = function () {
 		popcornSequenceNumber++;
     	if(popcornSequenceNumber<popcornMedia.length) {
+    		showTransmissionMessage();
     		popcornMedia[popcornSequenceNumber].play(0);
     	}
     }
@@ -388,8 +389,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		//show pause toggle
 		$("#playtoggle").attr("class", "pause");
+		
+		showTransmissionMessage();
     }
   
+  	var showTransmissionMessage = function() {
+  		$("#transmissionmessage").animate({opacity: 1.0}, 300, function() { $("#transmissionmessage").css('pointer-events', 'auto'); });
+  	  	setTimeout(function() {
+  	  		$("#transmissionmessage").animate({opacity: 0.0}, 300, function() { $("#transmissionmessage").css('pointer-events', 'none'); });
+  	  	},4000);
+  	}
+
     $(document).on('mousedown', function(e) {
 		$("#menupanel").animate({opacity: 0.0}, 200, function() { $("#menupanel").css('pointer-events', 'none'); });
     });
@@ -739,6 +749,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			.button()
 			.click(function( event ) {
 				popcornMedia[0].play( 0 );
+				showTransmissionMessage();
 				$("#startmenupanel").animate({opacity: 0.0}, 200, function() {
                 	$("#startmenupanel").css('pointer-events', 'none');
             	});
