@@ -162,6 +162,21 @@ document.addEventListener("DOMContentLoaded", function () {
 	        $("#loaderdiv").animate({opacity: 0.0}, 500, function() {
 	            $("#loaderdiv").css('pointer-events', 'none');
 	        });
+
+	        //enable buttons
+	        $("#introduction").animate({opacity: 1.0}, 500, function() {
+	            $("#introduction").css('pointer-events', 'auto');
+	        });
+	        $("#navigation").animate({opacity: 1.0}, 500, function() {
+	            $("#navigation").css('pointer-events', 'auto');
+	        });
+	        $("#challenge").animate({opacity: 1.0}, 500, function() {
+	            $("#challenge").css('pointer-events', 'auto');
+	        });
+	        $("#beginbutton").animate({opacity: 1.0}, 500, function() {
+	            $("#beginbutton").css('pointer-events', 'auto');
+	        });
+			
 	    });
     });
 
@@ -1752,13 +1767,19 @@ document.addEventListener("DOMContentLoaded", function () {
 		
 		<div id="startmenupanel" class="startmenupanel">
 			<h1>Mission to Mars</h1>
-			<br>
 			<div class="textstyle1">
 			In this simulation of sending spacecraft to Mars you will use a 3D model of the solar system to learn
 			about the science behind the Curiosity rover.
 			</div>
 			<br>
-			<button id="beginbutton" class="beginbutton">LAUNCH</button>
+			<button id="beginbutton" class="beginbutton" style="opacity: 0.2;pointer-events:none;width:150px;">LAUNCH</button>
+			<br>
+			<div id="loaderdiv" style="z-index:10;opacity:1.0;pointer-events:auto; width:100%">
+				<div id="loaderpanel" class="loadercontenttarget" style="z-index:11;">
+					<font style="color:#3a84a6;">Loading the Solar System</font>
+					<div id="canvastarget" style="position:absolute;left:-130px;top:-22px"></div>
+				</div>
+			</div>
 			<br>
 			<br>
 			<br>
@@ -1775,23 +1796,17 @@ document.addEventListener("DOMContentLoaded", function () {
 				<div id="headerpanel" class="headerpanel"></div>
 			</div>
 			<div id="topbarmiddle" class="topbarmiddle">
-				<div id="loaderdiv" style="z-index:10;opacity:1.0;pointer-events:auto; width:100%">
-					<div id="loaderpanel" class="loadercontenttarget" style="z-index:11;">
-						<font style="color:#3a84a6;">Loading the Solar System</font>
-						<div id="canvastarget" style="position:absolute;left:-130px;top:-22px"></div>
-					</div>
-				</div>
 			</div>
 			
 			<div id="topbarright" class="topbarright">
 			
 				<button id="menubutton" class="menubutton">MENU</button>
 				<div id="menupanel" class="menupanel">
-					<button id="introduction" class="menupanelbutton">introduction</button>
+					<button id="introduction" class="menupanelbutton" style="opacity: 0.2;pointer-events:none;">introduction</button>
 					<br>
-					<button id="navigation" class="menupanelbutton">3d navigation</button>
+					<button id="navigation" class="menupanelbutton" style="opacity: 0.2;pointer-events:none;">3d navigation</button>
 					<br>
-					<button id="challenge" class="menupanelbutton">Slayton's Isle</button>
+					<button id="challenge" class="menupanelbutton" style="opacity: 0.2;pointer-events:none;">Slayton's Isle</button>
 					<br>
 					<button id="about" class="menupanelbutton">about</button>
 					<br>

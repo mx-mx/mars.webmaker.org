@@ -625,9 +625,8 @@ div .roundedredbutton:hover{
 	border-radius: 5px;
 	border:none;
 	width: 80%;
-	height: 80%;
-	top:0px;
-	left:0px;
+	top:240px;
+	left:160px;
 }
 /* top control area */
 .topbar{

@@ -438,12 +438,10 @@ document.addEventListener("DOMContentLoaded", function () {
     var instrumentsbutton = document.getElementById('instrumentsbutton');
     instrumentsbutton.style.cursor = 'pointer';
     instrumentsbutton.onclick = function() {
-    	
     	if(rover.armStowed) {
     		var duration = 4000;
         	rover.extendArm(duration);
         	if(lessonOpen) {
-        		
         		//show message
            		if(userLessonNumber==1) {
             		$("#calibrationprogressmessage").animate({opacity: 1.0}, 400, function() {  });
@@ -506,6 +504,7 @@ document.addEventListener("DOMContentLoaded", function () {
     		rover.stowArm();
     	}
     }
+    
     $("#instrumentsbutton").hover(function() {
     	$("#instrumentsbutton").animate({opacity: 0.8}, 100, function() {
         });
@@ -700,6 +699,20 @@ document.addEventListener("DOMContentLoaded", function () {
 		        div.removeChild(infinityloader.canvas);
 		        $("#loaderdiv").animate({opacity: 0.0}, 500, function() {
 		            $("#loaderdiv").css('pointer-events', 'none');
+		        });
+		        
+
+		        $("#introduction").animate({opacity: 1.0}, 500, function() {
+		            $("#introduction").css('pointer-events', 'auto');
+		        });
+		        $("#navigation").animate({opacity: 1.0}, 500, function() {
+		            $("#navigation").css('pointer-events', 'auto');
+		        });
+		        $("#challenge").animate({opacity: 1.0}, 500, function() {
+		            $("#challenge").css('pointer-events', 'auto');
+		        });
+		        $("#beginbutton").animate({opacity: 1.0}, 500, function() {
+		            $("#beginbutton").css('pointer-events', 'auto');
 		        });
 				
 			},2000)
@@ -999,13 +1012,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		<div id="startmenupanel" class="startmenupanel">
 			<h1>The MSL Curiosity</h1>
-			<br>
 			<div class="textstyle1">
 			In this simulation of exploring the Mars Science Lab Curiosity you will use a 3D model of the Curiosity on Mars to learn
 			about the science behind the rover.
 			</div>
 			<br>
-			<button id="beginbutton" class="beginbutton">BEGIN</button>
+			<button id="beginbutton" class="beginbutton" style="opacity: 0.2;pointer-events:none;width:150px;">BEGIN</button>
+			<br>
+			<div id="loaderdiv" style="z-index:10;opacity:1.0;pointer-events:auto; width:100%">
+				<div id="loaderpanel" class="loadercontenttarget" style="z-index:11;">
+					<font style="color:#3a84a6;">Loading the Curiosity MSL</font>
+					<div id="canvastarget" style="position:absolute;left:-130px;top:-22px"></div>
+				</div>
+			</div>
+			<br>
 			<br>
 			<br>
 			<br>
@@ -1022,22 +1042,17 @@ document.addEventListener("DOMContentLoaded", function () {
 				<div id="headerpanel" class="headerpanel"></div>
 			</div>
 			<div id="topbarmiddle" class="topbarmiddle">
-				<div id="loaderdiv" style="z-index:10;opacity:1.0;pointer-events:auto; width:100%">
-					<div id="loaderpanel" class="loadercontenttarget" style="z-index:11;">
-						<font style="color:#3a84a6;">Loading the Curiosity MSL</font>
-						<div id="canvastarget" style="position:absolute;left:-130px;top:-22px"></div>
-					</div>
-				</div>
+				
 			</div>
 			
 			<div id="topbarright" class="topbarright">
 				<button id="menubutton" class="menubutton">MENU</button>
 				<div id="menupanel" class="menupanel">
-					<button id="introduction" class="menupanelbutton">Introduction</button>
+					<button id="introduction" class="menupanelbutton" style="opacity: 0.2;pointer-events:none">Introduction</button>
 					<br>
-					<button id="navigation" class="menupanelbutton">Calibration</button>
+					<button id="navigation" class="menupanelbutton" style="opacity: 0.2;pointer-events:none">Calibration</button>
 					<br>
-					<button id="challenge" class="menupanelbutton">Find Outcrop</button>
+					<button id="challenge" class="menupanelbutton" style="opacity: 0.2;pointer-events:none">Find Outcrop</button>
 					<br>
 					<button id="about" class="menupanelbutton">about</button>
 					<br>
