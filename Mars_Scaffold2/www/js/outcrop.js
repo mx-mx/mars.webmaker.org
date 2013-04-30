@@ -29,7 +29,7 @@ var Outcrop = function(imgFile, trgtSize, useLambert){
 	this.target.rotation.x = -90 * toRadians;
 
 	var arrowMaterial = new THREE.MeshBasicMaterial( { 
-		map: THREE.ImageUtils.loadTexture( './images/arrow.png' ), 
+		map: THREE.ImageUtils.loadTexture( './images/pointer.png' ), 
 		overdraw: true,
 		transparent: true
 	});

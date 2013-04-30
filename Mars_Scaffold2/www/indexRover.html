@@ -783,6 +783,113 @@ document.addEventListener("DOMContentLoaded", function () {
 				$("#menupanel").animate({opacity: 0.0}, 1, function() { $("#menupanel").css('pointer-events', 'none'); });
 				jumpToChallenge();
 		});
+		
+		var jumpToIntroduction = function() {
+
+			//hide everything
+			hideeverything();
+	    	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
+	           	$("#backgroundtarget").css('pointer-events', 'none');
+	       	});
+	    	//initialize 3d if you need to
+			initializethreed();
+			
+	    	
+			setTimeout(function(){
+				//shift 3d model
+				//camTweener( { x: 0, y: 1100, z: 0 }, { x: 0, y: 0, z: -20 }, 3000 );
+				
+				$("#rovercontrols").animate({opacity: 1.0}, 200, function() {
+	            	$("#rovercontrols").css('pointer-events', 'auto');
+	        	});
+				$("#playbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+	            	$("#playbuttonwrapper").css('pointer-events', 'auto');
+	        	});
+				$("#nextbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+	            	$("#nextbuttonwrapper").css('pointer-events', 'auto');
+	        	});
+				$("#helpbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+	            	$("#helpbuttonwrapper").css('pointer-events', 'auto');
+	        	});
+				
+			},2000);
+			
+
+	    	//reset lesson stuff
+	    	userLessonNumber=0;
+	    	replayUser(); //this call will send us to that lesson number audio
+		}
+		
+		var jumpToThreeDNavigation = function() {
+
+			//hide everything
+			hideeverything();
+	    	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
+	           	$("#backgroundtarget").css('pointer-events', 'none');
+	       	});
+	    	//initialize 3d if you need to
+			initializethreed();
+			
+	    	
+			setTimeout(function(){
+				//shift 3d model
+				//camTweener( { x: 0, y: 1100, z: 0 }, { x: 0, y: 0, z: -20 }, 3000 );
+				
+				$("#rovercontrols").animate({opacity: 1.0}, 200, function() {
+	            	$("#rovercontrols").css('pointer-events', 'auto');
+	        	});
+				$("#playbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+	            	$("#playbuttonwrapper").css('pointer-events', 'auto');
+	        	});
+				$("#nextbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+	            	$("#nextbuttonwrapper").css('pointer-events', 'auto');
+	        	});
+				$("#helpbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+	            	$("#helpbuttonwrapper").css('pointer-events', 'auto');
+	        	});
+				
+			},2000);
+			
+
+	    	//reset lesson stuff
+	    	userLessonNumber=1;
+	    	replayUser(); //this call will send us to that lesson number audio
+		}
+		
+		var jumpToChallenge = function () {
+			//hide everything
+			hideeverything();
+	    	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
+	           	$("#backgroundtarget").css('pointer-events', 'none');
+	       	});
+	    	//initialize 3d if you need to
+			initializethreed();
+			
+	    	
+			setTimeout(function(){
+				//shift 3d model
+				//camTweener( { x: 0, y: 1100, z: 0 }, { x: 0, y: 0, z: -20 }, 3000 );
+				
+				$("#rovercontrols").animate({opacity: 1.0}, 200, function() {
+	            	$("#rovercontrols").css('pointer-events', 'auto');
+	        	});
+				$("#playbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+	            	$("#playbuttonwrapper").css('pointer-events', 'auto');
+	        	});
+				$("#nextbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+	            	$("#nextbuttonwrapper").css('pointer-events', 'auto');
+	        	});
+				$("#helpbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+	            	$("#helpbuttonwrapper").css('pointer-events', 'auto');
+	        	});
+				
+			},2000);
+			
+
+	    	//reset lesson stuff
+	    	userLessonNumber=2;
+	    	replayUser(); //this call will send us to that lesson number audio
+		}
 
 		$( "#about" )
 			.button()
@@ -869,11 +976,11 @@ document.addEventListener("DOMContentLoaded", function () {
 			<div id="topbarright" class="topbarright">
 				<button id="menubutton" class="menubutton">MENU</button>
 				<div id="menupanel" class="menupanel">
-					<button id="introduction" class="menupanelbutton">introduction</button>
+					<button id="introduction" class="menupanelbutton">Introduction</button>
 					<br>
-					<button id="navigation" class="menupanelbutton">3d navigation</button>
+					<button id="navigation" class="menupanelbutton">Calibration</button>
 					<br>
-					<button id="challenge" class="menupanelbutton">Slayton's Isle</button>
+					<button id="challenge" class="menupanelbutton">Find Outcrop</button>
 					<br>
 					<button id="about" class="menupanelbutton">about</button>
 					<br>
