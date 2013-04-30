@@ -543,7 +543,6 @@ document.addEventListener("DOMContentLoaded", function () {
         	$("#launchcontrols").css('pointer-events', 'none');
     	});
 	});
-
     
     popcornMedia[28].cue( 2, function() {
     	//if this audio plays, that means we're ready to launch.
@@ -1073,6 +1072,86 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     };
     
+
+	var savedSliderVal;
+	var previousSliderVal;
+    var minusbutton = document.getElementById('minusbutton');
+    minusbutton.style.cursor = 'pointer';
+    minusbutton.onclick = function() {
+    	var newVal = savedSliderVal;
+    	if(savedSliderVal <= 2) {
+    		newVal=1.5;
+    	}
+    	if(savedSliderVal <= 1.5) {
+    		newVal=1;
+    	}
+    	if(savedSliderVal <= 1) {
+    		newVal=0.5;
+    	}
+    	if(savedSliderVal <= 0.5) {
+    		newVal=0.02;
+    	}
+    	if(savedSliderVal <= 0.02) {
+    		newVal=0;
+    	}
+    	if(savedSliderVal <= 0) {
+    		newVal=-0.02;
+    	} 
+    	if(savedSliderVal <= -0.02) {
+    		newVal=-0.5;
+    	}
+    	if(savedSliderVal <= -0.5) {
+    		newVal=-1;
+    	}
+    	if(savedSliderVal <= -1) {
+    		newVal= -1.5;
+    	}
+    	if(savedSliderVal <= -1.5) {
+    		newVal=-2;
+    	}
+    	
+    	savedSliderVal=newVal;
+		$("#speedSlider").slider('value',newVal);
+    };
+    
+    var plusbutton = document.getElementById('plusbutton');
+    plusbutton.style.cursor = 'pointer';
+    plusbutton.onclick = function() {
+    	var newVal = savedSliderVal;
+    	if(savedSliderVal >= -2) {
+    		newVal=-1.5;
+    	} 
+    	if(savedSliderVal >= -1.5) {
+    		newVal=-1;
+    	}
+    	if(savedSliderVal >= -1) {
+    		newVal= -0.5;
+    	}
+    	if(savedSliderVal >= -0.5) {
+    		newVal=-0.02;
+    	}
+    	if(savedSliderVal >= -0.02) {
+    		newVal=0;
+    	}
+    	if(savedSliderVal >= 0) {
+    		newVal=0.02;
+    	} 
+    	if(savedSliderVal >= 0.02) {
+    		newVal=0.5;
+    	} 
+    	if(savedSliderVal >= .5) {
+    		newVal=1;
+    	}
+    	if(savedSliderVal >= 1) {
+    		newVal=1.5;
+    	}
+    	if(savedSliderVal >= 1.5) {
+    		newVal=2;
+    	}
+    	savedSliderVal=newVal;
+		$("#speedSlider").slider('value',newVal);
+    };
+    
     //selectmissionrocket div
     var rocketChoice = 0;
     var rocket1div = document.getElementById('rocket1div');
@@ -1282,14 +1361,12 @@ document.addEventListener("DOMContentLoaded", function () {
 				finishFourthCameraLesson();
 		});
 		
-		var savedSliderVal;
-		var previousSliderVal;
 		$( "#speedSlider" ).slider( {
 			animate: true,
 			range: "min",
 			value: .23,
-			min: -3,
-			max: 3,
+			min: -2,
+			max: 2,
 			step: .010,
 			change: function() {
 				var newSliderVal = $( "#speedSlider" ).slider( "option", "value" );
@@ -2188,9 +2265,9 @@ document.addEventListener("DOMContentLoaded", function () {
 						<td align="center" valign="middle" height="54px" style="width:140px;">
 							<table style="width:100%;height:100%;margin:0;padding:0;" >
 								<tr>
-									<td align="center" valign="middle">-</td>
+									<td align="center" valign="middle"><button id="minusbutton" class="squarelittlebluebutton">-</button></td>
 									<td align="center" valign="middle" style="width:110px;"><div id="speedSlider" class="speedSlider"></div></td>
-									<td align="center" valign="middle">+</td>
+									<td align="center" valign="middle"><button id="plusbutton" class="squarelittlebluebutton">+</button></td>
 								</tr>
 							</table>
 							
