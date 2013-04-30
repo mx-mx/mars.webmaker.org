@@ -584,7 +584,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     
     $(document).on('mousedown', function(e) {
-		$("#menupanel").animate({opacity: 0.0}, 1, function() { $("#menupanel").css('pointer-events', 'none'); });
+		//$("#menupanel").animate({opacity: 0.0}, 1, function() { $("#menupanel").css('pointer-events', 'none'); });
 		//planet clicking
     	if(projector) {
         	var vector = new THREE.Vector3( mouse.x, mouse.y, 1 );
