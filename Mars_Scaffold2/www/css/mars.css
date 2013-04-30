@@ -463,6 +463,66 @@ div .selectitemdetaildiv:hover{
     right:36%;
 	z-index: 6;
 }
+.progressdiv
+{
+  position: absolute;
+	opacity: 0.0;
+	pointer-events:none;
+	padding: 10px 10px 10px 10px;
+	background: rgba(13,30,38,.7);
+	color: rgba(200,200,200,1.0);
+	font-family: 'Lato', sans-serif;
+	font-weight:300;
+	text-transform: uppercase;
+	line-height: 18px;
+	font-size: 18px;
+    border-radius: 5px;
+    border:none;
+	width: 350px;
+	height: 55px;
+	top:5%;
+    left:40%;
+	z-index: 6;
+}
+.resultsdiv
+{
+  position: absolute;
+	opacity: 0.0;
+	pointer-events:none;
+	padding: 10px 10px 10px 10px;
+	background: rgba(13,30,38,.7);
+	color: rgba(200,200,200,1.0);
+	font-family: 'Lato', sans-serif;
+	font-weight:300;
+	line-height: 18px;
+	font-size: 18px;
+    border-radius: 5px;
+    border:none;
+	width: 350px;
+	height: 170px;
+	top:5%;
+    left:40%;
+	z-index: 6;
+}
+.rerunanalysisdiv
+{
+    position: absolute;
+	padding: 10px 10px 10px 10px;
+	background: rgba(13,30,38,.7);
+	color: rgba(200,200,200,1.0);
+	font-family: 'Lato', sans-serif;
+	font-weight:400;
+	text-transform: uppercase;
+	line-height: 18px;
+	font-size: 18px;
+    border-radius: 5px;
+    border:none;
+	width: 350px;
+	height: 72px;
+	bottom:-60%;
+    right:0%;
+	z-index: 6;
+}
 div .roundedbluebutton{
     display:inline-block;
 	text-align: center;
@@ -473,10 +533,10 @@ div .roundedbluebutton{
 	text-transform: uppercase;
 	font-family: 'Lato', sans-serif;
 	font-weight:plain;
-	background: rgba(40,40,40,1.0);
+	background: rgba(58,132,166,1.0);
 	color: rgba(200,200,200,1.0);
     border-radius: 5px;
-    border:2px solid rgba(76,173,197,1.0);
+    border:2px solid rgba(76,173,197,0.0);
 }
 div .roundedbluebutton:hover{
 	background: rgba(58,132,166,0.5);

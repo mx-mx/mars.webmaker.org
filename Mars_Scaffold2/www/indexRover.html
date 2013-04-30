@@ -429,23 +429,35 @@ document.addEventListener("DOMContentLoaded", function () {
     	$("#incomingmessage").animate({opacity: 0.0}, 200, function() {$("#incomingmessage").css('pointer-events', 'none');});
     	$("#cmemessage").animate({opacity: 0.0}, 200, function() {$("#cmemessage").css('pointer-events', 'none');});
 		$("#transmissionmessage").animate({opacity: 0.0}, 1, function() { $("#transmissionmessage").css('pointer-events', 'none'); });
-		
     }
-	 
+    
+    //xxx
+    //$("#analysisresultspoormessage").animate({opacity: 1.0}, 1, function() { $("#analysisresultspoormessage").css('pointer-events', 'auto'); });
+    
+    
     var instrumentsbutton = document.getElementById('instrumentsbutton');
     instrumentsbutton.style.cursor = 'pointer';
     instrumentsbutton.onclick = function() {
-    	console.log("rover armStowed: " + rover.armStowed);
     	
     	if(rover.armStowed) {
     		var duration = 4000;
         	rover.extendArm(duration);
         	if(lessonOpen) {
-				
+        		
+        		//show message
+           		if(userLessonNumber==1) {
+            		$("#calibrationprogressmessage").animate({opacity: 1.0}, 400, function() {  });
+           		}
+           		if(userLessonNumber==2 || userLessonNumber==3) {
+            		$("#analysisprogressmessage").animate({opacity: 1.0}, 400, function() {  });
+           		}
+           		
             	setTimeout(function(){
+            		$("#calibrationprogressmessage").animate({opacity: 0.0}, 400, function() {  });
+            		$("#analysisprogressmessage").animate({opacity: 0.0}, 400, function() {  });
             		var theTargetSeen = checkInstrumentsOnTarget();
-            		console.log("Target Seen: " + theTargetSeen);
-            		//for procedural reasons... we're placing 3 test in front of 2 test in front of 1 test. (the both call advanceUser)  TODO: fix this!
+            		
+            		///the reanalysis lesson
             		if(userLessonNumber==3) {
         	    		if(theTargetSeen=="Outcrop 2") {
         	    			advanceUser();
@@ -459,11 +471,17 @@ document.addEventListener("DOMContentLoaded", function () {
         	    		}
             		}
             		
+            		//the first analysis lesson
             		if(userLessonNumber==2) {
         	    		if(theTargetSeen=="Outcrop 2") {
+        	    		    $("#analysisresultsgoodmessage").animate({opacity: 1.0}, 400, function() { $("#analysisresultsgoodmessage").css('pointer-events', 'auto'); });
+        	    		    setTimeout(function(){
+        	    		    	$("#analysisresultsgoodmessage").animate({opacity: 0.0}, 400, function() { $("#analysisresultsgoodmessage").css('pointer-events', 'none'); });
+        	    	    	}, 5000);
         	    			advanceUser();
         	    	    	rover.stowArm();
         	    		} else if (theTargetSeen=="Outcrop 1" || theTargetSeen=="Outcrop 3") {
+        	    		    $("#analysisresultspoormessage").animate({opacity: 1.0}, 400, function() { $("#analysisresultspoormessage").css('pointer-events', 'auto'); });
         	    			jumpPopcornMedia(12);
         	    	    	rover.stowArm();
         	    		} else {
@@ -471,7 +489,8 @@ document.addEventListener("DOMContentLoaded", function () {
         	    	    	rover.stowArm();
         	    		}
             		}
-            		//first check to see if the lesson is live, if so call the audio
+            		
+            		//the calibration lesson
             		if(userLessonNumber==1) {
         	    		if(theTargetSeen=="Outcrop 1") {
         	    			advanceUser();
@@ -481,7 +500,7 @@ document.addEventListener("DOMContentLoaded", function () {
         	    		}
             		}
             		
-    	    	}, (duration+1000));
+    	    	}, (duration+2000));
         	}
     	} else {
     		rover.stowArm();
@@ -712,6 +731,23 @@ document.addEventListener("DOMContentLoaded", function () {
             	});
 		    	$("#backgroundtarget").animate({opacity: 0.0}, 1000, function() {
 		           	$("#backgroundtarget").css('pointer-events', 'none');
+		       	});
+		});
+		
+		$( "#cancelpoorbutton" )
+			.button()
+			.click(function( event ) {
+		    	$("#analysisresultspoormessage").animate({opacity: 0.0}, 400, function() {
+		           	$("#analysisresultspoormessage").css('pointer-events', 'none');
+		       	});
+		});
+		
+		$( "#analyzepoorbutton" )
+			.button()
+			.click(function( event ) {
+				$("#instrumentsbutton").click();
+		    	$("#analysisresultspoormessage").animate({opacity: 0.0}, 400, function() {
+		           	$("#analysisresultspoormessage").css('pointer-events', 'none');
 		       	});
 		});
 		
@@ -1096,6 +1132,102 @@ document.addEventListener("DOMContentLoaded", function () {
 			</table>
 		</div>
 		
+		<div id="analysisprogressmessage" class="progressdiv">
+			<table style="width: 100%;margin:2;padding:0;" >
+				<tr>
+					<td width="60px" rowspan="2" align="left" valign="middle"><img src="./images/icon_hourglass.png" style="width:45px;height:45px;"></td>
+					<td align="left">Analisys In Progress</td>
+				</tr>
+				<tr>
+					<td align="left" style="font-weight:400;"> Geological </td>
+				</tr>
+			</table>
+		</div>
+		
+		<div id="calibrationprogressmessage" class="progressdiv">
+			<table style="width: 100%;margin:2;padding:0;" >
+				<tr>
+					<td width="60px" rowspan="2" align="left" valign="middle"><img src="./images/icon_hourglass.png" style="width:45px;height:45px;"></td>
+					<td align="left">Calibration In Progress</td>
+				</tr>
+				<tr>
+					<td align="left" style="font-weight:400;"> Imaging Plate </td>
+				</tr>
+			</table>
+		</div>
+		
+		<div id="analysisresultspoormessage" class="resultsdiv">
+			<table style="width: 100%;margin:2;padding:0;" >
+				<tr>
+					<td width="70px" rowspan="4" align="left" valign="top"><img src="./images/icon_docs.png" ></td>
+					<td align="left">ANALYSIS &nbsp; RESULTS</td>
+				</tr>
+				<tr>
+					<td align="left" style="font-weight:400;"> GEOLOGICAL </td>
+				</tr>
+				<tr>
+					<td align="left" style="font-weight:300;"> 
+						<br>
+						TYPE: Andesite 
+						<br>
+						Silica-dioxide content: LOW
+					</td>
+				</tr>
+				<tr>
+					<td align="left" style="font-weight:300;color:rgba(254,147,147,1.0);"> 
+						<br>
+						MODULE &nbsp; EMPLACEMENT
+						<br>
+						SUITABILITY: POOR
+					</td>
+				</tr>
+			</table>
+			
+			<div id="rerunanalysis" class="rerunanalysisdiv">
+				<table style="width: 100%;margin:2;padding:0;" >
+					<tr >
+						<td width="70px" rowspan="2" align="left" valign="middle"><img src="./images/icon_hourglass.png" ></td>
+						
+						<td align="left">&nbsp;Run Analysis Again?</td>
+					</tr>
+					<tr>
+						<td align="left">
+							<button id="cancelpoorbutton" class="roundedbluebutton">Cancel</button>
+							<button id="analyzepoorbutton" class="roundedbluebutton">Analyze</button>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		
+		<div id="analysisresultsgoodmessage" class="resultsdiv">
+			<table style="width: 100%;margin:2;padding:0;" >
+				<tr>
+					<td width="70px" rowspan="4" align="left" valign="top"><img src="./images/icon_docs.png" ></td>
+					<td align="left">ANALYSIS &nbsp; RESULTS</td>
+				</tr>
+				<tr>
+					<td align="left" style="font-weight:400;"> GEOLOGICAL </td>
+				</tr>
+				<tr>
+					<td align="left" style="font-weight:300;"> 
+						<br>
+						TYPE: Andesite 
+						<br>
+						Silica-dioxide content: HIGH
+					</td>
+				</tr>
+				<tr>
+					<td align="left" style="font-weight:300;color:rgba(196,216,168,1.0);"> 
+						<br>
+						MODULE &nbsp; EMPLACEMENT
+						<br>
+						SUITABILITY: GOOD
+					</td>
+				</tr>
+			</table>
+		</div>
+		
 		<div id="cmemessage" class="capcommessagereddiv">
 			<table style="width: 100%;margin:2;padding:0;" >
 				<tr >
@@ -1105,7 +1237,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				</tr>
 				<tr>
 					<td align="left">
-						<button id="investigatecmebutton" class="roundedredbutton">Investigate</button>
+						<button id="investigatecmebutton" class="roundedbbutton">Investigate</button>
 						<button id="ignorecmebutton" class="roundedredbutton">Ignore</button>
 					</td>
 				</tr>
