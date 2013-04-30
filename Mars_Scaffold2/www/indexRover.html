@@ -271,19 +271,20 @@ document.addEventListener("DOMContentLoaded", function () {
         lessonOpen=true;
 	});
     
-    $("#energybar").css({'background-color':'rgba(58,132,166,1.0)'});
+    //$("#energybar").css({'background-color':'rgba(51,111,139,1.0)'});
 	//increase energy bar by 1 every half second
 	setInterval(function() { 
 		if(currentEnergyLevel<=100) {
 			currentEnergyLevel++;
 			//our energy div visual reflect the opposite (full looks empty and vice versa)
 			var flipNumber = 100-currentEnergyLevel;
-		    $("#energylevel").css({height:(flipNumber+"%")});
-			if(currentEnergyLevel<30) {
+		    $("#energylevel").css({width:(flipNumber+"%")});
+			/*
+		    if(currentEnergyLevel<30) {
 			    $("#energybar").css({'background-color':'rgba(250,30,30,1.0)'});
 			} else {
-			    $("#energybar").css({'background-color':'rgba(58,132,166,1.0)'});
-			}
+			    $("#energybar").css({'background-color':'rgba(51,111,139,1.0)'});
+			}*/
 		}
 	}, 200);
 	
@@ -444,7 +445,6 @@ document.addEventListener("DOMContentLoaded", function () {
     //xxx
     //$("#analysisresultspoormessage").animate({opacity: 1.0}, 1, function() { $("#analysisresultspoormessage").css('pointer-events', 'auto'); });
     
-    
     var instrumentsbutton = document.getElementById('instrumentsbutton');
     instrumentsbutton.style.cursor = 'pointer';
     instrumentsbutton.onclick = function() {
@@ -514,14 +514,6 @@ document.addEventListener("DOMContentLoaded", function () {
     		rover.stowArm();
     	}
     }
-    
-    $("#instrumentsbutton").hover(function() {
-    	$("#instrumentsbutton").animate({opacity: 0.8}, 100, function() {
-        });
-    }, function() {
-    	$("#instrumentsbutton").animate({opacity: 1.0}, 100, function() {
-        });
-    });
 
     var camsbutton = document.getElementById('camsbutton');
     camsbutton.style.cursor = 'pointer';
@@ -636,13 +628,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	}
 	
-    $("#camsbutton").hover(function() {
-    	$("#camsbutton").animate({opacity: 0.8}, 100, function() {
-        });
-    }, function() {
-    	$("#camsbutton").animate({opacity: 1.0}, 100, function() {
-        });
-    });
     
     var checkInstrumentsOnTarget = function() {
     	var returnVal;
@@ -1273,28 +1258,49 @@ document.addEventListener("DOMContentLoaded", function () {
 		<div id="rovercontrols" class="launchcontrols">
 			
 			<div id="datediv" class="datediv" >
-				<table style="width:100%;height:100%;margin:0;padding:0;" >
+				<table style="width:100%;height:100%;margin:0;padding:0;">
 					<tr>
 						<td align="center" valign="bottom" height="20px">Energy</td>
-						<td align="center" valign="bottom">Power Source</td>
-						<td align="center" valign="bottom">Mast Cams</td>
-						<td align="center" valign="bottom">Instruments</td>
+						<td align="center" valign="bottom" style="width:20px;""></td>
+						<td align="center" valign="bottom" >Power Source</td>
+						<td align="center" valign="bottom" style="width:40px;"></td>
+						<td align="center" valign="bottom" style="color:rgba(230,230,230,1.0);">Mast Cams</td>
+						<td align="center" valign="bottom" style="color:rgba(230,230,230,1.0);">Instruments</td>
 					</tr>
 					<tr>
-						<td align="center" valign="middle" style="height:54px;width:80px;">
+						<td align="center" valign="top" style="height:52px;width:80px;">
 							<div id="energybar" class="energybar">
 								<div id="energylevel" class="energylevel"></div>
 							</div>
 							
 						</td>
-						<td align="center" valign="middle" style="height:54px;width:110px;">
-							<img src="./images/icon_rtg.png" >
+						<td align="center" valign="bottom" ></td>
+						<td align="center" valign="top" style="height:52px;width:170px;padding:0px 0px;font-size:18px;font-weight:400; ">
+							<table style="width:100%;height:90%;margin:0;padding:0; background-color:rgba(18,40,51,1.0);">
+								<tr>
+									<td align="right" valign="middle">RTG</td>
+									<td align="center" valign="middle"><img src="./images/icon_rtg.png" ></td>
+								</tr>
+							</table>
 						</td>
-						<td align="center" valign="middle" style="height:54px;width:110px;">
-							<img id="camsbutton" src="./images/icon_mastcams.png">
+						<td align="center" valign="bottom" ></td>
+						<td align="center" valign="top" style="height:52px;width:110px;">
+							<button id="camsbutton" class="squarebluebutton" style="height:56px;width:130px;">
+								<table style="width:100%;height:100%;margin:0;padding:0;" >
+									<tr>
+										<td style="margin:0;padding:0;"><img src="./images/icon_mastcams.png" style=""></td>
+									</tr>
+								</table>
+							</button>
 						</td>
-						<td align="center" valign="middle" style="height:54px;width:110px;">
-							<img id="instrumentsbutton" src="./images/icon_instruments.png">
+						<td align="center" valign="top" style="height:52px;width:110px;">
+							<button id="instrumentsbutton" class="squarebluebutton" style="height:56px;width:130px;">
+								<table style="width:100%;height:100%;margin:0;padding:0;" >
+									<tr>
+										<td style="margin:0;padding:0;"><img src="./images/icon_instruments.png" style=""></td>
+									</tr>
+								</table>
+							</button>
 						</td>
 					</tr>
 				</table>
@@ -1304,33 +1310,33 @@ document.addEventListener("DOMContentLoaded", function () {
 				<table style="width:100%;height:100%;margin:0;padding:0;">
 					<tr>
 						<td align="center" valign="bottom" height="20px"></td>
-						<td align="center" valign="bottom">Camera Views</td>
+						<td align="center" valign="bottom" style="color:rgba(230,230,230,1.0);">View</td>
 						<td align="center" valign="bottom"></td>
 					</tr>
 					<tr>
-						<td align="center" valign="middle" style="height:54px;width:110px;">
-				 			<button id="pilotviewbutton" class="playbutton" style="padding:2px 9px">
+						<td align="center" valign="middle" style="height:54px;width:70px;">
+				 			<button id="pilotviewbutton" class="squarebluebutton" style="padding:12px 15px;font-size:24px;font-weight:300;">
 								<table style="width:70px;height:100%;margin:0;padding:0;">
 									<tr>
-										<td id="pilotviewbutton">Pilot View</td>
+										<td id="pilotviewbutton">Pilot</td>
 									</tr>
 								</table>
 							</button>
 						</td>
-						<td align="center" valign="middle" style="height:54px;width:110px;">
-				 			<button id="wideviewbutton" class="playbutton" style="padding:2px 9px">
-								<table style="width:60px;height:100%;margin:0;padding:0;">
+						<td align="center" valign="middle" style="height:54px;width:70px;">
+				 			<button id="wideviewbutton" class="squarebluebutton" style="padding:12px 15px;font-size:24px;font-weight:300;">
+								<table style="width:70px;height:100%;margin:0;padding:0;">
 									<tr>
-										<td id="wideviewbutton">Wide View</td>
+										<td id="wideviewbutton">Wide</td>
 									</tr>
 								</table>
 							</button>
 						</td>
-						<td align="center" valign="middle" style="height:54px;width:110px;">
-				 			<button id="sideviewbutton" class="playbutton" style="padding:2px 9px">
-								<table style="width:60px;height:100%;margin:0;padding:0;">
+						<td align="center" valign="middle" style="height:54px;width:70px;">
+				 			<button id="sideviewbutton" class="squarebluebutton" style="padding:12px 15px;font-size:24px;font-weight:300;">
+								<table style="width:70px;height:100%;margin:0;padding:0;">
 									<tr>
-										<td id="sideviewbutton">Side View</td>
+										<td id="sideviewbutton">Side</td>
 									</tr>
 								</table>
 							</button>

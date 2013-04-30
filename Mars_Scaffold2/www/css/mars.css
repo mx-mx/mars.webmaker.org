@@ -7,7 +7,7 @@ body {
 	width: 100%;
 	background: #000001;
 	overflow: hidden;
-	color: rgba(58,132,166,0.9);
+	color: rgba(51,111,139,0.9);
 	font-family: 'Lato', sans-serif;
 	font-weight: 400;
 	font-size: 15px;
@@ -19,7 +19,7 @@ a{
 div.slideroutput{
 	float: left;
 	left: 200px;
-	color: rgba(58,132,166,0.9);
+	color: rgba(51,111,139,0.9);
 	background: #000;
     display: block;
 	text-align: right;
@@ -30,7 +30,7 @@ div.slider{
 	padding: 0px 0px;
 	float: left;
 	width: 300px;
-	background: rgba(58,132,166,0.9);
+	background: rgba(51,111,139,0.9);
     display: block;
 	font-size: 24px;
 }
@@ -42,7 +42,7 @@ div.slider{
 	text-transform: uppercase;
 	font-family: 'Lato', sans-serif;
 	font-weight:bold;
-	background: rgba(58,132,166,1.0);
+	background: rgba(51,111,139,1.0);
 	color: rgba(200,200,200,1.0);
     border-radius: 0px;
     border:none;
@@ -75,7 +75,7 @@ label .checkboxlabel {
 .regular-checkbox {
     -webkit-appearance: none;
     background-color: rgba(0,0,0,1.0);
-    border: 1px solid rgba(58,132,166,1.0);
+    border: 1px solid rgba(51,111,139,1.0);
     box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
     padding: 9px;
     border-radius: 3px;
@@ -92,11 +92,11 @@ label .checkboxlabel {
     position: absolute;
     top: 0px;
     left: 3px;
-    color: rgba(58,132,166,1.0);
+    color: rgba(51,111,139,1.0);
 }
 .regular-checkbox:checked {
     background-color: rgba(0,0,0,1.0);
-    border: 1px solid rgba(58,132,166,1.0);
+    border: 1px solid rgba(51,111,139,1.0);
     box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
     color: #99a1a7;
 }
@@ -533,13 +533,13 @@ div .roundedbluebutton{
 	text-transform: uppercase;
 	font-family: 'Lato', sans-serif;
 	font-weight:plain;
-	background: rgba(58,132,166,1.0);
+	background: rgba(51,111,139,1.0);
 	color: rgba(200,200,200,1.0);
     border-radius: 5px;
     border:2px solid rgba(76,173,197,0.0);
 }
 div .roundedbluebutton:hover{
-	background: rgba(58,132,166,0.5);
+	background: rgba(51,111,139,0.5);
 }
 div .roundedredbutton{
     display:inline-block;
@@ -571,12 +571,12 @@ div .roundedredbutton:hover{
 	font-family: 'Lato', sans-serif !important;
 	color: rgba(200,200,2050,1.0) !important;
 	font-weight:300 !important;
-	background: rgba(58,132,166,1.0) !important;
+	background: rgba(51,111,139,1.0) !important;
     border-radius: 0px !important;
     border:4px solid rgba(200,200,200,1.0) !important;
 }
 .playbutton:hover{
-	background: rgba(58,132,166,.5) !important;
+	background: rgba(51,111,139,.5) !important;
 }
 .modalmask {
     position: absolute;
@@ -632,7 +632,7 @@ div .roundedredbutton:hover{
 .topbar{
 	position: absolute;
     display:inline;
-	color: rgba(58,132,166,0.9);
+	color: rgba(51,111,139,0.9);
 	margin:0px 0px;
 	text-transform: uppercase;
 	z-index: 3;
@@ -701,7 +701,7 @@ div .roundedredbutton:hover{
 .topbar{
 	position: absolute;
     display:inline;
-	color: rgba(58,132,166,0.9);
+	color: rgba(51,111,139,0.9);
 	margin:0px 0px;
 	text-transform: uppercase;
 	z-index: 3;
@@ -745,7 +745,7 @@ div .roundedredbutton:hover{
 .bottombar{
 	position: absolute;
     display:inline;
-	color: rgba(58,132,166,0.9);
+	color: rgba(51,111,139,0.9);
 	margin:0px 0px;
 	text-transform: uppercase;
 	z-index: 3;
@@ -794,7 +794,7 @@ div .scrollarea {
 	border-left:1px solid;
 	border-right:1px solid;
 	overflow:auto; 
-	color: rgba(58,132,166,0.9);
+	color: rgba(51,111,139,0.9);
 	background-image: url(../images/timeline.png);
 	background-repeat: repeat-x;
 }
@@ -811,7 +811,7 @@ div .scrollarea ul li {
     padding:0 12px 0;
 }
 div .scrollarea ul li img {
-	color: rgba(58,132,166,0.9);
+	color: rgba(51,111,139,0.9);
 	border: 1px solid;
 }
 div .closebutton{
@@ -825,7 +825,7 @@ div .closebutton{
 	text-transform: uppercase;
 	font-family: 'Lato', sans-serif;
 	font-weight:bold;
-	background: rgba(58,132,166,0.8);
+	background: rgba(51,111,139,0.8);
 	color: rgba(200,200,200,0.8);
 	width: 1em; height: 1em; 
     -webkit-border-radius: .5em; 
@@ -1200,23 +1200,32 @@ div .threedcontrols {
 .energybar
 { 
 	padding:0px 0px 0px 0px;
+	margin:2px 0px 0px 0px;
 	display: inline-block;
-	/*background: rgba(58,132,166,1.0);*/
+	/*background: rgba(51,111,139,1.0);*/
 	border: 2px solid rgba(13,30,38,1.0);
-	outline: 2px solid rgba(58,132,166,1.0);
-	height: 30px;
-	width: 15px;
+	outline: 2px solid #207cca;
+	height: 44px;
+	width: 130px;
 	align:bottom;
+	background: -moz-linear-gradient(right,  #1e5799 0%, #199da0 0%, #207cca 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, right top, left top, color-stop(0%,#1e5799), color-stop(0%,#199da0), color-stop(100%,#207cca)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(right,  #1e5799 0%,#199da0 0%,#207cca 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(right,  #1e5799 0%,#199da0 0%,#207cca 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(right,  #1e5799 0%,#199da0 0%,#207cca 100%); /* IE10+ */
+	background: linear-gradient(to left,  #1e5799 0%,#199da0 0%,#207cca 100%); /* W3C */
 }
 .energylevel
 { 
+	float:right;
+	height: 100%;
 	background: rgba(13,30,38,1.0);
 }
 .datepicker {
 	background: rgba(18,40,51,1.0);
 	color: rgba(150,150,150,1.0);
     border-radius: 0px;
-    border: 0px solid rgba(58,132,166,0.0);
+    border: 0px solid rgba(51,111,139,0.0);
 	line-height: 16px;
 	font-size: 16px;
 	text-align: center;
@@ -1243,13 +1252,13 @@ div .squarebluebutton{
 	text-transform: uppercase;
 	font-family: 'Lato', sans-serif;
 	font-weight:bold;
-	background: rgba(58,132,166,1.0);
+	background: rgba(51,111,139,1.0);
 	color: rgba(200,200,200,1.0);
     border-radius: 0px;
     border:none;
 }
 div .squarebluebutton:hover{
-	background: rgba(58,132,166,0.5);
+	background: rgba(51,111,139,0.5);
 }
 div .speedSlider {
 	font-size: 12px;
@@ -1257,9 +1266,9 @@ div .speedSlider {
 	height: 12px;
 	bottom:0px;
 	right:0px;
-	background: rgba(58,132,166,0.9);
-	background-color: rgba(58,132,166,0.9);
-	color: rgba(58,132,166,0.9);
+	background: rgba(51,111,139,0.9);
+	background-color: rgba(51,111,139,0.9);
+	color: rgba(51,111,139,0.9);
 	border:3px solid rgba(0.0.0,1.0);
     border-radius: 0px;
 }
@@ -1284,7 +1293,7 @@ div .speedSlider {
 	z-index: 4;
 }
 #speedSlider .ui-widget-header { 
-	background: rgba(58,132,166,0.9); 
+	background: rgba(51,111,139,0.9); 
 }
 #speedSlider .ui-state-default { 
 	border-left: 3px solid rgba(13,30,38,1.0);
@@ -1300,11 +1309,11 @@ div .speedSlider {
     height: 10px;
 }
 ::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(158,132,166,0.9); 
+    -webkit-box-shadow: inset 0 0 6px rgba(151,111,139,0.9); 
     border-radius: 0px;
 }
 ::-webkit-scrollbar-thumb {
     border-radius: 0px;
-    -webkit-box-shadow: inset 0 0 6px rgba(158,132,166,0.9); 
-    background: rgba(58,132,166,0.9);
+    -webkit-box-shadow: inset 0 0 6px rgba(151,111,139,0.9); 
+    background: rgba(51,111,139,0.9);
 }
