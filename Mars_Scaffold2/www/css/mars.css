@@ -13,6 +13,11 @@ body {
 	font-size: 15px;
 }
 a{
+	color: #FF7B24;
+	text-decoration: none;
+}
+a:hover{
+	color: rgba(51,111,139,0.9);
 	text-decoration: none;
 }
 /*
@@ -1220,6 +1225,19 @@ div .threedcontrols {
 	float:right;
 	height: 100%;
 	background: rgba(13,30,38,1.0);
+}
+.plaintext {
+	background: rgba(18,40,51,1.0);
+	color: rgba(150,150,150,1.0);
+    border-radius: 0px;
+    border: 0px solid rgba(51,111,139,0.0);
+	line-height: 16px;
+	font-size: 16px;
+	text-align: center;
+	vertical-align: center;
+	padding: 10px;
+	margin: 2px 2px 4px 2px;
+	width: 60px;
 }
 .datepicker {
 	background: rgba(18,40,51,1.0);

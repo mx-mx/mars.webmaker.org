@@ -418,9 +418,9 @@ document.addEventListener("DOMContentLoaded", function () {
     	closeAllSubMenus();
     };
     
-    var helpthreedpopupclose = document.getElementById('helpthreedclose');
-    helpthreedclose.style.cursor = 'pointer';
-    helpthreedclose.onclick = function() {
+    var threedhelppopupclose = document.getElementById('threedhelpclose');
+    threedhelpclose.style.cursor = 'pointer';
+    threedhelpclose.onclick = function() {
     	closeAllSubMenus();
     };
     
@@ -435,7 +435,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		$("#menupanel").animate({opacity: 0.0}, 1, function() { $("#menupanel").css('pointer-events', 'none'); });
     	$("#aboutpopup").animate({opacity: 0.0}, 200, function() {$("#aboutpopup").css('pointer-events', 'none');});
     	$("#helppopup").animate({opacity: 0.0}, 200, function() {$("#helppopup").css('pointer-events', 'none');});
-    	$("#helpthreedpopup").animate({opacity: 0.0}, 200, function() {$("#helpthreedpopup").css('pointer-events', 'none');});
+    	$("#threedhelppopup").animate({opacity: 0.0}, 200, function() {$("#threedhelppopup").css('pointer-events', 'none');});
     	$("#browserpopup").animate({opacity: 0.0}, 200, function() {$("#browserpopup").css('pointer-events', 'none');});
     	$("#incomingmessage").animate({opacity: 0.0}, 200, function() {$("#incomingmessage").css('pointer-events', 'none');});
     	$("#cmemessage").animate({opacity: 0.0}, 200, function() {$("#cmemessage").css('pointer-events', 'none');});
@@ -609,7 +609,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		
 		$("#aboutpopup").animate({opacity: 0.0}, 1, function() { $("#aboutpopup").css('pointer-events', 'none'); });
 		$("#helppopup").animate({opacity: 0.0}, 1, function() { $("#helppopup").css('pointer-events', 'none'); });
-		$("#helpthreedpopup").animate({opacity: 0.0}, 1, function() { $("#helpthreedpopup").css('pointer-events', 'none'); });
+		$("#threedhelppopup").animate({opacity: 0.0}, 1, function() { $("#threedhelppopup").css('pointer-events', 'none'); });
 		//$("#browserpopup").animate({opacity: 0.0}, 1, function() { $("#browserpopup").css('pointer-events', 'none'); });
 		
 		$("#incomingmessage").animate({opacity: 0.0}, 1, function() { $("#incomingmessage").css('pointer-events', 'none'); });
@@ -804,8 +804,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		$( "#threedhelpbutton" )
 			.button()
 			.click(function( event ) {
-				$("#helpthreedpopup").animate({opacity: 1.0}, 200, function() {
-	            	$("#helpthreedpopup").css('pointer-events', 'auto');
+				$("#threedhelppopup").animate({opacity: 1.0}, 200, function() {
+	            	$("#threedhelppopup").css('pointer-events', 'auto');
 	        	});
 		});
 		
@@ -1104,8 +1104,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			<h1>Help</h1>
 			<p>The help page</p>
 		</div>
-		<div id="helpthreedpopup" class="popupdiv">
-			<div id="helpthreedclose" class="closebutton"><p>&#10006;</p></div>
+		<div id="threedhelppopup" class="popupdiv">
+			<div id="threedhelpclose" class="closebutton"><p>&#10006;</p></div>
 			<h1>Help</h1>
 			<p>The 3D help page</p>
 		</div>

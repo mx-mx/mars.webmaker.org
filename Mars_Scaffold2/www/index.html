@@ -862,7 +862,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		
 		$("#aboutpopup").animate({opacity: 0.0}, 1, function() { $("#aboutpopup").css('pointer-events', 'none'); });
 		$("#helppopup").animate({opacity: 0.0}, 1, function() { $("#helppopup").css('pointer-events', 'none'); });
-		$("#helpthreedpopup").animate({opacity: 0.0}, 1, function() { $("#helpthreedpopup").css('pointer-events', 'none'); });
+		$("#threedhelppopup").animate({opacity: 0.0}, 1, function() { $("#threedhelppopup").css('pointer-events', 'none'); });
+		$("#launchhelppopup").animate({opacity: 0.0}, 1, function() { $("#launchhelppopup").css('pointer-events', 'none'); });
 		//$("#browserpopup").animate({opacity: 0.0}, 1, function() { $("#browserpopup").css('pointer-events', 'none'); });
 		
 		$("#incomingmessage").animate({opacity: 0.0}, 1, function() { $("#incomingmessage").css('pointer-events', 'none'); });
@@ -887,27 +888,12 @@ document.addEventListener("DOMContentLoaded", function () {
 		$("#subtitlepanel").animate({opacity: 0.0}, 1, function() {});
 	}
 	
-	// Add popcorn events here and other functionality
-    //SEQ2_VO.image({
-    	//start: 0.1, // Our start time in seconds
-    	//end: 14, // Our end time in seconds
-    	//src: "./images/planetorder.jpg", 
-    	//text: "", 
-    	//target: "imagecontenttarget", 
-		//effect: "applyclass",
-    	//applyclass: "stretchcontent"
-    //});
+	//xxx unit test for menus
+	//$("#helppopup").animate({opacity: 1.0}, 1, function() { $("#helppopup").css('pointer-events', 'auto'); });
+	
     popcornMedia[17].cue( 3, function() {
        	camTweener( { x: 0, y: 1100, z: 0 }, { x: 0, y: 0, z: -20 }, 3000 );
 	});
-    
-
-    function flipTimelinePic(picID,imgName)
-    {
-        var pic1 = document.getElementById(picID); 
-        if (pic1 == typeof('undefined')) return;
-        pic1.src = imgName;
-    }
     
     
     //pop the mission complete
@@ -936,6 +922,26 @@ document.addEventListener("DOMContentLoaded", function () {
     var solarsystembadgeuploadbutton = document.getElementById('solarsystembadgeuploadbutton');
     solarsystembadgeuploadbutton.onclick = function() {
     	popSolarSystemBadgeWindow();
+    };
+    
+    var openThreeDHelp = document.getElementById('openThreeDHelp');
+    openThreeDHelp.onclick = function() {
+		$("#helppopup").animate({opacity: 0.0}, 200, function() {
+        	$("#helppopup").css('pointer-events', 'none');
+			$("#threedhelppopup").animate({opacity: 1.0}, 200, function() {
+            	$("#threedhelppopup").css('pointer-events', 'auto');
+        	});
+    	});
+    };
+    
+    var openLaunchHelp = document.getElementById('openLaunchHelp');
+    openLaunchHelp.onclick = function() {
+		$("#helppopup").animate({opacity: 0.0}, 200, function() {
+        	$("#helppopup").css('pointer-events', 'none');
+			$("#launchhelppopup").animate({opacity: 1.0}, 200, function() {
+            	$("#launchhelppopup").css('pointer-events', 'auto');
+        	});
+    	});
     };
     
     var rocketbadgeuploadbutton = document.getElementById('rocketbadgeuploadbutton');
@@ -1035,9 +1041,16 @@ document.addEventListener("DOMContentLoaded", function () {
     	closeAllSubMenus();
     };
     
-    var helpthreedpopupclose = document.getElementById('helpthreedclose');
-    helpthreedclose.style.cursor = 'pointer';
-    helpthreedclose.onclick = function() {
+    var threedhelppopupclose = document.getElementById('threedhelppopupclose');
+    threedhelppopupclose.style.cursor = 'pointer';
+    threedhelppopupclose.onclick = function() {
+    	closeAllSubMenus();
+    };
+    
+
+    var launchhelppopupclose = document.getElementById('launchhelppopupclose');
+    launchhelppopupclose.style.cursor = 'pointer';
+    launchhelppopupclose.onclick = function() {
     	closeAllSubMenus();
     };
     
@@ -1054,15 +1067,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     
     var closeAllSubMenus = function() {
-		console.log("closeAllSubMenus");
     	$("#aboutpopup").animate({opacity: 0.0}, 200, function() {$("#aboutpopup").css('pointer-events', 'none');});
     	$("#helppopup").animate({opacity: 0.0}, 200, function() {$("#helppopup").css('pointer-events', 'none');});
-    	$("#helpthreedpopup").animate({opacity: 0.0}, 200, function() {$("#helpthreedpopup").css('pointer-events', 'none');});
+    	$("#threedhelppopup").animate({opacity: 0.0}, 200, function() {$("#threedhelppopup").css('pointer-events', 'none');});
+    	$("#launchhelppopup").animate({opacity: 0.0}, 200, function() {$("#launchhelppopup").css('pointer-events', 'none');});
     	$("#browserpopup").animate({opacity: 0.0}, 200, function() {$("#browserpopup").css('pointer-events', 'none');});
     	$("#incomingmessage").animate({opacity: 0.0}, 200, function() {$("#incomingmessage").css('pointer-events', 'none');});
     	$("#cmemessage").animate({opacity: 0.0}, 200, function() {$("#cmemessage").css('pointer-events', 'none');});
 		$("#transmissionmessage").animate({opacity: 0.0}, 1, function() { $("#transmissionmessage").css('pointer-events', 'none'); });
-		
     }
     
     var rocketbutton = document.getElementById('rocketbutton');
@@ -1228,7 +1240,6 @@ document.addEventListener("DOMContentLoaded", function () {
    
 
 	//$('#checkboxrocket1').prop('checked', true);
-    
     
     
     $(document).ready(function() {
@@ -1539,9 +1550,15 @@ document.addEventListener("DOMContentLoaded", function () {
 		$( "#threedhelpbutton" )
 			.button()
 			.click(function( event ) {
-				$("#helpthreedpopup").animate({opacity: 1.0}, 200, function() {
-                	$("#helpthreedpopup").css('pointer-events', 'auto');
-            	});
+				if(popcornSequenceNumber>=24) {
+					$("#launchhelppopup").animate({opacity: 1.0}, 200, function() {
+	                	$("#launchhelppopup").css('pointer-events', 'auto');
+	            	});
+				} else {
+					$("#threedhelppopup").animate({opacity: 1.0}, 200, function() {
+	                	$("#threedhelppopup").css('pointer-events', 'auto');
+	            	});
+				}
 		});
 		
 		$( "#introduction" )
@@ -1565,6 +1582,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		$( "#about" )
 			.button()
 			.click(function( event ) {
+		    	closeAllSubMenus();
 				$("#aboutpopup").animate({opacity: 1.0}, 200, function() {
                 	$("#aboutpopup").css('pointer-events', 'auto');
             	});
@@ -1573,6 +1591,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		$( "#help" )
 			.button()
 			.click(function( event ) {
+		    	closeAllSubMenus();
 				$("#helppopup").animate({opacity: 1.0}, 200, function() {
                 	$("#helppopup").css('pointer-events', 'auto');
             	});
@@ -1640,8 +1659,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					},500);
 					*/
 					
-					
-					console.log("DeltaV index: " + marsOdyssey.totalDeltaV);
+					setDeltaV(marsOdyssey.totalDeltaV);
 
 					$("#speedSlider").slider('value',.1);
 				}
@@ -1695,11 +1713,17 @@ document.addEventListener("DOMContentLoaded", function () {
 				    
 				});
 				
-				console.log("DeltaV index: " + marsOdyssey.totalDeltaV);
+				setDeltaV(marsOdyssey.totalDeltaV);
 
 				$("#speedSlider").slider('value',.07);
 			}
 		});
+
+		//set text field to rocket launch deltaV for user to see.
+		var setDeltaV = function (dNum) {
+			document.getElementById( "deltavtext" ).value = dNum.toFixed(2);
+		}
+		
 		
 		var playTrajectoryAudio = function() {
 			console.log("rocketChoice: " + rocketChoice);
@@ -1827,7 +1851,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		    });
 		});
 		
-		//this timer queries the timer object to figure out what the date is 
+		//this timer queries the timer object (orbit timer) to figure out what the date is 
 		//and then sets the datepicker element every 100 ms.
 		setInterval(function() { 
 			if(timer) {
@@ -1853,6 +1877,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				}
 			}
 		}, 100);
+		
 		
       });
     
@@ -2145,23 +2170,69 @@ document.addEventListener("DOMContentLoaded", function () {
 			<div id="aboutpopupclose" class="closebutton"><p>&#10006;</p></div>
 			<h1>About</h1>
 			<p>A 3D web experience built in conjuction with MX, the Deparment of Energy and Mozilla.  
-			We have combined <a href="http://popcornjs.org/" target="_new">Popcorn</a> with a 3D experience to all on a Mars journey.
+			We have combined <a href="http://popcornjs.org/" target="_new">Popcorn</a> with a 3D experience in a unique presentation of the science 
+			of missions to Mars.
+			</p>
+			<p>
+			We have also provided a means to prove your Mars knowledge by means of Mozilla's <a href="http://openbadges.org/" target="_new">Open Badges</a> project!  
+			In this experience, you will be able to earn:
+			<br>
+			 - The Solar System Badge
+			<br>
+			 - The Mission to Mars Badge
+			<br>
+			 - The Rover Pilot Badge
+			<br><br>
+			Good luck and have fun Astronaut!
 			</p>
 		</div>
 		<div id="helppopup" class="popupdiv">
 			<div id="helppopupclose" class="closebutton"><p>&#10006;</p></div>
 			<h1>Help</h1>
-			<p>The help page</p>
+			<p>3D Navigation - In this lesson you will use your mouse or laptop track pad to navigate the solar system.  
+			<a href="#" id="openThreeDHelp">Click here</a> for more informaiton.  </p>
+			
+			<p>ΔV (delta vee) - ΔV is a measurement of the change in velocity that a craft must make in it's journey.  
+			In this lesson you are provided with a choice of three different rockets which each have different ΔV potential.  
+			In any mission you want to keep your ΔV as low as possible withing given date ranges.  <a href="#" id="openLaunchHelp">Click here</a> for more information.  Good luck!</p>
+			
 		</div>
-		<div id="helpthreedpopup" class="popupdiv">
-			<div id="helpthreedclose" class="closebutton"><p>&#10006;</p></div>
-			<h1>Help</h1>
-			<p>The 3D help page</p>
+		<div id="threedhelppopup" class="popupdiv">
+			<div id="threedhelppopupclose" class="closebutton"><p>&#10006;</p></div>
+			<h1>3D Help</h1>
+			<p>Use the mouse or trackpad to navigate the solar system.</p>
+			<p>Click and drag to move the camera.</p>
+			<p>Use the mouse scroll wheel or laptop track pad to zoom in and out.</p>
+			<p>Click on planets or the sun to zoom into them.</p>
+			<p>Click on location buttons at the bottom of the screen to reorient camera.</p>
+		</div>
+		<div id="launchhelppopup" class="popupdiv">
+			<div id="launchhelppopupclose" class="closebutton"><p>&#10006;</p></div>
+			<h1>Launch Help</h1>
+			<p>Having trouble getting a good ΔV with your rocket launch?  </p>
+			<table style="width:100%;margin:0;padding:0;align:center;">
+				<tr>
+					<td>Launch</td>
+					<td>Landing</td>
+				</tr>
+				<tr>
+					<td><img src="./images/ex_launch.jpg"></td>
+					<td><img src="./images/ex_landing.jpg"></td>
+				</tr>
+			</table>
+			
+			<p>Remember:  
+			<br>
+			1) Earth should be slightly behind Mars in orbit at launch.
+			<br>
+			2) Earth should be slightly ahead Mars in orbit at landing, which is usually about 6 to 9 months after launch.
+			</p>
+			
 		</div>
 		<div id="browserpopup" class="popupdiv">
 			<div id="browserpopupclose" class="closebutton"><p>&#10006;</p></div>
 			<h1>Browser</h1>
-			<p>The browser page</p>
+			<p>This website works best in the latest versions of Firefox and Chrome.</p>
 		</div>
 		
 		<div id="incomingmessage" class="capcommessagediv">
@@ -2321,6 +2392,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			<div id="launchdiv" class="launchdiv" >
 				<table style="width:100%;height:100%;margin:0;padding:0;">
 					<tr>
+						<td align="center" valign="bottom" height="30px">ΔV</td>
 						<td align="center" valign="bottom" height="30px">Rocket</td>
 						<td align="center" valign="bottom" rowspan="2" style="padding:0px 5px 0px 0px" height="90px">
 				 			<img id="rocketselect" src="./images/icon_rocket_falcon_heavy.png" style="padding:0px 0px 0px 0px">
@@ -2331,6 +2403,9 @@ document.addEventListener("DOMContentLoaded", function () {
 						<td align="center" valign="bottom" width="100px">&nbsp;</td>
 					</tr>
 					<tr>
+						<td align="center" valign="bottom">
+				 			<input type="text" id="deltavtext" class="plaintext" value="0" readonly/>
+						</td>
 						<td align="center" valign="bottom">
 				 			<button id="rocketbutton" class="playbutton" style="padding:2px 9px">
 								<table style="width:60px;height:100%;margin:0;padding:0;">
