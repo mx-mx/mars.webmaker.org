@@ -100,6 +100,11 @@ function rocketbadgefinish() {
 
 // ensure the web page (DOM) has loaded
 document.addEventListener("DOMContentLoaded", function () {
+	//we want to limit orbit animations to stay within our loaded ephemeris range 
+	//(we're only loading two NASA ephemeris which gets us from about 2000 to 2040)
+	var MAX_EPHEMERIS_DATE = new Date(2039, 10, 1); //backing off to Nov 1st
+	var MIN_EPHEMERIS_DATE = new Date(2000, 0, 1); //scooting up to Jan 1st
+	
 //https://www.youtube.com/watch?v=P4boyXQuUIw - the MSL path
 //http://www.youtube.com/watch?v=jEXoMpmfJcM - the MSL launch - a better version
 //https://www.youtube.com/watch?v=lKqr3F73bAI - MSL trajectory
@@ -427,7 +432,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	
     popcornMedia[2].cue( 6.5, function() {
     	Tweener(ssScale, {planetScale:.00001}, 1000);
-    	Tweener(ssScale, {sunScale:.000001}, 1000);
+    	Tweener(ssScale, {sunScale:.000002}, 1000);
     	Tweener(ssScale, {s:.00001}, 1000);
 	});
     
@@ -1370,8 +1375,6 @@ document.addEventListener("DOMContentLoaded", function () {
 			step: .010,
 			change: function() {
 				var newSliderVal = $( "#speedSlider" ).slider( "option", "value" );
-				console.log("newSliderVal: " + newSliderVal);
-				console.log("userLessonNumber: " + userLessonNumber);
 				if(userLessonNumber==4) {
 					if(newSliderVal>0) {
 						advanceUser();
@@ -1386,7 +1389,12 @@ document.addEventListener("DOMContentLoaded", function () {
 					}
 				}
 				savedSliderVal = newSliderVal;
-				Tweener(timer, {multiplier:savedSliderVal}, 1000);
+				if(savedSliderVal==0) {
+					//if 0, stop immediately
+					Tweener(timer, {multiplier:savedSliderVal}, 1);
+				} else {
+					Tweener(timer, {multiplier:savedSliderVal}, 1000);
+				}
 			}
 		});
 
@@ -1620,6 +1628,19 @@ document.addEventListener("DOMContentLoaded", function () {
 					    playTrajectoryAudio();
 					});
 					
+					//since the callback doesn't always work.  lets try this method 
+					//this is not yet working... using callback until I can poll this correctly.
+					/*
+					var checktouchdown = setInterval(function () {
+					    if(touchdown()) {
+						    console.log("got touchdown");
+					    	clearInterval(checktouchdown);
+					    	playTrajectoryAudio();
+					    }
+					},500);
+					*/
+					
+					
 					console.log("DeltaV index: " + marsOdyssey.totalDeltaV);
 
 					$("#speedSlider").slider('value',.1);
@@ -1812,6 +1833,24 @@ document.addEventListener("DOMContentLoaded", function () {
 			if(timer) {
 				var aDate = new Number(timer.JD).Julian2Date();
 				document.getElementById( "orbitdate" ).value = dateFormatter(aDate);
+				
+				//put the breaks on the orbit if we get close to the min and max dates of the ephemeris
+				if(aDate>MAX_EPHEMERIS_DATE) {
+					//set slider to 0
+					$("#speedSlider").slider('value',0);
+					var setbackdate = new Date(MAX_EPHEMERIS_DATE);
+					setbackdate.setDate(setbackdate.getDate() - 5);
+					
+					timer.JD = new Date(setbackdate).Date2Julian();
+				}
+				if(aDate<MIN_EPHEMERIS_DATE) {
+					//set slider to 0
+					$("#speedSlider").slider('value',0);
+					var setbackdate = new Date(MIN_EPHEMERIS_DATE);
+					setbackdate.setDate(setbackdate.getDate() + 5);
+					
+					timer.JD = new Date(setbackdate).Date2Julian();
+				}
 			}
 		}, 100);
 		

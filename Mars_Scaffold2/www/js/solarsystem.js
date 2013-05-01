@@ -37,7 +37,7 @@ function makeSolarSystem(){
 
 	ssScale = new solarSystemScale();
 	ssScale.s = .000001;
-	ssScale.sunScale = .00002;
+	ssScale.sunScale = .00001;
 	ssScale.planetScale = .001;
 
 	var ss3D = new THREE.Object3D();
