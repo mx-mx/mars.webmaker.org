@@ -288,10 +288,10 @@ document.addEventListener("DOMContentLoaded", function () {
 	popcornMedia[27] = Popcorn( '#SEQ_5_CAM_1d' ); //award after the landing on mars
 	
 	popcornMedia[28] = Popcorn( '#ROCKET_SUCCESS' );
-	popcornMedia[29] = Popcorn( '#ROCKET_FAIL1' );
-	popcornMedia[30] = Popcorn( '#ROCKET_FAIL2' );
-	popcornMedia[31] = Popcorn( '#ROCKET_FAIL3' );
-	popcornMedia[32] = Popcorn( '#ROCKET_FAIL4' );
+	popcornMedia[29] = Popcorn( '#SEQ_5_fail1' );
+	popcornMedia[30] = Popcorn( '#SEQ_5_fail2' );
+	popcornMedia[31] = Popcorn( '#SEQ_5_fail3' );
+	popcornMedia[32] = Popcorn( '#SEQ_5_fail4' );
 
 	//not sure if I'll need this baseplayer
 	//decided to keep basepop in as a convenient way to initialize the 3D and fire up the first video player.  
@@ -633,7 +633,7 @@ document.addEventListener("DOMContentLoaded", function () {
     					console.log("userLessonNumber: " + userLessonNumber);
     					console.log("userMouseAction[2]: " + userMouseAction[2]);
         				
-        				if(CLICKED.name=="Earth" && userMouseAction[2]) {
+        				if(CLICKED.name=="Earth" && userMouseAction[2] && userLessonNumber==2) {
         					console.log("planet earth clicked, time to move on to next lesson");
         					advanceUser();
         				} else if(CLICKED.name!="Earth" && userMouseAction[2] && userLessonNumber==2) {
@@ -1344,17 +1344,9 @@ document.addEventListener("DOMContentLoaded", function () {
 			.button()
 			.click(function( event ) {
 
-
-				camNextTarget = {
-					x: 0,
-					y: 50,
-					z: 500
-				};
-
-				//not yet sure how to set this up
-				camTweener( { x: 50, y: 50, z: 250 }, ss[3].position, 1500 );
-				//TWEEN.removeAll();
-				//camTweener( camEarth, camNextTarget, 1500 );
+				var posFromMatrix = new THREE.Vector3();
+				posFromMatrix.getPositionFromMatrix( ss[3].matrixWorld );
+				camTweener( { x: 50, y: 50, z: 250 }, posFromMatrix, 1500 );
 				checkForFourthCameraLesson();
 				
 		});
@@ -1362,18 +1354,11 @@ document.addEventListener("DOMContentLoaded", function () {
 		$( "#threedmarsbutton" )
 			.button()
 			.click(function( event ) {
-
-				camNextTarget	= {
-					x: 0, 
-					y: 50, 
-					z: 500 
-				};
-				//not yet sure how to set this up
-				//camMars = new camPosition( { x: 75, y: 50, z: 300 }, ss[4].position, 1500 );
 				
-				camTweener( { x: 75, y: 50, z: 300 }, ss[4].position, 1500 );
-				//TWEEN.removeAll();
-				//camTweener( camMars, camNextTarget, 1500 );
+				var posFromMatrix = new THREE.Vector3();
+				posFromMatrix.getPositionFromMatrix( ss[4].matrixWorld );
+				camTweener( { x: 75, y: 50, z: 300 }, posFromMatrix, 1500 );
+				
 				finishFourthCameraLesson();
 		});
 		
@@ -2590,24 +2575,24 @@ document.addEventListener("DOMContentLoaded", function () {
 			<source src="http://www.mx-mx.com/lab/moku/audio/ROCKET_SUCCESS.ogg"></source>
 		</audio> 
 		
-		<audio id="ROCKET_FAIL1">
-			<source src="http://www.mx-mx.com/lab/moku/audio/ROCKET_FAIL1.mp3"></source>
-			<source src="http://www.mx-mx.com/lab/moku/audio/ROCKET_FAIL1.ogg"></source>
+		<audio id="SEQ_5_fail1">
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_5_fail1.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_5_fail1.oggvorbis.ogg"></source>
 		</audio> 
 		
-		<audio id="ROCKET_FAIL2">
-			<source src="http://www.mx-mx.com/lab/moku/audio/ROCKET_FAIL2.mp3"></source>
-			<source src="http://www.mx-mx.com/lab/moku/audio/ROCKET_FAIL2.ogg"></source>
+		<audio id="SEQ_5_fail2">
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_5_fail2.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_5_fail2.oggvorbis.ogg"></source>
 		</audio> 
 		
-		<audio id="ROCKET_FAIL3">
-			<source src="http://www.mx-mx.com/lab/moku/audio/ROCKET_FAIL3.mp3"></source>
-			<source src="http://www.mx-mx.com/lab/moku/audio/ROCKET_FAIL3.ogg"></source>
+		<audio id="SEQ_5_fail3">
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_5_fail3.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_5_fail3.oggvorbis.ogg"></source>
 		</audio> 
 		
-		<audio id="ROCKET_FAIL4">
-			<source src="http://www.mx-mx.com/lab/moku/audio/ROCKET_FAIL4.mp3"></source>
-			<source src="http://www.mx-mx.com/lab/moku/audio/ROCKET_FAIL4.ogg"></source>
+		<audio id="SEQ_5_fail4">
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_5_fail4.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_5_fail4.oggvorbis.ogg"></source>
 		</audio> 
 		
 	</body>
