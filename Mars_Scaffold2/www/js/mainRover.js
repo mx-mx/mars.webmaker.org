@@ -56,7 +56,7 @@ function init() {
 	// pointLight.position.set( 0, 100, 0 );
 	// scene.add(pointLight);
 
-	var directionalLight = new THREE.DirectionalLight( 0x6B7DA0, 1 );
+	var directionalLight = new THREE.DirectionalLight( 0x6B7DA0, 1.25 );
 	directionalLight.position.set( -175, 20, 0 );
 	directionalLight.castShadow = true;
 	scene.add( directionalLight );

@@ -250,7 +250,7 @@ function onDocumentMouseDown( event ) {
 	} 
 }
 
-function touchdown(){
+function touchdown( rocket ){
 	console.log("touchdown?");
 	var marsPosFromMatrix = new THREE.Vector3();
 	marsPosFromMatrix.getPositionFromMatrix( solarSystem.children[8].matrixWorld );
@@ -258,10 +258,10 @@ function touchdown(){
 	var marsPos = solarSystem.children[8].position;
 
 	var marsRadius = ssScale.planetScale * ephemeris[4].size;
-	var trajLen = marsOdyssey.line.geometry.vertices.length - 1
-	var trajFinalPoint = marsOdyssey.line.geometry.vertices[ trajLen ];
+	var trajLen = rocket.line.geometry.vertices.length - 1
+	var trajFinalPoint = rocket.line.geometry.vertices[ trajLen ];
 
-	if( marsPos.distanceTo( trajFinalPoint ) < radius ){
+	if( marsPos.distanceTo( trajFinalPoint ) < marsRadius ){
 		return true;
 	}else return false;
 }
