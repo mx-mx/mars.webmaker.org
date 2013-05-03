@@ -94,22 +94,24 @@ $badges_array = array(
 	3 => array(
 	"uid" => "3dm0",
 	"name" => "Solar System Badge", 
-	"image" => "badge_3D.png", 
-	"evidence_url" => "http://www.mx-mx.com/lab/moku//badge-it-gadget-lite/digital-badges/badge_3D_mastery.html", 
-	"badge_class" => "http://www.mx-mx.com/lab/moku//badge-it-gadget-lite/digital-badges/issued/json/badgeClass_3D_mastery.json",
+	"image" => "moku_badge_solar_system.png", 
+	"evidence_url" => "http://www.mx-mx.com/lab/moku//badge-it-gadget-lite/digital-badges/badge_solar_system.html", 
+	"badge_class" => "http://www.mx-mx.com/lab/moku//badge-it-gadget-lite/digital-badges/issued/json/badgeClass_solar_system.json",
 	"expires" => "2020-01-01"),
 	4 => array(
 	"uid" => "p0",
-	"name" => "Rocket Badge", 
-	"image" => "badge_pilot.png", 
-	"evidence_url" => "http://www.mx-mx.com/lab/moku//badge-it-gadget-lite/digital-badges/badge_pilot.html",
-	"badge_class" => "http://www.mx-mx.com/lab/moku//badge-it-gadget-lite/digital-badges/issued/json/badgeClass_pilot.json",
+	"name" => "Mission to Mars Badge", 
+	"image" => "moku_badge_mission_to_mars.png", 
+	"evidence_url" => "http://www.mx-mx.com/lab/moku//badge-it-gadget-lite/digital-badges/badge_remote_mission_to_mars.html",
+	"badge_class" => "http://www.mx-mx.com/lab/moku//badge-it-gadget-lite/digital-badges/issued/json/badgeClass_mission_to_mars.json",
 	"expires" => "2020-01-01"), 
 	5 => array(
 	"uid" => "d0",
-	"name" => "Rover Pilot Badge", 
-	"image" => "badge_driver.png", 
-	"evidence_url" => "http://www.mx-mx.com/lab/moku//badge-it-gadget-lite/digital-badges/badge_driver.html",
-	"badge_class" => "http://www.mx-mx.com/lab/moku//badge-it-gadget-lite/digital-badges/issued/json/badgeClass_driver.json",
+	"name" => "Remote Pilot Badge", 
+	"image" => "moku_badge_remote_pilot.png", 
+	"evidence_url" => "http://www.mx-mx.com/lab/moku//badge-it-gadget-lite/digital-badges/badge_remote_pilot.html",
+	"badge_class" => "http://www.mx-mx.com/lab/moku//badge-it-gadget-lite/digital-badges/issued/json/badgeClass_remote_pilot.json",
 	"expires" => "2020-01-01")
 	);
+
+?>
