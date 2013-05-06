@@ -345,18 +345,63 @@ div.pathfindervideo1
     margin:0px 0 0 0px;
 	z-index: 2;
 }
-.popupdiv
+.helppopup
 {
   position: absolute;
 	opacity: 0.0;
 	pointer-events:none;
-	padding: 15px 15px 30px 30px;
-	background: rgba(13,30,38,.95);
+	padding: 15px 30px 15px 30px;
+	background: rgba(42,51,24,.95);
 	color: rgba(200,200,200,1.0);
 	font-family: 'Lato', sans-serif;
 	text-transform: none;
 	line-height: 22px;
 	font-size: 18px;
+	font-weight: 300;
+    border-radius: 5px;
+    border:none;
+	width: 600px;
+	height: 540px;
+	top:50%;
+    left:50%;
+    margin:-270px 0 0 -315px;
+	z-index: 5;
+}
+.aboutpopup
+{
+  position: absolute;
+	opacity: 0.0;
+	pointer-events:none;
+	padding: 15px 40px 15px 40px;
+	background: rgba(42,51,24,.95);
+	color: rgba(200,200,200,1.0);
+	font-family: 'Lato', sans-serif;
+	text-transform: none;
+	line-height: 22px;
+	font-size: 18px;
+	font-weight: 300;
+    border-radius: 5px;
+    border:none;
+	width: 340px;
+	height: 460px;
+	top:50%;
+    left:50%;
+    margin:-230px 0 0 -185px;
+	z-index: 5;
+}
+.browserpopup
+{
+  position: absolute;
+	opacity: 0.0;
+	pointer-events:none;
+	padding: 15px 40px 15px 40px;
+	background: rgba(42,51,24,.95);
+	color: rgba(200,200,200,1.0);
+	font-family: 'Lato', sans-serif;
+	text-transform: none;
+	line-height: 22px;
+	font-size: 18px;
+	font-weight: 300;
     border-radius: 5px;
     border:none;
 	width: 640px;
@@ -364,6 +409,48 @@ div.pathfindervideo1
 	top:50%;
     left:50%;
     margin:-240px 0 0 -335px;
+	z-index: 5;
+}
+.threedhelppopup
+{
+  position: absolute;
+	opacity: 0.0;
+	pointer-events:none;
+	padding: 15px 40px 15px 40px;
+	background: rgba(13,30,38,.95);
+	color: rgba(200,200,200,1.0);
+	font-family: 'Lato', sans-serif;
+	text-transform: none;
+	line-height: 22px;
+	font-size: 18px;
+	font-weight: 300;
+    border-radius: 0px;
+    border:none;
+	width: 440px;
+	height: 440px;
+	bottom: 210px;
+    left: 60px;
+	z-index: 5;
+}
+.launchhelppopup
+{
+  position: absolute;
+	opacity: 0.0;
+	pointer-events:none;
+	padding: 15px 40px 15px 40px;
+	background: rgba(13,30,38,.95);
+	color: rgba(200,200,200,1.0);
+	font-family: 'Lato', sans-serif;
+	text-transform: none;
+	line-height: 22px;
+	font-size: 18px;
+	font-weight: 300;
+    border-radius: 0px;
+    border:none;
+	width: 680px;
+	height: 440px;
+	bottom: 210px;
+    left: 60px;
 	z-index: 5;
 }
 .selectitemdiv

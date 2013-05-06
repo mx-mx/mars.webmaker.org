@@ -400,32 +400,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     $(document).on('mousedown', function(e) {
 		$("#menupanel").animate({opacity: 0.0}, 200, function() { $("#menupanel").css('pointer-events', 'none'); });
+		$("#threedhelppopup").animate({opacity: 0.0}, 200, function() { $("#threedhelppopup").css('pointer-events', 'none'); });
+		$("#helppopup").animate({opacity: 0.0}, 200, function() { $("#helppopup").css('pointer-events', 'none'); });
+		$("#launchhelppopup").animate({opacity: 0.0}, 200, function() { $("#launchhelppopup").css('pointer-events', 'none'); });
+		$("#aboutpopup").animate({opacity: 0.0}, 200, function() { $("#aboutpopup").css('pointer-events', 'none'); });
     });
-  
-    
-    var aboutpopupclose = document.getElementById('aboutpopupclose');
-    aboutpopupclose.style.cursor = 'pointer';
-    aboutpopupclose.onclick = function() {
-    	closeAllSubMenus();
-    };
-    
-    var helppopupclose = document.getElementById('helppopupclose');
-    helppopupclose.style.cursor = 'pointer';
-    helppopupclose.onclick = function() {
-    	closeAllSubMenus();
-    };
-    
-    var threedhelppopupclose = document.getElementById('threedhelpclose');
-    threedhelpclose.style.cursor = 'pointer';
-    threedhelpclose.onclick = function() {
-    	closeAllSubMenus();
-    };
-    
-    var browserpopupclose = document.getElementById('browserpopupclose');
-    browserpopupclose.style.cursor = 'pointer';
-    browserpopupclose.onclick = function() {
-    	closeAllSubMenus();
-    };
     
     var closeAllSubMenus = function() {
 
@@ -1089,27 +1068,97 @@ document.addEventListener("DOMContentLoaded", function () {
 			</div>
 		</div>
 		
-		<div id="aboutpopup" class="popupdiv">
-			<div id="aboutpopupclose" class="closebutton"><p>&#10006;</p></div>
-			<h1>About</h1>
-			<p>A 3D web experience built in conjuction with MX, the Deparment of Energy and Mozilla.  
-			We have combined <a href="http://popcornjs.org/" target="_new">Popcorn</a> with a 3D experience to all on a Mars journey.
-			</p>
+		<div id="aboutpopup" class="aboutpopup">
+			<h1 style="text-align: center;">About</h1>
+			<a href="#" target="_self">Mission to Mars</a>
+			<br>
+			<a href="http://www.mx-mx.com/lab/moku/indexRover.html" target="_self">Mars Rover Remote Pilot</a>
+			<br><br>
+			These experinces were built with <a href="http://popcornjs.org/" target="_new">Popcorn.js</a> and
+			<a href="http://threejs.org/" target="_new">Three.js</a>. All 3D models are available in 
+			<a href="http://threejs.org/" target="_new">Kuda</a>.  Complete the missions to earn badges as a part
+			of the <a href="http://openbadges.org/" target="_new">Open Badges</a> project. 
+			<a href="#" target="_self">Remix</a> the experiences to create your own interactive story.
+			<br><br>
+			This project is a collaboration between the 
+			<a href="http://http://energy.gov/" target="_new">U.S. Department of Energy</a>, 
+			the <a href="http://www.mozilla.org/foundation/" target="_new">Mozilla Foundation</a>, and 
+			<a href="http://mx-mx.com/" target="_new">MX</a>.
 		</div>
-		<div id="helppopup" class="popupdiv">
-			<div id="helppopupclose" class="closebutton"><p>&#10006;</p></div>
-			<h1>Help</h1>
-			<p>The help page</p>
+		<div id="helppopup" class="helppopup">
+			<h1 style="text-align: center;">Help</h1>
+			<br>You are on an astronaut stationed on Slaton's Isle, an Aten asteroid in the inner solar system.
+			Colonists on Mars have an emergency and need your help.  The Capsule Communicator CAPCOM) on Earth
+			is requestion your help because you are closer to Mars and able to respond quickly.  
+			Follow the instrunctions from CAPCOM and use the 3D models to complete your missions.
+			<br><br>
+			<img src="./images/help_asteroid.jpg" style="border:1px solid rgba(200,200,200,1.0);width:100%">
+			<br><br>
+			<table style="width:100%;margin:0;padding:0;">
+				<tr>
+					<td style="padding-right:30px;vertical-align:top;">
+						<font style="font-size: 22px;font-weight: 400;">Help & Replay</font>
+						<br> If you get stuck, select 'Help' in the lower left of the screen to get more 
+						information.  Select 'Replay' to hear the latest message from CAPCOM again.
+					</td>
+					<td style="vertical-align:top;">
+						<font style="font-size: 22px;font-weight: 400;">Camera Angle</font>
+						<br>If you are having trouble navigating around the 3D environment, 
+						select one of the camera angle buttons along the bottom of the screen.
+					</td>
+				</tr>
+			</table>
 		</div>
-		<div id="threedhelppopup" class="popupdiv">
-			<div id="threedhelpclose" class="closebutton"><p>&#10006;</p></div>
-			<h1>Help</h1>
-			<p>The 3D help page</p>
+		<div id="threedhelppopup" class="threedhelppopup">
+			<h1 style="text-align: center;">Solar System Controls</h1>
+			<br>
+			<font style="font-size: 22px;font-weight: 400;">Move</font>
+			<br>Click and drag to move the camera
+			<br><br>
+			<font style="font-size: 22px;font-weight: 400;">Zoom</font>
+			<br>Scroll up and down with a mouse scroll wheel or a trackpad to zoom in and out
+			<br><br>
+			<font style="font-size: 22px;font-weight: 400;">Camera View</font>
+			<br>Select any planet or a camera view button to change the camera focus
+			<br><br>
+			<font style="font-size: 22px;font-weight: 400;">Orbit Speed</font>
+			<br>Move the slider left or right to change the planet orbit speeds
+			<br><br>
 		</div>
-		<div id="browserpopup" class="popupdiv">
-			<div id="browserpopupclose" class="closebutton"><p>&#10006;</p></div>
+		
+		<div id="launchhelppopup" class="launchhelppopup">
+			<h1>Mars Transfer</h1>
+			<table style="width:100%;margin:0px;padding:0px;align:center;">
+				<tr>
+					<td style="vertical-align:top;padding-right:10px;">
+						Select a rocket, launch date, and landing date to get a spacecraft to Mars.
+						Make sure the delta-v of the selected rocket is greater than the delta-v required
+						to complete the Mars transfer.
+						<br><br>
+						<font style="font-size: 22px;font-weight: 400;">Delta-V (ΔV)</font>
+						<br>
+						Delta-V (change in velocity) determins the amount of effort needed to change orbits.
+						<br><br>
+						<font style="font-size: 22px;font-weight: 400;">Rockets</font>
+						<br>
+						Each rocket has a specific delta-v based on it's weight and fuel capacity.
+					</td>
+					
+					<td style="vertical-align:top;">
+						<font style="font-size: 22px;font-weight: 400;">Launch & Land Dates</font>
+						<br>
+						Fuel efficient Mars transfers generally take about nine months and launch when Earth
+						and Mars are relatively close together.
+						<br><br>
+						<img src="./images/help_mission.jpg" style="border:1px solid rgba(200,200,200,1.0);"></td>
+				</tr>
+			</table>
+			
+		</div>
+		
+		<div id="browserpopup" class="browserpopup">
 			<h1>Browser</h1>
-			<p>The browser page</p>
+			<p>This website works best in the latest versions of Firefox and Chrome.</p>
 		</div>
 		
 		<div id="incomingmessage" class="capcommessagediv">
