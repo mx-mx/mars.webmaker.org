@@ -299,7 +299,7 @@ div.pathfindervideo1
 	/*top:50%;
     left:50%;
     margin:-240px 0 0 -335px;*/
-	z-index: 50;
+	z-index: 4;
 }
 .videointrocontenttarget
 {
@@ -365,7 +365,7 @@ div.pathfindervideo1
 	top:50%;
     left:50%;
     margin:-270px 0 0 -315px;
-	z-index: 5;
+	z-index: 7;
 }
 .aboutpopup
 {
@@ -387,7 +387,7 @@ div.pathfindervideo1
 	top:50%;
     left:50%;
     margin:-230px 0 0 -185px;
-	z-index: 5;
+	z-index: 7;
 }
 .baddatespopup
 {
@@ -409,7 +409,7 @@ div.pathfindervideo1
 	top:50%;
     left:50%;
     margin:-70px 0 0 -185px;
-	z-index: 5;
+	z-index: 7;
 }
 .browserpopup
 {
@@ -431,7 +431,7 @@ div.pathfindervideo1
 	top:50%;
     left:50%;
     margin:-240px 0 0 -335px;
-	z-index: 5;
+	z-index: 7;
 }
 .threedhelppopup
 {
@@ -452,7 +452,7 @@ div.pathfindervideo1
 	height: 440px;
 	bottom: 210px;
     left: 60px;
-	z-index: 5;
+	z-index: 7;
 }
 .launchhelppopup
 {
@@ -473,7 +473,7 @@ div.pathfindervideo1
 	height: 440px;
 	bottom: 210px;
     left: 60px;
-	z-index: 5;
+	z-index: 7;
 }
 .selectitemdiv
 {
