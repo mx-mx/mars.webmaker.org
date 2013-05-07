@@ -185,7 +185,7 @@ function setupScene(){
 	});
 
 	// SUNmat.alphaTest = .75;
-	SUN = new THREE.Mesh( new THREE.PlaneGeometry( 37, 37 ), SUNmat );
+	SUN = new THREE.Mesh( new THREE.PlaneGeometry( 3700000, 3700000 ), SUNmat );
 	scene.add( SUN );
 
 	starField = new stars( 25000, 40000, 100 );
@@ -296,6 +296,9 @@ function animate() {
     camera.updateProjectionMatrix();
 	camera.lookAt( camTarget );
 
+	SUN.scale.x = ssScale.sunScale;
+	SUN.scale.y = ssScale.sunScale;
+	SUN.scale.z = ssScale.sunScale;
 	var sunPos = new THREE.Vector3();
 	sunPos.getPositionFromMatrix(camera.matrixWorld);
 	SUN.lookAt(sunPos);
