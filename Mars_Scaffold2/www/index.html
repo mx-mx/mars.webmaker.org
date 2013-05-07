@@ -896,7 +896,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 	
 	//xxx unit test for menus
-	//$("#baddatespopup").animate({opacity: 1.0}, 1, function() { $("#baddatespopup").css('pointer-events', 'auto'); });
+	$("#solarsystembadge").animate({opacity: 1.0}, 1, function() { $("#solarsystembadge").css('pointer-events', 'auto'); });
 	
     popcornMedia[17].cue( 3, function() {
        	camTweener( { x: 0, y: 1100, z: 0 }, { x: 0, y: 0, z: -20 }, 3000 );
@@ -2030,136 +2030,147 @@ document.addEventListener("DOMContentLoaded", function () {
 		
 		<div id="solarsystembadge" class="modalmask">
 			<div id="backpacklogindiv" class="badgecontenttarget">
-				<h1>Mission Complete!</h1>
-				<h1>Badge Award!</h1>
-				<br>
-				Upload your Badge
+				<h1>Solar System Navigation Success!</h1>
 				<br><br>
 				<div style="text-align: center;width:100%">
-					<table style="position: absolute; width: 80%;margin:0;padding:0; float:middle;left:15%" >
+					<table style="position: absolute; width: 90%;margin:0;padding:0; float:middle;left:8%" >
 						<tr >
 							<td align="left" valign="top">
-								<br>
 								<font style="font-weight:300;">
-								The Solar System Badge awarded for 3D simulation mastery.
+								Congratulations for completing the solar system 3D interface orientation and earning
+								the "Solar System" badge!
 								<br><br>
-								 - panning
+								Upload the badge to save it and share it.  Learn more about the 
+								<a href="http://openbadges.org/" target="_new">Open Badges</a> project.
+								</font>
 								<br>
-								 - zooming
 								<br>
-								 - planet selection
-								<br>
-								 - camera jumps
-								<br>
-								 - time slider
-								 </font>
-							
 							</td>
-							<td align="right" valign="top"><img src="./badge-it-gadget-lite/digital-badges/images/badge_3D.png"> </td>
+							<td align="right" rowspan="2" valign="top"><img src="./badge-it-gadget-lite/digital-badges/images/moku_badge_solar_system.png" style="width:220px;height:220px"> </td>
 							
+						</tr>
+						<tr>
+							<td align="center" valign="top">
+								<button id="solarsystembadgeuploadbutton" type="submit" class="squarebigbluebutton">Upload Badge</button>
+							</td>
 						</tr>
 					</table>
 				</div>
 					
 				<br><br><br><br><br><br><br><br><br><br><br><br>
-					<div style="float:middle;">
-						<button id="solarsystembadgeskipbutton" class="squarebluebutton">Skip</button>
-						<button id="solarsystembadgeuploadbutton" type="submit" class="squarebluebutton">Upload</button>
+					<div style="float:left;">
+						&nbsp;&nbsp;&nbsp;&nbsp;<button id="solarsystembadgeskipbutton" class="squarebluebutton">Skip</button>
 					</div>
 			</div>
 		</div>
 		
 		<div id="solarsystembadgecomplete" class="modalmask">
 			<div id="backpacklogindiv" class="badgecontenttarget">
-				<h1>Mission Complete!</h1>
-				<h1>Badge Award!</h1>
-				<br>
-				Thanks for playing
+				<h1>Solar System Navigation Success!</h1>
 				<br><br>
 				<div style="text-align: center;width:100%">
-					<table style="position: absolute; width: 80%;margin:0;padding:0; float:middle;left:15%" >
+					<table style="position: absolute; width: 90%;margin:0;padding:0; float:middle;left:8%" >
 						<tr >
 							<td align="left" valign="top">
-								<br>
 								<font style="font-weight:300;">
-								Congratulations and thanks. 
-								 </font>
+								There is still plenty more to do!
+								<br> 
+								<br>
+								Select "Continue" to advance to the next mission.  Learn to launch a rocket from Earth
+								to Mars. 
+								<br>&nbsp;
+								<br>&nbsp;
+								<br>&nbsp;
+								</font>
 							
 							</td>
-							<td align="right" valign="top"><img src="./badge-it-gadget-lite/digital-badges/images/badge_3D.png"> </td>
-							
+							<td align="right" rowspan="2" valign="top"><img src="./badge-it-gadget-lite/digital-badges/images/moku_badge_solar_system.png" style="width:220px;height:220px"> </td>
+						</tr>
+						<tr>
+							<td align="center" valign="top">
+								<button id="solarsystembadgecompletecontinuebutton" type="submit" class="squarebigbluebutton">Continue</button>
+							</td>
 						</tr>
 					</table>
 				</div>
 					
 				<br><br><br><br><br><br><br><br><br><br><br><br>
-					<div style="float:middle;">
-						<button id="solarsystembadgecompletereplaybutton" class="squarebluebutton">Replay</button>
-						<button id="solarsystembadgecompletecontinuebutton" type="submit" class="squarebluebutton">Continue</button>
+					<div style="float:left;">
+						<button id="solarsystembadgecompletereplaybutton" class="squarebluebutton">Replay Mission</button>
+						<button id="solarsystembadgecompletereremixbutton" class="squarebluebutton">Remix&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
 					</div>
 			</div>
 		</div>
 		
 		<div id="rocketbadge" class="modalmask">
 			<div id="backpacklogindiv" class="badgecontenttarget">
-				<h1>Mission Complete!</h1>
-				<h1>Badge Award!</h1>
-				<br>
-				Upload your Badge
+				<h1>Mission Success!</h1>
 				<br><br>
 				<div style="text-align: center;width:100%">
-					<table style="position: absolute; width: 80%;margin:0;padding:0; float:middle;left:15%" >
+					<table style="position: absolute; width: 90%;margin:0;padding:0; float:middle;left:8%" >
 						<tr >
 							<td align="left" valign="top">
-								<br>
 								<font style="font-weight:300;">
-								The Rocket Badge awarded for 3D simulation mastery.
+								Congradulations for completing the Mars transfer mission and earning the 
+								"Mission to Mars" badge!
 								<br><br>
-								 - successfully launching a rocket to Mars.
-								 </font>
-							
+								Upload the badge to save it and share it.  Learn more about the 
+								<a href="http://openbadges.org/" target="_new">Open Badges</a> project.
+								</font>
+								<br>
+								<br>
 							</td>
-							<td align="right" valign="top"><img src="./badge-it-gadget-lite/digital-badges/images/badge_pilot.png"> </td>
-							
+							<td align="right" rowspan="2" valign="top"><img src="./badge-it-gadget-lite/digital-badges/images/moku_badge_mission_to_mars.png" style="width:220px;height:220px"> </td>
+						</tr>
+						<tr>
+							<td align="center" valign="top">
+								<button id="rocketbadgeuploadbutton" type="submit" class="squarebigbluebutton">Upload Badge</button>
+							</td>
 						</tr>
 					</table>
 				</div>
 					
 				<br><br><br><br><br><br><br><br><br><br><br><br>
-					<div style="float:middle;">
+					<div style="float:left;">
 						<button id="rocketbadgeskipbutton" class="squarebluebutton">Skip</button>
-						<button id="rocketbadgeuploadbutton" type="submit" class="squarebluebutton">Upload</button>
 					</div>
 			</div>
 		</div>
 		
 		<div id="rocketbadgecomplete" class="modalmask">
 			<div id="backpacklogindiv" class="badgecontenttarget">
-				<h1>Mission Complete!</h1>
-				<h1>Badge Award!</h1>
-				<br>
-				Thanks for playing
+				<h1>Remote Pilot a Mars Rover</h1>
 				<br><br>
 				<div style="text-align: center;width:100%">
-					<table style="position: absolute; width: 80%;margin:0;padding:0; float:middle;left:15%" >
+					<table style="position: absolute; width: 90%;margin:0;padding:0; float:middle;left:8%" >
 						<tr >
 							<td align="left" valign="top">
-								<br>
 								<font style="font-weight:300;">
-								Congratulations and thanks. 
-								 </font>
+								There is still plenty more to do!
+								<br> 
+								<br>
+								Select "Continue" to advance to the next mission.  Save the Mars colony by
+								remote piloting a rover on Mars. 
+								<br>&nbsp;
+								<br>&nbsp;
+								<br>&nbsp;
+								</font>
 							
 							</td>
-							<td align="right" valign="top"><img src="./badge-it-gadget-lite/digital-badges/images/badge_pilot.png"> </td>
-							
+							<td align="right" rowspan="2" valign="top"><img src="./images/moku_unit2_icon.jpg" style="border:1px solid rgba(200,200,200,1.0);"> </td>
+						</tr>
+						<tr>
+							<td align="center" valign="top">
+								<button id="rocketbadgecompletecontinuebutton" type="submit" class="squarebigbluebutton">Continue</button>
+							</td>
 						</tr>
 					</table>
 				</div>
 					
 				<br><br><br><br><br><br><br><br><br><br><br><br>
-					<div style="float:middle;">
-						<button id="rocketbadgecompletereplaybutton" class="squarebluebutton">Replay</button>
-						<button id="rocketbadgecompletecontinuebutton" type="submit" class="squarebluebutton">Continue</button>
+					<div style="float:left;">
+						<button id="rocketbadgecompletereplaybutton" class="squarebluebutton">Replay Mission</button>
+						<button id="rocketbadgecompletereremixbutton" class="squarebluebutton">Remix&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
 					</div>
 			</div>
 		</div>

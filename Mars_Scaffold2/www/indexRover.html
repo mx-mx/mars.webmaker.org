@@ -417,7 +417,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     //xxx
-    //$("#threedhelppopup").animate({opacity: 1.0}, 1, function() { $("#threedhelppopup").css('pointer-events', 'auto'); });
+    $("#roverpilotbadge").animate({opacity: 1.0}, 1, function() { $("#roverpilotbadge").css('pointer-events', 'auto'); });
     
     var instrumentsbutton = document.getElementById('instrumentsbutton');
     instrumentsbutton.style.cursor = 'pointer';
@@ -1363,70 +1363,73 @@ document.addEventListener("DOMContentLoaded", function () {
 		
 		<div id="roverpilotbadge" class="modalmask">
 			<div id="backpacklogindiv" class="badgecontenttarget">
-				<h1>Mission Complete!</h1>
-				<h1>Badge Award!</h1>
-				<br>
-				Upload your Badge
+				<h1>Mission Success!</h1>
 				<br><br>
 				<div style="text-align: center;width:100%">
-					<table style="position: absolute; width: 80%;margin:0;padding:0; float:middle;left:15%" >
+					<table style="position: absolute; width: 90%;margin:0;padding:0; float:middle;left:8%" >
 						<tr >
 							<td align="left" valign="top">
-								<br>
 								<font style="font-weight:300;">
-								The Rover Pilot Badge awarded for 3D simulation mastery.
+								Congratulations for completing the Mars rover mission and earning the "Remot Pilot" badge!
 								<br><br>
-								 - driving rover
+								Upload the badge to save it and share it.  Learn more about the 
+								<a href="http://openbadges.org/" target="_new">Open Badges</a> project.
+							 	</font>
 								<br>
-								 - calibrating instruments
 								<br>
-								 - finding evidence
-								<br>
-								 - confirming evidence
-								 </font>
-							
 							</td>
-							<td align="right" valign="top"><img src="./badge-it-gadget-lite/digital-badges/images/badge_driver.png"> </td>
-							
+							<td align="right" rowspan="2" valign="top"><img src="./badge-it-gadget-lite/digital-badges/images/moku_badge_remote_pilot.png" style="width:220px;height:220px"> </td>
+						</tr>
+						
+						<tr>
+							<td align="center" valign="top">
+								<button id="roverpilotbadgeuploadbutton" type="submit" class="squarebigbluebutton">Upload Badge</button>
+							</td>
 						</tr>
 					</table>
 				</div>
 					
 				<br><br><br><br><br><br><br><br><br><br><br><br>
-					<div style="float:middle;">
-						<button id="roverpilotbadgeskipbutton" class="squarebluebutton">Skip</button>
-						<button id="roverpilotbadgeuploadbutton" type="submit" class="squarebluebutton">Upload</button>
-					</div>
+				<div style="float:left;">
+					<button id="roverpilotbadgeskipbutton" class="squarebluebutton">Skip</button>
+				</div>
 			</div>
 		</div>
 		
 		<div id="roverpilotbadgecomplete" class="modalmask">
 			<div id="backpacklogindiv" class="badgecontenttarget">
-				<h1>Mission Complete!</h1>
-				<h1>Badge Award!</h1>
-				<br>
-				Thanks for playing
+				<h1>Mission Success!</h1>
 				<br><br>
 				<div style="text-align: center;width:100%">
 					<table style="position: absolute; width: 80%;margin:0;padding:0; float:middle;left:15%" >
 						<tr >
 							<td align="left" valign="top">
-								<br>
 								<font style="font-weight:300;">
-								Congratulations and thanks. 
-								 </font>
+								Your mission is complete!
+								<br> 
+								<br>
+								Look forward to more lessons and more badges like this to complete. 
+								<br>&nbsp;
+								<br>&nbsp;
+								<br>&nbsp;
+								</font>
 							
 							</td>
-							<td align="right" valign="top"><img src="./badge-it-gadget-lite/digital-badges/images/badge_driver.png"> </td>
+							<td align="right" valign="top"><img src="./badge-it-gadget-lite/digital-badges/images/moku_badge_remote_pilot.png" style="width:220px;height:220px"> </td>
 							
+						</tr>
+						<tr>
+							<td align="center" valign="top">
+								<!-- <button id="roverpilotbadgecompletecontinuebutton" type="submit" class="squarebigbluebutton">Continue</button> -->
+							</td>
 						</tr>
 					</table>
 				</div>
 					
 				<br><br><br><br><br><br><br><br><br><br><br><br>
-					<div style="float:middle;">
+					<div style="float:left;">
 						<button id="roverpilotbadgecompletereplaybutton" class="squarebluebutton">Replay</button>
-						<button id="roverpilotbadgecompletecontinuebutton" type="submit" class="squarebluebutton">Continue</button>
+						<button id="roverpilotbadgecompletereremixbutton" class="squarebluebutton">Remix&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
 					</div>
 			</div>
 		</div>
