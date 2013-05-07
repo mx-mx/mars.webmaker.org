@@ -258,7 +258,7 @@ function touchdown( rocket ){
 	var marsPos = solarSystem.children[8].position;
 
 	var marsRadius = ssScale.planetScale * ephemeris[4].size;
-	var trajLen = rocket.line.geometry.vertices.length - 1
+	var trajLen = rocket.line.geometry.vertices.length - 1;
 	var trajFinalPoint = rocket.line.geometry.vertices[ trajLen ];
 
 	if( marsPos.distanceTo( trajFinalPoint ) < marsRadius ){

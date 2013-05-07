@@ -607,6 +607,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		$("#helppopup").animate({opacity: 0.0}, 200, function() { $("#helppopup").css('pointer-events', 'none'); });
 		$("#launchhelppopup").animate({opacity: 0.0}, 200, function() { $("#launchhelppopup").css('pointer-events', 'none'); });
 		$("#aboutpopup").animate({opacity: 0.0}, 200, function() { $("#aboutpopup").css('pointer-events', 'none'); });
+		$("#baddatespopup").animate({opacity: 0.0}, 200, function() { $("#baddatespopup").css('pointer-events', 'none'); });
+		
 		//$("#browserpopup").animate({opacity: 0.0}, 200, function() { $("#browserpopup").css('pointer-events', 'none'); });
 		
 		//planet clicking
@@ -894,7 +896,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 	
 	//xxx unit test for menus
-	//$("#helppopup").animate({opacity: 1.0}, 1, function() { $("#helppopup").css('pointer-events', 'auto'); });
+	//$("#baddatespopup").animate({opacity: 1.0}, 1, function() { $("#baddatespopup").css('pointer-events', 'auto'); });
 	
     popcornMedia[17].cue( 3, function() {
        	camTweener( { x: 0, y: 1100, z: 0 }, { x: 0, y: 0, z: -20 }, 3000 );
@@ -1585,9 +1587,13 @@ document.addEventListener("DOMContentLoaded", function () {
 			.button()
 			.click(function( event ) {
 				if(!launchDate || !landingDate) {
-					console.log("need both dates to compare");
+					$("#baddatespopup").animate({opacity: 1.0}, 200, function() {
+	                	$("#baddatespopup").css('pointer-events', 'auto');
+	            	});
 				} else if (landingDate<launchDate) {
-					console.log("You can't land before you launch");
+					$("#baddatespopup").animate({opacity: 1.0}, 200, function() {
+	                	$("#baddatespopup").css('pointer-events', 'auto');
+	            	});
 				} else if (landingDate>launchDate) {
 					//erase line if necessary
 					clear3DDrawings();
@@ -1606,21 +1612,25 @@ document.addEventListener("DOMContentLoaded", function () {
 			    	marsOdyssey = null;
 			    	marsOdyssey = new MarsOdyssey();
 					marsOdyssey.init( departure_time, arrival_time, function () {
-					    console.log("heard the done drawing callback");
-					    playTrajectoryAudio();
+					    //the callback doesn't alway work, so we're going with Ryan's touchdown method below
+			
+						//console.log("heard the done drawing callback");
+					    //playTrajectoryAudio();		    
 					});
 					
+					
 					//since the callback doesn't always work.  lets try this method 
-					//this is not yet working... using callback until I can poll this correctly.
-					/*
-					var checktouchdown = setInterval(function () {
-					    if(touchdown()) {
-						    console.log("got touchdown");
-					    	clearInterval(checktouchdown);
-					    	playTrajectoryAudio();
-					    }
-					},500);
-					*/
+					//kick off the check interval function after a timeout delay of just over 1 second.
+					setTimeout(function() {
+						var checktouchdown = setInterval(function () {
+						    if(touchdown(marsOdyssey)) {
+							    console.log("got touchdown");
+						    	clearInterval(checktouchdown);
+						    	playTrajectoryAudio();
+						    }
+						},500);
+					},1200);
+					
 					
 					setDeltaV(marsOdyssey.totalDeltaV);
 
@@ -2261,6 +2271,27 @@ document.addEventListener("DOMContentLoaded", function () {
 					<td align="left">
 						<button id="investigatecmebutton" class="roundedredbutton">Investigate</button>
 						<button id="ignorecmebutton" class="roundedredbutton">Ignore</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		
+		
+		<div id="baddatespopup" class="baddatespopup">
+			<table style="width: 100%;margin:0;padding:0;" >
+				<tr >
+					<td width="50px"  align="left" >
+						You have entered bad dates.  Please ensure that you have entered 
+						two dates and your launch date is before your landing date.
+					</td>
+				</tr>
+				<tr>
+					<td align="center">
+						<br>
+						<!-- this button isn't programmed specifically javascript... it works via mousedown in javascript
+						it's really a button made for what users typcially expect.  i.e. mouse anywere click and ok do the same thing -->
+						<button id="baddatesokbutton" class="squarebluebutton">ok</button>
 					</td>
 				</tr>
 			</table>
