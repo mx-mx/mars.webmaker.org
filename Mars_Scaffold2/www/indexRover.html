@@ -493,18 +493,30 @@ document.addEventListener("DOMContentLoaded", function () {
     camsbutton.style.cursor = 'pointer';
     camsbutton.onclick = function() {
     	rover.scanMast(4000);
-    	setTimeout(function() {
-        	//show outcrop
-        	oc.setPosition(-20, 35);
-        	oc.showTarget();
-    		oc.showArrow();
-    	},1000); 
-    	setTimeout(function() {
-        	//show outcrop
-    		ocTwo.setPosition(5,35);
-    		ocTwo.showTarget();
-    		ocTwo.showArrow();
-    	},3000); 
+    	
+    	if(lessonOpen) {
+    		//calibration test
+       		if(userLessonNumber==1) {
+
+    			jumpPopcornMedia(6);
+       		}
+       		if(userLessonNumber>=2) {
+
+       	    	setTimeout(function() {
+       	        	//show outcrop
+       	        	oc.setPosition(-20, 35);
+       	        	oc.showTarget();
+       	    		oc.showArrow();
+       	    	},1000); 
+       	    	setTimeout(function() {
+       	        	//show outcrop
+       	    		ocTwo.setPosition(5,35);
+       	    		ocTwo.showTarget();
+       	    		ocTwo.showArrow();
+       	    	},3000); 
+       		}
+    		
+    	}
     }
     
 
