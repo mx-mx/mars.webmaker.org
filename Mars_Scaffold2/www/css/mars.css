@@ -495,7 +495,7 @@ div.pathfindervideo1
 	top:40%;
     left:50%;
     margin:-190px 0 0 -485px;
-	z-index: 6;
+	z-index: 1;
 }
 .selectitemdiv td
 {
@@ -554,7 +554,7 @@ div .selectitemdetaildiv:hover{
 	height: 55px;
 	top:60px;
     right:15px;
-	z-index: 6;
+	z-index: 1;
 }
 .capcommessagereddiv
 {
@@ -575,7 +575,7 @@ div .selectitemdetaildiv:hover{
 	height: 55px;
 	top:50%;
     right:36%;
-	z-index: 6;
+	z-index: 1;
 }
 .progressdiv
 {
