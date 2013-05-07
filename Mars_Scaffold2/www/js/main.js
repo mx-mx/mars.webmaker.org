@@ -163,14 +163,6 @@ function setupScene(){
 	// geo = new THREE.Mesh( new THREE.PlaneGeometry( 100, 100 ), new THREE.MeshLambertMaterial( { color: 0xCC0000, opacity:0 } ) );
 	// scene.add(geo);
 
-	// var SUNmat = new THREE.MeshBasicMaterial( { 
-	// 		map: THREE.ImageUtils.loadTexture( './images/solarsystem/sunflatmap.jpg' ), 
-	// 		overdraw: true 
-	// });
-	// SUNmat.alphaTest = .75;
-	// SUN = new THREE.Mesh( new THREE.PlaneGeometry( 50, 50 ), SUNmat );
-	// scene.add( SUN );
-
 	// debugGrid = new debugGrid(-1, 100, 1000);
 	// scene.add(debugGrid);
 
@@ -186,13 +178,21 @@ function setupScene(){
 	solarSystem = makeSolarSystem();
 	solarSystem.rotation.x = -2;
 
+	var SUNmat = new THREE.MeshBasicMaterial( { 
+			map: THREE.ImageUtils.loadTexture( './images/solarsystem/sunflatmap.png' ), 
+			overdraw: true,
+			transparent: true 
+	});
+
+	// SUNmat.alphaTest = .75;
+	SUN = new THREE.Mesh( new THREE.PlaneGeometry( 37, 37 ), SUNmat );
+	scene.add( SUN );
+
 	starField = new stars( 25000, 40000, 100 );
 	solarSystem.add( starField );
 
-	lensFlares = new THREE.Object3D();
-	var override = THREE.ImageUtils.loadTexture( "./images/lensflare/hexangle.png" );
-	var sunFlare = addLensFlare( 0, 0, 5, 5, override );
-	scene.add( sunFlare );
+	var sunFlare = addLensFlare( 5, 0, 0, 5 );
+	SUN.add( sunFlare );
 
 
 	ruler = new Ruler( ss[3], ss[4] );
@@ -208,7 +208,6 @@ function setupScene(){
 	
 	scene.add( dae );
 	scene.add( solarSystem );
-	scene.add( lensFlares );
 
 	ss[1].orbit.rotation.set( 2.25, -1.9, .19);
 	ss[3].orbit.rotation.set( 2, 0, -.003);
@@ -297,7 +296,9 @@ function animate() {
     camera.updateProjectionMatrix();
 	camera.lookAt( camTarget );
 
-	lensFlares.lookAt(camera.position);
+	var sunPos = new THREE.Vector3();
+	sunPos.getPositionFromMatrix(camera.matrixWorld);
+	SUN.lookAt(sunPos);
 	
 	updateRulers();
 
