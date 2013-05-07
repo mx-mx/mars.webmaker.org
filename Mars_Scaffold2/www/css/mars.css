@@ -1020,7 +1020,7 @@ div .menubutton:hover{
 	opacity: 1.0;
     display:block;
 	padding: 5px 1px 1px 3px;
-	background: rgba(42,51,24,0.8);
+	background: rgba(42,51,24,0.7);
 	color: rgba(200,200,200,1.0);
 	text-align: left;
 	font-family: 'Lato', sans-serif;
