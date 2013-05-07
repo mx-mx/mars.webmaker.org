@@ -1015,6 +1015,24 @@ div .menubutton:hover{
 	width: 50%;
 	height: 10%;
 }
+.chyron{
+	position: absolute;
+	opacity: 1.0;
+    display:block;
+	padding: 5px 1px 1px 3px;
+	background: rgba(42,51,24,0.8);
+	color: rgba(200,200,200,1.0);
+	text-align: left;
+	font-family: 'Lato', sans-serif;
+	text-transform: uppercase;
+	text-align: center;
+	font-size: 18px;
+    border-radius: 5px;
+    bottom:-40px;
+    left:10px;
+	width: 200px;
+	height: 28px;
+}
 .subtitlepanela{
 	/*position: absolute;
     display:inline;
