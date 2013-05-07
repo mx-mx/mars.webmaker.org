@@ -1852,35 +1852,60 @@ document.addEventListener("DOMContentLoaded", function () {
 		}, 100);
 		
 		
+		
       });
     
     
-  //from main.js
-  if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+	//from main.js
+	if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+	 
+	navigator.sayswho= (function(){
+	    var N= navigator.appName, ua= navigator.userAgent, tem;
+	    var M= ua.match(/(opera|chrome|safari|firefox|msie)\/?\s*(\.?\d+(\.\d+)*)/i);
+	    if(M && (tem= ua.match(/version\/([\.\d]+)/i))!= null) M[2]= tem[1];
+	    M= M? [M[1], M[2]]: [N, navigator.appVersion, '-?'];
+	
+	    return M;
+	})();
+	 
+	 //console.log("navigator.sayswho: " + navigator.sayswho[0]);
+	 
+	 var isGoodBrowser = (navigator.sayswho[0]=="Chrome");
+	 if(!isGoodBrowser) isGoodBrowser = (navigator.sayswho[0]=="Firefox");
+	 
+	 if(!isGoodBrowser || ! Detector.webgl) {
+		$("#browserpopup").animate({opacity: 1.0}, 200, function() {
+		  	$("#browserpopup").css('pointer-events', 'auto');
+		});
+	 } else {
+		$("#startmenupanel").animate({opacity: 1.0}, 200, function() {
+		  	$("#startmenupanel").css('pointer-events', 'auto');
+		});
+	 }
 
-	$( '#loadtext' ).show();
-	setLoadMessage("Loading the Solar System");
-
+	//$( '#loadtext' ).show();
+	//setLoadMessage("Loading the Solar System");
+	
 	loader.options.convertUpAxis = true;
 	loader.load( './models/galaxy.dae', function ( collada ) {
-
+	
 		dae = collada.scene;
 		dae.scale.x = dae.scale.y = dae.scale.z = 60000;
 		dae.updateMatrix();
-
+	
 	} );
-
+	
 	loadShaders( shaderList, function (e) {
 		shaderList = e;
 		postShadersLoaded();
 	});
-
+	
 	var postShadersLoaded = function () {
 		console.log("v:0.5");
 	        //init();
 	        //animate();
 			$("#loadtext").hide();
-    };
+	};
       
 }, false);
 
@@ -2228,8 +2253,21 @@ document.addEventListener("DOMContentLoaded", function () {
 		</div>
 		
 		<div id="browserpopup" class="browserpopup">
-			<h1>Browser</h1>
-			<p>This website works best in the latest versions of Firefox and Chrome.</p>
+			<h1>Mission to Mars</h1>
+			<div class="greensquarediv">
+			This experience requires WebGL and is best viewed in <a href="http://www.mozilla.org/en-US/firefox/new/" target="_new">Firefox</a> or <a href="https://www.google.com/chrome/" target="_new">Chrome</a> on a newer mahine.  
+			Either your graphics card or your browser does not support WebGL.
+			</div>
+			<br>
+			
+			<br>
+			<br>
+			<br>
+			<div class="textstyle2">
+			This project is a collaboration between the U.S. Department of Energy, the Mozilla Foundation, and MX.</div>
+			<br>
+			<img src="./images/tri_logo.png" style="align: center;">
+			<br>
 		</div>
 		
 		<div id="incomingmessage" class="capcommessagediv">

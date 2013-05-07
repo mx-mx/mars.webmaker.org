@@ -13,11 +13,12 @@ body {
 	font-size: 15px;
 }
 a{
-	color: #FF7B24;
+	color: #FFFFFF;
 	text-decoration: none;
 }
 a:hover{
-	color: rgba(51,111,139,0.9);
+	/*color: rgba(51,111,139,0.9);*/
+	color: #FF7B24;
 	text-decoration: none;
 }
 /*
@@ -413,25 +414,24 @@ div.pathfindervideo1
 }
 .browserpopup
 {
-  position: absolute;
+	position: absolute;
 	opacity: 0.0;
 	pointer-events:none;
+	text-align: center;
 	padding: 15px 40px 15px 40px;
-	background: rgba(42,51,24,.95);
+	background: rgba(31,38,18,.7);
 	color: rgba(200,200,200,1.0);
 	font-family: 'Lato', sans-serif;
 	text-transform: none;
 	line-height: 22px;
 	font-size: 18px;
-	font-weight: 300;
     border-radius: 5px;
     border:none;
-	width: 640px;
-	height: 480px;
-	top:50%;
-    left:50%;
-    margin:-240px 0 0 -335px;
-	z-index: 7;
+	width: 420px;
+	height: 400px;
+	top:70px;
+    left:70px;
+	z-index: 2;
 }
 .threedhelppopup
 {
@@ -1096,8 +1096,9 @@ div .menubutton:hover{
 	border-color: transparent transparent rgba(42,51,24,.8) transparent;
 }
 .startmenupanel{
-	position: fixed;
-	opacity: 1.0;
+	position: absolute;
+	opacity: 0.0;
+	pointer-events:none;
 	text-align: center;
 	padding: 15px 40px 15px 40px;
 	background: rgba(31,38,18,.7);
@@ -1110,9 +1111,8 @@ div .menubutton:hover{
     border:none;
 	width: 420px;
 	height: 400px;
-	top:34%;
-    left:25%;
-    margin:-200px 0 0 -250px;
+	top:70px;
+    left:70px;
 	z-index: 2;
 }
 div .textstyle1{
@@ -1124,13 +1124,24 @@ div .textstyle1{
 	font-size: 18px;
 }
 div .textstyle2{
-	text-align: left;
+	text-align: center;
 	color: rgba(156,170,184,1.0);
 	font-family: 'Lato', sans-serif;
 	font-weight: 300;
 	text-transform: none;
 	line-height: 20px;
 	font-size: 16px;
+}
+div .greensquarediv{
+	text-align: left;
+	padding: 25px 25px 25px 25px;
+	background: rgba(31,38,18,.7);
+	color: rgba(156,170,184,1.0);
+    border-radius: 5px;
+	font-family: 'Lato', sans-serif;
+	font-weight: 300;
+	line-height: 22px;
+	font-size: 18px;
 }
 div .beginbutton{
     display: relative;
