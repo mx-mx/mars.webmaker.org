@@ -195,6 +195,20 @@ function setupScene(){
 	SUN.add( sunFlare );
 
 
+	var ringMat = new THREE.MeshBasicMaterial( { 
+			map: THREE.ImageUtils.loadTexture( './images/solarsystem/saturnrings.png' ), 
+			overdraw: true,
+			transparent: true,
+			opacity: 0.5 
+	});
+
+	saturnRing = new THREE.Mesh( new THREE.PlaneGeometry( 275000, 275000 ), ringMat );
+	saturnRing.material.side = THREE.DoubleSide;
+	saturnRing.rotation.x = 5 * Math.PI/180;
+	saturnRing.rotation.z = 10 * Math.PI/180;
+	solarSystem.add(saturnRing);
+
+
 	ruler = new Ruler( ss[3], ss[4] );
 	scene.add( ruler );
 
@@ -302,6 +316,11 @@ function animate() {
 	var sunPos = new THREE.Vector3();
 	sunPos.getPositionFromMatrix(camera.matrixWorld);
 	SUN.lookAt(sunPos);
+
+	saturnRing.scale.x = ssScale.planetScale;
+	saturnRing.scale.y = ssScale.planetScale;
+	saturnRing.scale.z = ssScale.planetScale;
+	saturnRing.position.set(ss[6].position.x,ss[6].position.y,ss[6].position.z)
 	
 	updateRulers();
 
