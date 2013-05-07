@@ -185,7 +185,7 @@ function setupScene(){
 	});
 
 	// SUNmat.alphaTest = .75;
-	SUN = new THREE.Mesh( new THREE.PlaneGeometry( 37, 37 ), SUNmat );
+	SUN = new THREE.Mesh( new THREE.PlaneGeometry( 3700000, 3700000 ), SUNmat );
 	scene.add( SUN );
 
 	starField = new stars( 25000, 40000, 100 );
@@ -193,6 +193,20 @@ function setupScene(){
 
 	var sunFlare = addLensFlare( 5, 0, 0, 5 );
 	SUN.add( sunFlare );
+
+
+	var ringMat = new THREE.MeshBasicMaterial( { 
+			map: THREE.ImageUtils.loadTexture( './images/solarsystem/saturnrings.png' ), 
+			overdraw: true,
+			transparent: true,
+			opacity: 0.5 
+	});
+
+	saturnRing = new THREE.Mesh( new THREE.PlaneGeometry( 275000, 275000 ), ringMat );
+	saturnRing.material.side = THREE.DoubleSide;
+	saturnRing.rotation.x = 5 * Math.PI/180;
+	saturnRing.rotation.z = 10 * Math.PI/180;
+	solarSystem.add(saturnRing);
 
 
 	ruler = new Ruler( ss[3], ss[4] );
@@ -296,9 +310,17 @@ function animate() {
     camera.updateProjectionMatrix();
 	camera.lookAt( camTarget );
 
+	SUN.scale.x = ssScale.sunScale;
+	SUN.scale.y = ssScale.sunScale;
+	SUN.scale.z = ssScale.sunScale;
 	var sunPos = new THREE.Vector3();
 	sunPos.getPositionFromMatrix(camera.matrixWorld);
 	SUN.lookAt(sunPos);
+
+	saturnRing.scale.x = ssScale.planetScale;
+	saturnRing.scale.y = ssScale.planetScale;
+	saturnRing.scale.z = ssScale.planetScale;
+	saturnRing.position.set(ss[6].position.x,ss[6].position.y,ss[6].position.z)
 	
 	updateRulers();
 
