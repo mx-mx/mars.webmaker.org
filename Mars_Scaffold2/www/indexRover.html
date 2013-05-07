@@ -417,7 +417,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     //xxx
-    $("#roverpilotbadge").animate({opacity: 1.0}, 1, function() { $("#roverpilotbadge").css('pointer-events', 'auto'); });
+    //$("#roverpilotbadgecomplete").animate({opacity: 1.0}, 1, function() { $("#roverpilotbadgecomplete").css('pointer-events', 'auto'); });
     
     var instrumentsbutton = document.getElementById('instrumentsbutton');
     instrumentsbutton.style.cursor = 'pointer';
@@ -659,6 +659,31 @@ document.addEventListener("DOMContentLoaded", function () {
 		div.appendChild(infinityloader.canvas);
 		
 		if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+		
+		navigator.sayswho= (function(){
+		    var N= navigator.appName, ua= navigator.userAgent, tem;
+		    var M= ua.match(/(opera|chrome|safari|firefox|msie)\/?\s*(\.?\d+(\.\d+)*)/i);
+		    if(M && (tem= ua.match(/version\/([\.\d]+)/i))!= null) M[2]= tem[1];
+		    M= M? [M[1], M[2]]: [N, navigator.appVersion, '-?'];
+		
+		    return M;
+		})();
+		 
+		 //console.log("navigator.sayswho: " + navigator.sayswho[0]);
+		 
+		 var isGoodBrowser = (navigator.sayswho[0]=="Chrome");
+		 if(!isGoodBrowser) isGoodBrowser = (navigator.sayswho[0]=="Firefox");
+		 
+		 if(!isGoodBrowser || ! Detector.webgl) {
+			$("#browserpopup").animate({opacity: 1.0}, 200, function() {
+			  	$("#browserpopup").css('pointer-events', 'auto');
+			});
+		 } else {
+			$("#startmenupanel").animate({opacity: 1.0}, 200, function() {
+			  	$("#startmenupanel").css('pointer-events', 'auto');
+			});
+		 }
+		
 		var postColladaLoaded = function () {
 			initializethreed();
 			$("#loadtext").hide();
@@ -1125,8 +1150,21 @@ document.addEventListener("DOMContentLoaded", function () {
 		</div>
 		
 		<div id="browserpopup" class="browserpopup">
-			<h1>Browser</h1>
-			<p>This website works best in the latest versions of Firefox and Chrome.</p>
+			<h1>Mission to Mars</h1>
+			<div class="greensquarediv">
+			This experience requires WebGL and is best viewed in <a href="http://www.mozilla.org/en-US/firefox/new/" target="_new">Firefox</a> or <a href="https://www.google.com/chrome/" target="_new">Chrome</a> on a newer mahine.  
+			Either your graphics card or your browser does not support WebGL.
+			</div>
+			<br>
+			
+			<br>
+			<br>
+			<br>
+			<div class="textstyle2">
+			This project is a collaboration between the U.S. Department of Energy, the Mozilla Foundation, and MX.</div>
+			<br>
+			<img src="./images/tri_logo.png" style="align: center;">
+			<br>
 		</div>
 		
 		<div id="incomingmessage" class="capcommessagediv">
@@ -1415,12 +1453,12 @@ document.addEventListener("DOMContentLoaded", function () {
 								</font>
 							
 							</td>
-							<td align="right" valign="top"><img src="./badge-it-gadget-lite/digital-badges/images/moku_badge_remote_pilot.png" style="width:220px;height:220px"> </td>
+							<td align="right" rowspan="2" valign="top"><img src="./badge-it-gadget-lite/digital-badges/images/moku_badge_remote_pilot.png" style="width:220px;height:220px"> </td>
 							
 						</tr>
 						<tr>
 							<td align="center" valign="top">
-								<!-- <button id="roverpilotbadgecompletecontinuebutton" type="submit" class="squarebigbluebutton">Continue</button> -->
+								 <button id="roverpilotbadgecompletecontinuebutton" type="submit" class="squarebigbluebutton" style="opacity:0.5;pointer-events:none;">Continue</button> 
 							</td>
 						</tr>
 					</table>
