@@ -14,11 +14,11 @@ var solarSystemScale = function(){
 	this.sunScale = .00001;
 	this.planetScale = .001;
 	return this;
-} 				
+}; 				
 
 function planetsOrbit( time ){
 	for ( var i = 1; i < ss.length; i ++ ) {
-        var planet = ss[i];
+        //var planet = ss[i];
 		ss[i].orbiting( time, ssScale.s );
 	}
 }	
