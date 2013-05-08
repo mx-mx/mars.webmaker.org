@@ -1417,6 +1417,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		$( "#ignorebutton" )
 			.button()
 			.click(function( event ) {
+				console.log("ignore button?");
 				closeAllSubMenus();
 		});
 		
@@ -1429,11 +1430,30 @@ document.addEventListener("DOMContentLoaded", function () {
 		var jumpToIntroduction = function() {
 			//hide everything
 			hideeverything();
+			//reset launch controls
+			$("#launchcontrols").animate({opacity: 0.0}, 200, function() {
+            	$("#launchcontrols").css('pointer-events', 'none');
+                
+        	});
+			$("#launchdiv").animate({opacity: 0.0}, 200, function() {
+            	$("#launchdiv").css('pointer-events', 'none');
+        	});
+	        $("#commitlaunchbutton").animate({opacity: 0.0}, 200, function() {
+	        	$("#commitlaunchbutton").css('pointer-events', 'none');
+	    	});
 			//shift 3d model
 			initializethreed();
 			//clear 3d lines
 			clear3DDrawings();
-			//show stuff needed
+			//reinitialize curiosity launch drawing
+			clearInterval(checktouchdown);
+			departure_time = new Time( { Yr:2011, Mon:11, D:26, Hr:1, Mn:1, S:1 } );
+			arrival_time = new Time( { Yr:2012, Mon:8, D:6, Hr:1, Mn:1, S:1 } );
+			marsOdyssey = null;
+	    	marsOdyssey = new MarsOdyssey();
+			marsOdyssey.init( departure_time, arrival_time, function () {
+			    console.log("finished drawing this trajectory");
+			});
 			//reset mouse tracking lesson
 			resetMouseMovementTrackingLession();
 			//remove the ruler
@@ -1451,20 +1471,35 @@ document.addEventListener("DOMContentLoaded", function () {
 			$("#speedSlider").slider('value',.01);
 			
 			jumpPopcornMedia(0);
+			
 		}
 		
 		var jumpToThreeDNavigation = function() {
 			//hide everything
 			hideeverything();
+			//hide background
 	    	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
 	           	$("#backgroundtarget").css('pointer-events', 'none');
 	       	});
+			//reset launch controls
+			$("#launchcontrols").animate({opacity: 0.0}, 200, function() {
+            	$("#launchcontrols").css('pointer-events', 'none');
+                
+        	});
+			$("#launchdiv").animate({opacity: 0.0}, 200, function() {
+            	$("#launchdiv").css('pointer-events', 'none');
+        	});
+	        $("#commitlaunchbutton").animate({opacity: 0.0}, 200, function() {
+	        	$("#commitlaunchbutton").css('pointer-events', 'none');
+	    	});
 	    	//initialize 3d if you need to
 			initializethreed();
 			//clear 3d lines
 			clear3DDrawings();
 			//reset mouse tracking lesson
 			resetMouseMovementTrackingLession();
+			//clear touchdown timer
+			clearInterval(checktouchdown);
 			//remove the ruler
 			showDistance = false;
 			scene.remove(ruler);
@@ -1485,21 +1520,40 @@ document.addEventListener("DOMContentLoaded", function () {
 	            	$("#playbuttonwrapper").css('pointer-events', 'auto');
 	        	});
 			},1000);
+			
+			var jumpToDate = new Date().Date2Julian();
+			timer.JD = jumpToDate;
+			$("#speedSlider").slider('value',.02);
+			
 			jumpPopcornMedia(6);
 		}
 		
 		var jumpToChallenge = function () {
 			//hide everything
 			hideeverything();
+			//hide backgorund target
 	    	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
 	           	$("#backgroundtarget").css('pointer-events', 'none');
 	       	});
+			//reset launch controls
+			$("#launchcontrols").animate({opacity: 0.0}, 200, function() {
+            	$("#launchcontrols").css('pointer-events', 'none');
+                
+        	});
+			$("#launchdiv").animate({opacity: 0.0}, 200, function() {
+            	$("#launchdiv").css('pointer-events', 'none');
+        	});
+	        $("#commitlaunchbutton").animate({opacity: 0.0}, 200, function() {
+	        	$("#commitlaunchbutton").css('pointer-events', 'none');
+	    	});
 	    	//initialize 3d if you need to
 			initializethreed();
 			//clear 3d lines
 			clear3DDrawings();
 			//reset mouse tracking lesson
 			resetMouseMovementTrackingLession();
+			//clear touchdown timer
+			clearInterval(checktouchdown);
 			//remove the ruler
 			showDistance = false;
 			scene.remove(ruler);
@@ -1510,9 +1564,6 @@ document.addEventListener("DOMContentLoaded", function () {
 				//$("#selectmissionrocket").animate({opacity: 1.0}, 200, function() {
 	            //	$("#selectmissionrocket").css('pointer-events', 'auto');
 	        	//});
-		        //$("#launchcontrols").animate({opacity: 0.0}, 1000, function() {
-		        	//$("#launchcontrols").css('pointer-events', 'none');
-		    	//});
 		        
 				$("#helpbuttonwrapper").animate({opacity: 1.0}, 200, function() { 
 					$("#helpbuttonwrapper").css('pointer-events', 'auto'); 
@@ -1602,7 +1653,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		var launchDate;
 		var landingDate;
 		var rocketDeltas = new Array(22.3, 21.1, 25.2);
-		
+		var checktouchdown;
 		$( "#runbutton" )
 			.button()
 			.click(function( event ) {
@@ -1642,7 +1693,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					//since the callback doesn't always work.  lets try this method 
 					//kick off the check interval function after a timeout delay of just over 1 second.
 					setTimeout(function() {
-						var checktouchdown = setInterval(function () {
+						checktouchdown = setInterval(function () {
 						    if(touchdown(marsOdyssey)) {
 							    console.log("got touchdown");
 						    	clearInterval(checktouchdown);
