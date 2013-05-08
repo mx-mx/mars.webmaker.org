@@ -180,7 +180,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				<br><br>
 				<img src="<?php echo $imageURL; ?>" style="width:200px;height:200px">
 				<br><br><br>
-				<br><br>
+				<br>
 				<div style="float:right;">
 					<button id="backpackloginpopupkskip" class="squarebluebutton">Skip</button>
 					<button id="backpackloginpopupcontinue" class="squarebluebutton">Continue</button>

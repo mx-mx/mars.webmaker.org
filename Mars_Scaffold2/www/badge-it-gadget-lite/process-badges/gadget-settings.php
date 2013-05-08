@@ -22,7 +22,7 @@ $version = "1.0.0";
 
 /*issuer url - REQUIRED. This is the domain name of the site that will be issuing the badges. It should be the domain where you're installing the OpenBadgifier.*/
 
-$issuer_url = "http://www.mx-mx.com/lab/moku/";
+$issuer_url = "http://www.mx-mx.com/lab/moku";
 
 /*root path - REQUIRED. CHMOD 775. This is the root path of where your process-badges directory is hosted. You SHOULD password protect this directory with something like .htaccess so that the public can't issue badges on your behalf. */
 
