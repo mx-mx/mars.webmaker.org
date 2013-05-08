@@ -71,7 +71,14 @@ document.addEventListener("DOMContentLoaded", function () {
 	        animate();
 
 	        gui.destroy();  //remove the test GUI (used by Ryan)
-			
+	        
+	        //setup outcrops
+			oc.setPosition(-20, 35);
+			oc.showTarget();
+			ocTwo.setPosition(5,35);
+			ocTwo.showTarget();
+			ocCalibration.setPosition(0, 10); //always call set position first before showing target and arrow
+			ocCalibration.showTarget();
 		}
 	}
 	
@@ -168,12 +175,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 	
 	popcornMedia[0].cue( .1, function() {
-		oc.setPosition(-20, 35);
-		oc.showTarget();
-		ocTwo.setPosition(5,35);
-		ocTwo.showTarget();
-		ocCalibration.setPosition(0, 10); //always call set position first before showing target and arrow
-		ocCalibration.showTarget();
 	});
     
     popcornMedia[0].cue( 1, function() {
@@ -1155,19 +1156,18 @@ document.addEventListener("DOMContentLoaded", function () {
 			</table>
 		</div>
 		<div id="threedhelppopup" class="threedhelppopup">
-			<h1 style="text-align: center;">Solar System Controls</h1>
-			<br>
-			<font style="font-size: 22px;font-weight: 400;">Move</font>
-			<br>Click and drag to move the camera
+			<h1 style="text-align: center;">Remote Pilot</h1>
+			<br>To help the Mars colonists find a suitable location for their new greenhouse, 
+			use the rover’s instruments to find rock outcroppings and then analyze them.
 			<br><br>
-			<font style="font-size: 22px;font-weight: 400;">Zoom</font>
-			<br>Scroll up and down with a mouse scroll wheel or a trackpad to zoom in and out
+			<font style="font-size: 22px;font-weight: 400;">Navigation</font>
+			<br>Use the keyboard arrow keys to move forward, backward, left, and right.
 			<br><br>
-			<font style="font-size: 22px;font-weight: 400;">Camera View</font>
-			<br>Select any camera view button to change the camera focus
+			<font style="font-size: 22px;font-weight: 400;">Mast Cam</font>
+			<br>Activate the mast cameras to locate nearby bedrock that might make a good location for the greenhouse.
 			<br><br>
-			<font style="font-size: 22px;font-weight: 400;">Camera and Instruments</font>
-			<br>Click on the MAST CAMS or INSTRUMENTS buttons to use these rover items
+			<font style="font-size: 22px;font-weight: 400;">Instruments</font>
+			<br>Move the rover to an outcropping and use the instruments arm to analyze the rock.
 			<br><br>
 		</div>
 		
