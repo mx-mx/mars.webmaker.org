@@ -221,11 +221,8 @@ var Rover = function ( dae ) {
 			this.isMovingInstrument=true;
 
 			if (duration === undefined) duration = 3000;
-			//Tweener(rover.arm.rotation, { x:0, y: 0, z:0 }, 1000);
-			Tweener(this.arm.shoulder.rotation, { x:0, y: -0.85, z:-0.2 }, (duration/3));
-			Tweener(this.arm.elbow.rotation, { x:0, y: -0.6, z:-2.1 }, duration);
-	    	Tweener(this.arm.wrist.rotation, { x:0, y: 0, z:0.7 }, (duration/2));
-	    	this.useCalibration();
+			Tweener(this.arm.elbow.rotation, { x:2.2, y:0, z:0 }, duration);
+	    	Tweener(this.arm.wrist.rotation, { x:-0.7, y: 0, z:0 }, (duration/2));
 	    	setTimeout(function(){
 	    		scope.isMovingInstrument=false;
 	    		scope.armStowed=false;
@@ -304,7 +301,7 @@ var Rover = function ( dae ) {
 	};
 
 	this.useCalibration = function (){
-		Tweener(this.arm.hand.rotation, { x:0, y: 0.2, z:0 }, 1000);
+		Tweener(this.arm.hand.rotation, { x:0, y: -1.4, z:0 }, 1000);
 	};
 
 	this.useDrill = function (){

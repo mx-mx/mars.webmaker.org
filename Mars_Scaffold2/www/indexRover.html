@@ -169,6 +169,15 @@ document.addEventListener("DOMContentLoaded", function () {
         	$("#playbuttonwrapper").css('pointer-events', 'auto');
     	});
 	});
+	
+	popcornMedia[0].cue( .1, function() {
+		oc.setPosition(-20, 35);
+		oc.showTarget();
+		ocTwo.setPosition(5,35);
+		ocTwo.showTarget();
+		ocCalibration.setPosition(0, 10); //always call set position first before showing target and arrow
+		ocCalibration.showTarget();
+	});
     
     popcornMedia[0].cue( 1, function() {
         $("#rovercontrols").animate({opacity: 1.0}, 200, function() {
@@ -217,8 +226,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 
     popcornMedia[5].cue( 1, function() {
-    	ocCalibration.setPosition(0, 10); //always call set position first before showing target and arrow
-    	ocCalibration.showTarget();
     	ocCalibration.showArrow();
 	});
     popcornMedia[5].on( "ended", function() {
@@ -233,7 +240,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
     popcornMedia[9].cue( 5, function() {
     	//hide calibration plate
-    	ocCalibration.hideTarget();
+    	//ocCalibration.hideTarget();
     	ocCalibration.hideArrow();
     	//swing camera back
 	});
@@ -246,15 +253,11 @@ document.addEventListener("DOMContentLoaded", function () {
     
 	popcornMedia[9].cue( 9, function() {
     	//show outcrop
-    	oc.setPosition(-20, 35);
-    	oc.showTarget();
 		oc.showArrow();
 	});
     
 	popcornMedia[9].cue( 11, function() {
     	//show outcrop
-		ocTwo.setPosition(5,35);
-		ocTwo.showTarget();
 		ocTwo.showArrow();
 	});
     
@@ -429,6 +432,7 @@ document.addEventListener("DOMContentLoaded", function () {
         		//show message
            		if(userLessonNumber==1) {
             		$("#calibrationprogressmessage").animate({opacity: 1.0}, 400, function() {  });
+            		rover.useCalibration();
            		}
            		if(userLessonNumber==2 || userLessonNumber==3) {
             		$("#analysisprogressmessage").animate({opacity: 1.0}, 400, function() {  });
@@ -495,14 +499,10 @@ document.addEventListener("DOMContentLoaded", function () {
     	rover.scanMast(4000);
     	setTimeout(function() {
         	//show outcrop
-        	oc.setPosition(-20, 35);
-        	oc.showTarget();
     		oc.showArrow();
     	},1000); 
     	setTimeout(function() {
         	//show outcrop
-    		ocTwo.setPosition(5,35);
-    		ocTwo.showTarget();
     		ocTwo.showArrow();
     	},3000); 
     	
@@ -518,15 +518,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	popcornMedia[9].cue( 9, function() {
     	//show outcrop
-    	oc.setPosition(-20, 35);
-    	oc.showTarget();
 		oc.showArrow();
 	});
+
     
 	popcornMedia[9].cue( 11, function() {
     	//show outcrop
-		ocTwo.setPosition(5,35);
-		ocTwo.showTarget();
 		ocTwo.showArrow();
 	});
     
