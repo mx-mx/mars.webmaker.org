@@ -501,27 +501,32 @@ document.addEventListener("DOMContentLoaded", function () {
     var listenToMouseMovements=false;
     var listenToMouseWheel=false;
     var userLessonNumber=0;
-    var userMouseAction=[false,false,false,false];
+    var lessonOpen=false;
+    
+    //var userMouseAction=[false,false,false,false];
     var mousePosX, mousePosY;
     var callToActionTimeout = new Array();
 
     popcornMedia[6].on( "ended", function() {
     	//the click/drag test
         listenToMouseMovements=true;
-        userMouseAction[userLessonNumber]=true;
+        //userMouseAction[userLessonNumber]=true;
+        lessonOpen=true;
         cancelCallToAction=false;
         callToActionTimeout[userLessonNumber] = setTimeout(function(){callToActionUser()},10000);
 	});
     popcornMedia[9].on( "ended", function() {
         //the scroll mouse test
         listenToMouseWheel=true;
-        userMouseAction[userLessonNumber]=true;
+        //userMouseAction[userLessonNumber]=true;
+        lessonOpen=true;
         cancelCallToAction=false;
         callToActionTimeout[userLessonNumber] = setTimeout(function(){callToActionUser()},10000);
 	});
     popcornMedia[11].on( "ended", function() {
         //the planet click test (user to click planet earth)
-        userMouseAction[userLessonNumber]=true;
+        //userMouseAction[userLessonNumber]=true;
+        lessonOpen=true;
         cancelCallToAction=false;
         callToActionTimeout[userLessonNumber] = setTimeout(function(){callToActionUser()},10000);
         
@@ -531,6 +536,21 @@ document.addEventListener("DOMContentLoaded", function () {
     popcornMedia[14].on( "ended", function() {
         //the button click test (user to click mars button)
         //userMouseAction[userLessonNumber]=true;
+        lessonOpen=true;
+        cancelCallToAction=false;
+        callToActionTimeout[userLessonNumber] = setTimeout(function(){callToActionUser()},10000);
+	});
+
+    popcornMedia[17].on( "ended", function() {
+        //lesson 5 drag right
+        lessonOpen=true;
+        cancelCallToAction=false;
+        callToActionTimeout[userLessonNumber] = setTimeout(function(){callToActionUser()},10000);
+	});
+
+    popcornMedia[20].on( "ended", function() {
+        //lesson 6 drag left
+        lessonOpen=true;
         cancelCallToAction=false;
         callToActionTimeout[userLessonNumber] = setTimeout(function(){callToActionUser()},10000);
 	});
@@ -575,7 +595,7 @@ document.addEventListener("DOMContentLoaded", function () {
     $(document).on('mouseup', function(e) {
         if(!listenToMouseMovements) return;
         //console.log("got me a mouseup: " + userMouseAction[userLessonNumber]);
-        if(userMouseAction[userLessonNumber]) {
+        if(lessonOpen) {
         	//get event
         	if (!e) var e = window.event;
         	var clickedElement = (e.target || e.srcElement);
@@ -641,12 +661,12 @@ document.addEventListener("DOMContentLoaded", function () {
         				console.log( CLICKED.name + " x: " + posCLICKED.x + " y: " + posCLICKED.y + " z: " + posCLICKED.z );
 
     					console.log("userLessonNumber: " + userLessonNumber);
-    					console.log("userMouseAction[2]: " + userMouseAction[2]);
+    					console.log("lessonOpen: " + lessonOpen);
         				
-        				if(CLICKED.name=="Earth" && userMouseAction[2] && userLessonNumber==2) {
+        				if(CLICKED.name=="Earth" && lessonOpen && userLessonNumber==2) {
         					console.log("planet earth clicked, time to move on to next lesson");
         					advanceUser();
-        				} else if(CLICKED.name!="Earth" && userMouseAction[2] && userLessonNumber==2) {
+        				} else if(CLICKED.name!="Earth" && lessonOpen && userLessonNumber==2) {
 							//no audio, do nothing
 							jumpPopcornMedia(12);
         				}
@@ -702,6 +722,7 @@ document.addEventListener("DOMContentLoaded", function () {
     	console.log("advancing user from: " + userLessonNumber);
 		listenToMouseMovements=false;
 		cancelCallToAction=false;
+        lessonOpen=false;
 		clearTimeout(callToActionTimeout[userLessonNumber]);
 		
 		switch(userLessonNumber)
@@ -734,7 +755,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     var replayUser = function () {
-		
+
+		lessonOpen=false;
     	resetMouseMovementTrackingLession();
 		
 		camTweener( { x: 0, y: 100, z: 500 }, { x: 0, y: 0, z: -20 }, 1500 );
@@ -750,9 +772,10 @@ document.addEventListener("DOMContentLoaded", function () {
         listenToMouseMovements=false;
         listenToMouseWheel=false;
         userLessonNumber=0;
-        for(var i=0;i<userMouseAction.length;i++) {
-        	userMouseAction[i]=false;
-        }
+        lessonOpen=false;
+        //for(var i=0;i<userMouseAction.length;i++) {
+        //	userMouseAction[i]=false;
+        //}
     }
     
     var callToActionUser = function () {
@@ -786,15 +809,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //user has to select mars button
     var checkForFourthCameraLesson = function () {
-    	if(!userMouseAction[userLessonNumber] && userLessonNumber==3) {
+    	if(lessonOpen && userLessonNumber==3) {
     		jumpPopcornMedia(16);
     	}
     }
     
     var finishFourthCameraLesson = function () {
-    	if(!userMouseAction[userLessonNumber] && userLessonNumber==3) {
+    	if(lessonOpen && userLessonNumber==3) {
     		clearTimeout(callToActionTimeout[userLessonNumber]);
-    		userMouseAction[userLessonNumber]=true;
+            //userMouseAction[userLessonNumber]=true;
+            lessonOpen=true;
     		//jumpPopcornMedia(17);
     		setTimeout(function(){advanceUser();},1000);
     		
@@ -1239,20 +1263,8 @@ document.addEventListener("DOMContentLoaded", function () {
           }
         });
         
-        $("#slide2").click(function() {
-        	popcornMedia[1].play(7);
-        });
         
-        $("#slide3").click(function() {
-        	popcornMedia[1].play(19);
-        });
-        
-        $("#slide4").click(function() {
-        	popcornMedia[1].play(39);
-        });
-        
-        
-        $( "#slider" ).slider( { 
+        /*$( "#slider" ).slider( { 
 			animate: true,
 			range: "min",
 			value: 50,
@@ -1260,7 +1272,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			max: 100,
 			step: 1,
 
-		});
+		});*/
 
 		$( "#replaybutton" )
 			.button()
@@ -1350,19 +1362,24 @@ document.addEventListener("DOMContentLoaded", function () {
 			step: .010,
 			change: function() {
 				var newSliderVal = $( "#speedSlider" ).slider( "option", "value" );
-				if(userLessonNumber==4) {
-					if(newSliderVal>0) {
-						advanceUser();
-					} else {
-						jumpPopcornMedia(19);
-					}
-				} else if(userLessonNumber==5) {
-					if(newSliderVal<0) {
-						advanceUser();
-					} else {
-						jumpPopcornMedia(22);
+				
+				if(lessonOpen) {
+
+					if(userLessonNumber==4) {
+						if(newSliderVal>0) {
+							advanceUser();
+						} else {
+							jumpPopcornMedia(19);
+						}
+					} else if(userLessonNumber==5) {
+						if(newSliderVal<0) {
+							advanceUser();
+						} else {
+							jumpPopcornMedia(22);
+						}
 					}
 				}
+				
 				savedSliderVal = newSliderVal;
 				if(savedSliderVal==0) {
 					//if 0, stop immediately
