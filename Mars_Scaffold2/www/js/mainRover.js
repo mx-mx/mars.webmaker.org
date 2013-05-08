@@ -145,13 +145,13 @@ function setupScene(){
 	//ocCalibration.showTarget();
 	//ocCalibration.showArrow();
 	
-	oc = new Outcrop('./images/target1_clay.png', 5, true);
+	oc = new Outcrop('./images/outcrop_good.png', 5, true);
 	//oc.setPosition(-20, 35); //always call set position first before showing target and arrow
 	//oc.showTarget();
 	//oc.showArrow();
 
 
-	ocTwo = new Outcrop('./images/target4_choc_blueberry.png', 5, true);
+	ocTwo = new Outcrop('./images/outcrop_poor.png', 5, true);
 	//ocTwo.setPosition(5,35);
 	//ocTwo.showTarget();
 	//ocTwo.showArrow();
