@@ -1211,6 +1211,8 @@ div .nextbutton{
 	text-transform: uppercase;
 	font-family: 'Lato', sans-serif;
 	font-weight: bold;
+	line-height: 20px;
+	font-size: 16px;
 	background: rgba(135,153,72,.8);
 	color: rgba(200,200,200,1.0);
     border-radius: 5px;
@@ -1285,6 +1287,22 @@ div .playbuttonwrapper {
 	position:absolute; 
 	right:100px;
 	bottom:3px;
+	text-align: center;
+	line-height: 20px;
+	font-size: 16px;
+	padding:1px 2px;
+	text-transform: uppercase;
+	font-family: 'Lato', sans-serif;
+	font-weight: bold;
+	line-height: 20px;
+	font-size: 16px;
+	background: rgba(135,153,72,.8);
+	color: rgba(200,200,200,1.0);
+    border-radius: 5px;
+    border: none;
+}
+div .playbuttonwrapper:hover { 
+	background: rgba(135,153,72,1.0);
 }
 div .threedcontrols { 
 	display: inline-block;
