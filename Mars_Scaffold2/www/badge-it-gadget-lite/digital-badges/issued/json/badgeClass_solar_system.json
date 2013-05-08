@@ -2,7 +2,7 @@
   "name": "Solar System",
   "description": "The Solar System Badge",
   "image": "http://www.mx-mx.com/lab/moku/badge-it-gadget-lite/digital-badges/images/moku_badge_solar_system.png",
-  "criteria": "http://www.mx-mx.com/lab/moku/badge-it-gadget-lite/digital-badges/badge_solar_system.html",
+  "criteria": "http://www.mx-mx.com/lab/moku/badge-it-gadget-lite/digital-badges/criteria_solar_system.html",
   "tags": ["mars", "3D"],
   "issuer": "http://www.mx-mx.com/lab/moku/badge-it-gadget-lite/digital-badges/issued/json/organization.json"
 }

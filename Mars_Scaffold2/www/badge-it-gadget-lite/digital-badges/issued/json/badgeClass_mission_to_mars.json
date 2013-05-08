@@ -2,7 +2,7 @@
   "name": "Mission To Mars",
   "description": "The Mission To Mars Badge",
   "image": "http://www.mx-mx.com/lab/moku/badge-it-gadget-lite/digital-badges/images/moku_badge_mission_to_mars.png",
-  "criteria": "http://www.mx-mx.com/lab/moku/badge-it-gadget-lite/digital-badges/badge_mission_to_mars.html",
+  "criteria": "http://www.mx-mx.com/lab/moku/badge-it-gadget-lite/digital-badges/criteria_mission_to_mars.html",
   "tags": ["mars", "pilot"],
   "issuer": "http://www.mx-mx.com/lab/moku/badge-it-gadget-lite/digital-badges/issued/json/organization.json"
 }
