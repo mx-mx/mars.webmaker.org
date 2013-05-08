@@ -519,8 +519,8 @@ document.addEventListener("DOMContentLoaded", function () {
     	},3000); 
     	
     	if(lessonOpen) {
-    		//calibration test
-       		if(userLessonNumber==1) {
+    		//all lessons over lesson 1 should play this
+       		if(userLessonNumber>=1) {
     			jumpPopcornMedia(6);
        		}
     		
