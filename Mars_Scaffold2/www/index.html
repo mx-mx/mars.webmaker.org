@@ -387,7 +387,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	//basepop.on( "timeupdate", function() {
 		//document.getElementById( "footnotediv1" ).innerHTML = this.currentTime();
 	//});
-	popcornMedia[1].on( "play", function() {
+	popcornMedia[1].cue( .1, function() {
 		$("#videocontenttarget").animate({width: 720, height: 405,
 											top: "50%", left: "50%",
 											margin:"-240px 0 0 -335px"}, 1, function() {
