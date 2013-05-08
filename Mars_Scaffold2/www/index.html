@@ -427,12 +427,11 @@ document.addEventListener("DOMContentLoaded", function () {
     	
     	advancePopcornMedia();
 	});
+	
     popcornMedia[2].on( "ended", function() {
     	advancePopcornMedia();
 	});
     
-
-	
     popcornMedia[2].cue( 6.5, function() {
     	Tweener(ssScale, {planetScale:.00001}, 1000);
     	Tweener(ssScale, {sunScale:.000002}, 1000);
@@ -442,6 +441,7 @@ document.addEventListener("DOMContentLoaded", function () {
     popcornMedia[2].cue( 11, function() {
     	Tweener(ssScale, {s:.000001}, 1000);
 	});
+    
     popcornMedia[2].cue( 12, function() {
     	Tweener(ssScale, {sunScale:.00001}, 1000);
     	Tweener(ssScale, {planetScale:.001}, 1000);

@@ -153,9 +153,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	
     popcornMedia[0].on( "play", function() {
     	console.log("on play");
-    	//$("#youtubetarget").animate({opacity: 1.0}, 100, function() {
-        //   	$("#youtubetarget").css('pointer-events', 'auto');
-       	//});
 
     	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
            	$("#backgroundtarget").css('pointer-events', 'none');
@@ -191,17 +188,11 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
     
 	popcornMedia[0].on( "ended", function() {
-    	//$("#youtubetarget").animate({opacity: 0.0}, 100, function() {
-        //   	$("#youtubetarget").css('pointer-events', 'none');
-       	//});
     	advancePopcornMedia();
-    	
-    	
 	});
 	
 	popcornMedia[1].on( "ended", function() {
     	//setup call to action
-
 		document.addEventListener( 'keyup', onRoverKeyUp, false );
 	});
 	
@@ -223,6 +214,10 @@ document.addEventListener("DOMContentLoaded", function () {
     popcornMedia[4].on( "ended", function() {
     	//the click/drag test
     	advancePopcornMedia(5);
+	});
+    
+    popcornMedia[8].on( "ended", function() {
+        lessonOpen=true;
 	});
 
     popcornMedia[5].cue( 1, function() {
@@ -328,15 +323,18 @@ document.addEventListener("DOMContentLoaded", function () {
 		switch(userLessonNumber)
     	{
     	case 0:
-			jumpPopcornMedia(4); //calibration plate
+			jumpPopcornMedia(4); //analyze calibration plate
     	  break;
     	case 1:
+			jumpPopcornMedia(8); //reanalyze calibration plate
+			break;
+    	case 2:
 			jumpPopcornMedia(9); //that's it! calibration success and move on to rocks
     	  break;
-    	case 2:
+    	case 3:
 			jumpPopcornMedia(10); //analyze rock, please analyze again.
 	    	break;
-    	case 3:
+    	case 4:
 			jumpPopcornMedia(13);  //badge
 	    	break;
     	default:
@@ -434,45 +432,52 @@ document.addEventListener("DOMContentLoaded", function () {
             		$("#calibrationprogressmessage").animate({opacity: 1.0}, 400, function() {  });
             		rover.useCalibration();
            		}
-           		if(userLessonNumber==2 || userLessonNumber==3) {
+           		if(userLessonNumber==2) {
+            		$("#calibrationprogressmessage").animate({opacity: 1.0}, 400, function() {  });
+            		rover.useCalibration();
+           		}
+           		if(userLessonNumber==3 || userLessonNumber==4) {
             		$("#analysisprogressmessage").animate({opacity: 1.0}, 400, function() {  });
            		}
            		
+           		//set a timeout to stow arm and also check to see if analysis was good.
             	setTimeout(function(){
             		$("#calibrationprogressmessage").animate({opacity: 0.0}, 400, function() {  });
             		$("#analysisprogressmessage").animate({opacity: 0.0}, 400, function() {  });
             		var theTargetSeen = checkInstrumentsOnTarget();
             		
             		///the reanalysis lesson
-            		if(userLessonNumber==3) {
+            		if(userLessonNumber==4) {
         	    		if(theTargetSeen=="Outcrop 2") {
         	    			advanceUser();
-        	    	    	rover.stowArm();
         	    		} else if (theTargetSeen=="Outcrop 1" || theTargetSeen=="Outcrop 3") {
         	    			jumpPopcornMedia(12);
-        	    	    	rover.stowArm();
         	    		} else {
         	    			jumpPopcornMedia(11);
-        	    	    	rover.stowArm();
         	    		}
             		}
             		
             		//the first analysis lesson
-            		if(userLessonNumber==2) {
+            		if(userLessonNumber==3) {
         	    		if(theTargetSeen=="Outcrop 2") {
         	    		    $("#analysisresultsgoodmessage").animate({opacity: 1.0}, 400, function() { $("#analysisresultsgoodmessage").css('pointer-events', 'auto'); });
         	    		    setTimeout(function(){
         	    		    	$("#analysisresultsgoodmessage").animate({opacity: 0.0}, 400, function() { $("#analysisresultsgoodmessage").css('pointer-events', 'none'); });
         	    	    	}, 5000);
         	    			advanceUser();
-        	    	    	rover.stowArm();
         	    		} else if (theTargetSeen=="Outcrop 1" || theTargetSeen=="Outcrop 3") {
         	    		    $("#analysisresultspoormessage").animate({opacity: 1.0}, 400, function() { $("#analysisresultspoormessage").css('pointer-events', 'auto'); });
         	    			jumpPopcornMedia(12);
-        	    	    	rover.stowArm();
         	    		} else {
         	    			jumpPopcornMedia(11);
-        	    	    	rover.stowArm();
+        	    		}
+            		}
+            		//the recalibration lesson
+            		if(userLessonNumber==2) {
+        	    		if(theTargetSeen=="Outcrop 1") {
+        	    			advanceUser();
+        	    		} else {
+        	    			jumpPopcornMedia(7);
         	    		}
             		}
             		
@@ -482,10 +487,16 @@ document.addEventListener("DOMContentLoaded", function () {
         	    			advanceUser();
         	    		} else {
         	    			jumpPopcornMedia(7);
-        	    	    	rover.stowArm();
         	    		}
             		}
-            		
+					
+            		//no matter what, always stow the arm after duration + 2 seconds
+	    	    	rover.stowArm();
+    	    	}, (duration+2000));
+        	} else {
+        		//stow arm even if no lesson is done
+        		setTimeout(function(){
+	    	    	rover.stowArm();
     	    	}, (duration+2000));
         	}
     	} else {
@@ -645,13 +656,16 @@ document.addEventListener("DOMContentLoaded", function () {
 			jumpPopcornMedia(1); //drive forward
     	  break;
     	case 1:
-			jumpPopcornMedia(5); //analyze rock
+			jumpPopcornMedia(5); //analyze calibration plate
     	  break;
     	case 2:
-			jumpPopcornMedia(9,4); //analyze rock analyze again.
+			jumpPopcornMedia(4,2); //analyze calibration plate again
+    	  break;
+    	case 2:
+			jumpPopcornMedia(9,4); //analyze rock 
 	    	break;
     	case 3:
-			jumpPopcornMedia(10);  //badge
+			jumpPopcornMedia(10);  //analyze rock analyze again.
 	    	break;
     	default:
     	  //no default audio
@@ -1067,7 +1081,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		<!-- main content area for video, images, 3D, etc... -->
 		<div id="contenttarget" class="contenttarget">
 		</div>
-		<div id="youtubetarget" class="youtubetarget"></div>
 		<div id="backgroundtarget" class="curiositybackgroundtarget">
 		</div>
 		

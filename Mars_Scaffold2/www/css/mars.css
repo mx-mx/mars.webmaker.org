@@ -324,28 +324,6 @@ div.pathfindervideo1
     margin:-240px 0 0 -335px;
 	z-index: 1;
 }
-.youtubetarget
-{
-  position: absolute;
-	opacity: 0.0;
-	pointer-events:none;
-	text-align: center;
-	padding: 15px 15px 15px 15px;
-	background: rgba(31,38,18,.7);
-	color: rgba(200,200,200,1.0);
-	font-family: 'Lato', sans-serif;
-	text-transform: none;
-	line-height: 22px;
-	font-size: 18px;
-    border-radius: 5px;
-    border:none;
-	width: 360px;
-	height: 202px;
-	top:10%;
-    left:2%;
-    margin:0px 0 0 0px;
-	z-index: 2;
-}
 .helppopup
 {
   position: absolute;
