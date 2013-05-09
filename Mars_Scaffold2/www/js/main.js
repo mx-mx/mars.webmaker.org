@@ -333,12 +333,18 @@ function animate() {
 		var screenPos = screenXY( vector.getPositionFromMatrix( rulerMidpoint.matrixWorld ) );
 	    distance.style.left = screenPos.x + 'px';
 	    distance.style.top = screenPos.y + 'px';
-	    if( miles ){
-			distance.nameLayer.innerHTML = Math.round( ( ruler.getDistance() / ssScale.s ) * 0.621371 ) + " miles";
+	    /*if( miles ){
+	    	var milesNumber = Math.round( ( ruler.getDistance() / ssScale.s ) * 0.621371 );
+			distance.nameLayer.innerHTML =  milesNumber + " miles";
 		}else{
 			distance.nameLayer.innerHTML = Math.round( ruler.getDistance() / ssScale.s ) + " km";
-		}
-	}else{
+		}*/
+    	var milesNumber = Math.round( ( ruler.getDistance() / ssScale.s ) * 0.621371 );
+    	var kmNumber = Math.round( ruler.getDistance() / ssScale.s );
+		distance.nameLayer.innerHTML =  (milesNumber/1000000).toFixed(0) + " million miles<br>" + (kmNumber/1000000).toFixed(0) + " million km";
+	
+		//distance.nameLayer.innerHTML = Math.round( ruler.getDistance() / ssScale.s ) + " km";
+	} else {
 		distance.nameLayer.innerHTML = "";
 	}
 

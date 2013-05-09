@@ -110,7 +110,10 @@ label .checkboxlabel {
 	display: 'inline-block';
 }
 .label {
-	font-family: monospace;
+	background: rgba(13,30,38,0.8);
+    border-radius: 0px;
+	font-family: 'Lato', sans-serif;
+	padding: 5px 8px;
 	-moz-user-select:none;
 	-khtml-user-select:none;
 	-webkit-user-select:none;
@@ -530,9 +533,9 @@ div .selectitemdetaildiv:hover{
     border:none;
 	width: 350px;
 	height: 55px;
-	top:60px;
-    right:15px;
-	z-index: 1;
+	top:15px;
+    right:120px;
+	z-index: 2;
 }
 .capcommessagereddiv
 {
@@ -553,7 +556,7 @@ div .selectitemdetaildiv:hover{
 	height: 55px;
 	top:50%;
     right:36%;
-	z-index: 1;
+	z-index: 2;
 }
 .progressdiv
 {
@@ -620,7 +623,7 @@ div .roundedbluebutton{
 	text-align: center;
 	line-height: 14px;
 	font-size: 14px;
-	margin:5px 5px;
+	margin:2px 4px;
 	padding:3px 20px;
 	text-transform: uppercase;
 	font-family: 'Lato', sans-serif;
@@ -1432,7 +1435,7 @@ div .squarebigbluebutton:hover{
 div .squarelittlebluebutton{
     display:inline-block;
 	text-align: center;
-	line-height: 13px;
+	line-height: 12px;
 	font-size: 16px;
 	margin:4px 0px 0px 0px;
 	padding:0px 2px;

@@ -146,6 +146,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 
 
+	var canUseButtons = false;
     loadDE405Plus(function () {
     	console.log("loadDE405Plus callback");
 	    preloadimages(['./images/solarsystem/sunmap.jpg', 
@@ -169,15 +170,25 @@ document.addEventListener("DOMContentLoaded", function () {
 	        });
 
 	        //enable buttons
+	        //these are tricky... only give them pointer events if they are visible
+	        canUseButtons = true;
 	        $("#introduction").animate({opacity: 1.0}, 500, function() {
-	            $("#introduction").css('pointer-events', 'auto');
+	        	if($('#menupanel').css('opacity') != 0) {
+		            $("#introduction").css('pointer-events', 'auto');
+	        	}
 	        });
 	        $("#navigation").animate({opacity: 1.0}, 500, function() {
-	            $("#navigation").css('pointer-events', 'auto');
+	        	if($('#menupanel').css('opacity') != 0) {
+		            $("#navigation").css('pointer-events', 'auto');
+	        	}
 	        });
 	        $("#challenge").animate({opacity: 1.0}, 500, function() {
-	            $("#challenge").css('pointer-events', 'auto');
+	        	if($('#menupanel').css('opacity') != 0) {
+		            $("#challenge").css('pointer-events', 'auto');
+	        	}
 	        });
+	        //this button will deactivate once user hits it (hence not useable when not visible bug)
+	        //it therefore does not need the visible treatment seen above
 	        $("#beginbutton").animate({opacity: 1.0}, 500, function() {
 	            $("#beginbutton").css('pointer-events', 'auto');
 	        });
@@ -886,11 +897,29 @@ document.addEventListener("DOMContentLoaded", function () {
     	
     }
     
-    
+	var openMenuPanel = function() {
+		$("#menupanel").animate({opacity: 1.0}, 200, function() {
+        	$("#menupanel").css('pointer-events', 'auto');
+    	});
+		if(canUseButtons) {
+            $("#introduction").css('pointer-events', 'auto');
+            $("#navigation").css('pointer-events', 'auto');
+            $("#challenge").css('pointer-events', 'auto');
+		}
+	}
+	var closeMenuPanel = function() {
+		$("#menupanel").animate({opacity: 0.0}, 200, function() {
+        	$("#menupanel").css('pointer-events', 'none');
+    	});
+        $("#introduction").css('pointer-events', 'none');
+        $("#navigation").css('pointer-events', 'none');
+        $("#challenge").css('pointer-events', 'none');
+	}
+	
 	var hideeverything = function() {
 		$("#startmenupanel").animate({opacity: 0.0}, 1, function() { $("#startmenupanel").css('pointer-events', 'none'); });
-		$("#menupanel").animate({opacity: 0.0}, 1, function() { $("#menupanel").css('pointer-events', 'none'); });
-		
+		//$("#menupanel").animate({opacity: 0.0}, 1, function() { $("#menupanel").css('pointer-events', 'none'); });
+		closeMenuPanel();
 		$("#videocontenttarget").animate({opacity: 0.0}, 1, function() { $("#videocontenttarget").css('pointer-events', 'none'); });
 		$("#videointrocontenttarget").animate({opacity: 0.0}, 1, function() { $("#videointrocontenttarget").css('pointer-events', 'none'); });
 		
@@ -1394,15 +1423,12 @@ document.addEventListener("DOMContentLoaded", function () {
 			.button()
 			.click(function( event ) {
 				if($('#menupanel').css('opacity') != 0) {
-	            	$("#menupanel").animate({opacity: 0.0}, 200, function() {
-	                	$("#menupanel").css('pointer-events', 'none');
-	            	});
+	            	closeMenuPanel();
 	        	} else {
-	        		$("#menupanel").animate({opacity: 1.0}, 200, function() {
-	                	$("#menupanel").css('pointer-events', 'auto');
-	            	});
+	        		openMenuPanel();
 	        	}
 		});
+		
 		
 		$( "#nextbutton" )
 			.button()
@@ -1646,6 +1672,8 @@ document.addEventListener("DOMContentLoaded", function () {
 				$("#playbuttonwrapper").animate({opacity: 1.0}, 200, function() {
                 	$("#playbuttonwrapper").css('pointer-events', 'auto');
             	});
+                	
+				$("#beginbutton").css('pointer-events', 'none');
 		});
 		
 
@@ -2007,7 +2035,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			This project is a collaboration between the U.S. Department of Energy, the Mozilla Foundation, and MX.</div>
 			<br>
 			<img src="./images/tri_logo.png" style="align: center;">
-			<br><font style="color: rgba(42,51,24,0.2);">Version:0.8.1</font>
+			<br><font style="color: rgba(42,51,24,0.2);">Version:0.8.2</font>
 		</div>
 		
 		<div id="topbar" class="topbar">
