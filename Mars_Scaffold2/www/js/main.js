@@ -29,8 +29,9 @@ var showDistance = false,
 
 var clock = new THREE.Clock();
 
-var departure_time = new Time( { Yr:2011, Mon:11, D:26, Hr:1, Mn:1, S:1 } );
-var arrival_time = new Time( { Yr:2012, Mon:8, D:6, Hr:1, Mn:1, S:1 } );
+//actual Curiosity launch and land dates
+var departure_time = new Time( { Yr:2011, Mon:11, D:26, Hr:1, Mn:1, S:1 } ); //November 26, 2011
+var arrival_time = new Time( { Yr:2012, Mon:8, D:6, Hr:1, Mn:1, S:1 } ); // August 6, 2012
 //var departure_time = new Time( { Yr:2013, Mon:5, D:1, Hr:1, Mn:1, S:1 } );
 //var arrival_time = new Time( { Yr:2013, Mon:10, D:1, Hr:1, Mn:1, S:1 } );
 
@@ -110,7 +111,8 @@ function init() {
 	timer = new Timer();
 	timer.count = 0;
 	timer.multiplier = .025;
-	timer.JD = new Date(2010,11,1).Date2Julian();
+	//timer.JD = new Date(2010,11,1).Date2Julian(); //dec 1st 2010 //we need a date better than this to demo 34 million mile dif
+	timer.JD = new Date(2003,1,24).Date2Julian(); //feb 24 2003
 	buildGUI();
 
 	/********************************

@@ -460,8 +460,10 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
    
     popcornMedia[3].cue( 2, function() {
-       	camTweener( { x: 0, y: 800, z: 0 }, { x: 0, y: 0, z: -20 }, 3000 );
+       	//camTweener( { x: 0, y: 800, z: 0 }, { x: 0, y: 0, z: -20 }, 3000 ); //old value, above shot
+		camTweener( { x: -400, y: 200, z: 250 }, { x: 0, y: 0, z: -20 }, 1500 );
 	});
+    
     popcornMedia[3].cue( 6, function() {
 		$("#speedSlider").slider('value',.23);
 	});
@@ -470,10 +472,55 @@ document.addEventListener("DOMContentLoaded", function () {
 		miles = true;
 		showDistance = true;
 		scene.add(ruler);
+
 	});
+	
+	popcornMedia[3].cue( 13, function() {
+		$("#speedSlider").slider('value',2.0);
+	});
+	
+	popcornMedia[3].cue( 16, function() {
+		$("#speedSlider").slider('value',.23);
+	});
+	popcornMedia[3].cue( 22, function() {
+		showDistance = false;
+		scene.remove(ruler);
+	});
+	
+	
     popcornMedia[3].on( "ended", function() {
-    	advancePopcornMedia();
+    	//xxx
+    	//wait to advance until we've reached a date that is close to curiosity launch date
+    	//advancePopcornMedia();
+    	
+    	
+		showDistance = false;
+		scene.remove(ruler);
+
+		$("#speedSlider").slider('value',2.0);
+		$("#speedtimemessage").animate({opacity: 1.0}, 200, function() {
+        	$("#speedtimemessage").css('pointer-events', 'auto');
+    	});
+		
+		setTimeout(function() {
+			//camTweener( { x: -400, y: 200, z: 300 }, { x: 0, y: 0, z: -20 }, 1500 );
+			//remove message
+			$("#speedtimemessage").animate({opacity: 0.0}, 1000, function() {
+	        	$("#speedtimemessage").css('pointer-events', 'none');
+	    	});
+			
+			//slow down time
+			$("#speedSlider").slider('value',.23);
+			
+			//start next popcorn segment (talks about curiosity here)
+			advancePopcornMedia();
+			
+		},21000);
+			
+		
 	});
+    
+    
 	popcornMedia[4].cue( 1, function() {
 		showDistance = false;
 		scene.remove(ruler);
@@ -947,12 +994,14 @@ document.addEventListener("DOMContentLoaded", function () {
 		$("#rocketbadge").animate({opacity: 0.0}, 1, function() { $("#rocketbadge").css('pointer-events', 'none'); });
 		$("#rocketbadgecomplete").animate({opacity: 0.0}, 1, function() { $("#rocketbadgecomplete").css('pointer-events', 'none'); });
 		
-
 		$("#subtitlepanel").animate({opacity: 0.0}, 1, function() {});
+		
+		$("#speedtimemessage").animate({opacity: 0.0}, 1, function() { $("#speedtimemessage").css('pointer-events', 'none'); });
+		
 	}
 	
 	//xxx unit test for menus
-	//$("#nextbuttonwrapper").animate({opacity: 1.0}, 1, function() { $("#nextbuttonwrapper").css('pointer-events', 'auto'); });
+	//$("#speedtimemessage").animate({opacity: 1.0}, 1, function() { $("#speedtimemessage").css('pointer-events', 'auto'); });
 	
     popcornMedia[17].cue( 3, function() {
        	camTweener( { x: 0, y: 1100, z: 0 }, { x: 0, y: 0, z: -20 }, 3000 );
@@ -1887,7 +1936,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		    $( "#launchdatepicker" ).datepicker({
 		      changeMonth: true,
 		      changeYear: true,
-		      minDate: new Date(2036, 0, 1),
+		      minDate: new Date(2000, 0, 1),
 		      maxDate: new Date(2039, 11, 5),
 		      onSelect: function(dateText, inst) { 
 		    	  
@@ -1901,6 +1950,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	    			}
 	    			clear3DDrawings();
 	    			//console.log("jumpToDate: " +  dateFormatter(jumpToDate));
+	    			
+	    			//temp to delete
+	    			showDistance = true;
 	    		}
 		    });
 		});
@@ -1929,6 +1981,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			if(timer) {
 				var aDate = new Number(timer.JD).Julian2Date();
 				document.getElementById( "orbitdate" ).value = dateFormatter(aDate);
+				document.getElementById( "speeddate" ).innerHTML = dateFormatter(aDate);
 				
 				//put the breaks on the orbit if we get close to the min and max dates of the ephemeris
 				if(aDate>MAX_EPHEMERIS_DATE) {
@@ -2035,7 +2088,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			This project is a collaboration between the U.S. Department of Energy, the Mozilla Foundation, and MX.</div>
 			<br>
 			<img src="./images/tri_logo.png" style="align: center;">
-			<br><font style="color: rgba(42,51,24,0.2);">Version:0.8.2</font>
+			<br><font style="color: rgba(42,51,24,0.2);">Version:0.8.3</font>
 		</div>
 		
 		<div id="topbar" class="topbar">
@@ -2418,6 +2471,35 @@ document.addEventListener("DOMContentLoaded", function () {
 					<td align="left">
 						<button id="investigatecmebutton" class="roundedredbutton">Investigate</button>
 						<button id="ignorecmebutton" class="roundedredbutton">Ignore</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<div id="speedtimemessage" class="resultsdiv">
+			<table style="width: 100%;margin:2;padding:0;" >
+				<tr>
+					<td width="70px" rowspan="4" align="left" valign="top"><img src="./images/icon_hourglass.png" ></td>
+					<td align="left" colspan="2">Fast Forward</td>
+				</tr>
+				<tr>
+					<td align="left" style="font-weight:400;" colspan="2">Curiosity Launch</td>
+				</tr>
+				<tr>
+					<td align="left" style="font-weight:300;" colspan="2"> 
+						<br>
+						Speeding up time just before the launch of Curiosity. 
+						<br>
+						<br>
+						<br>
+					</td>
+				</tr>
+				<tr>
+					<td align="left" style="font-weight:300;color:rgba(196,216,168,1.0);"> 
+						Simulation Date:
+					</td>
+					<td align="left" style="font-weight:300;color:rgba(196,216,168,1.0);">
+						<div id="speeddate">&nbsp;</div>
 					</td>
 				</tr>
 			</table>
