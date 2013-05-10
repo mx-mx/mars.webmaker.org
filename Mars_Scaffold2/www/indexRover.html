@@ -390,7 +390,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		//show pause toggle
 		$("#playtoggle").attr("class", "pause");
 		
-		showTransmissionMessage();
+		if(popcornSequenceNumber!=12 || popcornSequenceNumber!=13) {
+			showTransmissionMessage();
+		}
     }
   
   	var showTransmissionMessage = function() {
@@ -654,6 +656,17 @@ document.addEventListener("DOMContentLoaded", function () {
 		lessonOpen=false;
 	    cancelCallToAction=true;
 	    
+	    userLessonNumber = 0;
+	    
+		jumpPopcornMedia(1); //drive forward
+    	  
+    }
+
+	//don't think this will be used
+    var restartThisLesson = function () {
+    	lessonOpen=false;
+	    cancelCallToAction=true;
+	   
 	    switch(userLessonNumber)
     	{
     	case 0:
@@ -879,6 +892,10 @@ document.addEventListener("DOMContentLoaded", function () {
 				$("#nextbuttonwrapper").animate({opacity: 1.0}, 200, function() {
 	            	$("#nextbuttonwrapper").css('pointer-events', 'auto');
 	        	});
+
+				$("#nextbutton").animate({opacity: 1.0}, 200, function() {
+	            	$("#nextbutton").css('pointer-events', 'auto');
+	        	});
 				$("#helpbuttonwrapper").animate({opacity: 1.0}, 200, function() {
 	            	$("#helpbuttonwrapper").css('pointer-events', 'auto');
 	        	});
@@ -891,7 +908,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	    	//reset lesson stuff
 	    	userLessonNumber=0;
-	    	replayUser(); //this call will send us to that lesson number audio
+	    	
+	    	jumpPopcornMedia(0); //this call will send us to that lesson number audio
 		}
 		
 		var jumpToThreeDNavigation = function() {
@@ -922,6 +940,9 @@ document.addEventListener("DOMContentLoaded", function () {
 				$("#nextbuttonwrapper").animate({opacity: 1.0}, 200, function() {
 	            	$("#nextbuttonwrapper").css('pointer-events', 'auto');
 	        	});
+				$("#nextbutton").animate({opacity: 0.0}, 200, function() {
+	            	$("#nextbutton").css('pointer-events', 'none');
+	        	});
 				$("#helpbuttonwrapper").animate({opacity: 1.0}, 200, function() {
 	            	$("#helpbuttonwrapper").css('pointer-events', 'auto');
 	        	});
@@ -934,7 +955,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	    	//reset lesson stuff
 	    	userLessonNumber=1;
-	    	replayUser(); //this call will send us to that lesson number audio
+	    	restartThisLesson(); //this call will send us to that lesson number audio
 		}
 		
 		var jumpToChallenge = function () {
@@ -980,7 +1001,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	    	//reset lesson stuff
 	    	userLessonNumber=3;
-	    	replayUser(); //this call will send us to that lesson number audio
+	    	restartThisLesson(); //this call will send us to that lesson number audio
 		}
 
 		$( "#about" )
@@ -1055,7 +1076,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			This project is a collaboration between the U.S. Department of Energy, the Mozilla Foundation, and MX.</div>
 			<br>
 			<img src="./images/tri_logo.png" style="align: center;">
-			<br><font style="color: rgba(42,51,24,0.2);">Version:0.8.1</font>
+			<br><font style="color: rgba(42,51,24,0.2);">Version:0.8.3</font>
 		</div>
 	
 		<div id="topbar" class="topbar">
