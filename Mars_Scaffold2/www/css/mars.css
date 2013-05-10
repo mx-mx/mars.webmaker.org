@@ -1013,21 +1013,27 @@ div .menubutton:hover{
 	width: 210px;
 	height: 20px;
 }
-.chyron{
+.chyronwrapper{
 	position: absolute;
 	opacity: 1.0;
-    display:block;
-	padding: 5px 1px 1px 3px;
-	background: rgba(42,51,24,0.7);
-	color: rgba(200,200,200,1.0);
-	text-align: left;
-	font-family: 'Lato', sans-serif;
-	text-transform: uppercase;
-	text-align: center;
-	font-size: 18px;
-    border-radius: 5px;
+	background: rgba(42,51,24,0.0);
     bottom:-40px;
     left:10px;
+	width: 100%;
+	height: 28px;
+}
+.chyron{
+	opacity: 1.0;
+	padding: 5px 1px 1px 1px;
+	background: rgba(42,51,24,0.7);
+	color: rgba(200,200,200,1.0);
+	font-family: 'Lato', sans-serif;
+	text-transform: uppercase;
+	text-align:center;
+	align:center;
+	margin: 0 auto;
+	font-size: 18px;
+    border-radius: 5px;
 	width: 250px;
 	height: 28px;
 }
