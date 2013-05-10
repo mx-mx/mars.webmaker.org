@@ -21,8 +21,8 @@
  */
 
 
-function MarsOdyssey() {
-	// console.log("MarsOdyssey");
+function Trajectory() {
+	// console.log("Trajectory");
 	this.departure_time = null;
 	this.arrival_time = null;
 	this.r0 = null;
@@ -36,7 +36,7 @@ function MarsOdyssey() {
 	this.totalDeltaV;
 	this.finishedDrawingCallback;
 }
- MarsOdyssey.prototype.ephemerisCallback = function(result) {
+ Trajectory.prototype.ephemerisCallback = function(result) {
 	if (this.r0 == null) {
 		this.r0 = result;
 		this.r0.print("r0");
@@ -75,7 +75,7 @@ function MarsOdyssey() {
 //			} catch (/*LambertException*/ e) {
 //				totaldv = -1;
 //				//e.printStackTrace();
-			// .log("MarsOdyssey.init LambertException " + e);
+			// .log("Trajectory.init LambertException " + e);
 //			}
 		this.totalDeltaV = totaldv;
 		// apply the first delta-v
@@ -90,11 +90,11 @@ function MarsOdyssey() {
 	}
 };
 
-MarsOdyssey.prototype.toString = function() {
-	return "MarsOdyssey";
+Trajectory.prototype.toString = function() {
+	return "Trajectory";
 };
 
-MarsOdyssey.prototype.init = function( departure_time, arrival_time, drawingCallback) {
+Trajectory.prototype.init = function( departure_time, arrival_time, drawingCallback) {
 	console.log("new init: " + departure_time.jd_tt());
 
 	this.finishedDrawingCallback = null;
@@ -109,7 +109,7 @@ MarsOdyssey.prototype.init = function( departure_time, arrival_time, drawingCall
 	this.complete = false;
 	this.lastTrajectoryPoint = null;
 	
-	// console.log("MarsOdyssey.init");
+	// console.log("Trajectory.init");
 
     this.departure_time = departure_time;
     this.arrival_time = arrival_time;
@@ -123,8 +123,8 @@ MarsOdyssey.prototype.init = function( departure_time, arrival_time, drawingCall
 };
 
 //	public static void main(String[] args) {
-//		MarsOdyssey marsOdyssey = new MarsOdyssey();
-//		marsOdyssey.init();
+//		Trajectory trajectory = new Trajectory();
+//		trajectory.init();
 //	}
 
 //}
@@ -133,7 +133,7 @@ MarsOdyssey.prototype.init = function( departure_time, arrival_time, drawingCall
 //	function Callback() {;}
 //	@Override
 
-MarsOdyssey.prototype.print = function(time, data) {
+Trajectory.prototype.print = function(time, data) {
 
 	var julianTime = this.departure_time.plus(time);
 	if (time == 0) {
@@ -142,11 +142,11 @@ MarsOdyssey.prototype.print = function(time, data) {
 	this.onAddPoint(julianTime.jd_tt(), + data[0], + data[1], + data[2]);
 };
 
-MarsOdyssey.prototype.onAddPoint = function(time, x, y, z) {
+Trajectory.prototype.onAddPoint = function(time, x, y, z) {
 	this.trajectory[ this.trajectoryIndex++ ] = { time:time, point:new THREE.Vector3(x, y, z) };
 };
 
-MarsOdyssey.prototype.drawTrajectory = function( time, scale ) {
+Trajectory.prototype.drawTrajectory = function( time, scale ) {
 
 	var start,
 		end,
@@ -195,8 +195,13 @@ MarsOdyssey.prototype.drawTrajectory = function( time, scale ) {
 
 	this.line.geometry.vertices.push( end );
 
-	if(time >= this.trajectory[this.trajectory.length - 2].time) {
-		this.finishedDrawingCallback.call();
+	if(time >= this.trajectory[this.trajectory.length - 20].time) {
+		
+		if(this.finishedDrawingCallback) {
+			this.finishedDrawingCallback.call();
+		}
+		//just call it once
+		this.finishedDrawingCallback = null;
 	}
 	
 	solarSystem.add( this.line );
@@ -236,6 +241,6 @@ Number.prototype.Julian2Date = function() {
 };
 
 //$(document).ready( function() {
-//	var marsOdyssey = new MarsOdyssey();
-//	marsOdyssey.init();
+//	var trajectory = new Trajectory();
+//	trajectory.init();
 //} );

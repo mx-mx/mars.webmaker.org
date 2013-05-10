@@ -16,7 +16,7 @@ var stats,
 	tween,
 	camTarget,
 	solarSystem,
-	marsOdyssey,
+	trajectory,
 	ruler,
 	rulerMidpoint,
 	distance,
@@ -172,8 +172,8 @@ function setupScene(){
 	// object.position.set( 0, 0, 0 );
 	// scene.add( object );
 
-	marsOdyssey = new MarsOdyssey();
-	marsOdyssey.init( departure_time, arrival_time, function () {
+	trajectory = new Trajectory();
+	trajectory.init( departure_time, arrival_time, function () {
 	    console.log("finished drawing this trajectory");
 	});
 
@@ -266,7 +266,7 @@ function onDocumentMouseDown( event ) {
 }
 
 function touchdown( rocket ){
-	console.log("touchdown?");
+	//console.log("touchdown?");
 	var marsPosFromMatrix = new THREE.Vector3();
 	marsPosFromMatrix.getPositionFromMatrix( solarSystem.children[8].matrixWorld );
 
@@ -355,8 +355,8 @@ function animate() {
 	planetsOrbit( timer.JD );
 
 	// console.log( departure_time.jd_tt() );
-	if (marsOdyssey != null ) {
-		marsOdyssey.drawTrajectory( timer.JD, ssScale.s );
+	if (trajectory != null ) {
+		trajectory.drawTrajectory( timer.JD, ssScale.s );
 	}
 
 	uniforms.time.value = timer.JD / 20;

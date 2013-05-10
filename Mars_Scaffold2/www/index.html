@@ -40,7 +40,7 @@
         <script src="js/jat/DE405Plus.js"></script>
         <script src="js/jat/Lambert.js"></script>
         <script src="js/jat/LambertException.js"></script>
-        <script src="js/jat/MarsOdyssey.js"></script>
+        <script src="js/jat/Trajectory.js"></script>
         <script src="js/jat/Matrix.js"></script>
         <script src="js/jat/SolarSystemBodies.js"></script>
         <script src="js/jat/Time.js"></script>
@@ -303,6 +303,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	popcornMedia[30] = Popcorn( '#SEQ_5_fail2' );
 	popcornMedia[31] = Popcorn( '#SEQ_5_fail3' );
 	popcornMedia[32] = Popcorn( '#SEQ_5_fail4' );
+	popcornMedia[33] = Popcorn( '#SEQ_7_cme_success' );
 
 	//not sure if I'll need this baseplayer
 	//decided to keep basepop in as a convenient way to initialize the 3D and fire up the first video player.  
@@ -617,7 +618,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 	});
     
-    popcornMedia[24].cue( 32, function() {
+    popcornMedia[24].cue( 39, function() {
 		
         $("#selectmissionrocket").animate({opacity: 1.0}, 1000, function() {
         	$("#selectmissionrocket").css('pointer-events', 'auto');
@@ -932,9 +933,9 @@ document.addEventListener("DOMContentLoaded", function () {
     
     var clear3DDrawings = function() {
 
-		if(marsOdyssey) {
-			solarSystem.remove( marsOdyssey.line );
-			marsOdyssey=null;
+		if(trajectory) {
+			solarSystem.remove( trajectory.line );
+			trajectory=null;
 		}
 		
         //initialize mars/earth ruler to off
@@ -1164,6 +1165,14 @@ document.addEventListener("DOMContentLoaded", function () {
     var rocketbutton = document.getElementById('rocketbutton');
     rocketbutton.style.cursor = 'pointer';
     rocketbutton.onclick = function() {
+		//clear 3d lines
+		clear3DDrawings();
+		//clear touchdown timer
+		//clearInterval(checktouchdown);
+
+		var jumpToDate = new Date(2036,0,1).Date2Julian();
+		timer.JD = jumpToDate;
+		$("#speedSlider").slider('value',.01);
 		
     	$("#launchcontrols").animate({opacity: 0.0}, 200, function() {
         	$("#launchcontrols").css('pointer-events', 'none');
@@ -1466,7 +1475,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					//if 0, stop immediately
 					Tweener(timer, {multiplier:savedSliderVal}, 1);
 				} else {
-					Tweener(timer, {multiplier:savedSliderVal}, 1000);
+					Tweener(timer, {multiplier:savedSliderVal}, 300);
 				}
 			}
 		});
@@ -1527,10 +1536,11 @@ document.addEventListener("DOMContentLoaded", function () {
 			clearInterval(checktouchdown);
 			departure_time = new Time( { Yr:2011, Mon:11, D:26, Hr:1, Mn:1, S:1 } );
 			arrival_time = new Time( { Yr:2012, Mon:8, D:6, Hr:1, Mn:1, S:1 } );
-			marsOdyssey = null;
-	    	marsOdyssey = new MarsOdyssey();
-			marsOdyssey.init( departure_time, arrival_time, function () {
-			    console.log("finished drawing this trajectory");
+			trajectory = null;
+	    	trajectory = new Trajectory();
+			trajectory.init( departure_time, arrival_time, function () {
+			    console.log("heard the done drawing callback");
+			    $("#speedSlider").slider('value',.23);
 			});
 			//reset mouse tracking lesson
 			resetLesson();
@@ -1760,9 +1770,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			    	var jd = new Number(departure_time.jd_tt()).Julian2Date();
 			    	
-			    	marsOdyssey = null;
-			    	marsOdyssey = new MarsOdyssey();
-					marsOdyssey.init( departure_time, arrival_time, function () {
+			    	trajectory = null;
+			    	trajectory = new Trajectory();
+					trajectory.init( departure_time, arrival_time, function () {
+					    console.log("slow down insano speed");
+					    $("#speedSlider").slider('value',.15);
 					    //the callback doesn't alway work, so we're going with Ryan's touchdown method below
 			
 						//console.log("heard the done drawing callback");
@@ -1774,7 +1786,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					//kick off the check interval function after a timeout delay of just over 1 second.
 					setTimeout(function() {
 						checktouchdown = setInterval(function () {
-						    if(touchdown(marsOdyssey)) {
+						    if(touchdown(trajectory)) {
 							    console.log("got touchdown");
 						    	clearInterval(checktouchdown);
 						    	playTrajectoryAudio();
@@ -1783,7 +1795,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					},1200);
 					
 					
-					setDeltaV(marsOdyssey.totalDeltaV);
+					setDeltaV(trajectory.totalDeltaV);
 
 					$("#speedSlider").slider('value',.1);
 				}
@@ -1825,19 +1837,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		    	var jd = new Number(departure_time.jd_tt()).Julian2Date();
 		    	
-		    	marsOdyssey = null;
-		    	marsOdyssey = new MarsOdyssey();
-				marsOdyssey.init( departure_time, arrival_time, function () {
+		    	trajectory = null;
+		    	trajectory = new Trajectory();
+				trajectory.init( departure_time, arrival_time, function () {
 					//once drawing is done for launch, then we're done with the second lesson
-				    console.log("heard the done drawing callback");
-					//award rocket badge
-					$("#rocketbadge").animate({opacity: 1.0}, 200, function() {
-				    	$("#rocketbadge").css('pointer-events', 'auto');
-				    });
+				    console.log("slow down insano speed");
+				    $("#speedSlider").slider('value',.15);
 				    
 				});
 				
-				setDeltaV(marsOdyssey.totalDeltaV);
+				setTimeout(function() {
+					checktouchdown = setInterval(function () {
+					    if(touchdown(trajectory)) {
+						    console.log("got touchdown");
+						  //award rocket badge
+							$("#rocketbadge").animate({opacity: 1.0}, 200, function() {
+						    	$("#rocketbadge").css('pointer-events', 'auto');
+						    });
+					    }
+					},500);
+				},1200);
+				
+				setDeltaV(trajectory.totalDeltaV);
 
 				$("#speedSlider").slider('value',.07);
 			}
@@ -1856,7 +1877,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	    	{
 	    	case 0:
 	    		//check to see if deltaV is under minimum for this rocket
-	    		deltaDif = rocketDeltas[rocketChoice] - marsOdyssey.totalDeltaV;
+	    		deltaDif = rocketDeltas[rocketChoice] - trajectory.totalDeltaV;
 				console.log("deltaDif: " + deltaDif);
 				
 				if(deltaDif>=0) {
@@ -1872,7 +1893,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				}
 	    	  break;
 	    	case 1:
-	    		deltaDif = rocketDeltas[rocketChoice] - marsOdyssey.totalDeltaV;
+	    		deltaDif = rocketDeltas[rocketChoice] - trajectory.totalDeltaV;
 				console.log("deltaDif: " + deltaDif);
 				
 				if(deltaDif>=0) {
@@ -1888,7 +1909,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				}
 	    	  break;
 	    	case 2:
-	    		deltaDif = rocketDeltas[rocketChoice] - marsOdyssey.totalDeltaV;
+	    		deltaDif = rocketDeltas[rocketChoice] - trajectory.totalDeltaV;
 				console.log("deltaDif: " + deltaDif);
 				
 				if(deltaDif>=0) {
@@ -1939,7 +1960,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		    $( "#launchdatepicker" ).datepicker({
 		      changeMonth: true,
 		      changeYear: true,
-		      minDate: new Date(2000, 0, 1),
+		      minDate: new Date(2036, 0, 1),
 		      maxDate: new Date(2039, 11, 5),
 		      onSelect: function(dateText, inst) { 
 		    	  
@@ -2088,7 +2109,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			This project is a collaboration between the U.S. Department of Energy, the Mozilla Foundation, and MX.</div>
 			<br>
 			<img src="./images/tri_logo.png" style="align: center;">
-			<br><font style="color: rgba(42,51,24,0.2);">Version:0.8.3</font>
+			<br><font style="color: rgba(42,51,24,0.2);">Version:0.8.4</font>
 		</div>
 		
 		<div id="topbar" class="topbar">
@@ -2855,6 +2876,11 @@ document.addEventListener("DOMContentLoaded", function () {
 		<audio id="SEQ_5_fail4">
 			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_5_fail4.mp3"></source>
 			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_5_fail4.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="SEQ_7_cme_success">
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_7_cme_success.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_7_cme_success.oggvorbis.ogg"></source>
 		</audio> 
 		
 	</body>
