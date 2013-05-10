@@ -413,7 +413,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 	popcornMedia[1].cue( 8.5, function() {
 		$("#videocontenttarget").animate({width: 360, height: 202,
-											top: "10%", left: "2%",
+											top: "10px", left: "10px",
 											margin:"-0px 0 0 -0px"}, 1000, function() {
 			//code after completion of animation
 			//camTweener( { x: 0, y: 700, z: 0 }, { x: 0, y: 0, z: -20 }, 3000 );
@@ -516,7 +516,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			//start next popcorn segment (talks about curiosity here)
 			advancePopcornMedia();
 			
-		},21000);
+		},21500);
 			
 		
 	});
@@ -1528,6 +1528,10 @@ document.addEventListener("DOMContentLoaded", function () {
 	        $("#commitlaunchbutton").animate({opacity: 0.0}, 200, function() {
 	        	$("#commitlaunchbutton").css('pointer-events', 'none');
 	    	});
+	        if(threedinitialized) {
+
+				camTweener( { x: 10, y: 10, z: -70 }, { x: 0, y: 0, z: 0 }, 1500 );
+	        }
 			//shift 3d model
 			initializethreed();
 			//clear 3d lines
@@ -1550,11 +1554,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			$("#playbuttonwrapper").animate({opacity: 1.0}, 200, function() {
             	$("#playbuttonwrapper").css('pointer-events', 'auto');
         	});
-			
-			camTweener( { x: 0, y: 100, z: 500 }, { x: 0, y: 0, z: 0 }, 1500 );
 
-
-			var jumpToDate = new Date(2003,3,24).Date2Julian();//a bit later than launch button
+			var jumpToDate = new Date(2003,4,6).Date2Julian();//a bit later than launch button
 			timer.JD = jumpToDate;
 			$("#speedSlider").slider('value',.01);
 			

@@ -64,7 +64,8 @@ function init() {
 	scene.fog = new THREE.FogExp2( 0x000000, 0.00005 );
 
 	camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR );
-	camera.position.set( 100, 500, 1000 );
+	//camera.position.set( 100, 500, 1000 );
+	camera.position.set( 10, 10, -70 );
 
 
 	camTarget = new THREE.Vector3();
@@ -112,7 +113,9 @@ function init() {
 	timer.count = 0;
 	timer.multiplier = .025;
 	//timer.JD = new Date(2010,11,1).Date2Julian(); //dec 1st 2010 //we need a date better than this to demo 34 million mile dif
-	timer.JD = new Date(2003,1,24).Date2Julian(); //feb 24 2003
+	//timer.JD = new Date(2003,1,24).Date2Julian(); //feb 24 2003
+	timer.JD = new Date(2003,4,6).Date2Julian(); //feb 24 2003
+	
 	buildGUI();
 
 	/********************************
