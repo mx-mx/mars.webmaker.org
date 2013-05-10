@@ -16,6 +16,7 @@
 <link rel="stylesheet" type="text/css" href="css/mars.css" />
 <link href="css/custom-theme/jquery-ui-1.10.2.custom.css" rel="stylesheet">
 <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Quicksand:400,700' rel='stylesheet' type='text/css'>
 
 <script type="text/javascript" src="./js/popcorn-complete.js"></script>	
 <script type="text/javascript" src="./js/libs/jquery-1.9.1.min.js"></script>
@@ -374,18 +375,30 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 	*/
 	popcornMedia[1].footnote({
-		start: 1,
+		start: 0.5,
 		end: 8.5,
 	    target: "subtitlepanel",
-		text: "Mary Beth Vilhelm<br><font style=\"font-size:14px;\">Mars Colony 1 Astronaut & Senior Geologist</font>",
+		text: "Mary Beth Wilhelm",
 	});
-	popcornMedia[1].cue( 1, function() {
+	popcornMedia[1].footnote({
+		start: 0.5,
+		end: 8.5,
+	    target: "subtitlepanelb",
+		text: "PhD Student at Georgia Tech",
+	});
+	popcornMedia[1].cue( 0.5, function() {
 		$("#subtitlepanel").animate({opacity: 1.0}, 500, function() {
+        	//$("#subtitlepanel").css('pointer-events', 'none');
+    	});
+		$("#subtitlepanelb").animate({opacity: 1.0}, 500, function() {
         	//$("#subtitlepanel").css('pointer-events', 'none');
     	});
 	});
 	popcornMedia[1].cue( 8, function() {
 		$("#subtitlepanel").animate({opacity: 0.0}, 500, function() {
+        	//$("#subtitlepanel").css('pointer-events', 'none');
+    	});
+		$("#subtitlepanelb").animate({opacity: 0.0}, 500, function() {
         	//$("#subtitlepanel").css('pointer-events', 'none');
     	});
 	});
@@ -995,6 +1008,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		$("#rocketbadgecomplete").animate({opacity: 0.0}, 1, function() { $("#rocketbadgecomplete").css('pointer-events', 'none'); });
 		
 		$("#subtitlepanel").animate({opacity: 0.0}, 1, function() {});
+		$("#subtitlepanelb").animate({opacity: 0.0}, 1, function() {});
 		
 		$("#speedtimemessage").animate({opacity: 0.0}, 1, function() { $("#speedtimemessage").css('pointer-events', 'none'); });
 		
@@ -2160,6 +2174,7 @@ document.addEventListener("DOMContentLoaded", function () {
          		Please upgrade your browser to view video
        		</video>
        		<div id="subtitlepanel" class="subtitlepanel"></div>
+       		<div id="subtitlepanelb" class="subtitlepanelb"></div>
        		<div id=chyron" class="chyron">Archival Footage 2013</div>
 		</div>
 		

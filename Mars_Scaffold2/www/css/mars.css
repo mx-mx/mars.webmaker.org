@@ -982,18 +982,36 @@ div .menubutton:hover{
 	opacity: 0.0;
 	pointer-events:none;
     display:block;
-	padding: 1px 1px 1px 5px;
-	background: rgba(42,51,24,0.8);
+	padding: 3px 1px 1px 12px;
+	background: rgba(90,102,69,0.8);
 	color: rgba(200,200,200,1.0);
 	text-align: left;
-	font-family: 'Lato', sans-serif;
-	text-transform: uppercase;
-	font-size: 16px;
+	font-family: 'Quicksand', sans-serif;
+	font-size:700;
+	line-height: 30px;
+	font-size: 22px;
     border-radius: 5px;
-    bottom:20px;
-    left:20px;
-	width: 50%;
-	height: 10%;
+    bottom:60px;
+    left:100px;
+	width: 250px;
+	height: 30px;
+}
+.subtitlepanelb{
+	position: absolute;
+	opacity: 0.0;
+	pointer-events:none;
+    display:block;
+	padding: 0px 1px 1px 12px;
+	background: rgba(55,57,35,0.8);
+	color: rgba(200,200,200,1.0);
+	text-align: left;
+	font-family: 'Quicksand', sans-serif;
+	font-size: 12px;
+    border-radius: 5px;
+    bottom:36px;
+    left:120px;
+	width: 210px;
+	height: 20px;
 }
 .chyron{
 	position: absolute;
@@ -1012,57 +1030,6 @@ div .menubutton:hover{
     left:10px;
 	width: 250px;
 	height: 28px;
-}
-.subtitlepanela{
-	/*position: absolute;
-    display:inline;
-	text-align: left;
-	padding: 1px 1px 1px 5px;
-	font-family: 'Lato', sans-serif;
-	text-transform: uppercase;
-	font-size: 16px;
-	color: rgba(240,240,240,1.0);
-    top:0%;
-    left:0%;*/
-	position: absolute;
-	opacity: 1.0;
-	pointer-events:none;
-    display:block;
-	padding: 1px 1px 1px 1px;
-	font-family: 'Lato', sans-serif;
-	text-transform: uppercase;
-	font-size: 16px;
-	color: rgba(240,240,240,1.0);
-    bottom:30px;
-    left:20px;
-	width: 50%;
-	height: 10%;
-}
-.subtitlepanelb{
-	/*position: absolute;
-    display:inline;
-	text-align: left;
-	padding: 1px 1px 1px 5px;
-	font-family: 'Lato', sans-serif;
-	text-transform: uppercase;
-	font-size: 14px;
-	font-weight: plain;
-	color: rgba(240,240,240,1.0);
-    bottom:0%;
-    left:0%;*/
-	position: absolute;
-	opacity: 1.0;
-	pointer-events:none;
-    display:block;
-	padding: 1px 1px 1px 1px;
-	font-family: 'Lato', sans-serif;
-	text-transform: uppercase;
-	font-size: 16px;
-	color: rgba(240,240,240,1.0);
-    bottom:10px;
-    left:20px;
-	width: 50%;
-	height: 10%;
 }
 .menupanel{
 	position: absolute;
