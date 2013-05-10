@@ -1264,12 +1264,12 @@ div .replaybuttonwrapper {
 	bottom:10px;
 }
 div .playbuttonwrapper { 
-	z-index: 3;
 	position:absolute; 
 	right:100px;
-	bottom:1px;
+    bottom: 0px;
 	text-align: center;
-	padding:2px 2px 1px 2px;;
+	padding:2px 2px 1px 2px;
+	margin:0px 0px 2px 0px;
 	text-transform: uppercase;
 	font-family: 'Lato', sans-serif;
 	font-weight: bold;
@@ -1277,6 +1277,7 @@ div .playbuttonwrapper {
 	color: rgba(200,200,200,1.0);
     border-radius: 5px;
     border: none;
+	z-index: 3;
 }
 div .playbuttonwrapper:hover { 
 	background: rgba(135,153,72,1.0);

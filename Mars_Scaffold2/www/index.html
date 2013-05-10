@@ -588,8 +588,6 @@ document.addEventListener("DOMContentLoaded", function () {
         cancelCallToAction=false;
         callToActionTimeout[userLessonNumber] = setTimeout(function(){callToActionUser()},10000);
         
-        //temp: just call this until we get needed function from Ryan.
-        //setTimeout(function(){advanceUser()},5000);
 	});
     popcornMedia[14].on( "ended", function() {
         //the button click test (user to click mars button)
@@ -1070,7 +1068,6 @@ document.addEventListener("DOMContentLoaded", function () {
     var selectmissioncontinue = document.getElementById('selectmissioncontinuebutton');
     selectmissioncontinue.style.cursor = 'pointer';
     selectmissioncontinue.onclick = function() {
-
 		//set the date to 2036 prior to simulation run.
 		var jumpToDate = new Date(2036,0,1).Date2Julian();
 		timer.JD = jumpToDate;
@@ -1541,7 +1538,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			camTweener( { x: 0, y: 100, z: 500 }, { x: 0, y: 0, z: 0 }, 1500 );
 
 
-			var jumpToDate = new Date(2010,11,1).Date2Julian();
+			var jumpToDate = new Date(2003,3,24).Date2Julian();//a bit later than launch button
 			timer.JD = jumpToDate;
 			$("#speedSlider").slider('value',.01);
 			
@@ -1950,9 +1947,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	    			}
 	    			clear3DDrawings();
 	    			//console.log("jumpToDate: " +  dateFormatter(jumpToDate));
-	    			
-	    			//temp to delete
-	    			showDistance = true;
 	    		}
 		    });
 		});
