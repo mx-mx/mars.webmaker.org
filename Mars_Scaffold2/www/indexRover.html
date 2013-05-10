@@ -148,14 +148,15 @@ document.addEventListener("DOMContentLoaded", function () {
 	popcornMedia[3] = Popcorn('#UNIT2_VO_1e2' ); //if up wasn't used 
 	popcornMedia[4] = Popcorn('#UNIT2_VO_2' ); //good job
 	popcornMedia[5] = Popcorn('#UNIT2_VO_3' ); //lesson 2 calibration plate
-	popcornMedia[6] = Popcorn('#UNIT2_VO_3e1' ); //call to action mast cam button
-	popcornMedia[7] = Popcorn('#UNIT2_VO_3e2' ); //call to action no touch down
+	popcornMedia[6] = Popcorn('#UNIT2_VO_3e1' ); //mistake mast cam button
+	popcornMedia[7] = Popcorn('#UNIT2_VO_3e2' ); //mistake no touch down
 	popcornMedia[8] = Popcorn('#UNIT2_VO_4' ); //good job be sure of data (need to stow instruments)
 	popcornMedia[9] = Popcorn('#UNIT2_VO_4a' ); // good job, calibrated! (show outcrops)
 	popcornMedia[10] = Popcorn('#UNIT2_VO_4b' ); //great, outcrop found, run again 
 	popcornMedia[11] = Popcorn('#UNIT2_VO_4e2' ); //call to action instruments used, not in front of outcrop
 	popcornMedia[12] = Popcorn('#UNIT2_VO_4e3' ); //not what we're looking for
 	popcornMedia[13] = Popcorn('#UNIT2_VO_conclusion' ); //badge
+	popcornMedia[14] = Popcorn('#UNIT2_VO_4e1' ); //mistake mast cam button
 	
     popcornMedia[0].on( "play", function() {
     	console.log("on play");
@@ -519,8 +520,11 @@ document.addEventListener("DOMContentLoaded", function () {
     	
     	if(lessonOpen) {
     		//all lessons over lesson 1 should play this
-       		if(userLessonNumber>=1) {
+       		if(userLessonNumber==1 || userLessonNumber==2) {
     			jumpPopcornMedia(6);
+       		} else if (userLessonNumber>=3) {
+    			jumpPopcornMedia(14);
+       			
        		}
     		
     	}
