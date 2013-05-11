@@ -503,25 +503,24 @@ document.addEventListener("DOMContentLoaded", function () {
 	
 	
     popcornMedia[3].on( "ended", function() {
-    	//xxx
+    	//zzz
     	//wait to advance until we've reached a date that is close to curiosity launch date
     	//advancePopcornMedia();
-    	
     	
 		showDistance = false;
 		scene.remove(ruler);
 
-		$("#speedSlider").slider('value',2.0);
-		$("#speedtimemessage").animate({opacity: 1.0}, 200, function() {
-        	$("#speedtimemessage").css('pointer-events', 'auto');
-    	});
+		//$("#speedSlider").slider('value',2.0);
+		//$("#speedtimemessage").animate({opacity: 1.0}, 200, function() {
+        //	$("#speedtimemessage").css('pointer-events', 'auto');
+    	//});
 		
 		setTimeout(function() {
 			//camTweener( { x: -400, y: 200, z: 300 }, { x: 0, y: 0, z: -20 }, 1500 );
 			//remove message
-			$("#speedtimemessage").animate({opacity: 0.0}, 1000, function() {
-	        	$("#speedtimemessage").css('pointer-events', 'none');
-	    	});
+			//$("#speedtimemessage").animate({opacity: 0.0}, 1000, function() {
+	        //	$("#speedtimemessage").css('pointer-events', 'none');
+	    	//});
 			
 			//slow down time
 			$("#speedSlider").slider('value',.23);
@@ -529,7 +528,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			//start next popcorn segment (talks about curiosity here)
 			advancePopcornMedia();
 			
-		},21500);
+		},1);
 			
 		
 	});
@@ -1543,7 +1542,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	        	$("#commitlaunchbutton").css('pointer-events', 'none');
 	    	});
 	        if(threedinitialized) {
-				camTweener( { x: 10, y: 10, z: -70 }, { x: 0, y: 0, z: 0 }, 1500 );
+				camTweener( { x: 10, y: 30, z: 90 }, { x: 0, y: 0, z: 0 }, 1500 );
 	        }
 			//shift 3d model
 			initializethreed();
@@ -1568,7 +1567,8 @@ document.addEventListener("DOMContentLoaded", function () {
             	$("#playbuttonwrapper").css('pointer-events', 'auto');
         	});
 
-			var jumpToDate = new Date(2003,4,6).Date2Julian();//a bit later than launch button
+			//var jumpToDate = new Date(2003,4,6).Date2Julian();//a bit later than launch button
+			var jumpToDate = new Date(2009,10,1).Date2Julian();//a bit later than launch button
 			timer.JD = jumpToDate;
 			$("#speedSlider").slider('value',.01);
 			
