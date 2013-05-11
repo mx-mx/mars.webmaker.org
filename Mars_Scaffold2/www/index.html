@@ -1158,6 +1158,26 @@ document.addEventListener("DOMContentLoaded", function () {
     	window.open ('indexRover.html','_self',false);
     };
     
+    var rocketbadgecompletereplaybutton = document.getElementById('rocketbadgecompletereplaybutton');
+    rocketbadgecompletereplaybutton.onclick = function() {
+    	$("#rocketbadgecomplete").animate({opacity: 0.0}, 200, function() {
+        	$("#rocketbadgecomplete").css('pointer-events', 'none');
+        });
+
+    	$("#challenge").click();
+    };
+    
+    var rocketbadgecompleteremixbutton = document.getElementById('rocketbadgecompleteremixbutton');
+    rocketbadgecompleteremixbutton.onclick = function() {
+    	window.open ('remix_mars_mission.html','_new',false);
+    };
+    
+    var rocketbadgecompleteremixbutton = document.getElementById('rocketbadgecompleteremixbutton');
+    rocketbadgecompletereplaybutton.onclick = function() {
+    	window.open ('indexRover.html','_self',false);
+    };
+    
+    
     var cmemessageclose = document.getElementById('ignorecmebutton');
     cmemessageclose.onclick = function() {
     	closeAllSubMenus();
@@ -2771,7 +2791,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			
 		</audio> 
 		
-		<audio id=SEQ_3_CAM_2a>
+		<audio id="SEQ_3_CAM_2a">
 			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_2a.mp3"></source>
 			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_2a.oggvorbis.ogg"></source>
 			
@@ -2783,7 +2803,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			
 		</audio> 
 		
-		<audio id=SEQ_3_CAM_3a>
+		<audio id="SEQ_3_CAM_3a">
 			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_3a.mp3"></source>
 			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_3a.oggvorbis.ogg"></source>
 		</audio> 
@@ -2798,7 +2818,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_3c.oggvorbis.ogg"></source>
 		</audio> 
 		
-		<audio id=SEQ_3_CAM_4a>
+		<audio id="SEQ_3_CAM_4a">
 			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_4a.mp3"></source>
 			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_4a.oggvorbis.ogg"></source>
 		</audio> 
@@ -2819,8 +2839,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		</audio> 
 		
 		<audio id="SEQ_3_CAM_5a">
-			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_5_CAM_5a.mp3"></source>
-			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_5_CAM_5a.oggvorbis.ogg"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_5a.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_3_CAM_5a.oggvorbis.ogg"></source>
 		</audio> 
 		
 		<audio id="SEQ_3_CAM_5b">

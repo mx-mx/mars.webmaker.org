@@ -581,16 +581,31 @@ document.addEventListener("DOMContentLoaded", function () {
     	$("#roverpilotbadge").animate({opacity: 0.0}, 200, function() {
         	$("#roverpilotbadge").css('pointer-events', 'none');
         });
-    	
+    	$("#roverpilotbadgecomplete").animate({opacity: 1.0}, 200, function() {
+        	$("#roverpilotbadgecomplete").css('pointer-events', 'auto');
+        });
     	//setTimeout(function(){jumpPopcornMedia(24)},2000);
     };
     
     var roverpilotbadgecompletecontinuebutton = document.getElementById('roverpilotbadgecompletecontinuebutton');
     roverpilotbadgecompletecontinuebutton.onclick = function() {
+    	//$("#roverpilotbadgecomplete").animate({opacity: 0.0}, 200, function() {
+        //	$("#roverpilotbadgecomplete").css('pointer-events', 'none');
+        //});
+    	//$("#roverpilotbadgeskipbutton").click();
+
+    	window.open ('index.html','_self',false);
+    };
+    var roverpilotbadgecompletereplaybutton = document.getElementById('roverpilotbadgecompletereplaybutton');
+    roverpilotbadgecompletereplaybutton.onclick = function() {
     	$("#roverpilotbadgecomplete").animate({opacity: 0.0}, 200, function() {
         	$("#roverpilotbadgecomplete").css('pointer-events', 'none');
         });
-    	$("#roverpilotbadgeskipbutton").click();
+    	$("#challenge").click();
+    };
+    var roverpilotbadgecompletereremixbutton = document.getElementById('roverpilotbadgecompletereremixbutton');
+    roverpilotbadgecompletereremixbutton.onclick = function() {
+    	window.open ('remix_rover_mission.html','_new',false);
     };
     
     var roverpilotbadgecompletereplaybutton = document.getElementById('roverpilotbadgecompletereplaybutton');
