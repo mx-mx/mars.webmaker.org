@@ -421,7 +421,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     //xxx
-    //$("#analysisresultsgoodmessage").animate({opacity: 1.0}, 1, function() { $("#analysisresultsgoodmessage").css('pointer-events', 'auto'); });
+    //$("#roverpilotbadgecomplete").animate({opacity: 1.0}, 1, function() { $("#roverpilotbadgecomplete").css('pointer-events', 'auto'); });
     
     var instrumentsbutton = document.getElementById('instrumentsbutton');
     instrumentsbutton.style.cursor = 'pointer';
@@ -1484,26 +1484,26 @@ document.addEventListener("DOMContentLoaded", function () {
 				<h1>Mission Success!</h1>
 				<br><br>
 				<div style="text-align: center;width:100%">
-					<table style="position: absolute; width: 80%;margin:0;padding:0; float:middle;left:15%" >
+					<table style="position: absolute; width: 90%;margin:0;padding:0; float:middle;left:8%" >
 						<tr >
-							<td align="left" valign="top">
+							<td align="left" valign="top" style="margin:0;padding-right:3px;">
 								<font style="font-weight:300;">
-								Your mission is complete!
+								Congradulations for completing the Mars rover mission and earhing the
+								"Remote Pilot" badge!
 								<br> 
 								<br>
-								Look forward to more lessons and more badges like this to complete. 
-								<br>&nbsp;
+								Select "Continue" to advance to the next mission.  Save the Mars colony by
+								remote piloting a rover on Mars. 
 								<br>&nbsp;
 								<br>&nbsp;
 								</font>
 							
 							</td>
-							<td align="right" rowspan="2" valign="top"><img src="./badge-it-gadget-lite/digital-badges/images/moku_badge_remote_pilot.png" style="width:220px;height:220px"> </td>
-							
+							<td align="right" rowspan="2" valign="top"><img src="./images/moku_unit1_icon.jpg" style="border:1px solid rgba(200,200,200,1.0);"> </td>
 						</tr>
 						<tr>
 							<td align="center" valign="top">
-								 <button id="roverpilotbadgecompletecontinuebutton" type="submit" class="squarebigbluebutton" style="opacity:0.5;pointer-events:none;">Continue</button> 
+								<button id="roverpilotbadgecompletecontinuebutton" type="submit" class="squarebigbluebutton">Continue</button>
 							</td>
 						</tr>
 					</table>
@@ -1511,8 +1511,8 @@ document.addEventListener("DOMContentLoaded", function () {
 					
 				<br><br><br><br><br><br><br><br><br><br><br><br>
 					<div style="float:left;">
-						<button id="roverpilotbadgecompletereplaybutton" class="squarebluebutton">Replay</button>
-						<button id="roverpilotbadgecompletereremixbutton" class="squarebluebutton">Remix&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+						<button id="roverpilotbadgecompletereplaybutton" class="squarebluebutton" style="margin-left:40px;">Replay Mission</button>
+						<button id="roverpilotbadgecompletereremixbutton" class="squarebluebutton" >Remix&nbsp;&nbsp;&nbsp;&nbsp;<img src="./images/icon_remix.png" style="position:relative;vertical-align:middle;width:17px;height:17px;opacity:0.8;">&nbsp;</button>
 					</div>
 			</div>
 		</div>

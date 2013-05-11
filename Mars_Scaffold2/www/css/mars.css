@@ -1404,11 +1404,11 @@ div .squarebigbluebutton:hover{
 }
 div .squarelittlebluebutton{
     display:inline-block;
-	text-align: center;
-	line-height: 12px;
+	text-align: top;
+	line-height: 0px;
 	font-size: 16px;
-	margin:4px 0px 0px 0px;
-	padding:0px 2px;
+	margin:3px 0px 0px 0px;
+	padding:0px 2px 2px 2px;
 	text-transform: uppercase;
 	font-family: 'Lato', sans-serif;
 	font-weight:bold;

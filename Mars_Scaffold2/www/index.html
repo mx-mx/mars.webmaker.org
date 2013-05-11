@@ -1015,7 +1015,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 	
 	//xxx unit test for menus
-	//$("#videocontenttarget").animate({opacity: 1.0}, 1, function() { $("#videocontenttarget").css('pointer-events', 'auto'); });
+	//$("#launchcontrols").animate({opacity: 1.0}, 1, function() { $("#launchcontrols").css('pointer-events', 'auto'); });
 	
     popcornMedia[17].cue( 3, function() {
        	camTweener( { x: 0, y: 1100, z: 0 }, { x: 0, y: 0, z: -20 }, 3000 );
@@ -2326,18 +2326,18 @@ document.addEventListener("DOMContentLoaded", function () {
 		
 		<div id="rocketbadgecomplete" class="modalmask">
 			<div id="backpacklogindiv" class="badgecontenttarget">
-				<h1>Remote Pilot a Mars Rover</h1>
+				<h1>Mission to Mars</h1>
 				<br><br>
 				<div style="text-align: center;width:100%">
 					<table style="position: absolute; width: 90%;margin:0;padding:0; float:middle;left:8%" >
 						<tr >
-							<td align="left" valign="top">
+							<td align="left" valign="top" style="margin:0;padding-right:3px;">
 								<font style="font-weight:300;">
-								There is still plenty more to do!
+								Nice work!  If you have not already completed the Mission to Mars experience, select 
+								"Continue" to expoloer the solar system and send a spacecrafe to Mars.
 								<br> 
 								<br>
-								Select "Continue" to advance to the next mission.  Save the Mars colony by
-								remote piloting a rover on Mars. 
+								Select "Remix to edit this experience and make it your own." 
 								<br>&nbsp;
 								<br>&nbsp;
 								<br>&nbsp;
@@ -2356,8 +2356,8 @@ document.addEventListener("DOMContentLoaded", function () {
 					
 				<br><br><br><br><br><br><br><br><br><br><br><br>
 					<div style="float:left;">
-						<button id="rocketbadgecompletereplaybutton" class="squarebluebutton">Replay Mission</button>
-						<button id="rocketbadgecompletereremixbutton" class="squarebluebutton">Remix&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+						<button id="rocketbadgecompletereplaybutton" class="squarebluebutton" style="margin-left:40px;">Replay Mission</button>
+						<button id="rocketbadgecompletereremixbutton" class="squarebluebutton">Remix&nbsp;&nbsp;&nbsp;&nbsp;<img src="./images/icon_remix.png" style="position:relative;vertical-align:middle;width:17px;height:17px;opacity:0.8;">&nbsp;</button>
 					</div>
 			</div>
 		</div>
