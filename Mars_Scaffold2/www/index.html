@@ -698,7 +698,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	
 	function onSpaceBarKeyUp ( event ) {
 		
-		if (evt.keyCode == 32) { //just looking for spacebar on this mission.
+		if (event.keyCode == 32) { //just looking for spacebar on this mission.
 			if($('#playbuttonwrapper').css('opacity') != 0) {
 				$("#playtoggle").click();
 			}

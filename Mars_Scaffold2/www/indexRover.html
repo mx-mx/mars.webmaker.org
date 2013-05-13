@@ -287,6 +287,11 @@ document.addEventListener("DOMContentLoaded", function () {
 	function onRoverKeyUp ( event ) {
 
 		switch( event.keyCode ) {
+			case 32: //up
+				if($('#playbuttonwrapper').css('opacity') != 0) {
+					$("#playtoggle").click();
+				}
+				break;
 			case 38: //up
 				cancelCallToAction=true;
 				document.removeEventListener( 'keyup', onRoverKeyUp ); 
