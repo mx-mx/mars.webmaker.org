@@ -129,6 +129,17 @@ label .checkboxlabel {
     opacity: .75;
 	z-index: 6;
 }
+.label:after
+{
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+	left: 2px;
+	bottom: -24px;
+	border: 12px solid;
+	border-color: rgba(13,30,38,0.8) transparent transparent transparent;
+}
 .label span.name {
 	display: inline-block;
 	width: 100%;

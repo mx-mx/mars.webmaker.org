@@ -341,7 +341,7 @@ function animate() {
 
 		distance.style.opacity=1.0;
 	    distance.style.left = screenPos.x + 'px';
-	    distance.style.top = screenPos.y + 'px';
+	    distance.style.top = screenPos.y-60 + 'px';
     	var milesNumber = Math.round( ( ruler.getDistance() / ssScale.s ) * 0.621371 );
     	var kmNumber = Math.round( ruler.getDistance() / ssScale.s );
 		distance.nameLayer.innerHTML =  (milesNumber/1000000).toFixed(0) + " million miles<br>" + (kmNumber/1000000).toFixed(0) + " million km";
