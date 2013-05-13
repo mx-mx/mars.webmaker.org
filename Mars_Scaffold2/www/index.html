@@ -693,6 +693,18 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
     
+
+	document.addEventListener( 'keyup', onSpaceBarKeyUp, false );
+	
+	function onSpaceBarKeyUp ( event ) {
+		
+		if (evt.keyCode == 32) { //just looking for spacebar on this mission.
+			if($('#playbuttonwrapper').css('opacity') != 0) {
+				$("#playtoggle").click();
+			}
+		}
+	};
+    
     $(document).on('mousedown', function(e) {
 		$("#menupanel").animate({opacity: 0.0}, 200, function() { $("#menupanel").css('pointer-events', 'none'); });
 		$("#threedhelppopup").animate({opacity: 0.0}, 200, function() { $("#threedhelppopup").css('pointer-events', 'none'); });
@@ -1170,11 +1182,6 @@ document.addEventListener("DOMContentLoaded", function () {
     var rocketbadgecompleteremixbutton = document.getElementById('rocketbadgecompleteremixbutton');
     rocketbadgecompleteremixbutton.onclick = function() {
     	window.open ('remix_mars_mission.html','_new',false);
-    };
-    
-    var rocketbadgecompleteremixbutton = document.getElementById('rocketbadgecompleteremixbutton');
-    rocketbadgecompletereplaybutton.onclick = function() {
-    	window.open ('indexRover.html','_self',false);
     };
     
     
@@ -2377,7 +2384,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				<br><br><br><br><br><br><br><br><br><br><br><br>
 					<div style="float:left;">
 						<button id="rocketbadgecompletereplaybutton" class="squarebluebutton" style="margin-left:40px;">Replay Mission</button>
-						<button id="rocketbadgecompletereremixbutton" class="squarebluebutton">Remix&nbsp;&nbsp;&nbsp;&nbsp;<img src="./images/icon_remix.png" style="position:relative;vertical-align:middle;width:17px;height:17px;opacity:0.8;">&nbsp;</button>
+						<button id="rocketbadgecompleteremixbutton" class="squarebluebutton">Remix&nbsp;&nbsp;&nbsp;&nbsp;<img src="./images/icon_remix.png" style="position:relative;vertical-align:middle;width:17px;height:17px;opacity:0.8;">&nbsp;</button>
 					</div>
 			</div>
 		</div>
