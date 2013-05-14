@@ -182,8 +182,8 @@ document.addEventListener("DOMContentLoaded", function () {
 				<br><br><br>
 				<br>
 				<div style="float:right;">
+					<button id="backpackloginpopupcontinue" class="squarebluebutton" style="float:right;">Continue</button>
 					<button id="backpackloginpopupkskip" class="squarebluebutton">Skip</button>
-					<button id="backpackloginpopupcontinue" class="squarebluebutton">Continue</button>
 				</div>
 			</div>
 		</div>
