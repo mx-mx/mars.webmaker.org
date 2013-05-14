@@ -606,7 +606,7 @@ div .selectitemdetaildiv:hover{
     border:none;
 	width: 350px;
 	height: 170px;
-	top:5%;
+	top:25%;
     left:40%;
 	z-index: 6;
 }

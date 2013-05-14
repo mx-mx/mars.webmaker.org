@@ -154,8 +154,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	popcornMedia[9] = Popcorn('#UNIT2_VO_4a' ); // good job, calibrated! (show outcrops)
 	popcornMedia[10] = Popcorn('#UNIT2_VO_4b' ); //great, outcrop found, run again 
 	popcornMedia[11] = Popcorn('#UNIT2_VO_4e2' ); //call to action instruments used, not in front of outcrop
-	popcornMedia[12] = Popcorn('#UNIT2_VO_4e3' ); //not what we're looking for
-	popcornMedia[13] = Popcorn('#UNIT2_VO_conclusion' ); //badge
+	popcornMedia[12] = Popcorn('#UNIT2_VO_4e3' ); //robot - site does not meet criteria
+	popcornMedia[13] = Popcorn('#UNIT2_VO_conclusion' ); //robot - site meets criteria 
 	popcornMedia[14] = Popcorn('#UNIT2_VO_4e1' ); //mistake mast cam button
 	
     popcornMedia[0].on( "play", function() {
@@ -338,7 +338,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			jumpPopcornMedia(9); //that's it! calibration success and move on to rocks
     	  break;
     	case 3:
-			jumpPopcornMedia(10); //analyze rock, please analyze again.
+			jumpPopcornMedia(13); //play 13, then 10 - please analyze again.
 	    	break;
     	case 4:
 			jumpPopcornMedia(13);  //badge
@@ -479,7 +479,7 @@ document.addEventListener("DOMContentLoaded", function () {
             			    	$("#analysisresultspoormessage").animate({opacity: 0.0}, 400, function() {
             			           	$("#analysisresultspoormessage").css('pointer-events', 'none');
             			       	});
-        	    	    	}, 5000);
+        	    	    	}, 8000);
         	    			jumpPopcornMedia(12);
         	    		} else {
         	    			jumpPopcornMedia(11);
@@ -554,12 +554,16 @@ document.addEventListener("DOMContentLoaded", function () {
 		ocTwo.showArrow();
 	});
     
-	popcornMedia[13].cue( 3, function() {
-		//TODO: show badge
-
-    	$("#roverpilotbadge").animate({opacity: 1.0}, 200, function() {
-        	$("#roverpilotbadge").css('pointer-events', 'auto');
-        });
+	popcornMedia[13].on( "ended", function() {
+		console.log("13 ended..");
+		if(userLessonNumber>=5) {
+			//show badge
+	    	$("#roverpilotbadge").animate({opacity: 1.0}, 200, function() {
+	        	$("#roverpilotbadge").css('pointer-events', 'auto');
+	        });
+		} else {
+			jumpPopcornMedia(10);
+		}
 	});
 	
 	//pop the mission complete

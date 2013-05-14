@@ -115,7 +115,7 @@ function init() {
 	timer.multiplier = .025;
 	//timer.JD = new Date(2010,11,1).Date2Julian(); //dec 1st 2010 //we need a date better than this to demo 34 million mile dif
 	//timer.JD = new Date(2003,4,6).Date2Julian(); //march 6 2003
-	timer.JD = new Date(2009,10,1).Date2Julian(); //sept 10 2003
+	timer.JD = new Date(2009,10,1).Date2Julian(); //sept 1 2009
 	
 	
 	buildGUI();
