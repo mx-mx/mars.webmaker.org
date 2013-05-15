@@ -164,10 +164,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	popcornMedia[18] = Popcorn('#Unit2_Rover_loop' ); 
 	
 
-	//play and loop audio
-	popcornMedia[17].on( "ended", function() {
-		popcornMedia[17].play(0);
-	});
+	
 	
     popcornMedia[0].on( "play", function() {
 
@@ -202,6 +199,10 @@ document.addEventListener("DOMContentLoaded", function () {
 	popcornMedia[0].on( "ended", function() {
     	advancePopcornMedia();
 	});
+	
+
+	document.addEventListener( 'keyup', onDrivingKeyUp, false );
+	document.addEventListener( 'keydown', onDrivingKeyDown, false );
 	
 	popcornMedia[1].on( "ended", function() {
     	//setup call to action
@@ -295,7 +296,16 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	}, 200);
 	
+	//the driving audio sound
+	function onDrivingKeyDown ( event ) {
+	    popcornMedia[18].play();
+	}
+	function onDrivingKeyUp ( event ) {
+        popcornMedia[18].pause();
+	}
+	
 	function onRoverKeyUp ( event ) {
+
 
 		switch( event.keyCode ) {
 			case 32: //up
@@ -531,6 +541,11 @@ document.addEventListener("DOMContentLoaded", function () {
     var camsbutton = document.getElementById('camsbutton');
     camsbutton.style.cursor = 'pointer';
     camsbutton.onclick = function() {
+    	// greater than 4.5 is sort of a kludge (end media time), but it gets the job done ok
+    	// can't quite find an isPlaying property in documentation, so this works for now.
+    	if(popcornMedia[15].currentTime()<=0 || popcornMedia[15].currentTime()>=popcornMedia[15].duration()) {
+        	popcornMedia[15].play(0);
+    	}
     	rover.scanMast(4000);
     	setTimeout(function() {
         	//show outcrop
@@ -761,9 +776,11 @@ document.addEventListener("DOMContentLoaded", function () {
 		 }
 		
 		var postColladaLoaded = function () {
-
-	    	popcornMedia[17].play(0);
+			//start wind loop
+	    	popcornMedia[17].loop();
+			//get threeD animation up and alive
 			initializethreed();
+			//this is probably unneeded anymore.  old Ryan's loader.
 			$("#loadtext").hide();
 			
 			setTimeout(function() {
