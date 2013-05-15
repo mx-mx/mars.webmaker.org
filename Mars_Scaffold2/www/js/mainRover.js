@@ -140,7 +140,7 @@ function setupScene(){
 	// rover.mast.rotation.z = -85 * toRadians;
 	// rover.mast.head.rotation.y = -55 * toRadians;
 
-	ocCalibration = new Outcrop('./images/calibration_plate.png', 2, false);
+	ocCalibration = new Outcrop('./images/moku_u2_calibration_plate.png', 2, false);
 	//ocCalibration.setPosition(0, 10); //always call set position first before showing target and arrow
 	//ocCalibration.showTarget();
 	//ocCalibration.showArrow();
