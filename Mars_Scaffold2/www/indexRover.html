@@ -200,6 +200,11 @@ document.addEventListener("DOMContentLoaded", function () {
     	advancePopcornMedia();
 	});
 	
+	//not sure why loop isn't working so this.
+	popcornMedia[17].on( "ended", function() {
+		popcornMedia[17].play(0);
+	});
+	
 
 	document.addEventListener( 'keyup', onDrivingKeyUp, false );
 	document.addEventListener( 'keydown', onDrivingKeyDown, false );
@@ -777,7 +782,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		
 		var postColladaLoaded = function () {
 			//start wind loop
-	    	popcornMedia[17].loop();
+	    	popcornMedia[17].play();
 			//get threeD animation up and alive
 			initializethreed();
 			//this is probably unneeded anymore.  old Ryan's loader.
