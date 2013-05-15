@@ -156,10 +156,20 @@ document.addEventListener("DOMContentLoaded", function () {
 	popcornMedia[11] = Popcorn('#UNIT2_VO_4e2' ); //call to action instruments used, not in front of outcrop
 	popcornMedia[12] = Popcorn('#UNIT2_VO_4e3' ); //robot - site does not meet criteria
 	popcornMedia[13] = Popcorn('#UNIT2_VO_conclusion' ); //robot - site meets criteria 
-	popcornMedia[14] = Popcorn('#UNIT2_VO_4e1' ); //mistake mast cam button
+	popcornMedia[14] = Popcorn('#UNIT2_VO_4e1' ); //mistake mast cam button 
+	//these audio cues are not normal... do not call advanceAudio or jumpPopcornMedia on them
+	popcornMedia[15] = Popcorn('#Unit2_Cams' ); 
+	popcornMedia[16] = Popcorn('#Unit2_Instruments' ); 
+	popcornMedia[17] = Popcorn('#Unit2_Mars_loop_wind' ); 
+	popcornMedia[18] = Popcorn('#Unit2_Rover_loop' ); 
+	
+
+	//play and loop audio
+	popcornMedia[17].on( "ended", function() {
+		popcornMedia[17].play(0);
+	});
 	
     popcornMedia[0].on( "play", function() {
-    	console.log("on play");
 
     	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
            	$("#backgroundtarget").css('pointer-events', 'none');
@@ -175,6 +185,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 	
 	popcornMedia[0].cue( .1, function() {
+		//kick on loop
 	});
     
     popcornMedia[0].cue( 1, function() {
@@ -395,7 +406,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		//show pause toggle
 		$("#playtoggle").attr("class", "pause");
 		
-		if(popcornSequenceNumber!=12 || popcornSequenceNumber!=13) {
+		if(popcornSequenceNumber!=12 && popcornSequenceNumber!=13) {
 			showTransmissionMessage();
 		}
     }
@@ -426,7 +437,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     //xxx
-    //$("#roverpilotbadgecomplete").animate({opacity: 1.0}, 1, function() { $("#roverpilotbadgecomplete").css('pointer-events', 'auto'); });
+    //$("#analysisresultsgoodmessage").animate({opacity: 1.0}, 1, function() { $("#analysisresultsgoodmessage").css('pointer-events', 'auto'); });
     
     var instrumentsbutton = document.getElementById('instrumentsbutton');
     instrumentsbutton.style.cursor = 'pointer';
@@ -750,6 +761,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		 }
 		
 		var postColladaLoaded = function () {
+
+	    	popcornMedia[17].play(0);
 			initializethreed();
 			$("#loadtext").hide();
 			
@@ -1618,6 +1631,26 @@ document.addEventListener("DOMContentLoaded", function () {
 		<audio id="UNIT2_VO_conclusion">
 			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_conclusion.mp3"></source>
 			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_conclusion.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="Unit2_Cams">
+			<source src="http://www.mx-mx.com/lab/moku/audio/Unit2_Cams.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/Unit2_Cams.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="Unit2_Instruments">
+			<source src="http://www.mx-mx.com/lab/moku/audio/Unit2_Instruments.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/Unit2_Instruments.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="Unit2_Mars_loop_wind">
+			<source src="http://www.mx-mx.com/lab/moku/audio/Unit2_Mars_loop_wind.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/Unit2_Mars_loop_wind.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="Unit2_Rover_loop"><!-- driving -->
+			<source src="http://www.mx-mx.com/lab/moku/audio/Unit2_Rover_loop.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/Unit2_Rover_loop.oggvorbis.ogg"></source>
 		</audio> 
 
 	<!-- old divs by Ryan, probably unneeded -->

@@ -607,7 +607,9 @@ div .selectitemdetaildiv:hover{
 	width: 350px;
 	height: 170px;
 	top:25%;
-    left:40%;
+    left:50%;
+    margin:-85px 0 0 -190px;
+    
 	z-index: 6;
 }
 .rerunanalysisdiv
