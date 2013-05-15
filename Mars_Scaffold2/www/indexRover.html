@@ -209,6 +209,22 @@ document.addEventListener("DOMContentLoaded", function () {
 	document.addEventListener( 'keyup', onDrivingKeyUp, false );
 	document.addEventListener( 'keydown', onDrivingKeyDown, false );
 	
+	//kill driving if window loses/gains focus
+	$(window).blur(function() {
+		controlsRover.moveForward = false; 
+		controlsRover.moveBackward = false; 
+		controlsRover.moveLeft = false; 
+		controlsRover.moveRight = false; 
+		onDrivingKeyUp();
+	});
+	$(window).focus(function() {
+		controlsRover.moveForward = false; 
+		controlsRover.moveBackward = false; 
+		controlsRover.moveLeft = false; 
+		controlsRover.moveRight = false; 
+		onDrivingKeyUp();
+	});
+	
 	popcornMedia[1].on( "ended", function() {
     	//setup call to action
 		document.addEventListener( 'keyup', onRoverKeyUp, false );
@@ -310,8 +326,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 	
 	function onRoverKeyUp ( event ) {
-
-
 		switch( event.keyCode ) {
 			case 32: //up
 				if($('#playbuttonwrapper').css('opacity') != 0) {
@@ -439,6 +453,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		$("#helppopup").animate({opacity: 0.0}, 200, function() { $("#helppopup").css('pointer-events', 'none'); });
 		$("#aboutpopup").animate({opacity: 0.0}, 200, function() { $("#aboutpopup").css('pointer-events', 'none'); });
     });
+    
+
+	
     
     var closeAllSubMenus = function() {
 		$("#menupanel").animate({opacity: 0.0}, 1, function() { $("#menupanel").css('pointer-events', 'none'); });
@@ -1138,7 +1155,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			This project is a collaboration between the U.S. Department of Energy, the Mozilla Foundation, and MX.</div>
 			<br>
 			<img src="./images/tri_logo.png" style="align: center;">
-			<br><font style="color: rgba(42,51,24,0.2);">Version:0.8.9</font>
+			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.0</font>
 		</div>
 	
 		<div id="topbar" class="topbar">
