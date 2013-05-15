@@ -180,8 +180,8 @@ document.addEventListener("DOMContentLoaded", function () {
     popcornMedia[0].cue( 1, function() {
         $("#rovercontrols").animate({opacity: 1.0}, 200, function() {
         	$("#rovercontrols").css('pointer-events', 'auto');
-            $("#launchdiv").animate({opacity: 1.0}, 200, function() {
-            	$("#launchdiv").css('pointer-events', 'auto');
+            $("#roverdiv").animate({opacity: 1.0}, 200, function() {
+            	$("#roverdiv").css('pointer-events', 'auto');
         	});
     	});
         $("#pilotviewbutton").click();
@@ -910,8 +910,8 @@ document.addEventListener("DOMContentLoaded", function () {
 				
 				$("#rovercontrols").animate({opacity: 1.0}, 200, function() {
 		        	$("#rovercontrols").css('pointer-events', 'auto');
-		            $("#launchdiv").animate({opacity: 1.0}, 200, function() {
-		            	$("#launchdiv").css('pointer-events', 'auto');
+		            $("#roverdiv").animate({opacity: 1.0}, 200, function() {
+		            	$("#roverdiv").css('pointer-events', 'auto');
 		        	});
 		    	});
 		        $("#pilotviewbutton").click();
@@ -958,8 +958,8 @@ document.addEventListener("DOMContentLoaded", function () {
 				
 				$("#rovercontrols").animate({opacity: 1.0}, 200, function() {
 		        	$("#rovercontrols").css('pointer-events', 'auto');
-		            $("#launchdiv").animate({opacity: 1.0}, 200, function() {
-		            	$("#launchdiv").css('pointer-events', 'auto');
+		            $("#roverdiv").animate({opacity: 1.0}, 200, function() {
+		            	$("#roverdiv").css('pointer-events', 'auto');
 		        	});
 		    	});
 		        $("#pilotviewbutton").click();
@@ -1003,8 +1003,8 @@ document.addEventListener("DOMContentLoaded", function () {
 				
 				$("#rovercontrols").animate({opacity: 1.0}, 200, function() {
 		        	$("#rovercontrols").css('pointer-events', 'auto');
-		            $("#launchdiv").animate({opacity: 1.0}, 200, function() {
-		            	$("#launchdiv").css('pointer-events', 'auto');
+		            $("#roverdiv").animate({opacity: 1.0}, 200, function() {
+		            	$("#roverdiv").css('pointer-events', 'auto');
 		        	});
 		    	});
 		        $("#pilotviewbutton").click();
@@ -1380,9 +1380,9 @@ document.addEventListener("DOMContentLoaded", function () {
 			</table>
 		</div>
 		
-		<div id="rovercontrols" class="launchcontrols">
+		<div id="rovercontrols" class="rovercontrols">
 			
-			<div id="datediv" class="datediv" >
+			<div id="instrumentsdiv" class="instrumentsdiv" >
 				<table style="width:100%;height:100%;margin:0;padding:0;">
 					<tr>
 						<td align="center" valign="bottom" height="20px">Energy</td>
@@ -1431,7 +1431,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				</table>
 			</div>
 			
-			<div id="launchdiv" class="launchdiv" >
+			<div id="roverdiv" class="roverdiv" >
 				<table style="width:100%;height:100%;margin:0;padding:0;">
 					<tr>
 						<td align="center" valign="bottom" height="20px"></td>

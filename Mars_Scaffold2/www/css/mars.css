@@ -1278,6 +1278,62 @@ div .threedcontrols {
 }
 .launchcontrols { 
 	position: absolute;
+	display: inline;
+	opacity:0;
+	pointer-events:none;
+	color: rgba(150,150,150,1.0);
+	font-family: 'Lato', sans-serif;
+	font-weight: 300;
+	text-transform: uppercase;
+	line-height: 18px;
+	font-size: 16px;
+	vertical-align: top;
+	z-index: 4;
+	width: 90%;
+	height: 90px;
+	bottom:9%;
+    left:5%;
+    padding:10px;
+}
+.launchdiv
+{ 
+	opacity:0;
+	pointer-events:none;
+	padding:5px;
+	margin-right:5px;
+	background: rgba(13,30,38,0.5);
+	display: inline-block;
+	font-size: 14px;
+	height: 100%;
+    float:left;
+	z-index: 5;
+}
+.launchcommitdiv
+{ 
+	opacity:0;
+	pointer-events:none;
+	padding:5px;
+	margin-right:5px;
+	background: rgba(13,30,38,0.5);
+	display: inline-block;
+	font-size: 14px;
+	height: 100%;
+    float:left;
+	z-index: 5;
+}
+.datediv
+{ 
+	padding:5px;
+	margin-right:5px;
+	background: rgba(13,30,38,0.5);
+	display: inline-block;
+	font-size: 14px;
+	height: 100%;
+    float:left;
+	z-index: 5;
+}
+.rovercontrols { 
+	position: absolute;
 	display: inline-block;
 	opacity:0;
 	pointer-events:none;
@@ -1296,7 +1352,7 @@ div .threedcontrols {
     left:5%;
     padding:10px;
 }
-.launchdiv
+.roverdiv
 { 
 	position:absolute;
 	opacity:0;
@@ -1308,7 +1364,7 @@ div .threedcontrols {
     right:2%;
 	z-index: 5;
 }
-.datediv
+.instrumentsdiv
 { 
 	position:absolute;
 	display: inline-block;
