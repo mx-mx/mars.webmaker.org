@@ -162,6 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	popcornMedia[16] = Popcorn('#Unit2_Mars_loop_wind' ); 
 	popcornMedia[17] = Popcorn('#Unit2_Rover_loop' ); 
 	popcornMedia[18] = Popcorn('#Unit2_arm_move' ); 
+	
 	popcornMedia[19] = Popcorn('#Unit2_calibration' ); 
 	popcornMedia[20] = Popcorn('#Unit2_drill' ); 
 	
@@ -263,7 +264,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
     
     popcornMedia[9].cue( 3, function() {
-    	rover.stowArm();
+
+		popcornMedia[18].play(0);
+    	rover.stowArm(armDuration);
     	//show outcrop
 	});
     
@@ -324,6 +327,12 @@ document.addEventListener("DOMContentLoaded", function () {
 	function onDrivingKeyUp ( event ) {
         popcornMedia[17].pause();
 	}
+
+    var armDuration = 4000;
+	popcornMedia[18].cue( (armDuration/1000), function() {
+		console.log("armDuration/1000" + (armDuration/1000));
+		popcornMedia[18].pause();
+	});
 	
 	function onRoverKeyUp ( event ) {
 		switch( event.keyCode ) {
@@ -475,11 +484,8 @@ document.addEventListener("DOMContentLoaded", function () {
     instrumentsbutton.style.cursor = 'pointer';
     instrumentsbutton.onclick = function() {
     	if(rover.armStowed) {
-    		if(popcornMedia[18].currentTime()<=0 || popcornMedia[18].currentTime()>=popcornMedia[18].duration()) {
-            	popcornMedia[18].play(0);
-        	}
-    		var duration = 4000;
-        	rover.extendArm(duration);
+            popcornMedia[18].play(0);
+        	rover.extendArm(armDuration);
         	if(lessonOpen) {
         		//show message
            		if(userLessonNumber==1) {
@@ -548,30 +554,25 @@ document.addEventListener("DOMContentLoaded", function () {
         	    			jumpPopcornMedia(7);
         	    		}
             		}
-					
-            		//no matter what, always stow the arm after duration + 2 seconds
-	    	    	rover.stowArm();
 
-	        		if(popcornMedia[18].currentTime()<=0 || popcornMedia[18].currentTime()>=popcornMedia[18].duration()) {
-	                	popcornMedia[18].play(0);
-	            	}
-    	    	}, (duration+2000));
+	        		popcornMedia[18].play(0);
+            		//no matter what, always stow the arm after duration + 2 seconds
+	    	    	rover.stowArm(armDuration);
+
+    	    	}, (armDuration+2000));
         	} else {
         		//stow arm even if no lesson is done
         		setTimeout(function(){
 
-            		if(popcornMedia[18].currentTime()<=0 || popcornMedia[18].currentTime()>=popcornMedia[18].duration()) {
-                    	popcornMedia[18].play(0);
-                	}
-	    	    	rover.stowArm();
-    	    	}, (duration+2000));
+            		popcornMedia[18].play(0);
+	    	    	rover.stowArm(armDuration);
+    	    	}, (armDuration+2000));
         	}
     	} else {
 
-    		if(popcornMedia[18].currentTime()<=0 || popcornMedia[18].currentTime()>=popcornMedia[18].duration()) {
-            	popcornMedia[18].play(0);
-        	}
-    		rover.stowArm();
+    		popcornMedia[18].play(0);
+        	
+    		rover.stowArm(armDuration);
     	}
     }
 
