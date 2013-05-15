@@ -159,11 +159,11 @@ document.addEventListener("DOMContentLoaded", function () {
 	popcornMedia[14] = Popcorn('#UNIT2_VO_4e1' ); //mistake mast cam button 
 	//these audio cues are not normal... do not call advanceAudio or jumpPopcornMedia on them
 	popcornMedia[15] = Popcorn('#Unit2_Cams' ); 
-	popcornMedia[16] = Popcorn('#Unit2_Instruments' ); 
-	popcornMedia[17] = Popcorn('#Unit2_Mars_loop_wind' ); 
-	popcornMedia[18] = Popcorn('#Unit2_Rover_loop' ); 
-	
-
+	popcornMedia[16] = Popcorn('#Unit2_Mars_loop_wind' ); 
+	popcornMedia[17] = Popcorn('#Unit2_Rover_loop' ); 
+	popcornMedia[18] = Popcorn('#Unit2_arm' ); 
+	popcornMedia[19] = Popcorn('#Unit2_calibration' ); 
+	popcornMedia[20] = Popcorn('#Unit2_drill' ); 
 	
 	
     popcornMedia[0].on( "play", function() {
@@ -201,8 +201,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 	
 	//not sure why loop isn't working so this.
-	popcornMedia[17].on( "ended", function() {
-		popcornMedia[17].play(0);
+	popcornMedia[16].on( "ended", function() {
+		popcornMedia[16].play(0);
 	});
 	
 
@@ -319,10 +319,10 @@ document.addEventListener("DOMContentLoaded", function () {
 	
 	//the driving audio sound
 	function onDrivingKeyDown ( event ) {
-	    popcornMedia[18].play();
+	    popcornMedia[17].play();
 	}
 	function onDrivingKeyUp ( event ) {
-        popcornMedia[18].pause();
+        popcornMedia[17].pause();
 	}
 	
 	function onRoverKeyUp ( event ) {
@@ -421,7 +421,7 @@ document.addEventListener("DOMContentLoaded", function () {
     	//hideeverything();
 		
 		//stop all other media
-		for(var i=0;i<popcornMedia.length;i++) {
+		for(var i=0;i<14;i++) {
 			popcornMedia[i].pause();
 		}
 		
@@ -475,6 +475,9 @@ document.addEventListener("DOMContentLoaded", function () {
     instrumentsbutton.style.cursor = 'pointer';
     instrumentsbutton.onclick = function() {
     	if(rover.armStowed) {
+    		if(popcornMedia[18].currentTime()<=0 || popcornMedia[18].currentTime()>=popcornMedia[18].duration()) {
+            	popcornMedia[18].play(0);
+        	}
     		var duration = 4000;
         	rover.extendArm(duration);
         	if(lessonOpen) {
@@ -548,14 +551,26 @@ document.addEventListener("DOMContentLoaded", function () {
 					
             		//no matter what, always stow the arm after duration + 2 seconds
 	    	    	rover.stowArm();
+
+	        		if(popcornMedia[18].currentTime()<=0 || popcornMedia[18].currentTime()>=popcornMedia[18].duration()) {
+	                	popcornMedia[18].play(0);
+	            	}
     	    	}, (duration+2000));
         	} else {
         		//stow arm even if no lesson is done
         		setTimeout(function(){
+
+            		if(popcornMedia[18].currentTime()<=0 || popcornMedia[18].currentTime()>=popcornMedia[18].duration()) {
+                    	popcornMedia[18].play(0);
+                	}
 	    	    	rover.stowArm();
     	    	}, (duration+2000));
         	}
     	} else {
+
+    		if(popcornMedia[18].currentTime()<=0 || popcornMedia[18].currentTime()>=popcornMedia[18].duration()) {
+            	popcornMedia[18].play(0);
+        	}
     		rover.stowArm();
     	}
     }
@@ -799,7 +814,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		
 		var postColladaLoaded = function () {
 			//start wind loop
-	    	popcornMedia[17].play();
+	    	popcornMedia[16].play();
 			//get threeD animation up and alive
 			initializethreed();
 			//this is probably unneeded anymore.  old Ryan's loader.
@@ -1677,9 +1692,19 @@ document.addEventListener("DOMContentLoaded", function () {
 			<source src="http://www.mx-mx.com/lab/moku/audio/Unit2_Cams.oggvorbis.ogg"></source>
 		</audio> 
 		
-		<audio id="Unit2_Instruments">
-			<source src="http://www.mx-mx.com/lab/moku/audio/Unit2_Instruments.mp3"></source>
-			<source src="http://www.mx-mx.com/lab/moku/audio/Unit2_Instruments.oggvorbis.ogg"></source>
+		<audio id="Unit2_arm">
+			<source src="http://www.mx-mx.com/lab/moku/audio/Unit2_arm.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/Unit2_arm.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="Unit2_calibration">
+			<source src="http://www.mx-mx.com/lab/moku/audio/Unit2_calibration.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/Unit2_calibration.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="Unit2_drill">
+			<source src="http://www.mx-mx.com/lab/moku/audio/Unit2_drill.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/Unit2_drill.oggvorbis.ogg"></source>
 		</audio> 
 		
 		<audio id="Unit2_Mars_loop_wind">
