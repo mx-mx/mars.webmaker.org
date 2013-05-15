@@ -164,6 +164,8 @@ document.addEventListener("DOMContentLoaded", function () {
     backpackloginpopupkskip.onclick = function() {
     	close();
     };
+
+    
 	
 }, false);
 </script>

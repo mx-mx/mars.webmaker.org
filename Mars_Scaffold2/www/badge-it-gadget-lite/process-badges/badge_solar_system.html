@@ -30,6 +30,21 @@ document.addEventListener("DOMContentLoaded", function () {
         //window.close();
     };
     
+    window.onbeforeunload = function (e) {
+    	  var e = e || window.event;
+
+    	  //IE & Firefox
+    	  if (e) {
+    	    //alert("onbeforeunload");
+    	  }
+    	  
+    	  //alert("onbeforeunload");
+  			
+          window.opener.solarsystembadgefinish();
+    	  // For Safari
+    	  return;
+    };
+    
     var badgeskipbutton = document.getElementById('badgeskipbutton');
     badgeskipbutton.onclick = function() {
 
