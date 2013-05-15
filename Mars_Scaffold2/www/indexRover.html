@@ -279,7 +279,6 @@ document.addEventListener("DOMContentLoaded", function () {
     popcornMedia[9].cue( 6, function() {
     	//swing camera back to wide view
     	$("#wideviewbutton").click();
-    	
 	});
     
     
@@ -491,13 +490,23 @@ document.addEventListener("DOMContentLoaded", function () {
            		if(userLessonNumber==1) {
             		$("#calibrationprogressmessage").animate({opacity: 1.0}, 400, function() {  });
             		rover.useCalibration();
+                	setTimeout(function(){
+                		popcornMedia[19].play(0);
+        	    	}, (armDuration));
            		}
            		if(userLessonNumber==2) {
             		$("#calibrationprogressmessage").animate({opacity: 1.0}, 400, function() {  });
             		rover.useCalibration();
+                	setTimeout(function(){
+                		popcornMedia[19].play(0);
+        	    	}, (armDuration));
            		}
            		if(userLessonNumber==3 || userLessonNumber==4) {
             		$("#analysisprogressmessage").animate({opacity: 1.0}, 400, function() {  });
+
+                	setTimeout(function(){
+                		popcornMedia[20].play(0);
+        	    	}, (armDuration));
            		}
            		
            		//set a timeout to stow arm and also check to see if analysis was good.
@@ -559,17 +568,16 @@ document.addEventListener("DOMContentLoaded", function () {
             		//no matter what, always stow the arm after duration + 2 seconds
 	    	    	rover.stowArm(armDuration);
 
-    	    	}, (armDuration+2000));
+    	    	}, (armDuration+5000));
         	} else {
         		//stow arm even if no lesson is done
         		setTimeout(function(){
 
             		popcornMedia[18].play(0);
 	    	    	rover.stowArm(armDuration);
-    	    	}, (armDuration+2000));
+    	    	}, (armDuration+5000));
         	}
     	} else {
-
     		popcornMedia[18].play(0);
         	
     		rover.stowArm(armDuration);
@@ -1171,7 +1179,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			This project is a collaboration between the U.S. Department of Energy, the Mozilla Foundation, and MX.</div>
 			<br>
 			<img src="./images/tri_logo.png" style="align: center;">
-			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.0</font>
+			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.01</font>
 		</div>
 	
 		<div id="topbar" class="topbar">
