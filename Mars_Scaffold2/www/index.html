@@ -1739,19 +1739,46 @@ document.addEventListener("DOMContentLoaded", function () {
 		$( "#introduction" )
 			.button()
 			.click(function( event ) {
-				jumpToIntroduction();
+				if(!isGoodBrowser || ! Detector.webgl) {
+					$("#startmenupanel").animate({opacity: 0.0}, 200, function() {
+					  	$("#startmenupanel").css('pointer-events', 'none');
+					});
+					$("#browserpopup").animate({opacity: 1.0}, 200, function() {
+					  	$("#browserpopup").css('pointer-events', 'auto');
+					});
+				 } else {
+						jumpToIntroduction();
+				 }
 		});
 		
 		$( "#navigation" )
 			.button()
 			.click(function( event ) {
-				jumpToThreeDNavigation();
+				if(!isGoodBrowser || ! Detector.webgl) {
+					$("#startmenupanel").animate({opacity: 0.0}, 200, function() {
+					  	$("#startmenupanel").css('pointer-events', 'none');
+					});
+					$("#browserpopup").animate({opacity: 1.0}, 200, function() {
+					  	$("#browserpopup").css('pointer-events', 'auto');
+					});
+				 } else {
+						jumpToThreeDNavigation();
+				 }
 		});
 		
 		$( "#challenge" )
 			.button()
 			.click(function( event ) {
-				jumpToChallenge();
+				if(!isGoodBrowser || ! Detector.webgl) {
+					$("#startmenupanel").animate({opacity: 0.0}, 200, function() {
+					  	$("#startmenupanel").css('pointer-events', 'none');
+					});
+					$("#browserpopup").animate({opacity: 1.0}, 200, function() {
+					  	$("#browserpopup").css('pointer-events', 'auto');
+					});
+				 } else {
+						jumpToChallenge();
+				 }
 		});
 		
 		$( "#about" )
@@ -1775,18 +1802,23 @@ document.addEventListener("DOMContentLoaded", function () {
 		$( "#beginbutton" )
 			.button()
 			.click(function( event ) {
-				basepop.play( 0 );
+
 				$("#startmenupanel").animate({opacity: 0.0}, 200, function() {
                 	$("#startmenupanel").css('pointer-events', 'none');
-                	//$("#videocontenttarget").animate({opacity: 1.0}, 200, function() {
-                    //	$("#videocontenttarget").css('pointer-events', 'auto');
-                	//});
             	});
-				$("#playbuttonwrapper").animate({opacity: 1.0}, 200, function() {
-                	$("#playbuttonwrapper").css('pointer-events', 'auto');
-            	});
-                	
 				$("#beginbutton").css('pointer-events', 'none');
+
+				if(!isGoodBrowser || ! Detector.webgl) {
+					$("#browserpopup").animate({opacity: 1.0}, 200, function() {
+					  	$("#browserpopup").css('pointer-events', 'auto');
+					});
+				 } else {
+					basepop.play( 0 );
+					$("#playbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+	                	$("#playbuttonwrapper").css('pointer-events', 'auto');
+	            	});
+	                	
+				 }
 		});
 		
 
@@ -2096,16 +2128,11 @@ document.addEventListener("DOMContentLoaded", function () {
 	 
 	 var isGoodBrowser = (navigator.sayswho[0]=="Chrome");
 	 if(!isGoodBrowser) isGoodBrowser = (navigator.sayswho[0]=="Firefox");
-	 
-	 if(!isGoodBrowser || ! Detector.webgl) {
-		$("#browserpopup").animate({opacity: 1.0}, 200, function() {
-		  	$("#browserpopup").css('pointer-events', 'auto');
-		});
-	 } else {
-		$("#startmenupanel").animate({opacity: 1.0}, 200, function() {
-		  	$("#startmenupanel").css('pointer-events', 'auto');
-		});
-	 }
+
+	$("#startmenupanel").animate({opacity: 1.0}, 200, function() {
+	  	$("#startmenupanel").css('pointer-events', 'auto');
+	});
+
 
 	//$( '#loadtext' ).show();
 	//setLoadMessage("Loading the Solar System");
@@ -2160,7 +2187,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			This project is a collaboration between the U.S. Department of Energy, the Mozilla Foundation, and MX.</div>
 			<br>
 			<img src="./images/tri_logo.png" style="align: center;">
-			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.02</font>
+			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.03</font>
 		</div>
 		
 		<div id="topbar" class="topbar">
@@ -2489,12 +2516,13 @@ document.addEventListener("DOMContentLoaded", function () {
 		<div id="browserpopup" class="browserpopup">
 			<h1>Mission to Mars</h1>
 			<div class="greensquarediv">
-			This experience requires WebGL and is best viewed in <a href="http://www.mozilla.org/en-US/firefox/new/" target="_new">Firefox</a> or <a href="https://www.google.com/chrome/" target="_new">Chrome</a> on a newer mahine.  
-			Either your graphics card or your browser does not support WebGL.
+			This experience requires WebGL and is best viewed in <a href="http://www.mozilla.org/en-US/firefox/new/" target="_new">Firefox</a> 
+			or <a href="https://www.google.com/chrome/" target="_new">Chrome</a> on a newer mahine.  
+			Either your graphics card or your browser does not support WebGL. 
+			View a <a href="http://www.khronos.org/webgl/wiki_1_15/index.php/Getting_a_WebGL_Implementation" target="_new">list</a> of compatible browsers.
 			</div>
 			<br>
 			
-			<br>
 			<br>
 			<br>
 			<div class="textstyle2">
