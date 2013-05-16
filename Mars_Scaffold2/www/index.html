@@ -282,10 +282,10 @@ document.addEventListener("DOMContentLoaded", function () {
 	popcornMedia[10] = Popcorn( '#SEQ_3_CAM_2b' );//call to action
 	popcornMedia[11] = Popcorn( '#SEQ_3_CAM_3a' );//lesson 3 - click on planet earth
 	popcornMedia[12] = Popcorn( '#SEQ_3_CAM_3b' );//call to action
-	popcornMedia[13] = Popcorn( '#SEQ_3_CAM_3c' );//mistake
+	popcornMedia[13] = Popcorn( '#SEQ_3_CAM_3c' );//wrong planet clicked
 	popcornMedia[14] = Popcorn( '#SEQ_3_CAM_4a' );//lesson 4
 	popcornMedia[15] = Popcorn( '#SEQ_3_CAM_4b' );//call to action
-	popcornMedia[16] = Popcorn( '#SEQ_3_CAM_4c' );
+	popcornMedia[16] = Popcorn( '#SEQ_3_CAM_4c' );//wrong button clicked
 	popcornMedia[17] = Popcorn( '#SEQ_3_CAM_4d' ); //question
 	popcornMedia[18] = Popcorn( '#SEQ_3_CAM_5a' ); //call to action
 	popcornMedia[19] = Popcorn( '#SEQ_3_CAM_5b' ); //mistake
@@ -747,11 +747,16 @@ document.addEventListener("DOMContentLoaded", function () {
     					console.log("lessonOpen: " + lessonOpen);
         				
         				if(CLICKED.name=="Earth" && lessonOpen && userLessonNumber==2) {
-        					console.log("planet earth clicked, time to move on to next lesson");
+        					//planet earth clicked, time to move on to next lesson
+							audioLock=false;
         					advanceUser();
         				} else if(CLICKED.name!="Earth" && lessonOpen && userLessonNumber==2) {
-							//no audio, do nothing
-							jumpPopcornMedia(12);
+							//if wrong planet clicked
+							jumpPopcornMedia(13);
+							audioLock=true;
+							setTimeout(function(){
+								audioLock=false;
+							},5000);
         				}
         			}
         			
@@ -895,13 +900,18 @@ document.addEventListener("DOMContentLoaded", function () {
     var checkForFourthCameraLesson = function () {
     	if(lessonOpen && userLessonNumber==3) {
     		jumpPopcornMedia(16);
+
+			audioLock=true;
+			setTimeout(function(){
+				audioLock=false;
+			},5000);
     	}
     }
     
     var finishFourthCameraLesson = function () {
     	if(lessonOpen && userLessonNumber==3) {
     		clearTimeout(callToActionTimeout[userLessonNumber]);
-            //userMouseAction[userLessonNumber]=true;
+    		audioLock=false;
             lessonOpen=true;
     		//jumpPopcornMedia(17);
     		setTimeout(function(){advanceUser();},1000);
@@ -923,8 +933,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     //a way to skip around (needed for Next button and Menu buttons)
+    var audioLock = false;
     var jumpPopcornMedia = function (sequenceNum, beginningOffset) {
-		if(popcornSequenceNumber>=popcornMedia.length)return;
+		if(popcornSequenceNumber>=popcornMedia.length || audioLock)return;
 		popcornSequenceNumber=sequenceNum;
 		//clear div targets
     	//hideeverything();
@@ -1498,15 +1509,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
 					if(userLessonNumber==4) {
 						if(newSliderVal>0) {
+							audioLock=false;
 							advanceUser();
 						} else {
 							jumpPopcornMedia(19);
+							audioLock=true;
+							setTimeout(function(){
+								audioLock=false;
+							},5000);
 						}
 					} else if(userLessonNumber==5) {
 						if(newSliderVal<0) {
+							audioLock=false;
 							advanceUser();
 						} else {
 							jumpPopcornMedia(22);
+							audioLock=true;
+							setTimeout(function(){
+								audioLock=false;
+							},5000);
 						}
 					}
 				}
