@@ -1475,7 +1475,7 @@ div .squarelittlebluebutton{
 	text-align: top;
 	line-height: 0px;
 	font-size: 16px;
-	margin:3px 0px 0px 0px;
+	margin:2px 0px 0px 0px;
 	padding:0px 2px 2px 2px;
 	text-transform: uppercase;
 	font-family: 'Lato', sans-serif;
@@ -1483,8 +1483,8 @@ div .squarelittlebluebutton{
 	background: rgba(51,111,139,1.0);
 	color: rgba(200,200,200,1.0);
     border-radius: 0px;
-    width:14px;
-    height:14px;
+    width:15px;
+    height:15px;
     border:none;
 }
 div .squarelittlebluebutton:hover{
@@ -1499,8 +1499,24 @@ div .speedSlider {
 	background: rgba(51,111,139,0.9);
 	background-color: rgba(51,111,139,0.9);
 	color: rgba(51,111,139,0.9);
-	border:3px solid rgba(0.0.0,1.0);
+	border-left: 2px solid rgba(0,0,0,0.0);
+	border-right: 2px solid rgba(0,0,0,0.0);
+	border-top: 1px solid rgba(0,0,0,0.0);
+	border-bottom: 2px solid rgba(0,0,0,0.0);
     border-radius: 0px;
+}
+#speedSlider .ui-widget-header { 
+	background: rgba(51,111,139,0.9); 
+}
+#speedSlider .ui-state-default { 
+	border-left: 3px solid rgba(18,40,51,1.0);
+	border-right: 3px solid rgba(18,40,51,1.0);
+	border-top: 3px solid rgba(18,40,51,1.0);
+	border-bottom: 3px solid rgba(18,40,51,1.0);  
+	background: rgba(200,200,200,0.9); 
+	height: 14px;
+	width: 10px;
+	border-radius: 0px;
 }
 #loadtext{
 	position: fixed;
@@ -1521,19 +1537,6 @@ div .speedSlider {
     left:50%;
     margin:-50px 0 0 -250px;
 	z-index: 4;
-}
-#speedSlider .ui-widget-header { 
-	background: rgba(51,111,139,0.9); 
-}
-#speedSlider .ui-state-default { 
-	border-left: 3px solid rgba(13,30,38,1.0);
-	border-right: 3px solid rgba(13,30,38,1.0);
-	border-top: 3px solid rgba(13,30,38,1.0);
-	border-bottom: 3px solid rgba(13,30,38,1.0);  
-	background: rgba(200,200,200,0.9); 
-	height: 14px;
-	width: 10px;
-	border-radius: 0px;
 }
 ::-webkit-scrollbar {
     height: 10px;
