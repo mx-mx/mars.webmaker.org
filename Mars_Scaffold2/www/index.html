@@ -1028,11 +1028,11 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 	
 	//xxx unit test for menus
-	//$("#rocketbadgecomplete").animate({opacity: 1.0}, 1, function() { $("#rocketbadgecomplete").css('pointer-events', 'auto'); });
+	//$("#cmemessage").animate({opacity: 1.0}, 1, function() { $("#cmemessage").css('pointer-events', 'auto'); });
 	//$("#launchcontrols").animate({opacity: 1.0}, 1, function() { $("#launchcontrols").css('pointer-events', 'auto'); });
 	//$("#launchdiv").animate({opacity: 1.0}, 1, function() { $("#launchdiv").css('pointer-events', 'auto'); });
 	//$("#launchcommitdiv").animate({opacity: 1.0}, 1, function() { $("#launchcommitdiv").css('pointer-events', 'auto'); });
-	//$("#commitlaunchbutton").animate({opacity: 1.0}, 1, function() { $("#commitlaunchbutton").css('pointer-events', 'auto'); });
+	//$("#launchcommitbutton").animate({opacity: 1.0}, 1, function() { $("#launchcommitbutton").css('pointer-events', 'auto'); });
 	
     popcornMedia[17].cue( 3, function() {
        	camTweener( { x: 0, y: 1100, z: 0 }, { x: 0, y: 0, z: -20 }, 3000 );
@@ -1190,11 +1190,6 @@ document.addEventListener("DOMContentLoaded", function () {
     	window.open ('remix_mars_mission.html','_new',false);
     };
     
-    
-    var cmemessageclose = document.getElementById('ignorecmebutton');
-    cmemessageclose.onclick = function() {
-    	closeAllSubMenus();
-    };
 
     
     var closeAllSubMenus = function() {
@@ -1554,6 +1549,17 @@ document.addEventListener("DOMContentLoaded", function () {
 				closeAllSubMenus();
 		});
 		
+		$( "#relaycmebutton" )
+			.button()
+			.click(function( event ) {
+				setTimeout(function() {
+					jumpPopcornMedia(33);
+					
+				}, 1000);
+		});
+		
+		
+		
 		$( "#answerbutton" )
 			.button()
 			.click(function( event ) {
@@ -1884,67 +1890,89 @@ document.addEventListener("DOMContentLoaded", function () {
 				}
 		});
 		
-		$( "#commitlaunchbutton" )
-		.button()
-		.click(function( event ) {
-			if(!launchDate || !landingDate) {
-				console.log("need both dates to compare");
-			} else if (landingDate<launchDate) {
-				console.log("You can't land before you launch");
-			} else if (landingDate>launchDate) {
-				//erase line if necessary
+		$( "#launchcommitbutton" )
+			.button()
+			.click(function( event ) {
+				if(!launchDate || !landingDate) {
+					$("#baddatespopup").animate({opacity: 1.0}, 200, function() {
+	                	$("#baddatespopup").css('pointer-events', 'auto');
+	            	});
+				} else if (landingDate<launchDate) {
+					$("#baddatespopup").animate({opacity: 1.0}, 200, function() {
+	                	$("#baddatespopup").css('pointer-events', 'auto');
+	            	});
+				} else if (landingDate>launchDate) {
+	
+					$("#launchcontrols").animate({opacity: 0.0}, 200, function() {
+	                	$("#launchcontrols").css('pointer-events', 'none');
+	            	});
+					
+					$("#launchdiv").animate({opacity: 0.0}, 200, function() {
+	                	$("#launchdiv").css('pointer-events', 'none');
+	            	});
+					
+					$("#launchcommitdiv").animate({opacity: 0.0}, 200, function() {
+	                	$("#launchcommitdiv").css('pointer-events', 'none');
+	            	});
+					
+	
+					clear3DDrawings();
+					
+	    			var jumpToDate = new Date(launchRewindDate).Date2Julian();
+	    			timer.JD = jumpToDate;
+					
+					var departure_time = new Time( dateToTime(launchDate) );
+					var arrival_time = new Time( dateToTime(landingDate) );
+					
+			    	
+			    	var aDate = new Number(timer.JD).Julian2Date();
+	
+			    	var jd = new Number(departure_time.jd_tt()).Julian2Date();
+			    	
+			    	trajectory = null;
+			    	trajectory = new Trajectory();
+					trajectory.init( departure_time, arrival_time, function () {
+						//once drawing is done for launch, then we're done with the second lesson
+					    console.log("slow down insano speed");
+					    $("#speedSlider").slider('value',.15);
+					    
+					});
+					
+					setTimeout(function() {
+						checktouchdown = setInterval(function () {
+						    if(touchdown(trajectory)) {
+							    console.log("got touchdown");
+							  //award rocket badge
+								$("#rocketbadge").animate({opacity: 1.0}, 200, function() {
+							    	$("#rocketbadge").css('pointer-events', 'auto');
+							    });
+						    }
+						},500);
+					},1200);
+					
+					//show a CME 4 seconds in
+					setTimeout(function() {
 
-				$("#launchcontrols").animate({opacity: 0.0}, 200, function() {
-                	$("#launchcontrols").css('pointer-events', 'none');
-            	});
-				
-				$("#launchdiv").animate({opacity: 0.0}, 200, function() {
-                	$("#launchdiv").css('pointer-events', 'none');
-            	});
-				
-				$("#launchcommitdiv").animate({opacity: 0.0}, 200, function() {
-                	$("#launchcommitdiv").css('pointer-events', 'none');
-            	});
-				
+						$("#cmemessage").animate({opacity: 1.0}, 200, function() {
+					    	$("#cmemessage").css('pointer-events', 'auto');
+					    });
+						
+						//hide CME message after another 4 seconds
+						setTimeout(function() {
 
-				clear3DDrawings();
-				
-    			var jumpToDate = new Date(launchRewindDate).Date2Julian();
-    			timer.JD = jumpToDate;
-				
-				var departure_time = new Time( dateToTime(launchDate) );
-				var arrival_time = new Time( dateToTime(landingDate) );
-				
-		    	
-		    	var aDate = new Number(timer.JD).Julian2Date();
-
-		    	var jd = new Number(departure_time.jd_tt()).Julian2Date();
-		    	
-		    	trajectory = null;
-		    	trajectory = new Trajectory();
-				trajectory.init( departure_time, arrival_time, function () {
-					//once drawing is done for launch, then we're done with the second lesson
-				    console.log("slow down insano speed");
-				    $("#speedSlider").slider('value',.15);
-				    
-				});
-				
-				setTimeout(function() {
-					checktouchdown = setInterval(function () {
-					    if(touchdown(trajectory)) {
-						    console.log("got touchdown");
-						  //award rocket badge
-							$("#rocketbadge").animate({opacity: 1.0}, 200, function() {
-						    	$("#rocketbadge").css('pointer-events', 'auto');
+							$("#cmemessage").animate({opacity: 0.0}, 200, function() {
+						    	$("#cmemessage").css('pointer-events', 'none');
 						    });
-					    }
-					},500);
-				},1200);
-				
-				setDeltaV(trajectory.totalDeltaV);
-
-				$("#speedSlider").slider('value',.07);
-			}
+							
+						},4000);
+						
+						
+					},4000);
+					
+					setDeltaV(trajectory.totalDeltaV);
+	
+					$("#speedSlider").slider('value',.15);
+				}
 		});
 
 		//set text field to rocket launch deltaV for user to see.
@@ -2187,7 +2215,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			This project is a collaboration between the U.S. Department of Energy, the Mozilla Foundation, and MX.</div>
 			<br>
 			<img src="./images/tri_logo.png" style="align: center;">
-			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.03</font>
+			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.04</font>
 		</div>
 		
 		<div id="topbar" class="topbar">
@@ -2563,14 +2591,13 @@ document.addEventListener("DOMContentLoaded", function () {
 		<div id="cmemessage" class="capcommessagereddiv">
 			<table style="width: 100%;margin:2;padding:0;" >
 				<tr >
-					<td width="50px" rowspan="2" align="left" valign="middle"><img src="./images/cme_icon.png" style="width:45px;height:45px;"></td>
+					<td width="50px" rowspan="2" align="left" valign="middle"><img src="./images/icon_alert.png" style="width:49px;height:44px;"></td>
 					
-					<td align="left">Alert: CME Detected!</td>
+					<td align="center">CME Detected</td>
 				</tr>
 				<tr>
-					<td align="left">
-						<button id="investigatecmebutton" class="roundedredbutton">Investigate</button>
-						<button id="ignorecmebutton" class="roundedredbutton">Ignore</button>
+					<td align="center">
+						<button id="relaycmebutton" class="roundedredbutton">Relay to Spacecraft</button>
 					</td>
 				</tr>
 			</table>
@@ -2786,9 +2813,8 @@ document.addEventListener("DOMContentLoaded", function () {
 						<td align="center" valign="bottom" height="30px"><font style="color:#fff;">Mission</font></td>
 					</tr>
 					<tr>
-						 
 						<td align="center" valign="bottom" height="54px" style="width:140px;">
-				 			<button id="commitlaunchbutton" class="playbutton" style="padding:0px 9px;">
+				 			<button id="launchcommitbutton" class="playbutton" style="padding:0px 9px;">
 								<table style="width:100%;height:100%;margin:0;padding:0;">
 									<tr>
 										<td>Launch<br>Commit</td>

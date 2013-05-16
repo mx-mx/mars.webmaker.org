@@ -554,19 +554,19 @@ div .selectitemdetaildiv:hover{
 	opacity: 0.0;
 	pointer-events:none;
 	padding: 10px 10px 10px 10px;
-	background: rgba(0,0,0,.85);
+	background: rgba(128,74,74,0.2);
 	color: rgba(200,200,200,1.0);
 	font-family: 'Lato', sans-serif;
-	font-weight:bold;
+	font-weight:300;
 	text-transform: uppercase;
 	line-height: 18px;
 	font-size: 18px;
-    border-radius: 10px;
-    border:3px solid rgba(255,0,0,1.0);
-	width: 350px;
-	height: 55px;
-	top:50%;
-    right:36%;
+    border-radius: 5px;
+    border:none;
+	width: 320px;
+	height: 60px;
+	top:15px;
+    right:120px;
 	z-index: 2;
 }
 .progressdiv
@@ -659,13 +659,13 @@ div .roundedredbutton{
 	text-transform: uppercase;
 	font-family: 'Lato', sans-serif;
 	font-weight:plain;
-	background: rgba(40,40,40,1.0);
+	background: rgba(128,74,74,0.5);
 	color: rgba(200,200,200,1.0);
     border-radius: 5px;
-    border:2px solid rgba(255,0,0,1.0);
+    border:none;
 }
 div .roundedredbutton:hover{
-	background: rgba(255,0,0,0.5);
+	background: rgba(128,74,74,0.3);
 }
 .playbutton{
     display:inline-block !important;
