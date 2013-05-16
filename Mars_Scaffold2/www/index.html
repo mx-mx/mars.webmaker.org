@@ -753,10 +753,13 @@ document.addEventListener("DOMContentLoaded", function () {
         				} else if(CLICKED.name!="Earth" && lessonOpen && userLessonNumber==2) {
 							//if wrong planet clicked
 							jumpPopcornMedia(13);
+							
+							if(audioLock==false) {
+								setTimeout(function(){
+									audioLock=false;
+								},5000);
+							}
 							audioLock=true;
-							setTimeout(function(){
-								audioLock=false;
-							},5000);
         				}
         			}
         			
@@ -901,10 +904,12 @@ document.addEventListener("DOMContentLoaded", function () {
     	if(lessonOpen && userLessonNumber==3) {
     		jumpPopcornMedia(16);
 
+    		if(audioLock==false) {
+				setTimeout(function(){
+					audioLock=false;
+				},5000);
+			}
 			audioLock=true;
-			setTimeout(function(){
-				audioLock=false;
-			},5000);
     	}
     }
     
@@ -1513,10 +1518,12 @@ document.addEventListener("DOMContentLoaded", function () {
 							advanceUser();
 						} else {
 							jumpPopcornMedia(19);
+							if(audioLock==false) {
+								setTimeout(function(){
+									audioLock=false;
+								},5000);
+							}
 							audioLock=true;
-							setTimeout(function(){
-								audioLock=false;
-							},5000);
 						}
 					} else if(userLessonNumber==5) {
 						if(newSliderVal<0) {
@@ -1524,10 +1531,12 @@ document.addEventListener("DOMContentLoaded", function () {
 							advanceUser();
 						} else {
 							jumpPopcornMedia(22);
+							if(audioLock==false) {
+								setTimeout(function(){
+									audioLock=false;
+								},5000);
+							}
 							audioLock=true;
-							setTimeout(function(){
-								audioLock=false;
-							},5000);
 						}
 					}
 				}
@@ -2236,7 +2245,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			This project is a collaboration between the U.S. Department of Energy, the Mozilla Foundation, and MX.</div>
 			<br>
 			<img src="./images/tri_logo.png" style="align: center;">
-			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.05</font>
+			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.06</font>
 		</div>
 		
 		<div id="topbar" class="topbar">
