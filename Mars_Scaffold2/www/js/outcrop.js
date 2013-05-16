@@ -28,8 +28,10 @@ var Outcrop = function(imgFile, trgtSize, useLambert){
 	this.target = new THREE.Mesh( new THREE.PlaneGeometry( 1, 1 ), targetMaterial );
 	this.target.rotation.x = -90 * toRadians;
 
+	var pointerTexture = "./images/pointer_rock.png";
+	if(imgFile=="./images/moku_u2_calibration_plate.png") pointerTexture="./images/pointer_calibration.png";
 	var arrowMaterial = new THREE.MeshBasicMaterial( { 
-		map: THREE.ImageUtils.loadTexture( './images/pointer.png' ), 
+		map: THREE.ImageUtils.loadTexture( pointerTexture ), 
 		overdraw: true,
 		transparent: true
 	});
