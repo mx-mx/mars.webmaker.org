@@ -222,6 +222,8 @@ var Rover = function ( dae ) {
 
 			if (duration === undefined) duration = 3000;
 			Tweener(this.arm.elbow.rotation, { x:2.2, y:0, z:0 }, duration);
+			Tweener(this.arm.rotation, {x:0, y: 0, z:0}, duration);
+			Tweener(this.arm.shoulder.rotation, {x:0, y:0, z:0}, duration);
 	    	Tweener(this.arm.wrist.rotation, { x:-0.7, y: 0, z:0 }, (duration/2));
 	    	setTimeout(function(){
 	    		scope.isMovingInstrument=false;
@@ -234,12 +236,20 @@ var Rover = function ( dae ) {
 		if(!this.isMovingInstrument) {
 			if(this.armStowed) return;
 			this.isMovingInstrument=true;
-			if (duration === undefined) duration = 1500;
-			Tweener(rover.arm.rotation, {x:0, y: 0, z:0}, duration);
-			Tweener(rover.arm.elbow.rotation, {x:0, y:0, z:0}, duration);
-			Tweener(rover.arm.shoulder.rotation, {x:0, y:0, z:0}, duration);
-	    	Tweener(rover.arm.wrist.rotation, { x:0, y: 0, z:0 }, duration);
-	    	Tweener(rover.arm.hand.rotation, { x:0, y: 0, z:0 }, duration);
+			if (duration === undefined) duration = 3000;
+			//this is kind of an upright position which we don't want.
+			//Tweener(rover.arm.rotation, {x:0, y: 0, z:0}, duration);
+			//Tweener(rover.arm.elbow.rotation, {x:0, y:0, z:0}, duration);
+			//Tweener(rover.arm.shoulder.rotation, {x:0, y:0, z:0}, duration);
+	    	//Tweener(rover.arm.wrist.rotation, { x:0, y: 0, z:0 }, duration);
+	    	//Tweener(rover.arm.hand.rotation, { x:0, y: 0, z:0 }, duration);
+	    	
+			//stowing looks more like this.
+	    	Tweener(this.arm.wrist.rotation, { x:1.5, y: 0, z:0 }, (duration/2));
+			Tweener(this.arm.rotation, {x:0, y:-90 * toRadians, z:0}, duration);
+			Tweener(this.arm.elbow.rotation, {x:-75 * toRadians, y:0, z:0}, duration);
+			Tweener(this.arm.shoulder.rotation, {x:-10 * toRadians, y:0, z:0}, duration);
+			
 	    	setTimeout(function(){
 	    		scope.isMovingInstrument=false;
 	    		scope.armStowed=true;
