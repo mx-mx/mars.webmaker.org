@@ -333,13 +333,19 @@ document.addEventListener("DOMContentLoaded", function () {
 		popcornMedia[18].pause();
 	});
 	
+	document.addEventListener( 'keydown', onSpaceBarKeyDown, false );
+	
+	function onSpaceBarKeyDown ( event ) {
+		
+		if (event.keyCode == 32) { //just looking for spacebar on this mission.
+			if($('#playbuttonwrapper').css('opacity') != 0) {
+				$("#playtoggle").click();
+			}
+		}
+	};
+	
 	function onRoverKeyUp ( event ) {
 		switch( event.keyCode ) {
-			case 32: //up
-				if($('#playbuttonwrapper').css('opacity') != 0) {
-					$("#playtoggle").click();
-				}
-				break;
 			case 38: //up
 				cancelCallToAction=true;
 				document.removeEventListener( 'keyup', onRoverKeyUp ); 
