@@ -532,6 +532,11 @@ document.addEventListener("DOMContentLoaded", function () {
         	    		if(theTargetSeen=="Outcrop 2") {
         	    			advanceUser();
         	    		} else if (theTargetSeen=="Outcrop 1" || theTargetSeen=="Outcrop 3") {
+        	    			setTimeout(function(){
+            			    	$("#analysisresultspoormessage").animate({opacity: 0.0}, 400, function() {
+            			           	$("#analysisresultspoormessage").css('pointer-events', 'none');
+            			       	});
+        	    	    	}, 8000);
         	    			jumpPopcornMedia(12);
         	    		} else {
         	    			jumpPopcornMedia(11);
