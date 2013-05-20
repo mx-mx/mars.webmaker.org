@@ -333,9 +333,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		popcornMedia[18].pause();
 	});
 	
-	document.addEventListener( 'keydown', onSpaceBarKeyDown, false );
+	document.addEventListener( 'keyup', onSpaceBarKeyUp, false );
 	
-	function onSpaceBarKeyDown ( event ) {
+	function onSpaceBarKeyUp ( event ) {
 		
 		if (event.keyCode == 32) { //just looking for spacebar on this mission.
 			if($('#playbuttonwrapper').css('opacity') != 0) {
