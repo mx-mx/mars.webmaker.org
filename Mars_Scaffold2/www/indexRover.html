@@ -323,10 +323,24 @@ document.addEventListener("DOMContentLoaded", function () {
 	
 	//the driving audio sound
 	function onDrivingKeyDown ( event ) {
-	    popcornMedia[17].play();
+		switch( event.keyCode ) {
+			case 37: 
+			case 38:
+			case 39:
+			case 40: 
+			    popcornMedia[17].play();
+				break;
+		}
 	}
 	function onDrivingKeyUp ( event ) {
-        popcornMedia[17].pause();
+        switch( event.keyCode ) {
+			case 37: 
+			case 38:
+			case 39:
+			case 40: 
+			    popcornMedia[17].pause();
+				break;
+		}
 	}
 
     var armDuration = 4000;
