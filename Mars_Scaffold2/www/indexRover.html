@@ -466,6 +466,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		$("#threedhelppopup").animate({opacity: 0.0}, 200, function() { $("#threedhelppopup").css('pointer-events', 'none'); });
 		$("#helppopup").animate({opacity: 0.0}, 200, function() { $("#helppopup").css('pointer-events', 'none'); });
 		$("#aboutpopup").animate({opacity: 0.0}, 200, function() { $("#aboutpopup").css('pointer-events', 'none'); });
+    	$("#rtgpopup").animate({opacity: 0.0}, 200, function() {$("#rtgpopup").css('pointer-events', 'none');});
     });
     
 
@@ -480,10 +481,11 @@ document.addEventListener("DOMContentLoaded", function () {
     	$("#incomingmessage").animate({opacity: 0.0}, 200, function() {$("#incomingmessage").css('pointer-events', 'none');});
     	$("#cmemessage").animate({opacity: 0.0}, 200, function() {$("#cmemessage").css('pointer-events', 'none');});
 		$("#transmissionmessage").animate({opacity: 0.0}, 1, function() { $("#transmissionmessage").css('pointer-events', 'none'); });
+    	$("#rtgpopup").animate({opacity: 0.0}, 200, function() {$("#rtgpopup").css('pointer-events', 'none');});
     }
     
     //xxx
-    //$("#analysisresultsgoodmessage").animate({opacity: 1.0}, 1, function() { $("#analysisresultsgoodmessage").css('pointer-events', 'auto'); });
+    //$("#rtgpopup").animate({opacity: 1.0}, 1, function() { $("#rtgpopup").css('pointer-events', 'auto'); });
     
     var instrumentsbutton = document.getElementById('instrumentsbutton');
     instrumentsbutton.style.cursor = 'pointer';
@@ -593,18 +595,17 @@ document.addEventListener("DOMContentLoaded", function () {
     var camsbutton = document.getElementById('camsbutton');
     camsbutton.style.cursor = 'pointer';
     camsbutton.onclick = function() {
-    	// greater than 4.5 is sort of a kludge (end media time), but it gets the job done ok
     	// can't quite find an isPlaying property in documentation, so this works for now.
     	if(popcornMedia[15].currentTime()<=0 || popcornMedia[15].currentTime()>=popcornMedia[15].duration()) {
         	popcornMedia[15].play(0);
     	}
     	rover.scanMast(4000);
     	setTimeout(function() {
-        	//show outcrop
+        	//show outcrop 1
     		oc.showArrow();
     	},1000); 
     	setTimeout(function() {
-        	//show outcrop
+        	//show outcrop 2
     		ocTwo.showArrow();
     	},3000); 
     	
@@ -620,6 +621,13 @@ document.addEventListener("DOMContentLoaded", function () {
     	}
     }
     
+    var rtgbutton = document.getElementById('rtgbutton');
+    rtgbutton.style.cursor = 'pointer';
+    rtgbutton.onclick = function() {
+		$("#rtgpopup").animate({opacity: 1.0}, 200, function() {
+        	$("#rtgpopup").css('pointer-events', 'auto');
+    	});
+    }
 
 	popcornMedia[9].cue( 9, function() {
     	//show outcrop
@@ -729,6 +737,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		$("#roverpilotbadge").animate({opacity: 0.0}, 1, function() { $("#roverpilotbadge").css('pointer-events', 'none'); });
 		$("#roverpilotbadgecomplete").animate({opacity: 0.0}, 1, function() { $("#roverpilotbadgecomplete").css('pointer-events', 'none'); });
 
+    	$("#rtgpopup").animate({opacity: 0.0}, 200, function() {$("#rtgpopup").css('pointer-events', 'none');});
 	}
 	
     
@@ -1165,7 +1174,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		$( "#help" )
 			.button()
 			.click(function( event ) {
-				console.log("clicked help");
 				$("#helppopup").animate({opacity: 1.0}, 200, function() {
 	            	$("#helppopup").css('pointer-events', 'auto');
 	        	});
@@ -1221,7 +1229,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			This project is a collaboration between the U.S. Department of Energy, the Mozilla Foundation, and MX.</div>
 			<br>
 			<img src="./images/tri_logo.png" style="align: center;">
-			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.06</font>
+			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.07</font>
 		</div>
 	
 		<div id="topbar" class="topbar">
@@ -1324,6 +1332,32 @@ document.addEventListener("DOMContentLoaded", function () {
 				</tr>
 			</table>
 		</div>
+		
+		<div id="rtgpopup" class="rtgpopup">
+			<font style="font-size: 22px;font-weight: 400;">Power Source</font>
+			<br>
+			<br>
+			<table style="width:100%;margin:0;padding:0;">
+				<tr>
+					<td style="vertical-align:top;width:410px;">
+						Mars Science Laboratory uses a radioisotope thermoelectric generator (RTG) 
+						power system to generate electricity needed to operate the rover and its instruments. 
+						Radioisotope electrical power and heating systems enable science missions that require greater 
+						longevity, more diverse landing locations or more power or heat than missions limited to solar 
+						power systems.
+						<br>
+						<br>
+						<font style="font-size: 20px;font-weight: 400;">More Info</font>
+						<br>
+						<a href="http://mars.jpl.nasa.gov/msl/mission/technology/technologiesofbroadbenefit/power/">Nasa Power Technology Benefit</a>
+					</td>
+					<td style="padding-left:10px;vertical-align:top; align:right;">
+						<img src="./images/MMRTG.jpg" style="border:1px solid rgba(200,200,200,1.0);width:284px;height:236px;">
+					</td>
+				</tr>
+			</table>
+		</div>
+		
 		<div id="threedhelppopup" class="threedhelppopup">
 			<h1 style="text-align: center;">Remote Pilot</h1>
 			<br>To help the Mars colonists find a suitable location for their new greenhouse, 
@@ -1505,31 +1539,29 @@ document.addEventListener("DOMContentLoaded", function () {
 				<table style="width:100%;height:100%;margin:0;padding:0;">
 					<tr>
 						<td align="center" valign="bottom" height="20px">Energy</td>
-						<td align="center" valign="bottom" style="width:20px;""></td>
 						<td align="center" valign="bottom" >Power Source</td>
-						<td align="center" valign="bottom" style="width:40px;"></td>
 						<td align="center" valign="bottom" style="color:rgba(230,230,230,1.0);">Mast Cams</td>
 						<td align="center" valign="bottom" style="color:rgba(230,230,230,1.0);">Instruments</td>
 					</tr>
 					<tr>
-						<td align="center" valign="top" style="height:52px;width:80px;">
+						<td align="center" valign="top" style="height:52px;width:120px;">
 							<div id="energybar" class="energybar">
 								<div id="energylevel" class="energylevel"></div>
 							</div>
 							
 						</td>
-						<td align="center" valign="bottom" ></td>
-						<td align="center" valign="top" style="height:52px;width:170px;padding:0px 0px;font-size:18px;font-weight:400; ">
-							<table style="width:100%;height:90%;margin:0;padding:0; background-color:rgba(18,40,51,1.0);">
-								<tr>
-									<td align="right" valign="middle">RTG</td>
-									<td align="center" valign="middle"><img src="./images/icon_rtg.png" ></td>
-								</tr>
-							</table>
+						<td align="center" valign="top" style="height:52px;width:180px;padding-top:1px;font-size:18px;font-weight:400; ">
+							<button id="rtgbutton" class="squarebluebutton" style="height:54px;width:180px;">
+								<table style="width:100%;height:100%;margin:0;padding:0;" >
+									<tr>
+										<td align="left" valign="middle">RTG</td>
+										<td style="margin:0;padding:0;"> <img src="./images/icon_rtg_button.png" style=""></td>
+									</tr>
+								</table>
+							</button>
 						</td>
-						<td align="center" valign="bottom" ></td>
 						<td align="center" valign="top" style="height:52px;width:110px;">
-							<button id="camsbutton" class="squarebluebutton" style="height:56px;width:130px;">
+							<button id="camsbutton" class="squarebluebutton" style="height:54px;width:130px;">
 								<table style="width:100%;height:100%;margin:0;padding:0;" >
 									<tr>
 										<td style="margin:0;padding:0;"><img src="./images/icon_mastcams.png" style=""></td>
@@ -1538,7 +1570,7 @@ document.addEventListener("DOMContentLoaded", function () {
 							</button>
 						</td>
 						<td align="center" valign="top" style="height:52px;width:110px;">
-							<button id="instrumentsbutton" class="squarebluebutton" style="height:56px;width:130px;">
+							<button id="instrumentsbutton" class="squarebluebutton" style="height:54px;width:130px;">
 								<table style="width:100%;height:100%;margin:0;padding:0;" >
 									<tr>
 										<td style="margin:0;padding:0;"><img src="./images/icon_instruments.png" style=""></td>

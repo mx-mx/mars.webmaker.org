@@ -360,6 +360,28 @@ div.pathfindervideo1
     margin:-270px 0 0 -315px;
 	z-index: 7;
 }
+.rtgpopup
+{
+  position: absolute;
+	opacity: 0.0;
+	pointer-events:none;
+	padding: 15px 30px 15px 30px;
+	background: rgba(13,30,38,.95);
+	color: rgba(200,200,200,1.0);
+	font-family: 'Lato', sans-serif;
+	text-transform: none;
+	line-height: 22px;
+	font-size: 18px;
+	font-weight: 300;
+    border-radius: 0px;
+    border:none;
+	width: 690px;
+	height: 320px;
+	bottom:200px;
+    left:50%;
+    margin:-170px 0 0 -370px;
+	z-index: 7;
+}
 .aboutpopup
 {
   position: absolute;
@@ -1384,8 +1406,8 @@ div .threedcontrols {
 	/*background: rgba(51,111,139,1.0);*/
 	border: 2px solid rgba(13,30,38,1.0);
 	outline: 2px solid #207cca;
-	height: 44px;
-	width: 130px;
+	height: 45px;
+	width: 140px;
 	align:bottom;
 	background: -moz-linear-gradient(right,  #1e5799 0%, #199da0 0%, #207cca 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, right top, left top, color-stop(0%,#1e5799), color-stop(0%,#199da0), color-stop(100%,#207cca)); /* Chrome,Safari4+ */
