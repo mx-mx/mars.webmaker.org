@@ -146,56 +146,62 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	}
 
-
 	var canUseButtons = false;
-    loadDE405Plus(function () {
-    	console.log("loadDE405Plus callback");
-	    preloadimages(['./images/solarsystem/sunmap.jpg', 
-	                   './images/solarsystem/mercurymap.jpg', 
-	                   './images/solarsystem/venusmap.jpg', 
-	                   './images/solarsystem/earthmap2.jpg',
-	                   './images/solarsystem/marsmap.jpg', 
-	                   './images/solarsystem/jupitermap.jpg', 
-	                   './images/solarsystem/saturnmap.jpg', 
-	                   './images/solarsystem/uranusmap.jpg', 
-	                   './images/solarsystem/neptunemap.jpg']).done(function(images){
-	        //code inside here is run after all images have preloaded
-	        //images parameter is an array of image objects corresponding to the preloaded images
-	        //images[0] references the 1st image etc
-	     
-	        console.log("done preloading...");
-	    
-	        div.removeChild(infinityloader.canvas);
-	        $("#loaderdiv").animate({opacity: 0.0}, 500, function() {
-	            $("#loaderdiv").css('pointer-events', 'none');
-	        });
+	if(!isGoodBrowser || ! Detector.webgl) {
+		loadDE405Plus(function () {
+	    	console.log("loadDE405Plus callback");
+		    preloadimages(['./images/solarsystem/sunmap.jpg', 
+		                   './images/solarsystem/mercurymap.jpg', 
+		                   './images/solarsystem/venusmap.jpg', 
+		                   './images/solarsystem/earthmap2.jpg',
+		                   './images/solarsystem/marsmap.jpg', 
+		                   './images/solarsystem/jupitermap.jpg', 
+		                   './images/solarsystem/saturnmap.jpg', 
+		                   './images/solarsystem/uranusmap.jpg', 
+		                   './images/solarsystem/neptunemap.jpg']).done(function(images){
+		        //code inside here is run after all images have preloaded
+		        //images parameter is an array of image objects corresponding to the preloaded images
+		        //images[0] references the 1st image etc
+		     
+		        console.log("done preloading...");
+		    
+		        div.removeChild(infinityloader.canvas);
+		        $("#loaderdiv").animate({opacity: 0.0}, 500, function() {
+		            $("#loaderdiv").css('pointer-events', 'none');
+		        });
 
-	        //enable buttons
-	        //these are tricky... only give them pointer events if they are visible
-	        canUseButtons = true;
-	        $("#introduction").animate({opacity: 1.0}, 500, function() {
-	        	if($('#menupanel').css('opacity') != 0) {
-		            $("#introduction").css('pointer-events', 'auto');
-	        	}
-	        });
-	        $("#navigation").animate({opacity: 1.0}, 500, function() {
-	        	if($('#menupanel').css('opacity') != 0) {
-		            $("#navigation").css('pointer-events', 'auto');
-	        	}
-	        });
-	        $("#challenge").animate({opacity: 1.0}, 500, function() {
-	        	if($('#menupanel').css('opacity') != 0) {
-		            $("#challenge").css('pointer-events', 'auto');
-	        	}
-	        });
-	        //this button will deactivate once user hits it (hence not useable when not visible bug)
-	        //it therefore does not need the visible treatment seen above
-	        $("#beginbutton").animate({opacity: 1.0}, 500, function() {
-	            $("#beginbutton").css('pointer-events', 'auto');
-	        });
-			
+		        //enable buttons
+		        //these are tricky... only give them pointer events if they are visible
+		        canUseButtons = true;
+		        $("#introduction").animate({opacity: 1.0}, 500, function() {
+		        	if($('#menupanel').css('opacity') != 0) {
+			            $("#introduction").css('pointer-events', 'auto');
+		        	}
+		        });
+		        $("#navigation").animate({opacity: 1.0}, 500, function() {
+		        	if($('#menupanel').css('opacity') != 0) {
+			            $("#navigation").css('pointer-events', 'auto');
+		        	}
+		        });
+		        $("#challenge").animate({opacity: 1.0}, 500, function() {
+		        	if($('#menupanel').css('opacity') != 0) {
+			            $("#challenge").css('pointer-events', 'auto');
+		        	}
+		        });
+		        //this button will deactivate once user hits it (hence not useable when not visible bug)
+		        //it therefore does not need the visible treatment seen above
+		        $("#beginbutton").animate({opacity: 1.0}, 500, function() {
+		            $("#beginbutton").css('pointer-events', 'auto');
+		        });
+				
+		    });
 	    });
-    });
+	} else {
+		$("#beginbutton").animate({opacity: 1.0}, 500, function() {
+            $("#beginbutton").css('pointer-events', 'auto');
+        });
+	}
+    
 
 
 	//loader
@@ -1006,7 +1012,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 	
 	var hideeverything = function() {
-		$("#startmenupanel").animate({opacity: 0.0}, 1, function() { $("#startmenupanel").css('pointer-events', 'none'); });
+		//$("#startmenupanel").animate({opacity: 0.0}, 1, function() { $("#startmenupanel").css('pointer-events', 'none'); });
 		//$("#menupanel").animate({opacity: 0.0}, 1, function() { $("#menupanel").css('pointer-events', 'none'); });
 		closeMenuPanel();
 		$("#videocontenttarget").animate({opacity: 0.0}, 1, function() { $("#videocontenttarget").css('pointer-events', 'none'); });
@@ -1575,7 +1581,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		$( "#ignorebutton" )
 			.button()
 			.click(function( event ) {
-				console.log("ignore button?");
 				closeAllSubMenus();
 		});
 		
@@ -2182,32 +2187,44 @@ document.addEventListener("DOMContentLoaded", function () {
 	    return M;
 	})();
 	 
-	 //console.log("navigator.sayswho: " + navigator.sayswho[0]);
-	 
-	 var isGoodBrowser = (navigator.sayswho[0]=="Chrome");
-	 if(!isGoodBrowser) isGoodBrowser = (navigator.sayswho[0]=="Firefox");
-
+	//console.log("navigator.sayswho: " + navigator.sayswho[0]);
+	var isGoodBrowser = (navigator.sayswho[0]=="Chrome");
+	if(!isGoodBrowser) isGoodBrowser = (navigator.sayswho[0]=="Firefox");
+	
 	$("#startmenupanel").animate({opacity: 1.0}, 200, function() {
 	  	$("#startmenupanel").css('pointer-events', 'auto');
 	});
+	
+	if(!isGoodBrowser || ! Detector.webgl) {
+		div.removeChild(infinityloader.canvas);
+	    $("#loaderdiv").animate({opacity: 0.0}, 500, function() {
+	        $("#loaderdiv").css('pointer-events', 'none');
+	    });
+	    
+		$("#beginbutton").animate({opacity: 1.0}, 500, function() {
+            $("#beginbutton").css('pointer-events', 'auto');
+        });
+	} else {
+		loader.options.convertUpAxis = true;
+		loader.load( './models/galaxy.dae', function ( collada ) {
+		
+			dae = collada.scene;
+			dae.scale.x = dae.scale.y = dae.scale.z = 60000;
+			dae.updateMatrix();
+		
+		} );
+		
+		loadShaders( shaderList, function (e) {
+			shaderList = e;
+			postShadersLoaded();
+		});
+	}
 
 
 	//$( '#loadtext' ).show();
 	//setLoadMessage("Loading the Solar System");
 	
-	loader.options.convertUpAxis = true;
-	loader.load( './models/galaxy.dae', function ( collada ) {
 	
-		dae = collada.scene;
-		dae.scale.x = dae.scale.y = dae.scale.z = 60000;
-		dae.updateMatrix();
-	
-	} );
-	
-	loadShaders( shaderList, function (e) {
-		shaderList = e;
-		postShadersLoaded();
-	});
 	
 	var postShadersLoaded = function () {
 	        //init();

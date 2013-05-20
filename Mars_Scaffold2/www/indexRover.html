@@ -212,18 +212,22 @@ document.addEventListener("DOMContentLoaded", function () {
 	
 	//kill driving if window loses/gains focus
 	$(window).blur(function() {
-		controlsRover.moveForward = false; 
-		controlsRover.moveBackward = false; 
-		controlsRover.moveLeft = false; 
-		controlsRover.moveRight = false; 
-		onDrivingKeyUp();
+		if(controlsRover) {
+			controlsRover.moveForward = false; 
+			controlsRover.moveBackward = false; 
+			controlsRover.moveLeft = false; 
+			controlsRover.moveRight = false; 
+			onDrivingKeyUp();
+		}
 	});
 	$(window).focus(function() {
-		controlsRover.moveForward = false; 
-		controlsRover.moveBackward = false; 
-		controlsRover.moveLeft = false; 
-		controlsRover.moveRight = false; 
-		onDrivingKeyUp();
+		if(controlsRover) {
+			controlsRover.moveForward = false; 
+			controlsRover.moveBackward = false; 
+			controlsRover.moveLeft = false; 
+			controlsRover.moveRight = false; 
+			onDrivingKeyUp();
+		}
 	});
 	
 	popcornMedia[1].on( "ended", function() {
@@ -715,7 +719,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 	
 	var hideeverything = function() {
-		$("#startmenupanel").animate({opacity: 0.0}, 1, function() { $("#startmenupanel").css('pointer-events', 'none'); });
+		//$("#startmenupanel").animate({opacity: 0.0}, 1, function() { $("#startmenupanel").css('pointer-events', 'none'); });
 		$("#menupanel").animate({opacity: 0.0}, 1, function() { $("#menupanel").css('pointer-events', 'none'); });
 		
 		$("#aboutpopup").animate({opacity: 0.0}, 1, function() { $("#aboutpopup").css('pointer-events', 'none'); });
@@ -821,14 +825,17 @@ document.addEventListener("DOMContentLoaded", function () {
 		    return M;
 		})();
 		 
-		 //console.log("navigator.sayswho: " + navigator.sayswho[0]);
+		//console.log("navigator.sayswho: " + navigator.sayswho[0]);
 		 
-		 var isGoodBrowser = (navigator.sayswho[0]=="Chrome");
-		 if(!isGoodBrowser) isGoodBrowser = (navigator.sayswho[0]=="Firefox");
+		var isGoodBrowser = (navigator.sayswho[0]=="Chrome");
+		if(!isGoodBrowser) isGoodBrowser = (navigator.sayswho[0]=="Firefox");
 		 
 		$("#startmenupanel").animate({opacity: 1.0}, 200, function() {
 			$("#startmenupanel").css('pointer-events', 'auto');
 		});
+		
+		if(!isGoodBrowser || ! Detector.webgl) {
+		} 
 		 
 		
 		var postColladaLoaded = function () {
@@ -864,21 +871,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	    };
 
-		roverLoader.options.convertUpAxis = true;
-		roverLoader.load( './models/rover.dae', function ( collada ) {
+	    if(!isGoodBrowser || ! Detector.webgl) {
+			div.removeChild(infinityloader.canvas);
+		    $("#loaderdiv").animate({opacity: 0.0}, 500, function() {
+		        $("#loaderdiv").css('pointer-events', 'none');
+		    });
+		    
+			$("#beginbutton").animate({opacity: 1.0}, 500, function() {
+	            $("#beginbutton").css('pointer-events', 'auto');
+	        });
+	    } else {
+			roverLoader.options.convertUpAxis = true;
+			roverLoader.load( './models/rover.dae', function ( collada ) {
 
-			rover_dae = collada.scene;
-			rover_dae.scale.set( 1, 1, 1 );
-			rover_dae.updateMatrix();
+				rover_dae = collada.scene;
+				rover_dae.scale.set( 1, 1, 1 );
+				rover_dae.updateMatrix();
 
-			terrainLoader.options.convertUpAxis = true;
-			terrainLoader.load( './models/terrain.dae', function ( collada ) {
-				
-				terrain = collada.scene;
-				terrain.scale.set( 1, 1, 1 );
-				postColladaLoaded();
+				terrainLoader.options.convertUpAxis = true;
+				terrainLoader.load( './models/terrain.dae', function ( collada ) {
+					
+					terrain = collada.scene;
+					terrain.scale.set( 1, 1, 1 );
+					postColladaLoaded();
+				});
 			});
-		});
+	    }
 		
 		$( "#beginbutton" )
 			.button()
