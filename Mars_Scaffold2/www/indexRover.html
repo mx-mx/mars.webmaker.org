@@ -207,8 +207,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 	
 
-	document.addEventListener( 'keyup', onDrivingKeyUp, false );
-	document.addEventListener( 'keydown', onDrivingKeyDown, false );
 	
 	//kill driving if window loses/gains focus
 	$(window).blur(function() {
@@ -337,7 +335,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		popcornMedia[18].pause();
 	});
 	
-	document.addEventListener( 'keyup', onSpaceBarKeyUp, false );
 	
 	function onSpaceBarKeyUp ( event ) {
 		
@@ -910,6 +907,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 	$("#startmenupanel").css('pointer-events', 'none');
             	});
 				$("#beginbutton").css('pointer-events', 'none');
+				
+				document.removeEventListener( 'keyup', onDrivingKeyUp);
+				document.removeEventListener( 'keydown', onDrivingKeyDown );
+				document.addEventListener( 'keyup', onDrivingKeyUp, false );
+				document.addEventListener( 'keydown', onDrivingKeyDown, false );
+				document.removeEventListener( 'keyup', onSpaceBarKeyUp);
+				document.addEventListener( 'keyup', onSpaceBarKeyUp, false );
 
 				if(!isGoodBrowser || ! Detector.webgl) {
 					$("#browserpopup").animate({opacity: 1.0}, 200, function() {
@@ -1038,6 +1042,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					  	$("#browserpopup").css('pointer-events', 'auto');
 					});
 				 } else {
+					 
 						$("#menupanel").animate({opacity: 0.0}, 1, function() { $("#menupanel").css('pointer-events', 'none'); });
 						jumpToChallenge();
 				 }
@@ -1052,7 +1057,14 @@ document.addEventListener("DOMContentLoaded", function () {
 	       	});
 	    	//initialize 3d if you need to
 			initializethreed();
-			
+
+	    	//sound key listening reinit
+			document.removeEventListener( 'keyup', onDrivingKeyUp);
+			document.removeEventListener( 'keydown', onDrivingKeyDown );
+			document.addEventListener( 'keyup', onDrivingKeyUp, false );
+			document.addEventListener( 'keydown', onDrivingKeyDown, false );
+			document.removeEventListener( 'keyup', onSpaceBarKeyUp);
+			document.addEventListener( 'keyup', onSpaceBarKeyUp, false );
 	    	
 			setTimeout(function(){
 				//shift 3d model
@@ -1100,6 +1112,14 @@ document.addEventListener("DOMContentLoaded", function () {
 	       	});
 	    	//initialize 3d if you need to
 			initializethreed();
+
+	    	//sound key listening reinit
+			document.removeEventListener( 'keyup', onDrivingKeyUp);
+			document.removeEventListener( 'keydown', onDrivingKeyDown );
+			document.addEventListener( 'keyup', onDrivingKeyUp, false );
+			document.addEventListener( 'keydown', onDrivingKeyDown, false );
+			document.removeEventListener( 'keyup', onSpaceBarKeyUp);
+			document.addEventListener( 'keyup', onSpaceBarKeyUp, false );
 			
 	    	
 			setTimeout(function(){
@@ -1145,6 +1165,14 @@ document.addEventListener("DOMContentLoaded", function () {
 	       	});
 	    	//initialize 3d if you need to
 			initializethreed();
+	    	
+	    	//sound key listening reinit
+			document.removeEventListener( 'keyup', onDrivingKeyUp);
+			document.removeEventListener( 'keydown', onDrivingKeyDown );
+			document.addEventListener( 'keyup', onDrivingKeyUp, false );
+			document.addEventListener( 'keydown', onDrivingKeyDown, false );
+			document.removeEventListener( 'keyup', onSpaceBarKeyUp);
+			document.addEventListener( 'keyup', onSpaceBarKeyUp, false );
 			
 	    	
 			setTimeout(function(){
