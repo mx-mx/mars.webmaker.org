@@ -1604,6 +1604,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		var jumpToIntroduction = function() {
 			//hide everything
 			hideeverything();
+			$("#startmenupanel").animate({opacity: 0.0}, 1, function() { $("#startmenupanel").css('pointer-events', 'none'); });
 			//reset launch controls
 			$("#launchcontrols").animate({opacity: 0.0}, 200, function() {
             	$("#launchcontrols").css('pointer-events', 'none');
@@ -1657,6 +1658,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		var jumpToThreeDNavigation = function() {
 			//hide everything
 			hideeverything();
+			$("#startmenupanel").animate({opacity: 0.0}, 1, function() { $("#startmenupanel").css('pointer-events', 'none'); });
 			//hide background
 	    	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
 	           	$("#backgroundtarget").css('pointer-events', 'none');
@@ -1711,6 +1713,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		var jumpToChallenge = function () {
 			//hide everything
 			hideeverything();
+			$("#startmenupanel").animate({opacity: 0.0}, 1, function() { $("#startmenupanel").css('pointer-events', 'none'); });
 			//hide backgorund target
 	    	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
 	           	$("#backgroundtarget").css('pointer-events', 'none');
@@ -2262,7 +2265,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			This project is a collaboration between the U.S. Department of Energy, the Mozilla Foundation, and MX.</div>
 			<br>
 			<img src="./images/tri_logo.png" style="align: center;">
-			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.07</font>
+			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.08</font>
 		</div>
 		
 		<div id="topbar" class="topbar">

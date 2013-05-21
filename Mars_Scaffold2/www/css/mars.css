@@ -404,6 +404,20 @@ div.pathfindervideo1
     margin:-230px 0 0 -185px;
 	z-index: 7;
 }
+.roverdetailpanel {
+  position: absolute;
+	opacity: 0.0;
+	pointer-events:none;
+	background: rgba(13,30,38,.95);
+	color: rgba(200,200,200,1.0);
+    padding:10px;
+	top:20px;
+    left:40px;
+	z-index: 7;
+}
+.roverdetailpanel a{
+  font-size:14px;
+}
 .baddatespopup
 {
   position: absolute;

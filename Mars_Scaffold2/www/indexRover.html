@@ -166,6 +166,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	popcornMedia[19] = Popcorn('#Unit2_calibration' ); 
 	popcornMedia[20] = Popcorn('#Unit2_drill' ); 
 	
+	popcornMedia[21] = Popcorn('#mastcamvideo' ); 
+	popcornMedia[22] = Popcorn('#mmrtgvideo' ); 
+	
 	
     popcornMedia[0].on( "play", function() {
 
@@ -181,6 +184,7 @@ document.addEventListener("DOMContentLoaded", function () {
         	$("#playbuttonwrapper").css('pointer-events', 'auto');
     	});
 	});
+
 	
 	popcornMedia[0].cue( 1, function() {
 		//rover.extendArm(4000);
@@ -196,44 +200,55 @@ document.addEventListener("DOMContentLoaded", function () {
         $("#pilotviewbutton").click();
         
 	});
-    
+	
+	popcornMedia[0].cue( 9, function() {
+		popcornMedia[21].play(0);
+	    $("#mastcamvideocontenttarget").animate({opacity: 1.0}, 300, function() { $("#mastcamvideocontenttarget").css('pointer-events', 'auto'); });
+	    
+	    $("#mmrtgimagepanel").animate({opacity: 0.0}, 1, function() { $("#mmrtgimagepanel").css('pointer-events', 'none'); });
+	    $("#mmrtgvideocontenttarget").animate({opacity: 0.0}, 1, function() { $("#mmrtgvideocontenttarget").css('pointer-events', 'none'); });
+	    $("#slaytonsisleimagepanel").animate({opacity: 0.0}, 1, function() { $("#slaytonsisleimagepanel").css('pointer-events', 'none'); });
+	});
+	
+	popcornMedia[0].cue( 21.5, function() {
+		popcornMedia[21].pause();
+	    $("#mastcamvideocontenttarget").animate({opacity: 0.0}, 1, function() { $("#mastcamvideocontenttarget").css('pointer-events', 'none'); });
+	    $("#slaytonsisleimagepanel").animate({opacity: 1.0}, 1, function() { $("#slaytonsisleimagepanel").css('pointer-events', 'auto'); });
+	    
+	    $("#mmrtgimagepanel").animate({opacity: 0.0}, 1, function() { $("#mmrtgimagepanel").css('pointer-events', 'none'); });
+	    $("#mmrtgvideocontenttarget").animate({opacity: 0.0}, 1, function() { $("#mmrtgvideocontenttarget").css('pointer-events', 'none'); });
+	});
+	
 	popcornMedia[0].on( "ended", function() {
     	advancePopcornMedia();
+		popcornMedia[22].play(0);
+	    $("#slaytonsisleimagepanel").animate({opacity: 0.0}, 1, function() { $("#slaytonsisleimagepanel").css('pointer-events', 'none'); });
+	    $("#mmrtgvideocontenttarget").animate({opacity: 1.0}, 1, function() { $("#mmrtgvideocontenttarget").css('pointer-events', 'auto'); });
+	    
+	    $("#mmrtgimagepanel").animate({opacity: 0.0}, 1, function() { $("#mmrtgimagepanel").css('pointer-events', 'none'); });
+	    $("#mastcamvideocontenttarget").animate({opacity: 0.0}, 1, function() { $("#mastcamvideocontenttarget").css('pointer-events', 'none'); });
 	});
 	
-	//not sure why loop isn't working so this.
-	popcornMedia[16].on( "ended", function() {
-		popcornMedia[16].play(0);
+	popcornMedia[1].cue( 9, function() {
+		popcornMedia[22].pause();
+	    $("#mmrtgvideocontenttarget").animate({opacity: 0.0}, 1, function() { $("#mmrtgvideocontenttarget").css('pointer-events', 'none'); });
+	    $("#mmrtgimagepanel").animate({opacity: 1.0}, 1, function() { $("#mmrtgimagepanel").css('pointer-events', 'auto'); });
+	    
+	    $("#slaytonsisleimagepanel").animate({opacity: 0.0}, 1, function() { $("#slaytonsisleimagepanel").css('pointer-events', 'none'); });
+	    $("#mastcamvideocontenttarget").animate({opacity: 0.0}, 1, function() { $("#mastcamvideocontenttarget").css('pointer-events', 'none'); });
 	});
 	
-
+	popcornMedia[1].cue( 20, function() {
+		$("#mmrtgvideocontenttarget").animate({opacity: 0.0}, 1, function() { $("#mmrtgvideocontenttarget").css('pointer-events', 'none'); });
+	    $("#mmrtgimagepanel").animate({opacity: 0.0}, 1, function() { $("#mmrtgimagepanel").css('pointer-events', 'none'); });
+	    
+	    $("#slaytonsisleimagepanel").animate({opacity: 0.0}, 1, function() { $("#slaytonsisleimagepanel").css('pointer-events', 'none'); });
+	    $("#mastcamvideocontenttarget").animate({opacity: 0.0}, 1, function() { $("#mastcamvideocontenttarget").css('pointer-events', 'none'); });
 	
-	//kill driving if window loses/gains focus
-	$(window).blur(function() {
-		if(controlsRover) {
-			controlsRover.moveForward = false; 
-			controlsRover.moveBackward = false; 
-			controlsRover.moveLeft = false; 
-			controlsRover.moveRight = false; 
-			onDrivingKeyUp();
-		}
-	});
-	$(window).focus(function() {
-		if(controlsRover) {
-			controlsRover.moveForward = false; 
-			controlsRover.moveBackward = false; 
-			controlsRover.moveLeft = false; 
-			controlsRover.moveRight = false; 
-			onDrivingKeyUp();
-		}
-	});
-	
-	popcornMedia[1].on( "ended", function() {
-    	//setup call to action
-		document.addEventListener( 'keyup', onRoverKeyUp, false );
 	});
 	
     popcornMedia[1].on( "ended", function() {
+		document.addEventListener( 'keyup', onRoverLessonKeyUp, false );
     	//the click/drag test
         lessonOpen=true;
         cancelCallToAction=false;
@@ -304,6 +319,33 @@ document.addEventListener("DOMContentLoaded", function () {
         lessonOpen=true;
 	});
     
+	//not sure why loop isn't working so this.
+	popcornMedia[16].on( "ended", function() {
+		popcornMedia[16].play(0);
+	});
+	
+
+	
+	//kill driving if window loses/gains focus
+	$(window).blur(function() {
+		if(controlsRover) {
+			controlsRover.moveForward = false; 
+			controlsRover.moveBackward = false; 
+			controlsRover.moveLeft = false; 
+			controlsRover.moveRight = false; 
+			onDrivingKeyUp();
+		}
+	});
+	$(window).focus(function() {
+		if(controlsRover) {
+			controlsRover.moveForward = false; 
+			controlsRover.moveBackward = false; 
+			controlsRover.moveLeft = false; 
+			controlsRover.moveRight = false; 
+			onDrivingKeyUp();
+		}
+	});
+    
     //$("#energybar").css({'background-color':'rgba(51,111,139,1.0)'});
 	//increase energy bar by 1 every half second
 	setInterval(function() { 
@@ -359,11 +401,11 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	};
 	
-	function onRoverKeyUp ( event ) {
+	function onRoverLessonKeyUp ( event ) {
 		switch( event.keyCode ) {
 			case 38: //up
 				cancelCallToAction=true;
-				document.removeEventListener( 'keyup', onRoverKeyUp ); 
+				document.removeEventListener( 'keyup', onRoverLessonKeyUp ); 
 				setTimeout(function(){advanceUser();}, 800);
 				break;
 			case 40: //down
@@ -500,7 +542,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     //xxx
-    //$("#rtgpopup").animate({opacity: 1.0}, 1, function() { $("#rtgpopup").css('pointer-events', 'auto'); });
+    //$("#mmrtgimagepanel").animate({opacity: 1.0}, 1, function() { $("#mmrtgimagepanel").css('pointer-events', 'auto'); });
     
     var instrumentsbutton = document.getElementById('instrumentsbutton');
     instrumentsbutton.style.cursor = 'pointer';
@@ -758,6 +800,11 @@ document.addEventListener("DOMContentLoaded", function () {
 		$("#roverpilotbadgecomplete").animate({opacity: 0.0}, 1, function() { $("#roverpilotbadgecomplete").css('pointer-events', 'none'); });
 
     	$("#rtgpopup").animate({opacity: 0.0}, 200, function() {$("#rtgpopup").css('pointer-events', 'none');});
+    	
+    	$("#mmrtgimagepanel").animate({opacity: 0.0}, 1, function() { $("#mmrtgimagepanel").css('pointer-events', 'none'); });
+	    $("#mastcamvideocontenttarget").animate({opacity: 0.0}, 1, function() { $("#mastcamvideocontenttarget").css('pointer-events', 'none'); });
+	    $("#mmrtgvideocontenttarget").animate({opacity: 0.0}, 1, function() { $("#mmrtgvideocontenttarget").css('pointer-events', 'none'); });
+	    $("#slaytonsisleimagepanel").animate({opacity: 0.0}, 1, function() { $("#slaytonsisleimagepanel").css('pointer-events', 'none'); });
 	}
 	
     
@@ -1066,6 +1113,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			//hide everything
 			hideeverything();
+			$("#startmenupanel").animate({opacity: 0.0}, 1, function() { $("#startmenupanel").css('pointer-events', 'none'); });
 	    	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
 	           	$("#backgroundtarget").css('pointer-events', 'none');
 	       	});
@@ -1121,6 +1169,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			//hide everything
 			hideeverything();
+			$("#startmenupanel").animate({opacity: 0.0}, 1, function() { $("#startmenupanel").css('pointer-events', 'none'); });
 	    	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
 	           	$("#backgroundtarget").css('pointer-events', 'none');
 	       	});
@@ -1174,6 +1223,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		var jumpToChallenge = function () {
 			//hide everything
 			hideeverything();
+			$("#startmenupanel").animate({opacity: 0.0}, 1, function() { $("#startmenupanel").css('pointer-events', 'none'); });
 	    	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
 	           	$("#backgroundtarget").css('pointer-events', 'none');
 	       	});
@@ -1294,7 +1344,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			This project is a collaboration between the U.S. Department of Energy, the Mozilla Foundation, and MX.</div>
 			<br>
 			<img src="./images/tri_logo.png" style="align: center;">
-			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.07</font>
+			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.08</font>
 		</div>
 	
 		<div id="topbar" class="topbar">
@@ -1422,6 +1472,64 @@ document.addEventListener("DOMContentLoaded", function () {
 				</tr>
 			</table>
 		</div>
+		
+		<div id="rtgpopup" class="rtgpopup">
+			<font style="font-size: 22px;font-weight: 400;">Power Source</font>
+			<br>
+			<br>
+			<table style="width:100%;margin:0;padding:0;">
+				<tr>
+					<td style="vertical-align:top;width:410px;">
+						Mars Science Laboratory uses a radioisotope thermoelectric generator (RTG) 
+						power system to generate electricity needed to operate the rover and its instruments. 
+						Radioisotope electrical power and heating systems enable science missions that require greater 
+						longevity, more diverse landing locations or more power or heat than missions limited to solar 
+						power systems.
+						<br>
+						<br>
+						<font style="font-size: 20px;font-weight: 400;">More Info</font>
+						<br>
+						<a href="http://mars.jpl.nasa.gov/msl/mission/technology/technologiesofbroadbenefit/power/">Nasa Power Technology Benefit</a>
+					</td>
+					<td style="padding-left:10px;vertical-align:top; align:right;">
+						<img src="./images/MMRTG.jpg" style="border:1px solid rgba(200,200,200,1.0);width:284px;height:236px;">
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+	    <div id="mmrtgimagepanel" class="roverdetailpanel">
+	        <a href="http://solarsystem.nasa.gov/rps/rtg.cfm" target="_new"><img src="./images/MMRTG_small.jpg" style="border:1px solid rgba(200,200,200,1.0); style="width:390px;height:328px;"></a>
+	        <br>
+	        <a href="http://solarsystem.nasa.gov/rps/rtg.cfm" target="_new">RADIOISOTOPE THERMOELECTRIC GENERATOR (RTG) (Link)</a>
+	    </div>
+	    
+	    <div id="slaytonsisleimagepanel" class="roverdetailpanel">
+	        <a href="http://neo.jpl.nasa.gov/neo/groups.html" target="_new"><img src="./images/moku_u1_asteroid.jpg" style="border:1px solid rgba(200,200,200,1.0);"></a>
+	        <br>
+	        
+	        <a href="http://neo.jpl.nasa.gov/neo/groups.html" target="_new">YOUR LOCATION: ATEN ASTEROID “SLAYTON’S ISLE” (Link)</a>
+	    </div>
+	    
+	    <div id="mastcamvideocontenttarget" class="roverdetailpanel" >
+			<video width="512px" height="288px"  id="mastcamvideo" style="background:#000;" preload="auto" >
+         		<source src="http://www.mx-mx.com/lab/moku/video/MSL_cam_arm.mp4" type="video/mp4">
+         		<source src="http://www.mx-mx.com/lab/moku/video/MSL_cam_arm.webm" type="video/webm">
+         		Please upgrade your browser to view video
+       		</video>
+	        <br>
+	        <a href="http://www.jpl.nasa.gov/video/index.php?id=1001" target="_new">MSL CURIOSITY ROVER ANIMATION (Link)</a>
+	    </div>
+	    
+	    <div id="mmrtgvideocontenttarget" class="roverdetailpanel" >
+			<video width="512px" height="288px"  id="mmrtgvideo" style="background:#000;" preload="auto" >
+         		<source src="http://www.mx-mx.com/lab/moku/video/MSL_trim_mmrtg.mp4" type="video/mp4">
+         		<source src="http://www.mx-mx.com/lab/moku/video/MSL_trim_mmrtg.webm" type="video/webm">
+         		Please upgrade your browser to view video
+       		</video>
+	        <br>
+	        <a href="http://www.jpl.nasa.gov/video/index.php?id=1028" target="_new">MARS ROVER POWER (Link)</a>
+	    </div>
 		
 		<div id="threedhelppopup" class="threedhelppopup">
 			<h1 style="text-align: center;">Remote Pilot</h1>
@@ -1577,22 +1685,6 @@ document.addEventListener("DOMContentLoaded", function () {
 						Module Emplacment 
 						<br>
 						Suitibility: GOOD
-					</td>
-				</tr>
-			</table>
-		</div>
-		
-		<div id="cmemessage" class="capcommessagereddiv">
-			<table style="width: 100%;margin:2;padding:0;" >
-				<tr >
-					<td width="50px" rowspan="2" align="left" valign="middle"><img src="./images/cme_icon.png" style="width:45px;height:45px;"></td>
-					
-					<td align="left">Alert: CME Detected!</td>
-				</tr>
-				<tr>
-					<td align="left">
-						<button id="investigatecmebutton" class="roundedbbutton">Investigate</button>
-						<button id="ignorecmebutton" class="roundedredbutton">Ignore</button>
 					</td>
 				</tr>
 			</table>
