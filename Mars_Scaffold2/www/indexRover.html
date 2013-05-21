@@ -78,6 +78,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			ocTwo.showTarget();
 			ocCalibration.setPosition(0, 10); //always call set position first before showing target and arrow
 			ocCalibration.showTarget();
+			
+			camTweener( { x:6, y:3, z:7 }, { x:0, y:0, z:0 }, 1 );
 		}
 	}
 	
@@ -185,9 +187,27 @@ document.addEventListener("DOMContentLoaded", function () {
     	});
 	});
 
-	
-	popcornMedia[0].cue( 1, function() {
-		//rover.extendArm(4000);
+	//our fun camera moves at beggning of sequence.
+	popcornMedia[0].cue( .1, function() {
+		camTweener( { x:3, y:3, z:-8 }, { x:0, y:0, z:0 }, 3100 );
+	});
+    popcornMedia[0].cue( 3, function() {
+		camTweener( { x:-6, y:3, z:-7 }, { x:0, y:0, z:0 }, 3100 );
+	});
+    popcornMedia[0].cue( 6, function() {
+		camTweener( { x:-6, y:3, z:7 }, { x:0, y:0, z:0 }, 3100 );
+	});
+    popcornMedia[0].cue( 9, function() {
+		camTweener( { x:-2.6, y:0.5, z:3.2 }, { x:0, y:0, z:0 }, 2000 );
+	});
+    popcornMedia[0].cue( 21, function() {
+		camTweener( { x:6.2, y:0.31, z:.16 }, { x:0, y:0, z:0 }, 2000 );
+	});
+    popcornMedia[1].cue( .1, function() {
+		camTweener( { x:0.9, y:1.5, z:2.3 }, { x:0, y:0, z:0 }, 2000 );
+	});
+    popcornMedia[1].cue( 23, function() {
+    	camTweener( { x:0, y:4, z:-10 }, { x:0, y:0, z:0 }, 4000 );
 	});
     
     popcornMedia[0].cue( 1, function() {
@@ -197,7 +217,7 @@ document.addEventListener("DOMContentLoaded", function () {
             	$("#roverdiv").css('pointer-events', 'auto');
         	});
     	});
-        $("#pilotviewbutton").click();
+        //$("#pilotviewbutton").click();
         
 	});
 	
@@ -1130,7 +1150,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	    	
 			setTimeout(function(){
 				//shift 3d model
-				//camTweener( { x: 0, y: 1100, z: 0 }, { x: 0, y: 0, z: -20 }, 3000 );
 				
 				$("#rovercontrols").animate({opacity: 1.0}, 200, function() {
 		        	$("#rovercontrols").css('pointer-events', 'auto');
@@ -1186,8 +1205,6 @@ document.addEventListener("DOMContentLoaded", function () {
 			
 	    	
 			setTimeout(function(){
-				//shift 3d model
-				//camTweener( { x: 0, y: 1100, z: 0 }, { x: 0, y: 0, z: -20 }, 3000 );
 				
 				$("#rovercontrols").animate({opacity: 1.0}, 200, function() {
 		        	$("#rovercontrols").css('pointer-events', 'auto');
@@ -1240,8 +1257,6 @@ document.addEventListener("DOMContentLoaded", function () {
 			
 	    	
 			setTimeout(function(){
-				//shift 3d model
-				//camTweener( { x: 0, y: 1100, z: 0 }, { x: 0, y: 0, z: -20 }, 3000 );
 				
 				$("#rovercontrols").animate({opacity: 1.0}, 200, function() {
 		        	$("#rovercontrols").css('pointer-events', 'auto');
@@ -1315,6 +1330,10 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 
 	});
+	
+	$(document).on('mouseup', function(e) {
+        console.log("x:" + camera.position.x + "y:" + camera.position.y + "z:" + camera.position.z);
+    });
 
 }, false);
 
