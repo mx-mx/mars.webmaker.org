@@ -230,45 +230,41 @@ function buildGUI(){
 	camFolder.add( camTweens.four, 'tween' ).name( 'Camera Four' );
 }
 
+var powerPenalty = false;
+
+function setPowerPenalty() {
+	powerPenalty = true;
+	setTimeout(function() {powerPenalty=false;}, 4000);
+}
 
 function onKeyDown ( event ) {
-	if(currentEnergyLevel<10) {
+	if(powerPenalty)return;
+	if(currentEnergyLevel<2) {
 		controlsRover.moveForward = false;
 		controlsRover.moveBackward = false;
 		controlsRover.moveLeft = false;
 		controlsRover.moveRight = false;
+		setPowerPenalty();
 		return;
 	}
 
 	switch( event.keyCode ) {
 
-		case 38:
-			/*up*/ controlsRover.moveForward = true; 
-    		/*if(currentEnergyLevel>=0) {
-        		currentEnergyLevel--;
-    		}*/
-			driveDrainRate=2;
-			break;
-		case 40: 
-			/*up*/ controlsRover.moveBackward = true; 
-			/*if(currentEnergyLevel>=0) {
-	    		currentEnergyLevel--;
-			}*/
-			driveDrainRate=2;
-			break;
 		case 37: 
 			/*left*/ controlsRover.moveLeft = true; 
-			/*if(currentEnergyLevel>=0) {
-	    		currentEnergyLevel--;
-			}*/
-			driveDrainRate=2;
+			driveDrainRate=3;
+			break;
+		case 38:
+			/*up*/ controlsRover.moveForward = true; 
+			driveDrainRate=3;
 			break;
 		case 39: 
 			/*right*/ controlsRover.moveRight = true; 
-			/*if(currentEnergyLevel>=0) {
-	    		currentEnergyLevel--;
-			}*/
-			driveDrainRate=2;
+			driveDrainRate=3;
+			break;
+		case 40: 
+			/*down*/ controlsRover.moveBackward = true; 
+			driveDrainRate=3;
 			break;
 	}
 };

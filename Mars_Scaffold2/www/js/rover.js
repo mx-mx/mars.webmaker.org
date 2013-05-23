@@ -223,7 +223,7 @@ var Rover = function ( dae ) {
 		if(!this.isMovingInstrument) {
 			if(!this.armStowed) return;
 			this.isMovingInstrument=true;
-            instrumentDrainRate=2;
+            instrumentDrainRate=1;
 
 			if (duration === undefined) duration = 3000;
 			Tweener(this.arm.elbow.rotation, { x:2.2, y:0, z:0 }, duration);
@@ -242,7 +242,7 @@ var Rover = function ( dae ) {
 		if(!this.isMovingInstrument) {
 			if(this.armStowed) return;
 			this.isMovingInstrument=true;
-            instrumentDrainRate=2;
+            instrumentDrainRate=1;
 
 			if (duration === undefined) duration = 3000;
 			//this is kind of an upright position which we don't want.
@@ -271,7 +271,7 @@ var Rover = function ( dae ) {
 		if(!this.isMovingMast) {
 			if(this.mastStowed) return;
 			this.isMovingMast=true;
-            instrumentDrainRate=2;
+            instrumentDrainRate=1;
 			if (duration === undefined) duration = 1500;
 			Tweener(rover.mast.rotation, {x:0, y:33 * toRadians, z:-85 * toRadians}, duration);
 			Tweener(rover.mast.head.rotation, {x:0, y:-55 * toRadians, z:0}, duration);
@@ -289,7 +289,7 @@ var Rover = function ( dae ) {
 		if(!this.isMovingMast) {
 			if(!this.mastStowed) return;
 			this.isMovingMast=true;
-            instrumentDrainRate=2;
+            instrumentDrainRate=1;
 			if (duration === undefined) duration = 1500;
 			Tweener(rover.mast.rotation, {x:0, y:33 * toRadians, z:0}, duration);
 			Tweener(rover.mast.head.rotation, {x:0, y:0, z:0}, duration);
@@ -306,7 +306,7 @@ var Rover = function ( dae ) {
 		if(!this.isMovingMast) {
 			if(this.mastStowed) return;
 			this.isMovingMast=true;
-            instrumentDrainRate=2;
+            instrumentDrainRate=1;
 			if (duration === undefined) duration = 1500;
 			Tweener(rover.mast.head.rotation, {x:0, y:-55 * toRadians, z:0}, (duration/4));
 			setTimeout(function(){
