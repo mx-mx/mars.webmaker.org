@@ -605,6 +605,27 @@ div .selectitemdetaildiv:hover{
     right:120px;
 	z-index: 2;
 }
+.lowpowermessagereddiv
+{
+  position: absolute;
+	opacity: 0.0;
+	pointer-events:none;
+	padding: 10px 10px 10px 10px;
+	background: rgba(128,74,74,0.6);
+	color: rgba(200,200,200,1.0);
+	font-family: 'Lato', sans-serif;
+	font-weight:300;
+	line-height: 18px;
+	font-size: 18px;
+    border-radius: 5px;
+    border:none;
+	width: 410px;
+	height: 55px;
+	top:40%;
+    left:50%;
+    margin:-5px 0 0 -220px;
+	z-index: 2;
+}
 .progressdiv
 {
   position: absolute;
@@ -645,7 +666,6 @@ div .selectitemdetaildiv:hover{
 	top:25%;
     left:50%;
     margin:-85px 0 0 -190px;
-    
 	z-index: 6;
 }
 .rerunanalysisdiv

@@ -29,6 +29,10 @@ var Rover = function ( dae ) {
 
 	this.speed = 0;
 	this.rotationSpeed = 0;
+	
+	/*
+	this.driveDrainRate = 0;
+	this.instrumentDrainRate = 0;*/
 
 	// internal helper variables
 
@@ -219,6 +223,7 @@ var Rover = function ( dae ) {
 		if(!this.isMovingInstrument) {
 			if(!this.armStowed) return;
 			this.isMovingInstrument=true;
+            instrumentDrainRate=2;
 
 			if (duration === undefined) duration = 3000;
 			Tweener(this.arm.elbow.rotation, { x:2.2, y:0, z:0 }, duration);
@@ -228,6 +233,7 @@ var Rover = function ( dae ) {
 	    	setTimeout(function(){
 	    		scope.isMovingInstrument=false;
 	    		scope.armStowed=false;
+	            instrumentDrainRate=0;
 	    	},duration);
 		}
 	};
@@ -236,6 +242,8 @@ var Rover = function ( dae ) {
 		if(!this.isMovingInstrument) {
 			if(this.armStowed) return;
 			this.isMovingInstrument=true;
+            instrumentDrainRate=2;
+
 			if (duration === undefined) duration = 3000;
 			//this is kind of an upright position which we don't want.
 			//Tweener(rover.arm.rotation, {x:0, y: 0, z:0}, duration);
@@ -253,6 +261,7 @@ var Rover = function ( dae ) {
 	    	setTimeout(function(){
 	    		scope.isMovingInstrument=false;
 	    		scope.armStowed=true;
+	            instrumentDrainRate=0;
 	    	},duration);
 		}
 
@@ -262,6 +271,7 @@ var Rover = function ( dae ) {
 		if(!this.isMovingMast) {
 			if(this.mastStowed) return;
 			this.isMovingMast=true;
+            instrumentDrainRate=2;
 			if (duration === undefined) duration = 1500;
 			Tweener(rover.mast.rotation, {x:0, y:33 * toRadians, z:-85 * toRadians}, duration);
 			Tweener(rover.mast.head.rotation, {x:0, y:-55 * toRadians, z:0}, duration);
@@ -269,6 +279,7 @@ var Rover = function ( dae ) {
 			setTimeout(function(){
 	    		scope.isMovingMast=false;
 	    		scope.mastStowed=true;
+	            instrumentDrainRate=0;
 	    	},duration);
 		}
 	};
@@ -278,6 +289,7 @@ var Rover = function ( dae ) {
 		if(!this.isMovingMast) {
 			if(!this.mastStowed) return;
 			this.isMovingMast=true;
+            instrumentDrainRate=2;
 			if (duration === undefined) duration = 1500;
 			Tweener(rover.mast.rotation, {x:0, y:33 * toRadians, z:0}, duration);
 			Tweener(rover.mast.head.rotation, {x:0, y:0, z:0}, duration);
@@ -285,6 +297,7 @@ var Rover = function ( dae ) {
 			setTimeout(function(){
 	    		scope.isMovingMast=false;
 	    		scope.mastStowed=false;
+	            instrumentDrainRate=0;
 	    	},duration);
 		}
 	};
@@ -293,6 +306,7 @@ var Rover = function ( dae ) {
 		if(!this.isMovingMast) {
 			if(this.mastStowed) return;
 			this.isMovingMast=true;
+            instrumentDrainRate=2;
 			if (duration === undefined) duration = 1500;
 			Tweener(rover.mast.head.rotation, {x:0, y:-55 * toRadians, z:0}, (duration/4));
 			setTimeout(function(){
@@ -306,6 +320,7 @@ var Rover = function ( dae ) {
 			
 			setTimeout(function(){
 	    		scope.isMovingMast=false;
+	            instrumentDrainRate=0;
 	    	},duration);
 		}
 	};

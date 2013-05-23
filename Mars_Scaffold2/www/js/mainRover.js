@@ -26,6 +26,11 @@ var toRadians = Math.PI/180;
 var clock = new THREE.Clock();
 var delta = clock.getDelta();
 
+//for a good OO model, these vars should be refactored into rover.js
+var currentEnergyLevel = 100;
+var driveDrainRate=0;
+var instrumentDrainRate=0;
+
 /********************************
 	PAGE LOADING
 ********************************/
@@ -161,6 +166,15 @@ function setupScene(){
 
 	scene.add( terrain );
 	buildGUI();
+	
+	//setup a function to drain
+	setInterval(function() { 
+		//kill our batery if user is doing both
+		if(driveDrainRate>0 && instrumentDrainRate>0)currentEnergyLevel=0;
+		if(currentEnergyLevel>=0) {
+			currentEnergyLevel = currentEnergyLevel-driveDrainRate-instrumentDrainRate;
+		}
+	}, 200);
 
 
 }
@@ -216,7 +230,6 @@ function buildGUI(){
 	camFolder.add( camTweens.four, 'tween' ).name( 'Camera Four' );
 }
 
-var currentEnergyLevel = 100;
 
 function onKeyDown ( event ) {
 	if(currentEnergyLevel<10) {
@@ -231,27 +244,31 @@ function onKeyDown ( event ) {
 
 		case 38:
 			/*up*/ controlsRover.moveForward = true; 
-    		if(currentEnergyLevel>=0) {
+    		/*if(currentEnergyLevel>=0) {
         		currentEnergyLevel--;
-    		}
+    		}*/
+			driveDrainRate=2;
 			break;
 		case 40: 
 			/*up*/ controlsRover.moveBackward = true; 
-    		if(currentEnergyLevel>=0) {
-        		currentEnergyLevel--;
-    		}
+			/*if(currentEnergyLevel>=0) {
+	    		currentEnergyLevel--;
+			}*/
+			driveDrainRate=2;
 			break;
 		case 37: 
 			/*left*/ controlsRover.moveLeft = true; 
-    		if(currentEnergyLevel>=0) {
-        		currentEnergyLevel--;
-    		}
+			/*if(currentEnergyLevel>=0) {
+	    		currentEnergyLevel--;
+			}*/
+			driveDrainRate=2;
 			break;
 		case 39: 
 			/*right*/ controlsRover.moveRight = true; 
-    		if(currentEnergyLevel>=0) {
-        		currentEnergyLevel--;
-    		}
+			/*if(currentEnergyLevel>=0) {
+	    		currentEnergyLevel--;
+			}*/
+			driveDrainRate=2;
 			break;
 	}
 };
@@ -259,10 +276,10 @@ function onKeyDown ( event ) {
 function onKeyUp ( event ) {
 
 	switch( event.keyCode ) {
-		case 38: /*up*/ controlsRover.moveForward = false; break;
-		case 40: /*up*/ controlsRover.moveBackward = false; break;
-		case 37: /*left*/ controlsRover.moveLeft = false; break;
-		case 39: /*right*/ controlsRover.moveRight = false; break;
+		case 38: /*up*/ controlsRover.moveForward = false; driveDrainRate=0; break;
+		case 40: /*down*/ controlsRover.moveBackward = false; driveDrainRate=0; break;
+		case 37: /*left*/ controlsRover.moveLeft = false; driveDrainRate=0; break;
+		case 39: /*right*/ controlsRover.moveRight = false; driveDrainRate=0; break;
 	}
 	for( var i = 0; i < OUTCROPS.length; i++ ){
 		if( OUTCROPS[i].touchdown( rover.mesh, .75 ) ) console.log( OUTCROPS[i].name + " got a touchdown" );

@@ -344,6 +344,14 @@ document.addEventListener("DOMContentLoaded", function () {
 		popcornMedia[16].play(0);
 	});
 	
+	//when instrument sound ends, stop power drain.
+	popcornMedia[19].on( "ended", function() {
+		instrumentDrainRate=0;
+	});
+	popcornMedia[20].on( "ended", function() {
+		instrumentDrainRate=0;
+	});
+	
 
 	
 	//kill driving if window loses/gains focus
@@ -366,20 +374,21 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	});
     
-    //$("#energybar").css({'background-color':'rgba(51,111,139,1.0)'});
 	//increase energy bar by 1 every half second
 	setInterval(function() { 
+
+		if( currentEnergyLevel<=0 && $('#lowpowermessage').css('opacity') == 0){
+			//show the uber drain message
+		    $("#lowpowermessage").animate({opacity: 1.0}, 400, function() { $("#lowpowermessage").css('pointer-events', 'auto'); });
+			setTimeout(function() {
+			    $("#lowpowermessage").animate({opacity: 0.0}, 400, function() { $("#lowpowermessage").css('pointer-events', 'none'); });
+			},5000);
+		}
 		if(currentEnergyLevel<=100) {
 			currentEnergyLevel++;
 			//our energy div visual reflect the opposite (full looks empty and vice versa)
 			var flipNumber = 100-currentEnergyLevel;
 		    $("#energylevel").css({width:(flipNumber+"%")});
-			/*
-		    if(currentEnergyLevel<30) {
-			    $("#energybar").css({'background-color':'rgba(250,30,30,1.0)'});
-			} else {
-			    $("#energybar").css({'background-color':'rgba(51,111,139,1.0)'});
-			}*/
 		}
 	}, 200);
 	
@@ -562,7 +571,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     //xxx
-    //$("#mmrtgimagepanel").animate({opacity: 1.0}, 1, function() { $("#mmrtgimagepanel").css('pointer-events', 'auto'); });
+    //$("#lowpowermessage").animate({opacity: 1.0}, 1, function() { $("#lowpowermessage").css('pointer-events', 'auto'); });
     
     var instrumentsbutton = document.getElementById('instrumentsbutton');
     instrumentsbutton.style.cursor = 'pointer';
@@ -576,6 +585,7 @@ document.addEventListener("DOMContentLoaded", function () {
             		$("#calibrationprogressmessage").animate({opacity: 1.0}, 400, function() {  });
             		rover.useCalibration();
                 	setTimeout(function(){
+                		instrumentDrainRate=3;
                 		popcornMedia[19].play(0);
         	    	}, (armDuration));
            		}
@@ -583,6 +593,7 @@ document.addEventListener("DOMContentLoaded", function () {
             		$("#calibrationprogressmessage").animate({opacity: 1.0}, 400, function() {  });
             		rover.useCalibration();
                 	setTimeout(function(){
+                		instrumentDrainRate=3;
                 		popcornMedia[19].play(0);
         	    	}, (armDuration));
            		}
@@ -590,6 +601,7 @@ document.addEventListener("DOMContentLoaded", function () {
             		$("#analysisprogressmessage").animate({opacity: 1.0}, 400, function() {  });
 
                 	setTimeout(function(){
+                		instrumentDrainRate=4; //we'll say the drain for the drill is a bit higher at 4
                 		popcornMedia[20].play(0);
         	    	}, (armDuration));
            		}
@@ -1364,7 +1376,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			This project is a collaboration between the U.S. Department of Energy, the Mozilla Foundation, and MX.</div>
 			<br>
 			<img src="./images/tri_logo.png" style="align: center;">
-			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.10</font>
+			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.11</font>
 		</div>
 	
 		<div id="topbar" class="topbar">
@@ -1513,6 +1525,21 @@ document.addEventListener("DOMContentLoaded", function () {
 					</td>
 					<td style="padding-left:10px;vertical-align:top; align:right;">
 						<img src="./images/MMRTG.jpg" style="border:1px solid rgba(200,200,200,1.0);width:284px;height:236px;">
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<div id="lowpowermessage" class="lowpowermessagereddiv">
+			<table style="width: 100%;margin:0;padding:0;" >
+				<tr >
+					<td width="50px" rowspan="2" align="left" valign="middle" style="padding-right:8px;"><img src="./images/icon_alert.png" style="width:49px;height:44px;"></td>
+					
+					<td align="left"><font style="font-size:16px;font-weight:400;">LOW POWER</font></td>
+				</tr>
+				<tr>
+					<td align="left">
+						<font style="font-size:16px;font-weight:300;">The rover can only power one action at a time</font>
 					</td>
 				</tr>
 			</table>
