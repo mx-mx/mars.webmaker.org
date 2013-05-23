@@ -605,6 +605,7 @@ document.addEventListener("DOMContentLoaded", function () {
         	    		if(theTargetSeen=="Outcrop 2") {
         	    			advanceUser();
         	    		} else if (theTargetSeen=="Outcrop 1" || theTargetSeen=="Outcrop 3") {
+        	    		    $("#analysisresultspoormessage").animate({opacity: 1.0}, 400, function() { $("#analysisresultspoormessage").css('pointer-events', 'auto'); });
         	    			setTimeout(function(){
             			    	$("#analysisresultspoormessage").animate({opacity: 0.0}, 400, function() {
             			           	$("#analysisresultspoormessage").css('pointer-events', 'none');
@@ -1363,7 +1364,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			This project is a collaboration between the U.S. Department of Energy, the Mozilla Foundation, and MX.</div>
 			<br>
 			<img src="./images/tri_logo.png" style="align: center;">
-			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.08</font>
+			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.09</font>
 		</div>
 	
 		<div id="topbar" class="topbar">
