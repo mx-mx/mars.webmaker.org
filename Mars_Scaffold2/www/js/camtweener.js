@@ -29,4 +29,3 @@ function camTweener( newCamPosition, newTarget, time ) {
 	Tweener( camTarget, newTarget, time );	
 }
 
-

@@ -20,7 +20,7 @@ var target,
 	targetSize = 5;
 
 var roverLoader = new THREE.ColladaLoader();
-var terrainLoader = new THREE.ColladaLoader();
+// var terrainLoader = new THREE.ColladaLoader();
 
 var armStowed = true,
 	mastStowed = true;
@@ -60,14 +60,16 @@ $(document).ready( function() {
 
 		rover_dae.updateMatrix();
 
-		terrainLoader.options.convertUpAxis = true;
-		terrainLoader.load( './models/terrain.dae', function ( collada ) {
+		// terrainLoader.options.convertUpAxis = true;
+		// terrainLoader.load( './models/terrain.dae', function ( collada ) {
 			
-			terrain = collada.scene;
-			terrain.scale.set( 1, 1, 1 );
-			postColladaLoaded();
+		// 	terrain = collada.scene;
+		// 	terrain.scale.set( 1, 1, 1 );
+		// 	postColladaLoaded();
 
-		} );
+		// } );
+
+	postColladaLoaded();
 
 	} );
 
@@ -93,17 +95,17 @@ function init() {
 	camera.position.set( 0, 1, -7 );
 
 	var ambientLight = new THREE.AmbientLight();
-	ambientLight.color.setRGB( .15, .15, .15 );
+	ambientLight.color.setRGB( .5, .5, .5 );
 	scene.add(ambientLight);
 
 	// var pointLight = new THREE.PointLight(0xFFFFFF, 1.3);
 	// pointLight.position.set( 0, 100, 0 );
 	// scene.add(pointLight);
 
-	var directionalLight = new THREE.DirectionalLight( 0x6B7DA0, 1 );
-	directionalLight.position.set( -175, 20, 0 );
-	directionalLight.castShadow = true;
-	scene.add( directionalLight );
+	// var directionalLight = new THREE.DirectionalLight( 0x6B7DA0, 1 );
+	// directionalLight.position.set( -175, 20, 0 );
+	// directionalLight.castShadow = true;
+	// scene.add( directionalLight );
 
 	// light = new THREE.SpotLight( 0xFFFFFF, 1, 500 );
 	// light.position.set( 1, 10, 0 );
@@ -118,12 +120,12 @@ function init() {
 
 
 	setupScene();
-	renderer = Detector.webgl? new THREE.WebGLRenderer( { antialias: true } ): new THREE.CanvasRenderer();
+	renderer = new THREE.WebGLRenderer( { antialias: true } );
 	renderer.setSize( WIDTH, HEIGHT );
-	// renderer.setClearColor( scene.fog.color, 1 );
+	renderer.setClearColor( scene.fog.color, 1 );
 
 	$container.append( renderer.domElement );
-	renderer.autoClear = false;
+	// renderer.autoClear = false;
 
 	controls = new THREE.OrbitControls( camera, $container[0] );
 	controls.addEventListener( 'change', render );
@@ -145,8 +147,8 @@ function init() {
 		EVENTS
 	********************************/
 
-	document.addEventListener( 'keydown', onKeyDown, false );
-	document.addEventListener( 'keyup', onKeyUp, false );
+	// document.addEventListener( 'keydown', onKeyDown, false );
+	// document.addEventListener( 'keyup', onKeyUp, false );
 
 	window.addEventListener( 'resize', onWindowResize, false );
 
@@ -173,21 +175,21 @@ function setupScene(){
 
 	};
 
-	var targetMaterial = new THREE.MeshBasicMaterial( { 
-		map: THREE.ImageUtils.loadTexture( './images/target1.png' ), 
-		overdraw: true,
-		transparent: true
-	});
+	// var targetMaterial = new THREE.MeshBasicMaterial( { 
+	// 	map: THREE.ImageUtils.loadTexture( './images/target1.png' ), 
+	// 	overdraw: true,
+	// 	transparent: true
+	// });
 
-	target = new THREE.Mesh( new THREE.PlaneGeometry(targetSize, targetSize), targetMaterial );
-	target.rotation.x = -90 * toRadians;
-	target.position.set( 0, .01, 20 ); 
-	scene.add( target );
+	// target = new THREE.Mesh( new THREE.PlaneGeometry(targetSize, targetSize), targetMaterial );
+	// target.rotation.x = -90 * toRadians;
+	// target.position.set( 0, .01, 20 ); 
+	// scene.add( target );
 
 	// var grid = CreateGrid( 0, .5, 50 );
 	// scene.add( grid );
 
-	scene.add( terrain );
+	// scene.add( terrain );
 	buildGUI();
 
 	rover.arm.rotation.y = -90 * toRadians;
@@ -252,66 +254,66 @@ function buildGUI(){
 	gui.close();
 }
 
-function stowArm( stowTime ){
-	if (stowTime === undefined) stowTime = 1500;
-	if( armStowed ){
-		Tweener(rover.arm.rotation, {x:0, y: 0, z:0}, stowTime);
-		Tweener(rover.arm.elbow.rotation, {x:0, y:0, z:0}, stowTime);
-		Tweener(rover.arm.shoulder.rotation, {x:0, y:0, z:0}, stowTime);
-		armStowed = false;
-	}else{
-		Tweener(rover.arm.rotation, {x:0, y:-90 * toRadians, z:0}, stowTime);
-		Tweener(rover.arm.elbow.rotation, {x:-75 * toRadians, y:0, z:0}, stowTime);
-		Tweener(rover.arm.shoulder.rotation, {x:-10 * toRadians, y:0, z:0}, stowTime);
-		armStowed = true;
-	}
-}
+// function stowArm( stowTime ){
+// 	if (stowTime === undefined) stowTime = 1500;
+// 	if( armStowed ){
+// 		Tweener(rover.arm.rotation, {x:0, y: 0, z:0}, stowTime);
+// 		Tweener(rover.arm.elbow.rotation, {x:0, y:0, z:0}, stowTime);
+// 		Tweener(rover.arm.shoulder.rotation, {x:0, y:0, z:0}, stowTime);
+// 		armStowed = false;
+// 	}else{
+// 		Tweener(rover.arm.rotation, {x:0, y:-90 * toRadians, z:0}, stowTime);
+// 		Tweener(rover.arm.elbow.rotation, {x:-75 * toRadians, y:0, z:0}, stowTime);
+// 		Tweener(rover.arm.shoulder.rotation, {x:-10 * toRadians, y:0, z:0}, stowTime);
+// 		armStowed = true;
+// 	}
+// }
 
-function stowMast( stowTime ){
-	if (stowTime === undefined) stowTime = 1500;
-	if( mastStowed ){
-		Tweener(rover.mast.rotation, {x:0, y:33 * toRadians, z:0}, stowTime);
-		Tweener(rover.mast.head.rotation, {x:0, y:0, z:0}, stowTime);
-		mastStowed = false;
-	}else{
-		Tweener(rover.mast.rotation, {x:0, y:33 * toRadians, z:-85 * toRadians}, stowTime);
-		Tweener(rover.mast.head.rotation, {x:0, y:-55 * toRadians, z:0}, stowTime);
-		mastStowed = true;
-	}
-}
+// function stowMast( stowTime ){
+// 	if (stowTime === undefined) stowTime = 1500;
+// 	if( mastStowed ){
+// 		Tweener(rover.mast.rotation, {x:0, y:33 * toRadians, z:0}, stowTime);
+// 		Tweener(rover.mast.head.rotation, {x:0, y:0, z:0}, stowTime);
+// 		mastStowed = false;
+// 	}else{
+// 		Tweener(rover.mast.rotation, {x:0, y:33 * toRadians, z:-85 * toRadians}, stowTime);
+// 		Tweener(rover.mast.head.rotation, {x:0, y:-55 * toRadians, z:0}, stowTime);
+// 		mastStowed = true;
+// 	}
+// }
 
-function touchdown(){
-	var roverPosFromMatrix = new THREE.Vector3();
-	roverPosFromMatrix.getPositionFromMatrix( rover.mesh.matrixWorld );
+// function touchdown(){
+// 	var roverPosFromMatrix = new THREE.Vector3();
+// 	roverPosFromMatrix.getPositionFromMatrix( rover.mesh.matrixWorld );
 
-	var marsPos = rover.mesh.position;
-	var targetPos = target.position;
+// 	var marsPos = rover.mesh.position;
+// 	var targetPos = target.position;
 
-	if( marsPos.distanceTo( targetPos ) <= targetSize * touchdownSensitivity ){
-		return true;
-	}else return false;
-}
+// 	if( marsPos.distanceTo( targetPos ) <= targetSize * touchdownSensitivity ){
+// 		return true;
+// 	}else return false;
+// }
 
-function onKeyDown ( event ) {
+// function onKeyDown ( event ) {
 
-	switch( event.keyCode ) {
+// 	switch( event.keyCode ) {
 
-		case 38: /*up*/ controlsRover.moveForward = true; break;
-		case 40: /*up*/ controlsRover.moveBackward = true; break;
-		case 37: /*left*/ controlsRover.moveLeft = true; break;
-		case 39: /*right*/ controlsRover.moveRight = true; break;
-	}
-};
+// 		case 38: /*up*/ controlsRover.moveForward = true; break;
+// 		case 40: /*up*/ controlsRover.moveBackward = true; break;
+// 		case 37: /*left*/ controlsRover.moveLeft = true; break;
+// 		case 39: /*right*/ controlsRover.moveRight = true; break;
+// 	}
+// };
 
-function onKeyUp ( event ) {
+// function onKeyUp ( event ) {
 
-	switch( event.keyCode ) {
-		case 38: /*up*/ controlsRover.moveForward = false; break;
-		case 40: /*up*/ controlsRover.moveBackward = false; break;
-		case 37: /*left*/ controlsRover.moveLeft = false; break;
-		case 39: /*right*/ controlsRover.moveRight = false; break;
-	}
-};
+// 	switch( event.keyCode ) {
+// 		case 38: /*up*/ controlsRover.moveForward = false; break;
+// 		case 40: /*up*/ controlsRover.moveBackward = false; break;
+// 		case 37: /*left*/ controlsRover.moveLeft = false; break;
+// 		case 39: /*right*/ controlsRover.moveRight = false; break;
+// 	}
+// };
 
 function onWindowResize() {
 
@@ -329,22 +331,22 @@ function animate() {
 
 	requestAnimationFrame( animate );
 
-    camera.updateProjectionMatrix();
-
+    // camera.updateProjectionMatrix();
+	render();
 	controls.update();
-	stats.update();
+	// stats.update();
 	TWEEN.update();
 
-	rover.updateCarModel( clock, controlsRover );
+	// rover.updateCarModel( clock, controlsRover );
 
 	time += .01;
-	render();
+
 
 }
 
 function render() {
 
-	renderer.clear();
+	// renderer.clear();
 	renderer.render( scene, camera );
 
 }

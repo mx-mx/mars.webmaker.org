@@ -84,7 +84,7 @@ function init() {
 	// renderer.setClearColor( scene.fog.color, 1 );
 
 	$container.append( renderer.domElement );
-	renderer.autoClear = false;
+	// renderer.autoClear = false;
 
 	controls = new THREE.OrbitControls( camera, $container[0] );
 	controls.addEventListener( 'change', render );
@@ -97,10 +97,10 @@ function init() {
 		STATS
 	********************************/
 
-	//stats = new Stats();
-	//stats.domElement.style.position = 'absolute';
-	//stats.domElement.style.top = '0px';
-	//$container.append( stats.domElement );
+	stats = new Stats();
+	stats.domElement.style.position = 'absolute';
+	stats.domElement.style.top = '0px';
+	$container.append( stats.domElement );
 
 	/********************************
 		EVENTS
@@ -298,11 +298,12 @@ function onWindowResize() {
 function animate() {
 
 	requestAnimationFrame( animate );
-    camera.updateProjectionMatrix();
+    // camera.updateProjectionMatrix();
 
 	controls.update();
-	//stats.update();
-	TWEEN.update();
+	stats.update();
+
+	// TWEEN.update();
 
 	for( var i = 0; i < OUTCROPS.length; i++ ){
 		OUTCROPS[i].updateArrow();
@@ -312,12 +313,13 @@ function animate() {
 
 	time += .01;
 	render();
+	TWEEN.update();
 
 }
 
 function render() {
 
-	renderer.clear();
+	// renderer.clear();
 	renderer.render( scene, camera );
 
 }
