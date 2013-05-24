@@ -447,6 +447,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 
 	popcornMedia[1].cue( 18.5, function() {
+		//removing because it's sort of odd per issue 20069
+		/*
 		$("#incomingmessage").animate({opacity: 1.0}, 1000, function() {
 	       	$("#incomingmessage").css('pointer-events', 'auto');
 	   	});
@@ -456,6 +458,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		       	$("#incomingmessage").css('pointer-events', 'none');
 		   	});
 		}, 15000);
+		*/
 	});
 
 	popcornMedia[1].on( "ended", function() {
