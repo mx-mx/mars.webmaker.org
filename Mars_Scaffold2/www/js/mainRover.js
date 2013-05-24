@@ -320,7 +320,7 @@ function animate() {
 
 function render() {
 
-	renderer.clear();
+	// renderer.clear();
 	renderer.render( scene, camera );
 
 }

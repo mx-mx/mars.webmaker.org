@@ -1336,18 +1336,21 @@ document.addEventListener("DOMContentLoaded", function () {
 		$( "#pilotviewbutton" )
 			.button()
 			.click(function( event ) {
+				TWEEN.getAll();
 		    	camTweener( { x:0, y:4, z:-10 }, { x:0, y:0, z:0 }, 1500 );
 		});
 
 		$( "#sideviewbutton" )
 			.button()
 			.click(function( event ) {
-		    	camTweener( { x:-5, y:3, z:-2 }, { x:0, y:0, z:0 }, 2000 );
+		    					TWEEN.getAll();
+				camTweener( { x:-5, y:3, z:-2 }, { x:0, y:0, z:0 }, 2000 );
 		});
 
 		$( "#wideviewbutton" )
 			.button()
 			.click(function( event ) {
+				TWEEN.getAll();
 		    	camTweener( { x:0, y:8, z:-20 }, { x:0, y:0, z:0 }, 3000 );
 		});
 
