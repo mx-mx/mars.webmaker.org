@@ -404,6 +404,26 @@ div.pathfindervideo1
     margin:-230px 0 0 -185px;
 	z-index: 7;
 }
+.rovercopyright
+{
+  position: absolute;
+	opacity: 1.0;
+	pointer-events:none;
+	padding: 2px;
+	color: rgba(200,200,200,0.4);
+	font-family: 'Lato', sans-serif;
+	text-transform: none;
+	font-size: 12px;
+	font-weight: 300;
+    border-radius: 5px;
+    border:none;
+	width: 310px;
+	height: 20px;
+	bottom:6px;
+    left:50%;
+    margin:-0px 0 0 -160px;
+	z-index: 0;
+}
 .roverdetailpanel {
   position: absolute;
 	opacity: 0.0;
