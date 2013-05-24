@@ -15,6 +15,7 @@ function camTweener( newCamPosition, newTarget, time ) {
 		.to( newCamPosition , time )
 		.easing(TWEEN.Easing.Sinusoidal.InOut)
 		.onStart( function(){ 
+			render();
 			controls.enabled = false; 
 			controls.update();
 		} )

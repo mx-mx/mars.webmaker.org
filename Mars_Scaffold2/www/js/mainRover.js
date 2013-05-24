@@ -312,6 +312,7 @@ function animate() {
 	rover.updateCarModel( clock, controlsRover );
 
 	time += .01;
+	
 	render();
 	TWEEN.update(window.performance.now() + clock.getDelta());
 
