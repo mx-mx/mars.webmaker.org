@@ -2102,12 +2102,16 @@ document.addEventListener("DOMContentLoaded", function () {
 					jumpPopcornMedia(33); //landed
 				} else if(deltaDif>=-4.8) {
 					jumpPopcornMedia(34); //bad
+					showLaunchControls();
 				} else if(deltaDif>=-6.3) {
 					jumpPopcornMedia(35); //worse
+					showLaunchControls();
 				} else if(deltaDif>=-7.0) {
 					jumpPopcornMedia(36); //even worse
+					showLaunchControls();
 				} else {
 					jumpPopcornMedia(37); //just aweful
+					showLaunchControls();
 				}
 	    	  break;
 	    	case 1:
@@ -2118,12 +2122,16 @@ document.addEventListener("DOMContentLoaded", function () {
 					jumpPopcornMedia(33); //landed
 				} else if(deltaDif>=-4.8) {
 					jumpPopcornMedia(34); //bad
+					showLaunchControls();
 				} else if(deltaDif>=-6.3) {
 					jumpPopcornMedia(35); //worse
+					showLaunchControls();
 				} else if(deltaDif>=-7.0) {
 					jumpPopcornMedia(36); //even worse
+					showLaunchControls();
 				} else {
 					jumpPopcornMedia(37); //just aweful
+					showLaunchControls();
 				}
 	    	  break;
 	    	case 2:
@@ -2134,18 +2142,37 @@ document.addEventListener("DOMContentLoaded", function () {
 					jumpPopcornMedia(33); //landed
 				} else if(deltaDif>=-4.8) {
 					jumpPopcornMedia(34); //bad
+					showLaunchControls();
 				} else if(deltaDif>=-6.3) {
 					jumpPopcornMedia(35); //worse
+					showLaunchControls();
 				} else if(deltaDif>=-7.0) {
 					jumpPopcornMedia(36); //even worse
+					showLaunchControls();
 				} else {
 					jumpPopcornMedia(37); //just aweful
+					showLaunchControls();
 				}
 	    	  break;
 	    	default:
 	    		jumpPopcornMedia(37); //just aweful
+				showLaunchControls();
 		    	break;
 	    	}
+		}
+		
+		var showLaunchControls = function() {
+			$("#launchcontrols").animate({opacity: 1.0}, 200, function() {
+            	$("#launchcontrols").css('pointer-events', 'auto');
+        	});
+			
+			$("#launchdiv").animate({opacity: 1.0}, 200, function() {
+            	$("#launchdiv").css('pointer-events', 'auto');
+        	});
+			
+			$("#launchcommitdiv").animate({opacity: 1.0}, 200, function() {
+            	$("#launchcommitdiv").css('pointer-events', 'auto');
+        	});
 		}
 		
 		//we've got simple date formatting needs, so this will be sufficient for our project.
