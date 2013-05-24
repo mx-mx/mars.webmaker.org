@@ -1368,7 +1368,7 @@ div .threedcontrols {
 }
 .launchcommitdiv
 { 
-	opacity:0;
+	opacity:0.5;
 	pointer-events:none;
 	padding:5px;
 	margin-right:5px;

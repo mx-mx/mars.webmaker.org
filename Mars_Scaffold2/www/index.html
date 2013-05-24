@@ -310,7 +310,12 @@ document.addEventListener("DOMContentLoaded", function () {
 	popcornMedia[30] = Popcorn( '#SEQ_5_sim_fail2' );
 	popcornMedia[31] = Popcorn( '#SEQ_5_sim_fail3' );
 	popcornMedia[32] = Popcorn( '#SEQ_5_sim_fail4' );
-	popcornMedia[33] = Popcorn( '#SEQ_7_cme_success' );
+	popcornMedia[33] = Popcorn( '#SEQ_6_CAM' );
+	popcornMedia[34] = Popcorn( '#SEQ_5_fail1' );
+	popcornMedia[35] = Popcorn( '#SEQ_5_fail2' );
+	popcornMedia[36] = Popcorn( '#SEQ_5_fail3' );
+	popcornMedia[37] = Popcorn( '#SEQ_5_fail4' );
+	popcornMedia[38] = Popcorn( '#SEQ_7_cme_success' );
 
 	//not sure if I'll need this baseplayer
 	//decided to keep basepop in as a convenient way to initialize the 3D and fire up the first video player.  
@@ -665,6 +670,14 @@ document.addEventListener("DOMContentLoaded", function () {
         $("#launchcommitdiv").animate({opacity: 1.0}, 200, function() {
         	$("#launchcommitdiv").css('pointer-events', 'auto');
     	});
+    	
+	});
+    
+    popcornMedia[33].cue( 2, function() {
+      	//award rocket badge
+    	$("#rocketbadge").animate({opacity: 1.0}, 200, function() {
+        	$("#rocketbadge").css('pointer-events', 'auto');
+        });
     	
 	});
     
@@ -1588,8 +1601,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			.button()
 			.click(function( event ) {
 				setTimeout(function() {
-					jumpPopcornMedia(33);
-					
+					jumpPopcornMedia(38);
 				}, 1000);
 		});
 		
@@ -1613,7 +1625,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			$("#launchdiv").animate({opacity: 0.0}, 200, function() {
             	$("#launchdiv").css('pointer-events', 'none');
         	});
-	        $("#launchcommitdiv").animate({opacity: 0.0}, 200, function() {
+	        $("#launchcommitdiv").animate({opacity: 0.5}, 200, function() {
 	        	$("#launchcommitdiv").css('pointer-events', 'none');
 	    	});
 	        if(threedinitialized) {
@@ -1671,7 +1683,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			$("#launchdiv").animate({opacity: 0.0}, 200, function() {
             	$("#launchdiv").css('pointer-events', 'none');
         	});
-	        $("#launchcommitdiv").animate({opacity: 0.0}, 200, function() {
+	        $("#launchcommitdiv").animate({opacity: 0.5}, 200, function() {
 	        	$("#launchcommitdiv").css('pointer-events', 'none');
 	    	});
 	    	//initialize 3d if you need to
@@ -1726,7 +1738,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			$("#launchdiv").animate({opacity: 0.0}, 200, function() {
             	$("#launchdiv").css('pointer-events', 'none');
         	});
-	        $("#launchcommitdiv").animate({opacity: 0.0}, 200, function() {
+	        $("#launchcommitdiv").animate({opacity: 0.5}, 200, function() {
 	        	$("#launchcommitdiv").css('pointer-events', 'none');
 	    	});
 	    	//initialize 3d if you need to
@@ -1979,18 +1991,15 @@ document.addEventListener("DOMContentLoaded", function () {
 					setTimeout(function() {
 						checktouchdown = setInterval(function () {
 						    if(touchdown(trajectory)) {
-							    console.log("got touchdown");
-							  //award rocket badge
-								$("#rocketbadge").animate({opacity: 1.0}, 200, function() {
-							    	$("#rocketbadge").css('pointer-events', 'auto');
-							    });
+							    console.log("got a touchdown");
+						    	clearInterval(checktouchdown);
+						    	playFullLaunchAudio();
 						    }
 						},500);
 					},1200);
 					
 					//show a CME 4 seconds in
 					setTimeout(function() {
-
 						$("#cmemessage").animate({opacity: 1.0}, 200, function() {
 					    	$("#cmemessage").css('pointer-events', 'auto');
 					    });
@@ -2009,7 +2018,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					
 					setDeltaV(trajectory.totalDeltaV);
 	
-					$("#speedSlider").slider('value',.11);
+					$("#speedSlider").slider('value',.12);
 				}
 		});
 
@@ -2075,6 +2084,66 @@ document.addEventListener("DOMContentLoaded", function () {
 	    	  break;
 	    	default:
 	    		jumpPopcornMedia(31); //just aweful
+		    	break;
+	    	}
+		}
+		
+		var playFullLaunchAudio = function() {
+			console.log("rocketChoice: " + rocketChoice);
+			var deltaDif;
+			switch(rocketChoice)
+	    	{
+	    	case 0:
+	    		//check to see if deltaV is under minimum for this rocket
+	    		deltaDif = rocketDeltas[rocketChoice] - trajectory.totalDeltaV;
+				console.log("deltaDif: " + deltaDif);
+				
+				if(deltaDif>=0) {
+					jumpPopcornMedia(33); //landed
+				} else if(deltaDif>=-4.8) {
+					jumpPopcornMedia(34); //bad
+				} else if(deltaDif>=-6.3) {
+					jumpPopcornMedia(35); //worse
+				} else if(deltaDif>=-7.0) {
+					jumpPopcornMedia(36); //even worse
+				} else {
+					jumpPopcornMedia(37); //just aweful
+				}
+	    	  break;
+	    	case 1:
+	    		deltaDif = rocketDeltas[rocketChoice] - trajectory.totalDeltaV;
+				console.log("deltaDif: " + deltaDif);
+				
+				if(deltaDif>=0) {
+					jumpPopcornMedia(33); //landed
+				} else if(deltaDif>=-4.8) {
+					jumpPopcornMedia(34); //bad
+				} else if(deltaDif>=-6.3) {
+					jumpPopcornMedia(35); //worse
+				} else if(deltaDif>=-7.0) {
+					jumpPopcornMedia(36); //even worse
+				} else {
+					jumpPopcornMedia(37); //just aweful
+				}
+	    	  break;
+	    	case 2:
+	    		deltaDif = rocketDeltas[rocketChoice] - trajectory.totalDeltaV;
+				console.log("deltaDif: " + deltaDif);
+				
+				if(deltaDif>=0) {
+					jumpPopcornMedia(33); //landed
+				} else if(deltaDif>=-4.8) {
+					jumpPopcornMedia(34); //bad
+				} else if(deltaDif>=-6.3) {
+					jumpPopcornMedia(35); //worse
+				} else if(deltaDif>=-7.0) {
+					jumpPopcornMedia(36); //even worse
+				} else {
+					jumpPopcornMedia(37); //just aweful
+				}
+	    	  break;
+	    	default:
+	    		jumpPopcornMedia(37); //just aweful
 		    	break;
 	    	}
 		}
@@ -2264,7 +2333,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			This project is a collaboration between the U.S. Department of Energy, the Mozilla Foundation, and MX.</div>
 			<br>
 			<img src="./images/tri_logo.png" style="align: center;">
-			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.12</font>
+			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.13</font>
 		</div>
 		
 		<div id="topbar" class="topbar">
@@ -3041,6 +3110,31 @@ document.addEventListener("DOMContentLoaded", function () {
 		<audio id="SEQ_5_sim_fail4">
 			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_5_sim_fail4.mp3"></source>
 			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_5_sim_fail4.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="SEQ_5_fail1">
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_5_fail1.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_5_fail1.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="SEQ_5_fail2">
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_5_fail2.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_5_fail2.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="SEQ_5_fail3">
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_5_fail3.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_5_fail3.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="SEQ_5_fail4">
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_5_fail4.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_5_fail4.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="SEQ_6_CAM">
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_6_CAM.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_6_CAM.oggvorbis.ogg"></source>
 		</audio> 
 		
 		<audio id="SEQ_7_cme_success">
