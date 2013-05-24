@@ -313,13 +313,13 @@ function animate() {
 
 	time += .01;
 	render();
-	TWEEN.update();
+	TWEEN.update(window.performance.now() + clock.getDelta());
 
 }
 
 function render() {
 
-	// renderer.clear();
+	renderer.clear();
 	renderer.render( scene, camera );
 
 }
