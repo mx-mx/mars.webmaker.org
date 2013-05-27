@@ -46,7 +46,7 @@ function makeSolarSystem(){
 	ss[0].rotation.x = 2;
 	ss3D.add( ss[0] );
 
-	// ss[0].label = new Label( ss[0], 1, $contenttarget[0] );
+	ss[0].label = new Label( ss[0], 1, $contenttarget[0] );
 
 	findSemiMinor();
 	for ( var i = 1; i < ephemeris.length; i ++ ) {
@@ -67,7 +67,7 @@ function makeSolarSystem(){
 		ss3D.add( ss[i].orbit );
 
 		ss3D.add( ss[i] );
-		// ss[i].label = new Label( ss[i], 1, $contenttarget[0] );
+		ss[i].label = new Label( ss[i], 1, $contenttarget[0] );
 
 	}
 

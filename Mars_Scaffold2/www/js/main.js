@@ -351,7 +351,7 @@ function animate() {
 	}
 
 
-    // updateLabels();
+    updateLabels();
 	controls.update();
 	// stats.update();
 	TWEEN.update();
@@ -359,7 +359,6 @@ function animate() {
 
 	planetsOrbit( timer.JD );
 
-	// console.log( departure_time.jd_tt() );
 	if (trajectory != null ) {
 		trajectory.drawTrajectory( timer.JD, ssScale.s );
 	}
