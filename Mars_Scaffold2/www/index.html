@@ -57,7 +57,7 @@
 		<script src="./js/shaderlist.js"></script>
 
 		<script src="./js/label.js"></script>
-		<script src="./js/lensflare.js"></script>
+		<script src="./js/addlensflare.js"></script>
 		<script src="./js/planet.js"></script>
 		<script src="./js/orbit.js"></script>
 		<script src="./js/sun.js"></script>
@@ -67,7 +67,7 @@
 		<script src="./js/stars.js"></script>
 		<script src="./js/jat/Time.js"></script>
 
-		<script src="./js/addlensflare.js"></script>
+
 		
 		<script src="./js/sonic.js"></script>
 
@@ -1912,8 +1912,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			    	var jd = new Number(departure_time.jd_tt()).Julian2Date();
 			    	
+
 			    	trajectory = null;
 			    	trajectory = new Trajectory();
+
 					trajectory.init( departure_time, arrival_time, function () {
 					    console.log("slow down insano speed");
 					    $("#speedSlider").slider('value',.15);
@@ -1921,8 +1923,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			
 						//console.log("heard the done drawing callback");
 					    //playTrajectoryAudio();		    
-					});
-					
+					});					
 					
 					//since the callback doesn't always work.  lets try this method 
 					//kick off the check interval function after a timeout delay of just over 1 second.

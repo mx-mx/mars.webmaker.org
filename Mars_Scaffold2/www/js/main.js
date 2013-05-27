@@ -199,7 +199,7 @@ function setupScene(){
 	solarSystem.add( starField );
 
 	var sunFlare = addLensFlare( 5, 0, 0, 5 );
-	SUN.add( sunFlare );
+	// SUN.add( sunFlare );
 
 
 	var ringMat = new THREE.MeshBasicMaterial( { 
