@@ -238,15 +238,16 @@ function setPowerPenalty() {
 }
 
 function onKeyDown ( event ) {
+
 	if(powerPenalty)return;
-	if(currentEnergyLevel<2) {
-		controlsRover.moveForward = false;
-		controlsRover.moveBackward = false;
-		controlsRover.moveLeft = false;
-		controlsRover.moveRight = false;
-		setPowerPenalty();
-		return;
-	}
+	// if(currentEnergyLevel < 2 ) {
+	// 	controlsRover.moveForward = false;
+	// 	controlsRover.moveBackward = false;
+	// 	controlsRover.moveLeft = false;
+	// 	controlsRover.moveRight = false;
+	// 	setPowerPenalty();
+	// 	return;
+	// }
 
 	switch( event.keyCode ) {
 
@@ -295,20 +296,63 @@ function onWindowResize() {
 
 }
 
+// Check to see if Rover is out of Bounds. If out of bounds it resets the rover to the center of the screen.
+function outOfBounds(){
+	var boundary = 60; 
+	var almostBoundary = boundary - boundary * .1; //10% of the boundary
+	var posFromMatrix = new THREE.Vector3();
+	posFromMatrix.getPositionFromMatrix( rover.mesh.matrixWorld );
+	var roverPosFromCenter = posFromMatrix.distanceTo( scene.position );
+
+	// Check to see if the rover is almost reaching the boundary and send out a console message,
+	// If the rover reaches the boundary it resets the position of the rover back to center.
+	if (roverPosFromCenter > almostboundary && roverPosFromCenter < boundary){
+		console.log("Almost out of bounds! Turn Around!");
+	}else if(roverPosFromCenter > boundary){
+
+		console.log("Out of bounds, reseting position back to center");
+
+		var resetPos = new TWEEN.Tween( rover.mesh.position )
+			.to( scene.position , 1000 )
+			.easing(TWEEN.Easing.Sinusoidal.InOut)
+			.onStart( function() {
+				controlsRover.moveForward = false;
+				controlsRover.moveBackward = false;
+				controlsRover.moveLeft = false;
+				controlsRover.moveRight = false;
+			} );
+
+		var widenCam = new TWEEN.Tween( camera.position )
+			.to( { x:0, y:8, z:-20 }, 500 )
+			.easing(TWEEN.Easing.Sinusoidal.InOut)
+			.onStart( function(){
+				resetPos.start();
+			});
+
+		widenCam.start();
+	}
+}
+
 function animate() {
 
 	requestAnimationFrame( animate );
-    // camera.updateProjectionMatrix();
 
 	controls.update();
 	//stats.update();
-
-	// TWEEN.update();
 
 	for( var i = 0; i < OUTCROPS.length; i++ ){
 		OUTCROPS[i].updateArrow();
 	}
 
+	if(currentEnergyLevel < 2 ) {
+		controlsRover.moveForward = false;
+		controlsRover.moveBackward = false;
+		controlsRover.moveLeft = false;
+		controlsRover.moveRight = false;
+		setPowerPenalty();
+	}
+
+	outOfBounds();
 	rover.updateCarModel( clock, controlsRover );
 
 	time += .01;
@@ -319,7 +363,6 @@ function animate() {
 }
 
 function render() {
-
 	// renderer.clear();
 	renderer.render( scene, camera );
 
