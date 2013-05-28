@@ -99,6 +99,9 @@ function rocketbadgefinish() {
 }
 
 
+var launchPlanetDistance = 0; // greater 140 is too far  
+var monthDifference = 0; //6 mo - 13129200000 9 mo - 21078000000
+
 // ensure the web page (DOM) has loaded
 document.addEventListener("DOMContentLoaded", function () {
 	//we want to limit orbit animations to stay within our loaded ephemeris range 
@@ -2088,83 +2091,93 @@ document.addEventListener("DOMContentLoaded", function () {
 		
 		var playTrajectoryAudio = function() {
 			console.log("rocketChoice: " + rocketChoice);
-			var deltaDif;
+			console.log("launchPlanetDistance: " + launchPlanetDistance);
+			console.log("monthDifference: " + monthDifference);
+			var MaxPlanetDistance = 160;
+			var MinTravelDifference = 13129200000;
+			var MaxTravelDifference = 21078000000;
+			var isBadTravelTime = (monthDifference<13129200000 || monthDifference>MaxTravelDifference);
+			var deltaVDif;
 			switch(rocketChoice)
 	    	{
 	    	case 0:
 	    		//check to see if deltaV is under minimum for this rocket
-	    		deltaDif = rocketDeltas[rocketChoice] - trajectory.totalDeltaV;
-				console.log("deltaDif: " + deltaDif);
+	    		deltaVDif = rocketDeltas[rocketChoice] - trajectory.totalDeltaV;
+				console.log("deltaVDif: " + deltaVDif);
 				
-				if(deltaDif>=0) {
+
+				//var launchPlanetDistance = 0; // greater 140 is too far  
+				//var monthDifference = 0; //6 mo - 13129200000 9 mo - 21078000000
+				
+				if(deltaVDif>=0) {
 					jumpPopcornMedia(28); //landed
-				} else if(deltaDif>=-4.8) {
-					jumpPopcornMedia(29); //bad
-				} else if(deltaDif>=-6.3) {
-					jumpPopcornMedia(30); //worse
-				} else if(deltaDif>=-7.0) {
-					jumpPopcornMedia(31); //even worse
+				} else if(launchPlanetDistance>MaxPlanetDistance && !isBadTravelTime) {
+					jumpPopcornMedia(29); //move launch date closer distance
+				} else if(launchPlanetDistance<MaxPlanetDistance && isBadTravelTime) {
+					jumpPopcornMedia(30); //make sure launch dates 6-9 months
+				} else if(launchPlanetDistance>MaxPlanetDistance && isBadTravelTime) {
+					jumpPopcornMedia(31); //move launch date closer distance AND make sure launch dates 6-9 months
 				} else {
-					jumpPopcornMedia(32); //just aweful
+					jumpPopcornMedia(32); //Very close, tweak
 				}
 	    	  break;
 	    	case 1:
-	    		deltaDif = rocketDeltas[rocketChoice] - trajectory.totalDeltaV;
-				console.log("deltaDif: " + deltaDif);
+	    		deltaVDif = rocketDeltas[rocketChoice] - trajectory.totalDeltaV;
+				console.log("deltaVDif: " + deltaVDif);
 				
-				if(deltaDif>=0) {
+				if(deltaVDif>=0) {
 					jumpPopcornMedia(28); //landed
-				} else if(deltaDif>=-4.8) {
-					jumpPopcornMedia(29); //bad
-				} else if(deltaDif>=-6.3) {
-					jumpPopcornMedia(30); //worse
-				} else if(deltaDif>=-7.0) {
-					jumpPopcornMedia(31); //even worse
+				} else if(launchPlanetDistance>MaxPlanetDistance && !isBadTravelTime) {
+					jumpPopcornMedia(29); //move launch date closer distance
+				} else if(launchPlanetDistance<MaxPlanetDistance && isBadTravelTime) {
+					jumpPopcornMedia(30); //make sure launch dates 6-9 months
+				} else if(launchPlanetDistance>MaxPlanetDistance && isBadTravelTime) {
+					jumpPopcornMedia(31); //move launch date closer distance AND make sure launch dates 6-9 months
 				} else {
-					jumpPopcornMedia(32); //just aweful
+					jumpPopcornMedia(32); //Very close, tweak
 				}
 	    	  break;
 	    	case 2:
-	    		deltaDif = rocketDeltas[rocketChoice] - trajectory.totalDeltaV;
-				console.log("deltaDif: " + deltaDif);
+	    		deltaVDif = rocketDeltas[rocketChoice] - trajectory.totalDeltaV;
+				console.log("deltaVDif: " + deltaVDif);
 				
-				if(deltaDif>=0) {
+				if(deltaVDif>=0) {
 					jumpPopcornMedia(28); //landed
-				} else if(deltaDif>=-4.8) {
-					jumpPopcornMedia(29); //bad
-				} else if(deltaDif>=-6.3) {
-					jumpPopcornMedia(30); //worse
-				} else if(deltaDif>=-7.0) {
-					jumpPopcornMedia(31); //even worse
+				} else if(launchPlanetDistance>MaxPlanetDistance && !isBadTravelTime) {
+					jumpPopcornMedia(29); //move launch date closer distance
+				} else if(launchPlanetDistance<MaxPlanetDistance && isBadTravelTime) {
+					jumpPopcornMedia(30); //make sure launch dates 6-9 months
+				} else if(launchPlanetDistance>MaxPlanetDistance && isBadTravelTime) {
+					jumpPopcornMedia(31); //move launch date closer distance AND make sure launch dates 6-9 months
 				} else {
-					jumpPopcornMedia(32); //just aweful
+					jumpPopcornMedia(32); //Very close, tweak
 				}
 	    	  break;
 	    	default:
-	    		jumpPopcornMedia(31); //just aweful
+	    		jumpPopcornMedia(32); //Very close, tweak
 		    	break;
 	    	}
 		}
 		
 		var playFullLaunchAudio = function() {
 			console.log("rocketChoice: " + rocketChoice);
-			var deltaDif;
+			var deltaVDif;
 			switch(rocketChoice)
 	    	{
 	    	case 0:
 	    		//check to see if deltaV is under minimum for this rocket
-	    		deltaDif = rocketDeltas[rocketChoice] - trajectory.totalDeltaV;
-				console.log("deltaDif: " + deltaDif);
+	    		deltaVDif = rocketDeltas[rocketChoice] - trajectory.totalDeltaV;
+				console.log("deltaVDif: " + deltaVDif);
 				
-				if(deltaDif>=0) {
+				if(deltaVDif>=0) {
 					jumpPopcornMedia(33); //landed
-				} else if(deltaDif>=-4.8) {
+				} else if(deltaVDif>=-4.8) {
 					jumpPopcornMedia(34); //bad
 					showLaunchControls();
-				} else if(deltaDif>=-6.3) {
+				} else if(deltaVDif>=-6.3) {
 					jumpPopcornMedia(35); //worse
 					showLaunchControls();
-				} else if(deltaDif>=-7.0) {
+				} else if(deltaVDif>=-7.0) {
 					jumpPopcornMedia(36); //even worse
 					showLaunchControls();
 				} else {
@@ -2173,18 +2186,18 @@ document.addEventListener("DOMContentLoaded", function () {
 				}
 	    	  break;
 	    	case 1:
-	    		deltaDif = rocketDeltas[rocketChoice] - trajectory.totalDeltaV;
-				console.log("deltaDif: " + deltaDif);
+	    		deltaVDif = rocketDeltas[rocketChoice] - trajectory.totalDeltaV;
+				console.log("deltaVDif: " + deltaVDif);
 				
-				if(deltaDif>=0) {
+				if(deltaVDif>=0) {
 					jumpPopcornMedia(33); //landed
-				} else if(deltaDif>=-4.8) {
+				} else if(deltaVDif>=-4.8) {
 					jumpPopcornMedia(34); //bad
 					showLaunchControls();
-				} else if(deltaDif>=-6.3) {
+				} else if(deltaVDif>=-6.3) {
 					jumpPopcornMedia(35); //worse
 					showLaunchControls();
-				} else if(deltaDif>=-7.0) {
+				} else if(deltaVDif>=-7.0) {
 					jumpPopcornMedia(36); //even worse
 					showLaunchControls();
 				} else {
@@ -2193,18 +2206,18 @@ document.addEventListener("DOMContentLoaded", function () {
 				}
 	    	  break;
 	    	case 2:
-	    		deltaDif = rocketDeltas[rocketChoice] - trajectory.totalDeltaV;
-				console.log("deltaDif: " + deltaDif);
+	    		deltaVDif = rocketDeltas[rocketChoice] - trajectory.totalDeltaV;
+				console.log("deltaVDif: " + deltaVDif);
 				
-				if(deltaDif>=0) {
+				if(deltaVDif>=0) {
 					jumpPopcornMedia(33); //landed
-				} else if(deltaDif>=-4.8) {
+				} else if(deltaVDif>=-4.8) {
 					jumpPopcornMedia(34); //bad
 					showLaunchControls();
-				} else if(deltaDif>=-6.3) {
+				} else if(deltaVDif>=-6.3) {
 					jumpPopcornMedia(35); //worse
 					showLaunchControls();
-				} else if(deltaDif>=-7.0) {
+				} else if(deltaVDif>=-7.0) {
 					jumpPopcornMedia(36); //even worse
 					showLaunchControls();
 				} else {
@@ -2266,8 +2279,10 @@ document.addEventListener("DOMContentLoaded", function () {
 		      minDate: new Date(2036, 0, 1),
 		      maxDate: new Date(2039, 11, 5),
 		      onSelect: function(dateText, inst) { 
-		    	  
+
+		    	  	launchPlanetDistance = ruler.getDistance();
 	    			launchDate = new Date(Date.parse(dateText));
+	    			monthDifference = landingDate - launchDate;
 	    			launchRewindDate = new Date(Date.parse(dateText));
 	    			launchRewindDate.setDate(launchRewindDate.getDate()-5);
 	    			if(timer) {
@@ -2288,6 +2303,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		      maxDate: new Date(2039, 11, 5),
 		      onSelect: function(dateText, inst) { 
 	    			landingDate = new Date(Date.parse(dateText));
+	    			monthDifference = landingDate - launchDate;
+	    			console.log("monthDifference: " + monthDifference);
 	    			if(timer) {
 		    			$("#speedSlider").slider('value',0);
 		    			var jumpToDate = new Date(Date.parse(dateText)).Date2Julian();
@@ -2418,7 +2435,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			This project is a collaboration between the U.S. Department of Energy, the Mozilla Foundation, and MX.</div>
 			<br>
 			<img src="./images/tri_logo.png" style="align: center;">
-			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.14</font>
+			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.15</font>
 		</div>
 		
 		<div id="topbar" class="topbar">
