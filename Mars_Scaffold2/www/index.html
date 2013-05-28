@@ -1153,6 +1153,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 $("#launchdiv").animate({opacity: 1.0}, 200, function() {
                 	$("#launchdiv").css('pointer-events', 'auto');
             	});
+
+    			$("#launchcommitdiv").animate({opacity: 0.5}, 200, function() {
+                	$("#launchcommitdiv").css('pointer-events', 'none');
+            	});
         	});
             if(firstTimeRocketSelect) {
 
@@ -1628,7 +1632,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			$("#launchdiv").animate({opacity: 0.0}, 200, function() {
             	$("#launchdiv").css('pointer-events', 'none');
         	});
-	        $("#launchcommitdiv").animate({opacity: 0.5}, 200, function() {
+	        $("#launchcommitdiv").animate({opacity: 0.0}, 200, function() {
 	        	$("#launchcommitdiv").css('pointer-events', 'none');
 	    	});
 	        if(threedinitialized) {
@@ -1686,7 +1690,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			$("#launchdiv").animate({opacity: 0.0}, 200, function() {
             	$("#launchdiv").css('pointer-events', 'none');
         	});
-	        $("#launchcommitdiv").animate({opacity: 0.5}, 200, function() {
+	        $("#launchcommitdiv").animate({opacity: 0.0}, 200, function() {
 	        	$("#launchcommitdiv").css('pointer-events', 'none');
 	    	});
 	    	//initialize 3d if you need to
@@ -1741,7 +1745,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			$("#launchdiv").animate({opacity: 0.0}, 200, function() {
             	$("#launchdiv").css('pointer-events', 'none');
         	});
-	        $("#launchcommitdiv").animate({opacity: 0.5}, 200, function() {
+	        $("#launchcommitdiv").animate({opacity: 0.0}, 200, function() {
 	        	$("#launchcommitdiv").css('pointer-events', 'none');
 	    	});
 	    	//initialize 3d if you need to
