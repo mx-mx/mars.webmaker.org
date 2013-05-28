@@ -306,7 +306,7 @@ function outOfBounds(){
 
 	// Check to see if the rover is almost reaching the boundary and send out a console message,
 	// If the rover reaches the boundary it resets the position of the rover back to center.
-	if (roverPosFromCenter > almostboundary && roverPosFromCenter < boundary){
+	if (roverPosFromCenter > almostBoundary && roverPosFromCenter < boundary){
 		console.log("Almost out of bounds! Turn Around!");
 	}else if(roverPosFromCenter > boundary){
 
