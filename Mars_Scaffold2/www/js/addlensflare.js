@@ -2,21 +2,21 @@ function addLensFlare( x, y, z, size, overrideImage ){
 
 	var flareColor = new THREE.Color( 0xffffff );
 
-	var lensFlare = new THREE.LensFlare( overrideImage, 700, 0.0, THREE.AdditiveBlending, flareColor );
-
 	var textureFlare0 = THREE.ImageUtils.loadTexture( "./textures/lensflare/lensflare0.png" );
 	var textureFlare2 = THREE.ImageUtils.loadTexture( "./textures/lensflare/lensflare2.png" );
 	var textureFlare3 = THREE.ImageUtils.loadTexture( "./textures/lensflare/lensflare3.png" );
 
+	var lensFlare = new THREE.LensFlare( textureFlare0, 700, 0.0, THREE.AdditiveBlending, flareColor );
+
 	lensFlare.add( textureFlare0, 200, 0.0, THREE.AdditiveBlending );
 	lensFlare.add( textureFlare2, 512, 0.0, THREE.AdditiveBlending );
-	lensFlare.add( textureFlare2, 512, 0.0, THREE.AdditiveBlending );
-	lensFlare.add( textureFlare2, 512, 0.0, THREE.AdditiveBlending );
+	lensFlare.add( textureFlare3, 512, 0.0, THREE.AdditiveBlending );
+	lensFlare.add( textureFlare3, 512, 0.0, THREE.AdditiveBlending );
 
-	lensFlare.add( textureFlare3, 60, 0.6, THREE.AdditiveBlending );
-	lensFlare.add( textureFlare3, 70, 0.7, THREE.AdditiveBlending );
-	lensFlare.add( textureFlare3, 120, 0.9, THREE.AdditiveBlending );
-	lensFlare.add( textureFlare3, 70, 1.0, THREE.AdditiveBlending );
+	// lensFlare.add( textureFlare3, 60, 0.6, THREE.AdditiveBlending );
+	// lensFlare.add( textureFlare3, 70, 0.7, THREE.AdditiveBlending );
+	// lensFlare.add( textureFlare3, 120, 0.9, THREE.AdditiveBlending );
+	// lensFlare.add( textureFlare3, 70, 1.0, THREE.AdditiveBlending );
 
 	lensFlare.customUpdateCallback = lensFlareUpdateCallback;
 
