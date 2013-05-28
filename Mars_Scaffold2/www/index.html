@@ -1677,6 +1677,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			clear3DDrawings();
 			//reinitialize curiosity launch drawing
 			clearInterval(checktouchdown);
+			clearInterval(checklaunchtouchdown);
 			departure_time = new Time( { Yr:2011, Mon:11, D:26, Hr:1, Mn:1, S:1 } );
 			arrival_time = new Time( { Yr:2012, Mon:8, D:6, Hr:1, Mn:1, S:1 } );
 			trajectory = null;
@@ -1730,6 +1731,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			resetLesson();
 			//clear touchdown timer
 			clearInterval(checktouchdown);
+			clearInterval(checklaunchtouchdown);
 			//remove the ruler
 			showDistance = false;
 			scene.remove(ruler);
@@ -1785,6 +1787,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			resetLesson();
 			//clear touchdown timer
 			clearInterval(checktouchdown);
+			clearInterval(checklaunchtouchdown);
 			//remove the ruler
 			showDistance = false;
 			scene.remove(ruler);
@@ -1919,6 +1922,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		var landingDate;
 		var rocketDeltas = new Array(22.3, 21.1, 25.2);
 		var checktouchdown;
+		var checklaunchtouchdown;
 		$( "#runbutton" )
 			.button()
 			.click(function( event ) {
@@ -1956,7 +1960,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 						trajectory.init( departure_time, arrival_time, function () {
 						    console.log("slow down insano speed");
-						    $("#speedSlider").slider('value',.15);
+						    $("#speedSlider").slider('value',.13);
 						    //the callback doesn't alway work, so we're going with Ryan's touchdown method below
 				
 							//console.log("heard the done drawing callback");
@@ -1970,6 +1974,7 @@ document.addEventListener("DOMContentLoaded", function () {
 							    if(touchdown(trajectory)) {
 								    console.log("got touchdown");
 							    	clearInterval(checktouchdown);
+									clearInterval(checklaunchtouchdown);
 							    	playTrajectoryAudio();
 							    }
 							},500);
@@ -2039,15 +2044,17 @@ document.addEventListener("DOMContentLoaded", function () {
 						trajectory.init( departure_time, arrival_time, function () {
 							//once drawing is done for launch, then we're done with the second lesson
 						    console.log("slow down insano speed");
-						    $("#speedSlider").slider('value',.15);
+						    $("#speedSlider").slider('value',.13);
 						    
 						});
 						
 						setTimeout(function() {
-							checktouchdown = setInterval(function () {
+
+							checklaunchtouchdown = setInterval(function () {
 							    if(touchdown(trajectory)) {
 								    console.log("got a touchdown");
 							    	clearInterval(checktouchdown);
+									clearInterval(checklaunchtouchdown);
 							    	playFullLaunchAudio();
 							    }
 							},500);
