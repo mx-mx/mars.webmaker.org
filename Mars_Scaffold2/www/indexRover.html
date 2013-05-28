@@ -546,7 +546,7 @@ document.addEventListener("DOMContentLoaded", function () {
     	$("#aboutpopup").animate({opacity: 0.0}, 200, function() {$("#aboutpopup").css('pointer-events', 'none');});
     	$("#helppopup").animate({opacity: 0.0}, 200, function() {$("#helppopup").css('pointer-events', 'none');});
     	$("#threedhelppopup").animate({opacity: 0.0}, 200, function() {$("#threedhelppopup").css('pointer-events', 'none');});
-    	$("#browserpopup").animate({opacity: 0.0}, 200, function() {$("#browserpopup").css('pointer-events', 'none');});
+    	//$("#browserpopup").animate({opacity: 0.0}, 200, function() {$("#browserpopup").css('pointer-events', 'none');});
     	$("#incomingmessage").animate({opacity: 0.0}, 200, function() {$("#incomingmessage").css('pointer-events', 'none');});
     	$("#cmemessage").animate({opacity: 0.0}, 200, function() {$("#cmemessage").css('pointer-events', 'none');});
 		$("#transmissionmessage").animate({opacity: 0.0}, 1, function() { $("#transmissionmessage").css('pointer-events', 'none'); });
@@ -1315,6 +1315,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		$( "#about" )
 			.button()
 			.click(function( event ) {
+		    	closeAllSubMenus();
 				$("#aboutpopup").animate({opacity: 1.0}, 200, function() {
 	            	$("#aboutpopup").css('pointer-events', 'auto');
 	        	});
@@ -1326,6 +1327,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		$( "#help" )
 			.button()
 			.click(function( event ) {
+		    	closeAllSubMenus();
 				$("#helppopup").animate({opacity: 1.0}, 200, function() {
 	            	$("#helppopup").css('pointer-events', 'auto');
 	        	});
