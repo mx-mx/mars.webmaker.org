@@ -1062,11 +1062,12 @@ document.addEventListener("DOMContentLoaded", function () {
 		$("#subtitlepanelb").animate({opacity: 0.0}, 1, function() {});
 		
 		$("#speedtimemessage").animate({opacity: 0.0}, 1, function() { $("#speedtimemessage").css('pointer-events', 'none'); });
+		$("#quicklaunchpopup").animate({opacity: 0.0}, 1, function() { $("#quicklaunchpopup").css('pointer-events', 'none'); });
 		
 	}
 	
 	//xxx unit test for menus
-	//$("#selectmissionrocket").animate({opacity: 1.0}, 1, function() { $("#selectmissionrocket").css('pointer-events', 'auto'); });
+	//$("#quicklaunchpopup").animate({opacity: 1.0}, 1, function() { $("#quicklaunchpopup").css('pointer-events', 'auto'); });
 	//$("#launchcontrols").animate({opacity: 1.0}, 1, function() { $("#launchcontrols").css('pointer-events', 'auto'); });
 	//$("#launchdiv").animate({opacity: 1.0}, 1, function() { $("#launchdiv").css('pointer-events', 'auto'); });
 	//$("#launchcommitdiv").animate({opacity: 1.0}, 1, function() { $("#launchcommitdiv").css('pointer-events', 'auto'); });
@@ -1243,6 +1244,8 @@ document.addEventListener("DOMContentLoaded", function () {
     	$("#incomingmessage").animate({opacity: 0.0}, 200, function() {$("#incomingmessage").css('pointer-events', 'none');});
     	$("#cmemessage").animate({opacity: 0.0}, 200, function() {$("#cmemessage").css('pointer-events', 'none');});
 		$("#transmissionmessage").animate({opacity: 0.0}, 1, function() { $("#transmissionmessage").css('pointer-events', 'none'); });
+
+		$("#quicklaunchpopup").animate({opacity: 0.0}, 1, function() { $("#quicklaunchpopup").css('pointer-events', 'none'); });
     }
     
     var rocketbutton = document.getElementById('rocketbutton');
@@ -1264,6 +1267,29 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
     };
+    
+    
+    var quicksetlaunchbutton = document.getElementById('quicksetlaunchbutton');
+    quicksetlaunchbutton.style.cursor = 'pointer';
+    quicksetlaunchbutton.onclick = function() {
+		document.getElementById( "launchdatepicker" ).value = document.getElementById( "orbitdate" ).value;
+		$("#quicklaunchpopup").animate({opacity: 0.0}, 1, function() { $("#quicklaunchpopup").css('pointer-events', 'none'); });
+    };
+    
+    var quicksetlandbutton = document.getElementById('quicksetlandbutton');
+    quicksetlandbutton.style.cursor = 'pointer';
+    quicksetlandbutton.onclick = function() {
+		document.getElementById( "landingdatepicker" ).value = document.getElementById( "orbitdate" ).value;
+		$("#quicklaunchpopup").animate({opacity: 0.0}, 1, function() { $("#quicklaunchpopup").css('pointer-events', 'none'); });
+    };
+
+    
+    var orbitdate = document.getElementById('orbitdate');
+    orbitdate.style.cursor = 'pointer';
+    orbitdate.onclick = function() {
+    	$("#quicklaunchpopup").animate({opacity: 1.0}, 1, function() { $("#quicklaunchpopup").css('pointer-events', 'auto'); });
+    };
+    
     
 
 	var savedSliderVal;
@@ -2368,7 +2394,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			This project is a collaboration between the U.S. Department of Energy, the Mozilla Foundation, and MX.</div>
 			<br>
 			<img src="./images/tri_logo.png" style="align: center;">
-			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.13</font>
+			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.14</font>
 		</div>
 		
 		<div id="topbar" class="topbar">
@@ -2664,6 +2690,12 @@ document.addEventListener("DOMContentLoaded", function () {
 			<br><br>
 		</div>
 		
+		<div id="quicklaunchpopup" class="quicklaunchpopup">
+			<button id="quicksetlaunchbutton" class="squarebluebutton" style="width:165px;margin-left:12px;margin-top:3px;margin-bottom:8px;">Set Launch Date</button>
+			<br>
+			<button id="quicksetlandbutton" class="squarebluebutton" style="width:165px;margin-left:12px;">Set Land Date</button>
+		</div>
+		
 		<div id="launchhelppopup" class="launchhelppopup">
 			<h1>Mars Transfer</h1>
 			<table style="width:100%;margin:0px;padding:0px;align:center;">
@@ -2910,7 +2942,7 @@ document.addEventListener("DOMContentLoaded", function () {
 							
 						</td>
 						<td align="center" valign="bottom">
-							<input type="text" id="orbitdate" class="datepicker" readonly/>
+							<input type="text" id="orbitdate" class="currentdatetext" readonly/>
 						</td>
 					</tr>
 				</table>
@@ -2933,10 +2965,10 @@ document.addEventListener("DOMContentLoaded", function () {
 				 			<input type="text" id="deltavtext" class="plaintext" value="0" readonly/>
 						</td>
 						<td align="center" valign="bottom">
-				 			<button id="rocketbutton" class="playbutton" style="padding:2px 9px">
+				 			<button id="rocketbutton" class="playnoborderbutton" style="padding:2px 9px;border: 0px solid rgba(51,111,139,0.0);">
 								<table style="width:60px;height:100%;margin:0;padding:0;">
 									<tr>
-										<td id="rocketbuttontext">Falcon Heavy</td>
+										<td id="rocketbuttontext">Delta IV Heavy</td>
 									</tr>
 								</table>
 							</button>
