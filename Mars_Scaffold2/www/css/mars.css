@@ -663,7 +663,7 @@ div .selectitemdetaildiv:hover{
 	opacity: 0.0;
 	pointer-events:none;
 	padding: 10px 10px 10px 10px;
-	background: rgba(128,74,74,0.6);
+	background: rgba(128,74,74,0.8);
 	color: rgba(200,200,200,1.0);
 	font-family: 'Lato', sans-serif;
 	font-weight:300;

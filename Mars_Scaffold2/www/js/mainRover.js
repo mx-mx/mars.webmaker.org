@@ -296,8 +296,10 @@ function onWindowResize() {
 
 }
 
+var boundaryStatus = 0; //return a simple number for status
 // Check to see if Rover is out of Bounds. If out of bounds it resets the rover to the center of the screen.
 function outOfBounds(){
+	boundaryStatus = 0; //return a simple number for status
 	var boundary = 60; 
 	var almostBoundary = boundary - boundary * .1; //10% of the boundary
 	var posFromMatrix = new THREE.Vector3();
@@ -308,8 +310,9 @@ function outOfBounds(){
 	// If the rover reaches the boundary it resets the position of the rover back to center.
 	if (roverPosFromCenter > almostBoundary && roverPosFromCenter < boundary){
 		console.log("Almost out of bounds! Turn Around!");
-	}else if(roverPosFromCenter > boundary){
-
+		boundaryStatus=1;
+	} else if(roverPosFromCenter > boundary){
+		boundaryStatus=2;
 		console.log("Out of bounds, reseting position back to center");
 
 		var resetPos = new TWEEN.Tween( rover.mesh.position )
@@ -331,6 +334,7 @@ function outOfBounds(){
 
 		widenCam.start();
 	}
+	
 }
 
 function animate() {

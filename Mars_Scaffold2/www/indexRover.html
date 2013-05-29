@@ -555,7 +555,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     //xxx
-    //$("#lowpowermessage").animate({opacity: 1.0}, 1, function() { $("#lowpowermessage").css('pointer-events', 'auto'); });
+    //$("#boundaryreachedmessage").animate({opacity: 1.0}, 1, function() { $("#boundaryreachedmessage").css('pointer-events', 'auto'); });
     
     var instrumentsbutton = document.getElementById('instrumentsbutton');
     instrumentsbutton.style.cursor = 'pointer';
@@ -731,12 +731,19 @@ document.addEventListener("DOMContentLoaded", function () {
 		console.log("13 ended..");
 		if(userLessonNumber>=5) {
 			//show badge
+			//this will no longer trigger as we've got new audio (see [15])
 	    	$("#roverpilotbadge").animate({opacity: 1.0}, 200, function() {
 	        	$("#roverpilotbadge").css('pointer-events', 'auto');
 	        });
 		} else {
 			jumpPopcornMedia(10);
 		}
+	});
+	
+	popcornMedia[15].cue( 5, function() {
+    	$("#roverpilotbadge").animate({opacity: 1.0}, 200, function() {
+        	$("#roverpilotbadge").css('pointer-events', 'auto');
+        });
 	});
 	
 	//pop the mission complete
@@ -913,9 +920,10 @@ document.addEventListener("DOMContentLoaded", function () {
 		    return M;
 		})();
 		
+		var boundaryWarningIssued=false;
 		//increase energy bar by 1 every half second
 		setInterval(function() { 
-
+			
 			if( currentEnergyLevel<=0 && instrumentDrainRate == 0){
 				//show the uber drain message
 			    $("#lowpowermessage").animate({opacity: 1.0}, 400, function() { $("#lowpowermessage").css('pointer-events', 'auto'); });
@@ -928,6 +936,30 @@ document.addEventListener("DOMContentLoaded", function () {
 				//our energy div visual reflect the opposite (full looks empty and vice versa)
 				var flipNumber = 100-currentEnergyLevel;
 			    $("#energylevel").css({width:(flipNumber+"%")});
+			}
+			
+			//will also use this polling loop to check boundaries
+			
+			if (boundaryStatus==0) {
+				boundaryWarningIssued=false;
+				$("#boundaryreachedmessage").animate({opacity: 0.0}, 1, function() { $("#boundaryreachedmessage").css('pointer-events', 'none'); });
+				$("#boundarywarningmessage").animate({opacity: 0.0}, 1, function() { $("#boundarywarningmessage").css('pointer-events', 'none'); });
+			} else if (boundaryStatus==1) {
+				if(!boundaryWarningIssued) {
+					boundaryWarningIssued=true;
+					$("#boundarywarningmessage").animate({opacity: 1.0}, 200, function() { $("#boundarywarningmessage").css('pointer-events', 'none'); });
+					$("#boundaryreachedmessage").animate({opacity: 0.0}, 1, function() { $("#boundaryreachedmessage").css('pointer-events', 'none'); });
+					setTimeout(function() {
+						$("#boundarywarningmessage").animate({opacity: 0.0}, 200, function() { $("#boundarywarningmessage").css('pointer-events', 'none'); });
+					},5000);
+				}
+			} else if (boundaryStatus==2) {
+				$("#boundaryreachedmessage").animate({opacity: 1.0}, 200, function() { $("#boundaryreachedmessage").css('pointer-events', 'none'); });
+				$("#boundarywarningmessage").animate({opacity: 0.0}, 1, function() { $("#boundarywarningmessage").css('pointer-events', 'none'); });
+				setTimeout(function() {
+					boundaryWarningIssued=false;
+					$("#boundaryreachedmessage").animate({opacity: 0.0}, 200, function() { $("#boundaryreachedmessage").css('pointer-events', 'none'); });
+				},5000);
 			}
 		}, 200);
 		 
@@ -1392,7 +1424,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			This project is a collaboration between the U.S. Department of Energy, the Mozilla Foundation, and MX.</div>
 			<br>
 			<img src="./images/tri_logo.png" style="align: center;">
-			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.17</font>
+			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.18</font>
 		</div>
 	
 		<div id="topbar" class="topbar">
@@ -1560,6 +1592,36 @@ document.addEventListener("DOMContentLoaded", function () {
 				<tr>
 					<td align="left">
 						<font style="font-size:16px;font-weight:300;">Wait for energy to recharge</font>
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<div id="boundarywarningmessage" class="lowpowermessagereddiv">
+			<table style="width: 100%;margin:0;padding:0;" >
+				<tr >
+					<td width="50px" rowspan="2" align="left" valign="middle" style="padding-right:8px;"><img src="./images/icon_alert.png" style="width:49px;height:44px;"></td>
+					
+					<td align="left"><font style="font-size:16px;font-weight:400;">APPROACHING BOUNDARY</font></td>
+				</tr>
+				<tr>
+					<td align="left">
+						<font style="font-size:16px;font-weight:300;">Turn around to return to mission</font>
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<div id="boundaryreachedmessage" class="lowpowermessagereddiv">
+			<table style="width: 100%;margin:0;padding:0;" >
+				<tr >
+					<td width="50px" rowspan="2" align="left" valign="middle" style="padding-right:8px;"><img src="./images/icon_alert.png" style="width:49px;height:44px;"></td>
+					
+					<td align="left"><font style="font-size:16px;font-weight:400;">BOUNDARY REACHED</font></td>
+				</tr>
+				<tr>
+					<td align="left">
+						<font style="font-size:16px;font-weight:300;">Rover position will reset</font>
 					</td>
 				</tr>
 			</table>
