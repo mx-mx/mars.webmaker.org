@@ -101,6 +101,9 @@ function rocketbadgefinish() {
 
 var launchPlanetDistance = 0; // greater 140 is too far  
 var monthDifference = 0; //6 mo - 13129200000 9 mo - 21078000000
+var launchRewindDate; //date to start launch draw sequence, to see initial draw.
+var launchDate;
+var landingDate;
 
 // ensure the web page (DOM) has loaded
 document.addEventListener("DOMContentLoaded", function () {
@@ -1269,13 +1272,20 @@ document.addEventListener("DOMContentLoaded", function () {
             	$("#selectmissionrocket").css('pointer-events', 'auto');
             });
         });
+
+		$("#quicklaunchpopup").animate({opacity: 0.0}, 1, function() { $("#quicklaunchpopup").css('pointer-events', 'none'); });
     };
     
     
     var quicksetlaunchbutton = document.getElementById('quicksetlaunchbutton');
     quicksetlaunchbutton.style.cursor = 'pointer';
     quicksetlaunchbutton.onclick = function() {
+		launchPlanetDistance = ruler.getDistance();
 		document.getElementById( "launchdatepicker" ).value = document.getElementById( "orbitdate" ).value;
+		launchDate = new Date(Date.parse(document.getElementById( "orbitdate" ).value));
+		if(landingDate)monthDifference = landingDate - launchDate;
+		launchRewindDate = new Date(Date.parse(document.getElementById( "orbitdate" ).value));
+		launchRewindDate.setDate(launchRewindDate.getDate()-5);
 		$("#quicklaunchpopup").animate({opacity: 0.0}, 1, function() { $("#quicklaunchpopup").css('pointer-events', 'none'); });
     };
     
@@ -1283,6 +1293,9 @@ document.addEventListener("DOMContentLoaded", function () {
     quicksetlandbutton.style.cursor = 'pointer';
     quicksetlandbutton.onclick = function() {
 		document.getElementById( "landingdatepicker" ).value = document.getElementById( "orbitdate" ).value;
+		landingDate = new Date(Date.parse(document.getElementById( "orbitdate" ).value));
+		if(launchDate)monthDifference = landingDate - launchDate;
+		clear3DDrawings();
 		$("#quicklaunchpopup").animate({opacity: 0.0}, 1, function() { $("#quicklaunchpopup").css('pointer-events', 'none'); });
     };
 
@@ -1609,6 +1622,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		$( "#menubutton" )
 			.button()
 			.click(function( event ) {
+	  			$("#quicklaunchpopup").animate({opacity: 0.0}, 1, function() { $("#quicklaunchpopup").css('pointer-events', 'none'); });
+    			
 				if($('#menupanel').css('opacity') != 0) {
 	            	closeMenuPanel();
 	        	} else {
@@ -1619,7 +1634,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		
 		$( "#nextbutton" )
 			.button()
-			.click(function( event ) {
+			.click(function( event ) { 
+	  			$("#quicklaunchpopup").animate({opacity: 0.0}, 1, function() { $("#quicklaunchpopup").css('pointer-events', 'none'); });
+    			
 				if(popcornSequenceNumber<5) {
 					jumpToThreeDNavigation();
 				} else if(popcornSequenceNumber<17) {
@@ -1820,6 +1837,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		$( "#threedhelpbutton" )
 			.button()
 			.click(function( event ) {
+	  			$("#quicklaunchpopup").animate({opacity: 0.0}, 1, function() { $("#quicklaunchpopup").css('pointer-events', 'none'); });
 				if(popcornSequenceNumber>=24) {
 					$("#launchhelppopup").animate({opacity: 1.0}, 200, function() {
 	                	$("#launchhelppopup").css('pointer-events', 'auto');
@@ -1917,16 +1935,14 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 		
 
-		var launchRewindDate; //date to start launch draw sequence, to see initial draw.
-		var launchDate;
-		var landingDate;
+		
 		var rocketDeltas = new Array(22.3, 21.1, 25.2);
 		var checktouchdown;
 		var checklaunchtouchdown;
 		$( "#runbutton" )
 			.button()
 			.click(function( event ) {
-				console.log("dif: " + (landingDate-launchDate));
+				$("#quicklaunchpopup").animate({opacity: 0.0}, 1, function() { $("#quicklaunchpopup").css('pointer-events', 'none'); });
 				if(!launchDate || !landingDate) {
 			   		document.getElementById("baddatestext").innerHTML="You have entered incorrect dates.  Please ensure that you have entered two dates and your launch date is before your landing date.";
 					$("#baddatespopup").animate({opacity: 1.0}, 200, function() {
@@ -1947,13 +1963,9 @@ document.addEventListener("DOMContentLoaded", function () {
 					var departure_time = new Time( dateToTime(launchDate) );
 					var arrival_time = new Time( dateToTime(landingDate) );
 					
-			    	
 			    	//var aDate = new Number(timer.JD).Julian2Date();
-
 			    	//var jd = new Number(departure_time.jd_tt()).Julian2Date();
 			    	
-
-
 			    	try {
 				    	trajectory = null;
 				    	trajectory = new Trajectory();
@@ -1998,6 +2010,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		$( "#launchcommitbutton" )
 			.button()
 			.click(function( event ) {
+				$("#quicklaunchpopup").animate({opacity: 0.0}, 1, function() { $("#quicklaunchpopup").css('pointer-events', 'none'); });
 				if(!launchDate || !landingDate) {
 			   		document.getElementById("baddatestext").innerHTML="You have entered incorrect dates.  Please ensure that you have entered two dates and your launch date is before your landing date.";
 					$("#baddatespopup").animate({opacity: 1.0}, 200, function() {
@@ -2031,12 +2044,8 @@ document.addEventListener("DOMContentLoaded", function () {
 					var departure_time = new Time( dateToTime(launchDate) );
 					var arrival_time = new Time( dateToTime(landingDate) );
 					
-			    	
 			    	//var aDate = new Number(timer.JD).Julian2Date();
-	
 			    	//var jd = new Number(departure_time.jd_tt()).Julian2Date();
-			    	
-			    	
 					
 					try {
 						trajectory = null;
@@ -2286,7 +2295,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		      minDate: new Date(2036, 0, 1),
 		      maxDate: new Date(2039, 11, 5),
 		      onSelect: function(dateText, inst) { 
-
+		  			$("#quicklaunchpopup").animate({opacity: 0.0}, 1, function() { $("#quicklaunchpopup").css('pointer-events', 'none'); });
 		    	  	launchPlanetDistance = ruler.getDistance();
 	    			launchDate = new Date(Date.parse(dateText));
 	    			monthDifference = landingDate - launchDate;
@@ -2302,6 +2311,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	    		}
 		    });
 		});
+		
 		$(function() {
 		    $( "#landingdatepicker" ).datepicker({
 		      changeMonth: true,
@@ -2309,9 +2319,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		      minDate: new Date(2036, 0, 1),
 		      maxDate: new Date(2039, 11, 5),
 		      onSelect: function(dateText, inst) { 
+		  			$("#quicklaunchpopup").animate({opacity: 0.0}, 1, function() { $("#quicklaunchpopup").css('pointer-events', 'none'); });
 	    			landingDate = new Date(Date.parse(dateText));
 	    			monthDifference = landingDate - launchDate;
-	    			console.log("monthDifference: " + monthDifference);
 	    			if(timer) {
 		    			$("#speedSlider").slider('value',0);
 		    			var jumpToDate = new Date(Date.parse(dateText)).Date2Julian();
@@ -2739,9 +2749,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		</div>
 		
 		<div id="quicklaunchpopup" class="quicklaunchpopup">
-			<button id="quicksetlaunchbutton" class="squarebluebutton" style="width:165px;margin-left:12px;margin-top:3px;margin-bottom:8px;">Set Launch Date</button>
+			<button id="quicksetlaunchbutton" class="squarebluebutton" style="width:175px;margin-left:12px;margin-top:3px;margin-bottom:8px;">Set Launch Date</button>
 			<br>
-			<button id="quicksetlandbutton" class="squarebluebutton" style="width:165px;margin-left:12px;">Set Land Date</button>
+			<button id="quicksetlandbutton" class="squarebluebutton" style="width:175px;margin-left:12px;">Set Land Date</button>
 		</div>
 		
 		<div id="launchhelppopup" class="launchhelppopup">
