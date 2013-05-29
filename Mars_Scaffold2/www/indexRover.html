@@ -159,17 +159,18 @@ document.addEventListener("DOMContentLoaded", function () {
 	popcornMedia[12] = Popcorn('#UNIT2_VO_4e3' ); //robot - site does not meet criteria
 	popcornMedia[13] = Popcorn('#UNIT2_VO_conclusion' ); //robot - site meets criteria 
 	popcornMedia[14] = Popcorn('#UNIT2_VO_4e1' ); //mistake mast cam button 
+	popcornMedia[15] = Popcorn('#UNIT2_VO_conclusion2' ); //robot - site meets criteria 
 	//these audio cues are not normal... do not call advanceAudio or jumpPopcornMedia on them
-	popcornMedia[15] = Popcorn('#Unit2_Cams' ); 
-	popcornMedia[16] = Popcorn('#Unit2_Mars_loop_wind' ); 
-	popcornMedia[17] = Popcorn('#Unit2_Rover_loop' ); 
-	popcornMedia[18] = Popcorn('#Unit2_arm_move' ); 
+	popcornMedia[16] = Popcorn('#Unit2_Cams' ); 
+	popcornMedia[17] = Popcorn('#Unit2_Mars_loop_wind' ); 
+	popcornMedia[18] = Popcorn('#Unit2_Rover_loop' ); 
+	popcornMedia[19] = Popcorn('#Unit2_arm_move' ); 
 	
-	popcornMedia[19] = Popcorn('#Unit2_calibration' ); 
-	popcornMedia[20] = Popcorn('#Unit2_drill' ); 
+	popcornMedia[20] = Popcorn('#Unit2_calibration' ); 
+	popcornMedia[21] = Popcorn('#Unit2_drill' ); 
 	
-	popcornMedia[21] = Popcorn('#mastcamvideo' ); 
-	popcornMedia[22] = Popcorn('#mmrtgvideo' ); 
+	popcornMedia[22] = Popcorn('#mastcamvideo' ); 
+	popcornMedia[23] = Popcorn('#mmrtgvideo' ); 
 	
 	
     popcornMedia[0].on( "play", function() {
@@ -222,7 +223,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 	
 	popcornMedia[0].cue( 9, function() {
-		popcornMedia[21].play(0);
+		popcornMedia[22].play(0);
 	    $("#mastcamvideocontenttarget").animate({opacity: 1.0}, 300, function() { $("#mastcamvideocontenttarget").css('pointer-events', 'auto'); });
 	    
 	    $("#mmrtgimagepanel").animate({opacity: 0.0}, 1, function() { $("#mmrtgimagepanel").css('pointer-events', 'none'); });
@@ -231,7 +232,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 	
 	popcornMedia[0].cue( 21.5, function() {
-		popcornMedia[21].pause();
+		popcornMedia[22].pause();
 	    $("#mastcamvideocontenttarget").animate({opacity: 0.0}, 1, function() { $("#mastcamvideocontenttarget").css('pointer-events', 'none'); });
 	    $("#slaytonsisleimagepanel").animate({opacity: 1.0}, 1, function() { $("#slaytonsisleimagepanel").css('pointer-events', 'auto'); });
 	    
@@ -241,7 +242,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	
 	popcornMedia[0].on( "ended", function() {
     	advancePopcornMedia();
-		popcornMedia[22].play(0);
+		popcornMedia[23].play(0);
 	    $("#slaytonsisleimagepanel").animate({opacity: 0.0}, 1, function() { $("#slaytonsisleimagepanel").css('pointer-events', 'none'); });
 	    $("#mmrtgvideocontenttarget").animate({opacity: 1.0}, 1, function() { $("#mmrtgvideocontenttarget").css('pointer-events', 'auto'); });
 	    
@@ -250,7 +251,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 	
 	popcornMedia[1].cue( 9, function() {
-		popcornMedia[22].pause();
+		popcornMedia[23].pause();
 	    $("#mmrtgvideocontenttarget").animate({opacity: 0.0}, 1, function() { $("#mmrtgvideocontenttarget").css('pointer-events', 'none'); });
 	    $("#mmrtgimagepanel").animate({opacity: 1.0}, 1, function() { $("#mmrtgimagepanel").css('pointer-events', 'auto'); });
 	    
@@ -302,7 +303,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
     popcornMedia[9].cue( 3, function() {
 
-		popcornMedia[18].play(0);
+		popcornMedia[19].play(0);
     	rover.stowArm(armDuration);
     	//show outcrop
 	});
@@ -340,15 +341,15 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
     
 	//not sure why loop isn't working so this.
-	popcornMedia[16].on( "ended", function() {
-		popcornMedia[16].play(0);
+	popcornMedia[17].on( "ended", function() {
+		popcornMedia[17].play(0);
 	});
 	
 	//when instrument sound ends, stop power drain.
-	popcornMedia[19].on( "ended", function() {
+	popcornMedia[20].on( "ended", function() {
 		instrumentDrainRate=0;
 	});
-	popcornMedia[20].on( "ended", function() {
+	popcornMedia[21].on( "ended", function() {
 		instrumentDrainRate=0;
 	});
 	
@@ -382,7 +383,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			case 38:
 			case 39:
 			case 40: 
-			    popcornMedia[17].play();
+			    popcornMedia[18].play();
 				break;
 		}
 	}
@@ -392,15 +393,15 @@ document.addEventListener("DOMContentLoaded", function () {
 			case 38:
 			case 39:
 			case 40: 
-			    popcornMedia[17].pause();
+			    popcornMedia[18].pause();
 				break;
 		}
 	}
 
     var armDuration = 4000;
-	popcornMedia[18].cue( (armDuration/1000), function() {
+	popcornMedia[19].cue( (armDuration/1000), function() {
 		console.log("armDuration/1000" + (armDuration/1000));
-		popcornMedia[18].pause();
+		popcornMedia[19].pause();
 	});
 	
 	
@@ -464,7 +465,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			jumpPopcornMedia(13); //play 13, then 10 - please analyze again.
 	    	break;
     	case 4:
-			jumpPopcornMedia(13);  //badge
+			jumpPopcornMedia(15);  //badge
 	    	break;
     	default:
     	  //no default audio
@@ -504,7 +505,7 @@ document.addEventListener("DOMContentLoaded", function () {
     	//hideeverything();
 		
 		//stop all other media
-		for(var i=0;i<14;i++) {
+		for(var i=0;i<15;i++) {
 			popcornMedia[i].pause();
 		}
 		
@@ -561,7 +562,7 @@ document.addEventListener("DOMContentLoaded", function () {
     instrumentsbutton.onclick = function() {
     	if(powerPenalty)return;
     	if(rover.armStowed) {
-            popcornMedia[18].play(0);
+            popcornMedia[19].play(0);
         	rover.extendArm(armDuration);
         	if(lessonOpen) {
         		//show message
@@ -571,7 +572,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 	setTimeout(function(){
                 		instrumentDrainRate=2
         				    $("#lowpowermessage").animate({opacity: 0.0}, 1, function() { $("#lowpowermessage").css('pointer-events', 'none'); });;
-                		popcornMedia[19].play(0);
+                		popcornMedia[20].play(0);
         	    	}, (armDuration));
            		}
            		if(userLessonNumber==2) {
@@ -580,7 +581,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 	setTimeout(function(){
                 		instrumentDrainRate=2
         				    $("#lowpowermessage").animate({opacity: 0.0}, 1, function() { $("#lowpowermessage").css('pointer-events', 'none'); });;
-                		popcornMedia[19].play(0);
+                		popcornMedia[20].play(0);
         	    	}, (armDuration));
            		}
            		if(userLessonNumber==3 || userLessonNumber==4) {
@@ -589,7 +590,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 	setTimeout(function(){
                 		instrumentDrainRate=3
         				    $("#lowpowermessage").animate({opacity: 0.0}, 1, function() { $("#lowpowermessage").css('pointer-events', 'none'); });; //we'll say the drain for the drill is a bit higher at 4
-                		popcornMedia[20].play(0);
+                		popcornMedia[21].play(0);
         	    	}, (armDuration));
            		}
            		
@@ -657,7 +658,7 @@ document.addEventListener("DOMContentLoaded", function () {
         	    		}
             		}
 
-	        		popcornMedia[18].play(0);
+	        		popcornMedia[19].play(0);
             		//no matter what, always stow the arm after duration + 2 seconds
 	    	    	rover.stowArm(armDuration);
 
@@ -666,12 +667,12 @@ document.addEventListener("DOMContentLoaded", function () {
         		//stow arm even if no lesson is done
         		setTimeout(function(){
 
-            		popcornMedia[18].play(0);
+            		popcornMedia[19].play(0);
 	    	    	rover.stowArm(armDuration);
     	    	}, (armDuration+5000));
         	}
     	} else {
-    		popcornMedia[18].play(0);
+    		popcornMedia[19].play(0);
         	
     		rover.stowArm(armDuration);
     	}
@@ -682,8 +683,8 @@ document.addEventListener("DOMContentLoaded", function () {
     camsbutton.onclick = function() {
     	if(powerPenalty)return;
     	// can't quite find an isPlaying property in documentation, so this works for now.
-    	if(popcornMedia[15].currentTime()<=0 || popcornMedia[15].currentTime()>=popcornMedia[15].duration()) {
-        	popcornMedia[15].play(0);
+    	if(popcornMedia[16].currentTime()<=0 || popcornMedia[16].currentTime()>=popcornMedia[16].duration()) {
+        	popcornMedia[16].play(0);
     	}
     	rover.scanMast(4000);
     	setTimeout(function() {
@@ -945,7 +946,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		
 		var postColladaLoaded = function () {
 			//start wind loop
-	    	popcornMedia[16].play();
+	    	popcornMedia[17].play();
 			//get threeD animation up and alive
 			initializethreed();
 			//this is probably unneeded anymore.  old Ryan's loader.
@@ -1992,6 +1993,11 @@ document.addEventListener("DOMContentLoaded", function () {
 		<audio id="UNIT2_VO_conclusion">
 			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_conclusion.mp3"></source>
 			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_conclusion.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="UNIT2_VO_conclusion2">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_conclusion2.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_conclusion2.oggvorbis.ogg"></source>
 		</audio> 
 		
 		<audio id="Unit2_Cams">
