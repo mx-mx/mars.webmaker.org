@@ -169,10 +169,11 @@ function setupScene(){
 	
 	//setup a function to drain
 	setInterval(function() { 
-		//kill our batery if user is doing both
-		if(driveDrainRate>0 && instrumentDrainRate>0)currentEnergyLevel=0;
+		//high drain our battery if user is doing both
+		var highDrain=0;
+		if(driveDrainRate>0 && instrumentDrainRate>0)highDrain=2;
 		if(currentEnergyLevel>=0) {
-			currentEnergyLevel = currentEnergyLevel-driveDrainRate-instrumentDrainRate;
+			currentEnergyLevel = currentEnergyLevel-driveDrainRate-instrumentDrainRate-highDrain;
 		}
 	}, 200);
 
