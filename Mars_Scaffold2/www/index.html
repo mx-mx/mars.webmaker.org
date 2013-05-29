@@ -443,7 +443,7 @@ document.addEventListener("DOMContentLoaded", function () {
        	});
 
 	});
-	popcornMedia[1].cue( 8.5, function() {
+	popcornMedia[1].cue( 22, function() {
 		$("#videocontenttarget").animate({width: 360, height: 202,
 											top: "10px", left: "10px",
 											margin:"-0px 0 0 -0px"}, 1000, function() {
@@ -1985,8 +1985,8 @@ document.addEventListener("DOMContentLoaded", function () {
 							checktouchdown = setInterval(function () {
 							    if(touchdown(trajectory)) {
 								    console.log("got touchdown");
-							    	clearInterval(checktouchdown);
-									clearInterval(checklaunchtouchdown);
+								    if(checktouchdown)clearInterval(checktouchdown);
+									if(checklaunchtouchdown)clearInterval(checklaunchtouchdown);
 							    	playTrajectoryAudio();
 							    }
 							},500);
@@ -2062,8 +2062,8 @@ document.addEventListener("DOMContentLoaded", function () {
 							checklaunchtouchdown = setInterval(function () {
 							    if(touchdown(trajectory)) {
 								    console.log("got a touchdown");
-							    	clearInterval(checktouchdown);
-									clearInterval(checklaunchtouchdown);
+								    if(checktouchdown)clearInterval(checktouchdown);
+									if(checklaunchtouchdown)clearInterval(checklaunchtouchdown);
 							    	playFullLaunchAudio();
 							    }
 							},500);
@@ -2452,7 +2452,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			This project is a collaboration between the U.S. Department of Energy, the Mozilla Foundation, and MX.</div>
 			<br>
 			<img src="./images/tri_logo.png" style="align: center;">
-			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.16</font>
+			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.17</font>
 		</div>
 		
 		<div id="topbar" class="topbar">
@@ -3215,7 +3215,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		
 		<audio id="SEQ_5_CAM_Launch">
 			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_5_CAM_Launch.mp3"></source>
-			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_5_CAM_Launch.ogg"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/SEQ_5_CAM_Launch.oggvorbis.ogg"></source>
 		</audio> 
 		
 		<audio id="SEQ_5_sim_fail1">
