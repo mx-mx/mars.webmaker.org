@@ -672,6 +672,27 @@ div .selectitemdetaildiv:hover{
     border:none;
 	width: 310px;
 	height: 55px;
+	top:30%;
+    left:50%;
+    margin:-5px 0 0 -170px;
+	z-index: 2;
+}
+.boundarywarningmessage
+{
+  position: absolute;
+	opacity: 0.0;
+	pointer-events:none;
+	padding: 10px 10px 10px 10px;
+	background: rgba(128,74,74,0.8);
+	color: rgba(200,200,200,1.0);
+	font-family: 'Lato', sans-serif;
+	font-weight:300;
+	line-height: 18px;
+	font-size: 18px;
+    border-radius: 5px;
+    border:none;
+	width: 310px;
+	height: 55px;
 	top:40%;
     left:50%;
     margin:-5px 0 0 -170px;
