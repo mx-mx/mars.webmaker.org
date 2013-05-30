@@ -302,7 +302,7 @@ var boundaryStatus = 0; //return a simple number for status
 function outOfBounds(){
 	boundaryStatus = 0; //return a simple number for status
 	var boundary = 60; 
-	var almostBoundary = boundary - boundary * .3; //40% of the boundary
+	var almostBoundary = boundary - boundary * .3; //30% of the boundary
 	var posFromMatrix = new THREE.Vector3();
 	posFromMatrix.getPositionFromMatrix( rover.mesh.matrixWorld );
 	var roverPosFromCenter = posFromMatrix.distanceTo( scene.position );
