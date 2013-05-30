@@ -940,7 +940,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					$("#boundaryreachedmessage").animate({opacity: 0.0}, 1, function() { $("#boundaryreachedmessage").css('pointer-events', 'none'); });
 					setTimeout(function() {
 						$("#boundarywarningmessage").animate({opacity: 0.0}, 200, function() { $("#boundarywarningmessage").css('pointer-events', 'none'); });
-					},5000);
+					},8000);
 				}
 			} else if (boundaryStatus==2) {
 				$("#boundaryreachedmessage").animate({opacity: 1.0}, 200, function() { $("#boundaryreachedmessage").css('pointer-events', 'none'); });
@@ -948,7 +948,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				setTimeout(function() {
 					boundaryWarningIssued=false;
 					$("#boundaryreachedmessage").animate({opacity: 0.0}, 200, function() { $("#boundaryreachedmessage").css('pointer-events', 'none'); });
-				},5000);
+				},8000);
 			}
 		}, 200);
 		 
@@ -1413,7 +1413,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			This project is a collaboration between the U.S. Department of Energy, the Mozilla Foundation, and MX.</div>
 			<br>
 			<img src="./images/tri_logo.png" style="align: center;">
-			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.20</font>
+			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.21</font>
 		</div>
 	
 		<div id="topbar" class="topbar">

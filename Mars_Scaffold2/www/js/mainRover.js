@@ -301,8 +301,8 @@ var boundaryStatus = 0; //return a simple number for status
 // Check to see if Rover is out of Bounds. If out of bounds it resets the rover to the center of the screen.
 function outOfBounds(){
 	boundaryStatus = 0; //return a simple number for status
-	var boundary = 60; 
-	var almostBoundary = boundary - boundary * .1; //10% of the boundary
+	var boundary = 70; 
+	var almostBoundary = boundary - boundary * .4; //40% of the boundary
 	var posFromMatrix = new THREE.Vector3();
 	posFromMatrix.getPositionFromMatrix( rover.mesh.matrixWorld );
 	var roverPosFromCenter = posFromMatrix.distanceTo( scene.position );
