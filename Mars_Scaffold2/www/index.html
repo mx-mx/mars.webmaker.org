@@ -1073,7 +1073,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 	
 	//xxx unit test for menus
-	//$("#baddatespopup").animate({opacity: 1.0}, 1, function() { $("#baddatespopup").css('pointer-events', 'auto'); });
+	$("#baddatespopup").animate({opacity: 1.0}, 1, function() { $("#baddatespopup").css('pointer-events', 'auto'); });
 	//$("#launchcontrols").animate({opacity: 1.0}, 1, function() { $("#launchcontrols").css('pointer-events', 'auto'); });
 	//$("#launchdiv").animate({opacity: 1.0}, 1, function() { $("#launchdiv").css('pointer-events', 'auto'); });
 	//$("#launchcommitdiv").animate({opacity: 1.0}, 1, function() { $("#launchcommitdiv").css('pointer-events', 'auto'); });
@@ -1944,12 +1944,14 @@ document.addEventListener("DOMContentLoaded", function () {
 			.click(function( event ) {
 				$("#quicklaunchpopup").animate({opacity: 0.0}, 1, function() { $("#quicklaunchpopup").css('pointer-events', 'none'); });
 				if(!launchDate || !landingDate) {
-			   		document.getElementById("baddatestext").innerHTML="You have entered incorrect dates.  Please ensure that you have entered two dates and your launch date is before your landing date.";
+					document.getElementById("baddatesheadertext").innerHTML="INVALID DATES";
+			   		document.getElementById("baddatestext").innerHTML="Make sure dates are entered and the launch date is before the land date.";
 					$("#baddatespopup").animate({opacity: 1.0}, 200, function() {
 	                	$("#baddatespopup").css('pointer-events', 'auto');
 	            	});
 				} else if (landingDate<launchDate) {
-			   		document.getElementById("baddatestext").innerHTML="You have entered incorrect dates.  Please ensure that you have entered two dates and your launch date is before your landing date.";
+					document.getElementById("baddatesheadertext").innerHTML="INVALID DATES";
+			   		document.getElementById("baddatestext").innerHTML="Make sure dates are entered and the launch date is before the land date.";
 					$("#baddatespopup").animate({opacity: 1.0}, 200, function() {
 	                	$("#baddatespopup").css('pointer-events', 'auto');
 	            	});
@@ -1998,7 +2000,9 @@ document.addEventListener("DOMContentLoaded", function () {
 						$("#speedSlider").slider('value',.1);
 			    	} catch(err) {
 			    	  	console.log("got me an exception: " + err.message);
-				   		document.getElementById("baddatestext").innerHTML="Error: [" + err.message + "]<br> Please enter new dates other than these.";
+						document.getElementById("baddatesheadertext").innerHTML="LAMBERT’S PROBLEM ERROR";
+				   		document.getElementById("baddatestext").innerHTML="Transfer is not possible with these dates. Try other launch and land dates.";
+				   		..document.getElementById("baddatestext").innerHTML="Error: [" + err.message + "]<br> Please enter new dates other than these.";
 						$("#baddatespopup").animate({opacity: 1.0}, 200, function() {
 		                	$("#baddatespopup").css('pointer-events', 'auto');
 		            	});
@@ -2875,23 +2879,21 @@ document.addEventListener("DOMContentLoaded", function () {
 			</table>
 		</div>
 		
-		
-		
 		<div id="baddatespopup" class="baddatespopup">
 			<table style="width: 100%;margin:0;padding:0;" >
 				<tr >
-					<td width="50px"  align="left" >
-						<div id="baddatestext">
-							
+					<td width="50px" rowspan="2" align="left" valign="middle" style="padding-right:8px;"><img src="./images/icon_alert.png" style="width:49px;height:44px;"></td>
+					
+					<td align="left">
+						<div id="baddatesheadertext" style="font-size:16px;font-weight:400;text-transform: uppercase;">
 						</div>
 					</td>
 				</tr>
 				<tr>
-					<td align="center">
-						<br>
-						<!-- this button isn't programmed specifically javascript... it works via mousedown in javascript
-						it's really a button made for what users typcially expect.  i.e. mouse anywere click and ok do the same thing -->
-						<button id="baddatesokbutton" class="squarebluebutton">ok</button>
+					<td align="left">
+						<div id="baddatestext" style="font-size:16px;font-weight:300;">
+						
+						</div>
 					</td>
 				</tr>
 			</table>

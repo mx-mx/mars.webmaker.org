@@ -443,21 +443,20 @@ div.pathfindervideo1
   position: absolute;
 	opacity: 0.0;
 	pointer-events:none;
-	padding: 30px 40px 15px 40px;
-	background: rgba(13,30,38,.95);
+	padding: 10px 10px 10px 10px;
+	background: rgba(128,74,74,0.8);
 	color: rgba(200,200,200,1.0);
 	font-family: 'Lato', sans-serif;
-	text-transform: none;
-	line-height: 22px;
+	font-weight:300;
+	line-height: 18px;
 	font-size: 18px;
-	font-weight: 300;
     border-radius: 5px;
     border:none;
-	width: 340px;
-	height: 140px;
-	top:50%;
+	width: 370px;
+	height: 65px;
+	top:40%;
     left:50%;
-    margin:-70px 0 0 -185px;
+    margin:-5px 0 0 -200px;
 	z-index: 7;
 }
 .browserpopup
