@@ -2002,7 +2002,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			    	  	console.log("got me an exception: " + err.message);
 						document.getElementById("baddatesheadertext").innerHTML="LAMBERT’S PROBLEM ERROR";
 				   		document.getElementById("baddatestext").innerHTML="Transfer is not possible with these dates. Try other launch and land dates.";
-				   		..document.getElementById("baddatestext").innerHTML="Error: [" + err.message + "]<br> Please enter new dates other than these.";
+				   		//document.getElementById("baddatestext").innerHTML="Error: [" + err.message + "]<br> Please enter new dates other than these.";
 						$("#baddatespopup").animate({opacity: 1.0}, 200, function() {
 		                	$("#baddatespopup").css('pointer-events', 'auto');
 		            	});
