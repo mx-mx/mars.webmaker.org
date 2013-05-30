@@ -560,6 +560,20 @@ document.addEventListener("DOMContentLoaded", function () {
 		showDistance = false;
 		scene.remove(ruler);
 	});
+	
+	//three ponit camera move to show off curiosity launch
+	popcornMedia[4].cue( 3, function() {
+		camTweener( { x: -111, y: 55, z: -316 }, { x: 0, y: 0, z: -20 }, 1500 );
+	});
+	
+	popcornMedia[4].cue( 8, function() {
+		camTweener( { x: -585, y: 362, z: 88 }, { x: 0, y: 0, z: -20 }, 6000 );
+	});
+	
+	popcornMedia[4].cue( 14, function() {
+		camTweener( { x: -232, y: 49, z: 291 }, { x: 0, y: 0, z: -20 }, 6000 );
+	});
+	
     popcornMedia[4].on( "ended", function() {
     	advancePopcornMedia();
 	});
@@ -692,6 +706,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
     
     $(document).on('mouseup', function(e) {
+        console.log("x:" + camera.position.x + "y:" + camera.position.y + "z:" + camera.position.z);
         if(!listenToMouseMovements) return;
         //console.log("got me a mouseup: " + userMouseAction[userLessonNumber]);
         if(lessonOpen) {
