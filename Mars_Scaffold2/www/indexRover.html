@@ -288,16 +288,16 @@ document.addEventListener("DOMContentLoaded", function () {
     	//the click/drag test
     	advancePopcornMedia(5);
 	});
-    
-    popcornMedia[8].on( "ended", function() {
-        lessonOpen=true;
-	});
 
     popcornMedia[5].cue( 1, function() {
     	ocCalibration.showArrow();
 	});
     popcornMedia[5].on( "ended", function() {
     	//the click/drag test
+        lessonOpen=true;
+	});
+    
+    popcornMedia[8].on( "ended", function() {
         lessonOpen=true;
 	});
     
@@ -322,12 +322,12 @@ document.addEventListener("DOMContentLoaded", function () {
     
 	popcornMedia[9].cue( 9, function() {
     	//show outcrop
-		oc.showArrow();
+		//oc.showArrow();
 	});
     
 	popcornMedia[9].cue( 11, function() {
     	//show outcrop
-		ocTwo.showArrow();
+		//ocTwo.showArrow();
 	});
     
     popcornMedia[9].on( "ended", function() {
