@@ -498,6 +498,7 @@ document.addEventListener("DOMContentLoaded", function () {
     popcornMedia[3].cue( 2, function() {
        	//camTweener( { x: 0, y: 800, z: 0 }, { x: 0, y: 0, z: -20 }, 3000 ); //old value, above shot
 		camTweener( { x: -400, y: 200, z: 250 }, { x: 0, y: 0, z: -20 }, 1500 );
+
 	});
     
     popcornMedia[3].cue( 6, function() {
@@ -601,6 +602,18 @@ document.addEventListener("DOMContentLoaded", function () {
     	$("#threedcontrols").animate({opacity: 1.0}, 200, function() {
         	$("#threedcontrols").css('pointer-events', 'auto');
     	});
+	});
+    
+
+    popcornMedia[6].cue( 3, function() {
+
+    	ss[3].label.show();
+    	ss[4].label.show();
+	});
+    
+    popcornMedia[17].cue( 6, function() {
+    	ss[3].label.show();
+    	ss[4].label.show();
 	});
 
     //setup vars to walk through mouse 3D lesson
@@ -706,7 +719,8 @@ document.addEventListener("DOMContentLoaded", function () {
     
     
     $(document).on('mouseup', function(e) {
-        console.log("x:" + camera.position.x + "y:" + camera.position.y + "z:" + camera.position.z);
+    	if(camera.position) console.log("x:" + camera.position.x + "y:" + camera.position.y + "z:" + camera.position.z);
+        
         if(!listenToMouseMovements) return;
         //console.log("got me a mouseup: " + userMouseAction[userLessonNumber]);
         if(lessonOpen) {
@@ -1723,6 +1737,10 @@ document.addEventListener("DOMContentLoaded", function () {
 			//remove the ruler
 			showDistance = false;
 			scene.remove(ruler);
+			//hide planet labels
+			ss[3].label.hide();
+			ss[4].label.hide();
+			
 			$("#playbuttonwrapper").animate({opacity: 1.0}, 200, function() {
             	$("#playbuttonwrapper").css('pointer-events', 'auto');
         	});
@@ -1740,6 +1758,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			//hide everything
 			hideeverything();
 			$("#startmenupanel").animate({opacity: 0.0}, 1, function() { $("#startmenupanel").css('pointer-events', 'none'); });
+			
 			//hide background
 	    	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
 	           	$("#backgroundtarget").css('pointer-events', 'none');
@@ -1767,6 +1786,9 @@ document.addEventListener("DOMContentLoaded", function () {
 			//remove the ruler
 			showDistance = false;
 			scene.remove(ruler);
+			//show planet labels
+			ss[3].label.show();
+			ss[4].label.show();
 			
 			setTimeout(function(){
 				//shift 3d model
@@ -1823,6 +1845,9 @@ document.addEventListener("DOMContentLoaded", function () {
 			//remove the ruler
 			showDistance = false;
 			scene.remove(ruler);
+			//show planet labels
+			ss[3].label.show();
+			ss[4].label.show();
 			//show stuff needed
 			setTimeout(function(){
 				//shift 3d model
@@ -2471,7 +2496,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			This project is a collaboration between the U.S. Department of Energy, the Mozilla Foundation, and MX.</div>
 			<br>
 			<img src="./images/tri_logo.png" style="align: center;">
-			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.24</font>
+			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.25</font>
 		</div>
 		
 		<div id="topbar" class="topbar">
