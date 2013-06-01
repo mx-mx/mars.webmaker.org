@@ -14,11 +14,11 @@ var solarSystemScale = function(){
 	this.sunScale = .00001;
 	this.planetScale = .001;
 	return this;
-} 				
+}; 				
 
 function planetsOrbit( time ){
 	for ( var i = 1; i < ss.length; i ++ ) {
-        var planet = ss[i];
+        //var planet = ss[i];
 		ss[i].orbiting( time, ssScale.s );
 	}
 }	
@@ -37,7 +37,7 @@ function makeSolarSystem(){
 
 	ssScale = new solarSystemScale();
 	ssScale.s = .000001;
-	ssScale.sunScale = .00002;
+	ssScale.sunScale = .00001;
 	ssScale.planetScale = .001;
 
 	var ss3D = new THREE.Object3D();
@@ -46,7 +46,7 @@ function makeSolarSystem(){
 	ss[0].rotation.x = 2;
 	ss3D.add( ss[0] );
 
-	ss[0].label = new Label( ss[0], 1, contenttarget );
+	ss[0].label = new Label( ss[0], 1, $contenttarget[0] );
 
 	findSemiMinor();
 	for ( var i = 1; i < ephemeris.length; i ++ ) {
@@ -67,7 +67,8 @@ function makeSolarSystem(){
 		ss3D.add( ss[i].orbit );
 
 		ss3D.add( ss[i] );
-		ss[i].label = new Label( ss[i], 1, contenttarget );
+		ss[i].label = new Label( ss[i], 1, $contenttarget[0] );
+
 	}
 
 	return ss3D;

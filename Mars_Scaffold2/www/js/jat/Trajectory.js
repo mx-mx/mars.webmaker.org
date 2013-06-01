@@ -22,8 +22,7 @@
 
 
 function Trajectory() {
-	// console.log("MarsOdyssey");
-	this.ephemeris = null;
+	// console.log("Trajectory");
 	this.departure_time = null;
 	this.arrival_time = null;
 	this.r0 = null;
@@ -34,61 +33,56 @@ function Trajectory() {
 	this.trajectory = new Array();
 	this.complete = false;
 	this.lastTrajectoryPoint;
-	this.lastLine;
-	this.lastTime;
+	this.totalDeltaV;
+	this.finishedDrawingCallback;
 }
-
-Trajectory.prototype.init = function() {
-
-    var pathUtil = new PathUtil();
-    this.ephemeris = new DE405Plus(pathUtil);
-
-	// Mars Odyssey Mission
-    this.departure_time = new Time({Yr:2014, Mon:4, D:7, Hr:1, Mn:1, S:1});
-    this.arrival_time = new Time({Yr:2014, Mon:10, D:24, Hr:1, Mn:1, S:1});
- 
-	// create a TwoBody orbit using orbit elements
-    this.ephemeris.get_planet_pos( DE405Body.EARTH, this.departure_time, this );
-};
-
-Trajectory.prototype.ephemerisCallback = function(result) {
+ Trajectory.prototype.ephemerisCallback = function(result) {
 	if (this.r0 == null) {
 		this.r0 = result;
 		this.r0.print("r0");
-        this.ephemeris.get_planet_vel(DE405Body.EARTH, this.departure_time, this);
+        DE405PlusForTime(this.departure_time).get_planet_vel(DE405Body.EARTH, this.departure_time, this);
 	} else if (this.v0 == null) {
 		this.v0 = result;
 		this.v0.print("v0");
-		this.ephemeris.get_planet_pos(DE405Body.MARS, this.arrival_time, this);
+		// console.log("orbital velocity of earth " + this.v0.mag());
+		DE405PlusForTime(this.arrival_time).get_planet_pos(DE405Body.MARS, this.arrival_time, this);
 	} else if (this.rf == null) {
 		this.rf = result;
 		this.rf.print("rf");
-		this.ephemeris.get_planet_vel(DE405Body.MARS, this.arrival_time, this);
+		DE405PlusForTime(this.arrival_time).get_planet_vel(DE405Body.MARS, this.arrival_time, this);
 	} else {
 		this.vf = result;
 		this.vf.print("vf");
+		// .log("orbital velocity of Mars " + this.vf.mag());
 
 		var initpos = new TwoBody({r:this.r0, v:this.v0});
 		var finalpos = new TwoBody({r:this.rf, v:this.vf});
 
+//			var /*Printable*/ x = new Callback();
 		// propagate the orbits for plotting
 		initpos.propagate(0., initpos.period(), this, true);
-
+//			x.plotnum++;
 		finalpos.propagate(0., finalpos.period(), this, false);
-
+//			x.plotnum++;
 		var days = this.arrival_time.jd_tt() - this.departure_time.jd_tt();
         var tof = days * 86400.0;
-		var muforthisproblem = Constants$GM_Sun / 1.e9;
-		var lambert = new Lambert(muforthisproblem);
-		var totaldv;
-
+		var /*double*/ muforthisproblem = Constants$GM_Sun / 1.e9;
+		var /*Lambert*/ lambert = new Lambert(muforthisproblem);
+		var /*double*/ totaldv;
+//			try {
 			totaldv = lambert.compute(this.r0, this.v0, this.rf, this.vf, tof);
-
+			console.log("total deltaV = " + totaldv);
+//			} catch (/*LambertException*/ e) {
+//				totaldv = -1;
+//				//e.printStackTrace();
+			// .log("Trajectory.init LambertException " + e);
+//			}
+		this.totalDeltaV = totaldv;
 		// apply the first delta-v
-		var dv0 = lambert.deltav0;
+		var /*VectorN*/ dv0 = lambert.deltav0;
 		this.v0 = this.v0.plus(dv0);
-
-		var chaser = new TwoBody({mu:muforthisproblem, r:this.r0, v:this.v0});
+		// .log("tof = " + lambert.tof);
+		var /*TwoBody*/ chaser = new TwoBody({mu:muforthisproblem, r:this.r0, v:this.v0});
 		chaser.print("chaser orbit");
 		chaser.propagate(0.0, tof, this, true);
 
@@ -96,39 +90,79 @@ Trajectory.prototype.ephemerisCallback = function(result) {
 	}
 };
 
-Trajectory.prototype.print = function(/*double*/ time, /*double[]*/ data) {
-	
-	var julianTime = this.departure_time.plus(time);
+Trajectory.prototype.toString = function() {
+	return "Trajectory";
+};
 
+Trajectory.prototype.init = function( departure_time, arrival_time, drawingCallback) {
+	console.log("new init: " + departure_time.jd_tt());
+
+	this.finishedDrawingCallback = null;
+	this.finishedDrawingCallback = drawingCallback;
+	this.r0 = null;
+	this.v0 = null;
+	this.rf = null;
+	this.vf = null;
+	this.trajectoryIndex = 0;
+	this.trajectory=null;
+	this.trajectory = new Array();
+	this.complete = false;
+	this.lastTrajectoryPoint = null;
+	
+	// console.log("Trajectory.init");
+
+    this.departure_time = departure_time;
+    this.arrival_time = arrival_time;
+    
+
+    // console.log("departure_time = " + this.departure_time.jd_tt() + ", arrival_time = " + this.arrival_time.jd_tt());
+    // console.log("departure_time = " + this.departure_time.jd_tt().Julian2Date().toString() + ", arrival_time = " + this.arrival_time.jd_tt().Julian2Date().toString());
+
+	// create a TwoBody orbit using orbit elements
+    DE405PlusForTime(this.departure_time).get_planet_pos(DE405Body.EARTH, this.departure_time, this);
+};
+
+//	public static void main(String[] args) {
+//		Trajectory trajectory = new Trajectory();
+//		trajectory.init();
+//	}
+
+//}
+
+//class Callback implements Printable {
+//	function Callback() {;}
+//	@Override
+
+Trajectory.prototype.print = function(time, data) {
+
+	var julianTime = this.departure_time.plus(time);
 	if (time == 0) {
-		console.log("time = " + julianTime.jd_tt() + ": x = " + data[0] + ", y = " + data[1] + ", z = " + data[2]);
+		// console.log("time = " + julianTime.jd_tt() + ": x = " + data[0] + ", y = " + data[1] + ", z = " + data[2]);
 	}
 	this.onAddPoint(julianTime.jd_tt(), + data[0], + data[1], + data[2]);
 };
 
-
 Trajectory.prototype.onAddPoint = function(time, x, y, z) {
-	this.trajectory[this.trajectoryIndex++] = {time:time, point:new THREE.Vector3(x, y, z)};
+	this.trajectory[ this.trajectoryIndex++ ] = { time:time, point:new THREE.Vector3(x, y, z) };
 };
 
-Trajectory.prototype.drawTrajectory = function(time) {
+Trajectory.prototype.drawTrajectory = function( time, scale ) {
+
 	var start,
 		end,
 		axisRez,
 		axisPoints = [],
-		spline,
-		splineMat,
-		splineGeo,
-		splinePoints,
-		line	
+		splineMat	
 	;
+
 	if (!this.complete) {
 		return;
 	}
 
 	var point = null;
+
 	for (var index = 0; index < this.trajectory.length - 1; index++) {
-		if ((time >= this.trajectory[index].time) && (time <= this.trajectory[index + 1].time)) {
+		if ( ( time >= this.trajectory[index].time ) && ( time <= this.trajectory[index + 1].time ) ) {
 			point = this.trajectory[index].point;
 			break;
 		}
@@ -137,9 +171,10 @@ Trajectory.prototype.drawTrajectory = function(time) {
 	if (point == null) {
 		return;
 	}
-	var x = point.x / 1000000;
-	var y = point.y / 1000000;
-	var z = point.z / 1000000;
+
+	var x = point.x * scale;
+	var y = point.y * scale;
+	var z = point.z * scale;
 
 	if (this.lastTrajectoryPoint == null ) {
 		this.lastTrajectoryPoint = new THREE.Vector3(x, y, z);
@@ -149,19 +184,28 @@ Trajectory.prototype.drawTrajectory = function(time) {
 	end = new THREE.Vector3(x, y, z);
 	this.lastTrajectoryPoint = end;
 
-	splineMat = new THREE.LineBasicMaterial( { color: 0x2BBFBD, opacity: 0.25, linewidth: 1 } );
-	line = new THREE.Line( new THREE.Geometry(), splineMat );
+	splineMat = new THREE.LineBasicMaterial( { color: 0x3A84A6, opacity: 0.25, linewidth: 1.5 } );
+	this.line = new THREE.Line( new THREE.Geometry(), splineMat );
 
 	if ( this.prevLine != null ){
-		line.geometry.vertices = this.prevLine.geometry.vertices;
-		scene.remove( this.prevLine );
-		this.prevLine.geometry.dispose();
+		this.line.geometry.vertices = this.prevLine.geometry.vertices;
+		solarSystem.remove( this.prevLine );
+		// this.prevLine.geometry.dispose();
 	}
 
-	line.geometry.vertices.push( end );
+	this.line.geometry.vertices.push( end );
 
-	solarSystem.add( line );
-	this.prevLine = line;
+	if(time >= this.trajectory[this.trajectory.length - 20].time) {
+		
+		if(this.finishedDrawingCallback) {
+			this.finishedDrawingCallback.call();
+		}
+		//just call it once
+		this.finishedDrawingCallback = null;
+	}
+	
+	solarSystem.add( this.line );
+	this.prevLine = this.line;
 }
 
 Number.prototype.Julian2Date = function() {
@@ -197,6 +241,6 @@ Number.prototype.Julian2Date = function() {
 };
 
 //$(document).ready( function() {
-//	var marsOdyssey = new MarsOdyssey();
-//	marsOdyssey.init();
+//	var trajectory = new Trajectory();
+//	trajectory.init();
 //} );

@@ -1,6 +1,6 @@
 <?php
 
-//Badge-It Gadget Lite v0.5.0 - Simple scripted system to award and issue badges into Mozilla Open Badges Infrastructure
+//Badge-It Gadget Lite v1.0.0 - Simple scripted system to award and issue badges into Mozilla Open Badges Infrastructure
 //Copyright (c) 2012 Kerri Lemoie, Codery - gocodery.com
 //Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 
@@ -22,23 +22,25 @@ function rand_string( $length ) { //this function just obscures the users name a
 
 if( isset($_POST) ){
 	
+	//set default timezone
+	date_default_timezone_set('America/Los_Angeles');
 	
 	//set all variables
 	
-	$badgeId 							= $_POST['badge_info'];
+	$badgeId 				= $_POST['badge_info'];
 	$badgeRecipientName 	= $_POST['badge_recipient_name'];
 	$badgeRecipientEmail 	= $_POST['badge_recipient_email'];
-	$badgeEvidenceURL 		= $_POST['badge_evidence_url'];
-	$badgeName 						= $badges_array[$badgeId]['name'];
-	$badgeImage						= $badges_array[$badgeId]['image'];
-	$badgeDescription			= $badges_array[$badgeId]['description'];
-	$badgeCriteria				= $badges_array[$badgeId]['criteria_url'];
-	$badgeExpires					= $badges_array[$badgeId]['expires'];	
-	$date = date('Y-m-d');
-	$err = '';
-	$msg = '';
-	$imageURL = '';
-	$msgURL = '';
+	$badgeUid 				= $badges_array[$badgeId]['uid'];
+	$badgeName 				= $badges_array[$badgeId]['name'];
+	$badgeImage				= $badges_array[$badgeId]['image'];
+	$badgeEvidence			= $badges_array[$badgeId]['evidence_url'];
+	$badgeClass				= $badges_array[$badgeId]['badge_class'];
+	$badgeExpires			= $badges_array[$badgeId]['expires'];	
+	$date 					= date('Y-m-d');
+	$err 					= '';
+	$msg 					= '';
+	$imageURL 				= '';
+	$msgURL 				= '';
 	
 	
 	//salt email	
@@ -51,28 +53,24 @@ if( isset($_POST) ){
 	$filename = str_rot13($badgeId.'-'. preg_replace("/ /","_",$badgeRecipientName));
 	
 	$jsonFilePath = $json_dir . $filename .'.json';
-	$hardIssuer = 'http://www.voiceovervinnie.com';
 
 	$handle = fopen($jsonFilePath, 'w');
 	$fileData = array(
-		'recipient' => "sha256$".$hashed_email,
-		'salt' => $salt,
-		'evidence' => $badgeEvidenceURL,
-		'issued_on'=> $date,
-		'badge' => array(
-			'version' => '0.5.0',
-			'name' => $badgeName,
-			'image' => $issuer_url.$badge_images_dir.$badgeImage,
-			'description' => $badgeDescription,
-			'criteria' => $badgeCriteria,
-			'expires' => $badgeExpires,
-			'issuer' => array(
-				'origin' => $hardIssuer,
-				'name' => $issuer_name,
-				'org' => $issuer_org,
-				'contact' => $issuer_contact,
-			)
-		)
+		'uid' => $badgeUid,
+		'recipient' => array(
+			'type' => 'email',
+			'hashed' => true,
+			'salt' => $salt,
+			'identity' => "sha256$".$hashed_email,
+		),
+		'image' => $issuer_url.$badge_images_dir.$badgeImage,
+		'evidence' => $badgeEvidence,
+		'issuedOn'=> $date,
+		'badge'=> $badgeClass,
+		'verify' => array(
+			'type' => 'hosted',
+			'url' => $issuer_url.$json_url_dir.$filename.'.json',
+		)	
 	);
 	
 	//Writes JSON file
@@ -91,10 +89,10 @@ if( isset($_POST) ){
 		$badgeRecordsFile = $root_path . $badge_records_file;
 	
 		$badgeHandle = fopen($badgeRecordsFile, 'a'); 
-		$badge_data = "BADGE AWARDED: ".$date.", ".$badgeName.", ".$jsonFilePath.", ".$badgeRecipientName.", ".$badgeRecipientEmail.", ".$badgeCriteria;
+		$badge_data = "BADGE AWARDED: ".$date.", ".$badgeName.", ".$badgeUid.", ".$jsonFilePath.", ".$badgeRecipientName.", ".$badgeRecipientEmail.", ".$badgeEvidence;
 	
-		if (! empty($badgeEvidenceURL)) {
-			$badge_data .= ", ".$badgeEvidenceURL;
+		if (! empty($badgeEvidence)) {
+			$badge_data .= ", ".$badgeEvidence;
 		}
 	
 		$badge_data .= "\n";
@@ -113,11 +111,14 @@ if( isset($_POST) ){
 		'badgeId' => $badgeId,
 		'badgeRecipient' => $badgeRecipientName,
 		'badgeRecipientEmail' => $badgeRecipientEmail,
-		'badgeEvidenceUrl' => $badgeEvidenceURL
+		'badgeEvidenceUrl' => $badgeEvidence
 		),
 	'success' => $msg,
 	'errors' => $err
 	);
+	
+
+	//instead of the Badgers session return, I'd like a new page!
 	
 	//go back to Gadget Badger page with results
 	/*
@@ -131,9 +132,6 @@ if( isset($_POST) ){
 		header('location: ' . $_SERVER['HTTP_REFERER']);
 	}
 	*/
-	
-	//instead of the Badgers session return, I'd like a new page!
-	
 }
 ?>
 
@@ -166,6 +164,8 @@ document.addEventListener("DOMContentLoaded", function () {
     backpackloginpopupkskip.onclick = function() {
     	close();
     };
+
+    
 	
 }, false);
 </script>
@@ -178,14 +178,14 @@ document.addEventListener("DOMContentLoaded", function () {
 			<div id="backpacklogindiv" class="badgecontenttarget">
 				<h1>Mission To Mars</h1>
 				<br>
-				<?php echo $badgeDescription; ?>
+				<?php echo $badgeName; ?>
 				<br><br>
-				<img src="<?php echo $imageURL; ?>">
+				<img src="<?php echo $imageURL; ?>" style="width:200px;height:200px">
 				<br><br><br>
-				<br><br>
+				<br>
 				<div style="float:right;">
+					<button id="backpackloginpopupcontinue" class="squarebluebutton" style="float:right;">Continue</button>
 					<button id="backpackloginpopupkskip" class="squarebluebutton">Skip</button>
-					<button id="backpackloginpopupcontinue" class="squarebluebutton">Continue</button>
 				</div>
 			</div>
 		</div>

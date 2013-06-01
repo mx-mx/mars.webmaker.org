@@ -1,0 +1,8 @@
+{
+  "name": "Remote Pilot Badge",
+  "description": "The Remote Pilot Badge",
+  "image": "http://www.mx-mx.com/lab/moku/badge-it-gadget-lite/digital-badges/images/moku_badge_remote_pilot.png",
+  "criteria": "http://www.mx-mx.com/lab/moku/badge-it-gadget-lite/digital-badges/criteria_remote_pilot.html",
+  "tags": ["mars", "remote piolt", "rover", "curiosity"],
+  "issuer": "http://www.mx-mx.com/lab/moku/badge-it-gadget-lite/digital-badges/issued/json/organization.json"
+}

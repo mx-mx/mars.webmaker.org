@@ -15,6 +15,7 @@ function camTweener( newCamPosition, newTarget, time ) {
 		.to( newCamPosition , time )
 		.easing(TWEEN.Easing.Sinusoidal.InOut)
 		.onStart( function(){ 
+			render();
 			controls.enabled = false; 
 			controls.update();
 		} )
@@ -28,7 +29,4 @@ function camTweener( newCamPosition, newTarget, time ) {
 	tweenPosition.start();
 	Tweener( camTarget, newTarget, time );	
 }
-
-a = new TWEEN.Tween(ssScale).to( {s:.000001}, 2000);
-
 

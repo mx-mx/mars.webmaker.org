@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html class="ie ie6 no-js" lang="en"> <![endif]-->
+<!--[if IE 7 ]>    <html class="ie ie7 no-js" lang="en"> <![endif]-->
+<!--[if IE 8 ]>    <html class="ie ie8 no-js" lang="en"> <![endif]-->
+<!--[if IE 9 ]>    <html class="ie ie9 no-js" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>MSL Curiosity</title>
+
+<script type="text/javascript" src="./js/libs/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="./js/libs/jquery-ui-1.10.1.custom.min.js"></script>
+
+<script src="./js/Detector.js"></script>
+
+<script src="./js/libs/three.min.js"></script>
+<script src="./js/libs/physi.js"></script>
+
+<script src="./js/libs/stats.min.js"></script>
+<script src="./js/libs/dat.gui.min.js"></script>
+<script src="./js/libs/tween.min.js"></script>
+
+<script src="./js/controls/OrbitControls.js"></script>
+<script src="./js/loaders/ColladaLoader.js"></script>
+
+<script src="./js/utils.js"></script>
+<script src="./js/rover.js"></script>
+<script src="./js/camtweener.js"></script>
+<script src="./js/mainRover.js"></script>
+
+
+<script src="./js/sonic.js"></script>
+		
+<script type="text/javascript">
+
+	 
+	
+	$(document).ready( function() {
+		
+		if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+		var postColladaLoaded = function () {
+			init();
+
+	    };
+
+		roverLoader.options.convertUpAxis = true;
+		roverLoader.load( './models/rover.dae', function ( collada ) {
+
+			rover_dae = collada.scene;
+			rover_dae.scale.set( 1, 1, 1 );
+			rover_dae.updateMatrix();
+
+			terrainLoader.options.convertUpAxis = true;
+			terrainLoader.load( './models/terrain.dae', function ( collada ) {
+				
+				terrain = collada.scene;
+				terrain.scale.set( 1, 1, 1 );
+				postColladaLoaded();
+			});
+		});		
+	});
+
+
+</script>
+	</head>
+
+	<body>
+		<div id="contenttarget" class="contenttarget"></div>
+	</body>
+</html>

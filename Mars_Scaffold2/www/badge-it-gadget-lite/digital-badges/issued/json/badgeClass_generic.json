@@ -1,0 +1,8 @@
+{
+  "name": "Generic Badge",
+  "description": "The Generic Badge",
+  "image": "http://www.voiceovervinnie.com/popcorn/marsScaffold2/badge-it-gadget-lite/digital-badges/images/badge_generic.png",
+  "criteria": "http://www.voiceovervinnie.com/popcorn/marsScaffold2/badge-it-gadget-lite/digital-badges/badge_generic.html",
+  "tags": ["mars", "generic"],
+  "issuer": "http://www.voiceovervinnie.com/popcorn/marsScaffold2/badge-it-gadget-lite/digital-badges/issued/json/organization.json"
+}

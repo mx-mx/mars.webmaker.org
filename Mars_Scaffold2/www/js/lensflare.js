@@ -1,34 +1,34 @@
 
-var textureFlare0 = THREE.ImageUtils.loadTexture("./images/lensflare/lensflare0.png");
-var textureFlare1 = THREE.ImageUtils.loadTexture("./images/lensflare/lensflare1.png");
-var textureFlare2 = THREE.ImageUtils.loadTexture("./images/lensflare/lensflare2.png");
-var textureFlare3 = THREE.ImageUtils.loadTexture("./images/lensflare/lensflare3.png");
+// var textureFlare0 = THREE.ImageUtils.loadTexture("./images/lensflare/lensflare0.png");
+// var textureFlare1 = THREE.ImageUtils.loadTexture("./images/lensflare/lensflare1.png");
+// var textureFlare2 = THREE.ImageUtils.loadTexture("./images/lensflare/lensflare2.png");
+// var textureFlare3 = THREE.ImageUtils.loadTexture("./images/lensflare/lensflare3.png");
 
-function addLensFlare( x, y, z, size, overrideImage ){
+function addLensFlare( x, y, z, size ){
 
     var flareColor = new THREE.Color( 0xffffff );
     THREE.ColorUtils.adjustHSV(flareColor, 0.08, 0.5, 0.5);
 
-    lensFlare = new THREE.LensFlare(overrideImage ? overrideImage : textureFlare0, 700, 0.0, THREE.AdditiveBlending, flareColor);
-
-    var textureFlare0 = THREE.ImageUtils.loadTexture( "./images/lensflare/lensflare0.png" );
+    var textureFlare0 = THREE.ImageUtils.loadTexture( "./images/lensflare/lensflare0_alpha.png" );
     var textureFlare2 = THREE.ImageUtils.loadTexture( "./images/lensflare/lensflare2.png" );
     var textureFlare3 = THREE.ImageUtils.loadTexture( "./images/lensflare/lensflare3.png" );
 
-    lensFlare.add( textureFlare0, 1000, 0.0, THREE.AdditiveBlending );
-    lensFlare.add( textureFlare2, 512, 0.0, THREE.AdditiveBlending );
-    lensFlare.add( textureFlare2, 512, 0.0, THREE.AdditiveBlending );
-    lensFlare.add( textureFlare2, 512, 0.0, THREE.AdditiveBlending );
+    var lensFlare = new THREE.LensFlare( textureFlare0, 500, 0.0, THREE.AdditiveBlending, flareColor );
 
-    lensFlare.add( textureFlare3, 60, 0.6, THREE.AdditiveBlending );
-    lensFlare.add( textureFlare3, 70, 0.7, THREE.AdditiveBlending );
-    lensFlare.add( textureFlare3, 120, 0.9, THREE.AdditiveBlending );
-    lensFlare.add( textureFlare3, 70, 1.0, THREE.AdditiveBlending );
+    // lensFlare.add( textureFlare0, 1000, 0.0, THREE.AdditiveBlending );
+    // lensFlare.add( textureFlare2, 512, 0.0, THREE.AdditiveBlending );
+    // lensFlare.add( textureFlare2, 512, 0.0, THREE.AdditiveBlending );
+    // lensFlare.add( textureFlare2, 512, 0.0, THREE.AdditiveBlending );
+
+    // lensFlare.add( textureFlare3, 60, 0.6, THREE.AdditiveBlending );
+    // lensFlare.add( textureFlare3, 70, 0.7, THREE.AdditiveBlending );
+    // lensFlare.add( textureFlare3, 120, 0.9, THREE.AdditiveBlending );
+    // lensFlare.add( textureFlare3, 70, 1.0, THREE.AdditiveBlending );
 
     lensFlare.customUpdateCallback = lensFlareUpdateCallback;
 
     lensFlare.position = new THREE.Vector3(x,y,z);
-    lensFlare.size = size ? size : 16000 ;
+    lensFlare.size = size;
     return lensFlare;
 
 }

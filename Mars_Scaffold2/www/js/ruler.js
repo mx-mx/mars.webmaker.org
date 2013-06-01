@@ -46,6 +46,14 @@ var Ruler = function( p1, p2 ){
 	ruler.p2Line = new THREE.Line( p2Geo, new THREE.LineBasicMaterial( { color: 0x2BBFBD, opacity: 0.25, linewidth: 1 } ) );
 	ruler.rulerLine = new THREE.Line( rulerGeo, new THREE.LineBasicMaterial( { color: 0x2BBFBD, opacity: 0.25, linewidth: 1 } ) );
 
+	var material = new THREE.MeshLambertMaterial( { 
+		map: THREE.ImageUtils.loadTexture( ephemeris[0].texture ), 
+		overdraw: true 
+	});
+
+	// ruler.textGeo = new THREE.Mesh( new THREE.PlaneGeometry( 100, 100 ), new THREE.MeshLambertMaterial( { color: 0xCC0000, opacity:0 } ) );
+
+	// ruler.add( ruler.geo );
 	ruler.add( ruler.p1Line );
 	ruler.add( ruler.p2Line );
 	ruler.add( ruler.rulerLine );
@@ -65,12 +73,23 @@ var Ruler = function( p1, p2 ){
 		this.rulerLine.geometry.vertices[0] = p1Vec;
 		this.rulerLine.geometry.vertices[1] = p2Vec;
 		
-		this.p1Line.position = this.p1.position;
-		this.p2Line.position = this.p2.position;
+		var p1Pos = new THREE.Vector3(),
+			p2Pos = new THREE.Vector3();
 
-		var mid = vec3Mid( this.p1.position.clone(), this.p2.position.clone() );
-		var p1LineMid = lineMid( this.p1Line );
+		p1Pos.getPositionFromMatrix( this.p1.matrixWorld );
+		p2Pos.getPositionFromMatrix( this.p2.matrixWorld );
+
+		this.p1Line.position = p1Pos;
+		this.p2Line.position = p2Pos;
+		
+		this.mid = vec3Mid( p1Pos, p2Pos );
+		// var p1LineMid = lineMid( this.p1Line );
+		
 	};
+
+	ruler.getDistance = function(){
+		return this.p1Line.position.distanceTo( this.p2Line.position );
+	}
 
 	rulers.push( ruler );
 	return ruler;

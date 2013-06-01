@@ -27,15 +27,15 @@ var Sun = function(){
 
 	} );
 
-	// var sunMaterial = new THREE.MeshLambertMaterial( { 
-	// 	map: THREE.ImageUtils.loadTexture( './models/solarsystem/sunmap.jpg' ), 
-	// 	overdraw: true 
-	// });
+	var sunTexture = new THREE.MeshBasicMaterial( { 
+		map: THREE.ImageUtils.loadTexture( './images/solarsystem/sunmap.jpg' ), 
+		overdraw: true 
+	});
 	
 	// var sun = new Planet( sunMaterial );
 
 	sunGeo = new THREE.SphereGeometry( 1392684, 15, 15 );
-	sun = new THREE.Mesh ( sunGeo, sunMaterial );
+	sun = new THREE.Mesh ( sunGeo, sunTexture );
 
 	sun.name = "The Sun";
 

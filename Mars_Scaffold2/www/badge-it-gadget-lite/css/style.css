@@ -66,26 +66,26 @@ header h1 {
 	text-decoration: none;
 }
 
-#criteria {
+#evidence {
 	padding-left: 0.5em;
 	margin: 0 10%;
 }
 
-#criteria p,#criteria ol {
+#evidence p,#evidence ol {
 	font-style: italic;
 }
 
-#criteria ol li {
+#evidence ol li {
 	margin-left: 1em;
 	margin-bottom: 1em;
 	line-height: 1.2em;
 }
 
-ul.criteria-no-style {
+ul.evidence-no-style {
 	list-style: none;
 }
 
-ul.criteria-no-style li {
+ul.evidence-no-style li {
 		line-height: 1.2em;
 		margin-bottom: 1em;
 	}

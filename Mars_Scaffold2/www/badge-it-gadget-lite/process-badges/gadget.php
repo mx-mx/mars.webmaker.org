@@ -25,18 +25,18 @@ if( isset($_POST) ){
 	
 	//set all variables
 	
-	$badgeId 							= $_POST['badge_info'];
+	$badgeId 				= $_POST['badge_info'];
 	$badgeRecipientName 	= $_POST['badge_recipient_name'];
 	$badgeRecipientEmail 	= $_POST['badge_recipient_email'];
-	$badgeEvidenceURL 		= $_POST['badge_evidence_url'];
-	$badgeName 						= $badges_array[$badgeId]['name'];
-	$badgeImage						= $badges_array[$badgeId]['image'];
-	$badgeDescription			= $badges_array[$badgeId]['description'];
-	$badgeCriteria				= $badges_array[$badgeId]['criteria_url'];
-	$badgeExpires					= $badges_array[$badgeId]['expires'];	
-	$date = date('Y-m-d');
-	$err = '';
-	$msg = '';
+	$badgeUid 				= $badges_array[$badgeId]['uid'];
+	$badgeName 				= $badges_array[$badgeId]['name'];
+	$badgeImage				= $badges_array[$badgeId]['image'];
+	$badgeEvidence			= $badges_array[$badgeId]['evidence_url'];
+	$badgeClass				= $badges_array[$badgeId]['badge_class'];
+	$badgeExpires			= $badges_array[$badgeId]['expires'];	
+	$date 					= date('Y-m-d');
+	$err 					= '';
+	$msg 					= '';
 	
 	
 	//salt email	
@@ -52,17 +52,19 @@ if( isset($_POST) ){
 	$hardIssuer = 'http://www.voiceovervinnie.com';
 
 	$handle = fopen($jsonFilePath, 'w');
+	/*
 	$fileData = array(
 		'recipient' => "sha256$".$hashed_email,
+		'type' => 'email',
+		'hashed' => 'true',
 		'salt' => $salt,
-		'evidence' => $badgeEvidenceURL,
+		'evidence' => $badgeEvidence,
 		'issued_on'=> $date,
 		'badge' => array(
 			'version' => '0.5.0',
 			'name' => $badgeName,
 			'image' => $issuer_url.$badge_images_dir.$badgeImage,
-			'description' => $badgeDescription,
-			'criteria' => $badgeCriteria,
+			'evidence' => $badgeEvidence,
 			'expires' => $badgeExpires,
 			'issuer' => array(
 				'origin' => $hardIssuer,
@@ -71,6 +73,23 @@ if( isset($_POST) ){
 				'contact' => $issuer_contact,
 			)
 		)
+	);*/
+	$fileData = array(
+		'uid' => $badgeUid,
+		'recipient' => array(
+			'type' => 'email',
+			'hashed' => true,
+			'salt' => $salt,
+			'identity' => "sha256$".$hashed_email,
+		),
+		'image' => $issuer_url.$badge_images_dir.$badgeImage,
+		'evidence' => $badgeEvidence,
+		'issuedOn'=> $date,
+		'badge'=> $badgeClass,
+		'verify' => array(
+			'type' => 'hosted',
+			'url' => $issuer_url.$json_url_dir.$filename.'.json',
+		)	
 	);
 	
 	//Writes JSON file
@@ -87,10 +106,10 @@ if( isset($_POST) ){
 		$badgeRecordsFile = $root_path . $badge_records_file;
 	
 		$badgeHandle = fopen($badgeRecordsFile, 'a'); 
-		$badge_data = "BADGE AWARDED: ".$date.", ".$badgeName.", ".$jsonFilePath.", ".$badgeRecipientName.", ".$badgeRecipientEmail.", ".$badgeCriteria;
+		$badge_data = "BADGE AWARDED: ".$date.", ".$badgeName.", ".$badgeUid.", ".$jsonFilePath.", ".$badgeRecipientName.", ".$badgeRecipientEmail.", ".$badgeEvidence;
 	
-		if (! empty($badgeEvidenceURL)) {
-			$badge_data .= ", ".$badgeEvidenceURL;
+		if (! empty($badgeEvidence)) {
+			$badge_data .= ", ".$badgeEvidence;
 		}
 	
 		$badge_data .= "\n";
@@ -110,7 +129,7 @@ if( isset($_POST) ){
 			'badgeId' => $badgeId,
 			'badgeRecipient' => $badgeRecipientName,
 			'badgeRecipientEmail' => $badgeRecipientEmail,
-			'badgeEvidenceUrl' => $badgeEvidenceURL
+			'badgeEvidence' => $badgeEvidence
 			),
 		'success' => $msg,
 		'errors' => $err

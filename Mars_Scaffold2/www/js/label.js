@@ -43,8 +43,8 @@ var Label = function( glObject, size, element ) {
 
 	label.setPosition = function( x, y ) {
 		x -= this.labelWidth * 0.5;
-        this.style.left = x + 'px';
-        this.style.top = y + 'px';
+        this.style.left = (x+35) + 'px';
+        this.style.top = (y-15) + 'px';
 	};
 
 	label.hide = function(){

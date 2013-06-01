@@ -94,29 +94,6 @@ $(document).ready(function() {
   </head>
 
   <body>
-  <!--
-	<div class="light-bg-container">
-		<header>
-    		<h1>Mission to Mars</h1>
-		</header>
-		<section id="badge-container">
-			<div id="js-required">Javascript is required to get your badge. Please enable it in your preferences.</div>
-			<ul class="criteria-no-style">
-				<li>Badge Name: <?php echo $badges_array[$badgeId]['name']; ?></li>
-				<li>Badge Earner: <?php echo $recipient_name; ?></li>
-				<li>
-					<div class="backPackLink">Click here to get your badge!</div> 
-					<div class="browserSupport">(Please use Firefox or Chrome to retrieve your badge)</div>
-					<span class="login-info">(You will be asked to login or sign in to create a backpack. Please use the email address your badge link was sent to.)</span>
-				</li>
-				<li><div id="badge-error"><p><em>Hmmmm...something went wrong.</em> <span id="errMsg"></span></div></li>
-				<li>
-					<div id="badgeSuccess"><p><em>Congratulations!</em> If you ever want to manage or view your badges, just visit your <a href="http://beta.openbadges.org/" target="_blank">Open Badges backpack</a></p>
-				</div>
-			</li>
-		</ul>
-		</section>
-	</div>-->
 	
 	<div id="backpackloginpopup" class="modalmask" style="opacity:1.0;pointer-events:auto;">
 		<div id="backpacklogindiv" class="badgecontenttarget">

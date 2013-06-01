@@ -14,10 +14,18 @@ var stats,
 	tween;
 
 var dae,
-	rover,
-	dt = new Object(); //drivetrain and suspension
+	rover;
 
-var loader = new THREE.ColladaLoader();
+var target,
+	targetSize = 5;
+
+var roverLoader = new THREE.ColladaLoader();
+// var terrainLoader = new THREE.ColladaLoader();
+
+var armStowed = true,
+	mastStowed = true;
+
+var touchdownSensitivity = .75;
 
 var time = 0;
 var toRadians = Math.PI/180;
@@ -40,16 +48,28 @@ $(document).ready( function() {
 	$( '#loadtext' ).show();
 	setLoadMessage("Loading Curiosity");
 
-	loader.options.convertUpAxis = true;
-	loader.load( './models/rover_c4d_001.dae', function ( collada ) {
+	roverLoader.options.convertUpAxis = true;
+	roverLoader.load( './models/rover.dae', function ( collada ) {
 
-		dae = collada.scene;
-		daeAnimation = collada.animations;
+		rover_dae = collada.scene;
+		rover_dae.scale.set( 1, 1, 1 );
+		// rover_dae.traverse( function ( child ) {
+		//     child.castShadow = true;
+		//     child.receiveShadow = true;
+		// } );
 
-		dae.scale.set( 1, 1, 1 );
+		rover_dae.updateMatrix();
 
-		dae.updateMatrix();
-		postColladaLoaded();
+		// terrainLoader.options.convertUpAxis = true;
+		// terrainLoader.load( './models/terrain.dae', function ( collada ) {
+			
+		// 	terrain = collada.scene;
+		// 	terrain.scale.set( 1, 1, 1 );
+		// 	postColladaLoaded();
+
+		// } );
+
+	postColladaLoaded();
 
 	} );
 
@@ -69,36 +89,50 @@ function init() {
 	$container = $("#container");
 
 	scene = new THREE.Scene();
-	scene.fog = new THREE.FogExp2( 0x000000, 0.000055 );
+	scene.fog = new THREE.Fog( 0x6B7DA0, 0, 300 );
 
 	camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR );
-	camera.position.set( 5, 5, 5 );
+	camera.position.set( 0, 1, -7 );
 
-	camTarget = scene.position;
-	
 	var ambientLight = new THREE.AmbientLight();
-	ambientLight.color.setRGB( .15, .15, .15 );
+	ambientLight.color.setRGB( .5, .5, .5 );
 	scene.add(ambientLight);
 
-	var pointLight = new THREE.PointLight(0xFFFFFF, 1.3);
-	pointLight.position.set( 0, 100, 0 );
-	scene.add(pointLight);
+	// var pointLight = new THREE.PointLight(0xFFFFFF, 1.3);
+	// pointLight.position.set( 0, 100, 0 );
+	// scene.add(pointLight);
+
+	// var directionalLight = new THREE.DirectionalLight( 0x6B7DA0, 1 );
+	// directionalLight.position.set( -175, 20, 0 );
+	// directionalLight.castShadow = true;
+	// scene.add( directionalLight );
+
+	// light = new THREE.SpotLight( 0xFFFFFF, 1, 500 );
+	// light.position.set( 1, 10, 0 );
+	// light.castShadow = true;
+	// light.shadowDarkness = 0.5;
+	// scene.add( light );
 
 
 	/********************************
 		RENDERER
 	********************************/
 
-	renderer = Detector.webgl? new THREE.WebGLRenderer( { antialias: true } ): new THREE.CanvasRenderer();
+
+	setupScene();
+	renderer = new THREE.WebGLRenderer( { antialias: true } );
 	renderer.setSize( WIDTH, HEIGHT );
+	renderer.setClearColor( scene.fog.color, 1 );
 
 	$container.append( renderer.domElement );
-	renderer.autoClear = false;
+	// renderer.autoClear = false;
 
 	controls = new THREE.OrbitControls( camera, $container[0] );
 	controls.addEventListener( 'change', render );
+	controls.maxPolarAngle = Math.PI / 2 + ( 3 * toRadians ); 
+	controls.minDistance = 2.5;
+	controls.maxDistance = 25;
 
-	setupScene();
 
 	/********************************
 		STATS
@@ -113,8 +147,8 @@ function init() {
 		EVENTS
 	********************************/
 
-	document.addEventListener( 'keydown', onKeyDown, false );
-	document.addEventListener( 'keyup', onKeyUp, false );
+	// document.addEventListener( 'keydown', onKeyDown, false );
+	// document.addEventListener( 'keyup', onKeyUp, false );
 
 	window.addEventListener( 'resize', onWindowResize, false );
 
@@ -122,25 +156,14 @@ function init() {
 
 function setupScene(){
 
-	// Grid
-	var material = new THREE.LineBasicMaterial( { color: 0x303030 } );
-	var geometry = new THREE.Geometry();
-	var floor = 0, step = .5, size = 50;
+	var camTarget = new THREE.Mesh( new THREE.PlaneGeometry( 0, 0 ), new THREE.MeshBasicMaterial() );
+	camTarget.position.set( 0, 2, 0 );
+	camTarget.add( camera );
 
-	for ( var i = 0; i <= size / step * 2; i ++ ) {
+	rover = new Rover( rover_dae );
+	rover.mesh.add( camTarget );
+	rover.mesh.position.set( 0, 0, -20 );
 
-		geometry.vertices.push( new THREE.Vector3( - size, floor, i * step - size ) );
-		geometry.vertices.push( new THREE.Vector3(   size, floor, i * step - size ) );
-		geometry.vertices.push( new THREE.Vector3( i * step - size, floor, -size ) );
-		geometry.vertices.push( new THREE.Vector3( i * step - size, floor,  size ) );
-
-	}
-
-	var grid = new THREE.Line( geometry, material, THREE.LinePieces );
-	scene.add( grid );
-
-	rover = new Rover( dae );
-	rover.mesh.add(camera);
 	scene.add( rover.mesh );
 
 	controlsRover = {
@@ -152,7 +175,29 @@ function setupScene(){
 
 	};
 
+	// var targetMaterial = new THREE.MeshBasicMaterial( { 
+	// 	map: THREE.ImageUtils.loadTexture( './images/target1.png' ), 
+	// 	overdraw: true,
+	// 	transparent: true
+	// });
+
+	// target = new THREE.Mesh( new THREE.PlaneGeometry(targetSize, targetSize), targetMaterial );
+	// target.rotation.x = -90 * toRadians;
+	// target.position.set( 0, .01, 20 ); 
+	// scene.add( target );
+
+	// var grid = CreateGrid( 0, .5, 50 );
+	// scene.add( grid );
+
+	// scene.add( terrain );
 	buildGUI();
+
+	rover.arm.rotation.y = -90 * toRadians;
+	rover.arm.shoulder.rotation.x = -10 * toRadians;
+	rover.arm.elbow.rotation.x = -75 * toRadians;
+
+	rover.mast.rotation.z = -85 * toRadians;
+	rover.mast.head.rotation.y = -55 * toRadians;
 
 }
 
@@ -205,28 +250,70 @@ function buildGUI(){
 	camFolder.add( camTweens.two, 'tween' ).name( 'Camera Two' );
 	camFolder.add( camTweens.three, 'tween' ).name( 'Camera Three' );
 	camFolder.add( camTweens.four, 'tween' ).name( 'Camera Four' );
+
+	gui.close();
 }
 
-function onKeyDown ( event ) {
+// function stowArm( stowTime ){
+// 	if (stowTime === undefined) stowTime = 1500;
+// 	if( armStowed ){
+// 		Tweener(rover.arm.rotation, {x:0, y: 0, z:0}, stowTime);
+// 		Tweener(rover.arm.elbow.rotation, {x:0, y:0, z:0}, stowTime);
+// 		Tweener(rover.arm.shoulder.rotation, {x:0, y:0, z:0}, stowTime);
+// 		armStowed = false;
+// 	}else{
+// 		Tweener(rover.arm.rotation, {x:0, y:-90 * toRadians, z:0}, stowTime);
+// 		Tweener(rover.arm.elbow.rotation, {x:-75 * toRadians, y:0, z:0}, stowTime);
+// 		Tweener(rover.arm.shoulder.rotation, {x:-10 * toRadians, y:0, z:0}, stowTime);
+// 		armStowed = true;
+// 	}
+// }
 
-	switch( event.keyCode ) {
+// function stowMast( stowTime ){
+// 	if (stowTime === undefined) stowTime = 1500;
+// 	if( mastStowed ){
+// 		Tweener(rover.mast.rotation, {x:0, y:33 * toRadians, z:0}, stowTime);
+// 		Tweener(rover.mast.head.rotation, {x:0, y:0, z:0}, stowTime);
+// 		mastStowed = false;
+// 	}else{
+// 		Tweener(rover.mast.rotation, {x:0, y:33 * toRadians, z:-85 * toRadians}, stowTime);
+// 		Tweener(rover.mast.head.rotation, {x:0, y:-55 * toRadians, z:0}, stowTime);
+// 		mastStowed = true;
+// 	}
+// }
 
-		case 38: /*up*/ controlsRover.moveForward = true; break;
-		case 40: /*up*/ controlsRover.moveBackward = true; break;
-		case 37: /*left*/ controlsRover.moveLeft = true; break;
-		case 39: /*right*/ controlsRover.moveRight = true; break;
-	}
-};
+// function touchdown(){
+// 	var roverPosFromMatrix = new THREE.Vector3();
+// 	roverPosFromMatrix.getPositionFromMatrix( rover.mesh.matrixWorld );
 
-function onKeyUp ( event ) {
+// 	var marsPos = rover.mesh.position;
+// 	var targetPos = target.position;
 
-	switch( event.keyCode ) {
-		case 38: /*up*/ controlsRover.moveForward = false; break;
-		case 40: /*up*/ controlsRover.moveBackward = false; break;
-		case 37: /*left*/ controlsRover.moveLeft = false; break;
-		case 39: /*right*/ controlsRover.moveRight = false; break;
-	}
-};
+// 	if( marsPos.distanceTo( targetPos ) <= targetSize * touchdownSensitivity ){
+// 		return true;
+// 	}else return false;
+// }
+
+// function onKeyDown ( event ) {
+
+// 	switch( event.keyCode ) {
+
+// 		case 38: /*up*/ controlsRover.moveForward = true; break;
+// 		case 40: /*up*/ controlsRover.moveBackward = true; break;
+// 		case 37: /*left*/ controlsRover.moveLeft = true; break;
+// 		case 39: /*right*/ controlsRover.moveRight = true; break;
+// 	}
+// };
+
+// function onKeyUp ( event ) {
+
+// 	switch( event.keyCode ) {
+// 		case 38: /*up*/ controlsRover.moveForward = false; break;
+// 		case 40: /*up*/ controlsRover.moveBackward = false; break;
+// 		case 37: /*left*/ controlsRover.moveLeft = false; break;
+// 		case 39: /*right*/ controlsRover.moveRight = false; break;
+// 	}
+// };
 
 function onWindowResize() {
 
@@ -244,30 +331,22 @@ function animate() {
 
 	requestAnimationFrame( animate );
 
-    camera.updateProjectionMatrix();
-	camera.lookAt( camTarget );
-
+    // camera.updateProjectionMatrix();
+	render();
 	controls.update();
-	stats.update();
+	// stats.update();
 	TWEEN.update();
 
-	rover.updateCarModel( clock, controlsRover );
-
-	// dt.L.steering[0].rotation.setY( Math.sin( -time * 2 * Math.PI ) * .5 );
-	// dt.L.steering[1].rotation.setY( Math.sin( time * 2 * Math.PI ) * .5 );
-	// dt.R.steering[0].rotation.setY( Math.sin( time * 2 * Math.PI ) * .5 );
-	// dt.R.steering[1].rotation.setY( Math.sin( -time * 2 * Math.PI ) * .5 );
+	// rover.updateCarModel( clock, controlsRover );
 
 	time += .01;
 
-	camera.lookAt( camTarget );
-	render();
 
 }
 
 function render() {
 
-	renderer.clear();
+	// renderer.clear();
 	renderer.render( scene, camera );
 
 }
