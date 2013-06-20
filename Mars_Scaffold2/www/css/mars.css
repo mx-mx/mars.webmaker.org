@@ -559,6 +559,27 @@ div.pathfindervideo1
     left: 60px;
 	z-index: 7;
 }
+.scientisthelppopup
+{
+  position: absolute;
+	opacity: 0.0;
+	pointer-events:none;
+	padding: 15px 40px 15px 40px;
+	background: rgba(13,30,38,.95);
+	color: rgba(156,179,184,1.0);
+	font-family: 'Lato', sans-serif;
+	text-transform: none;
+	line-height: 22px;
+	font-size: 18px;
+	font-weight: 300;
+    border-radius: 0px;
+    border:none;
+	width: 620px;
+	height: 420px;
+	bottom: 210px;
+    left: 60px;
+	z-index: 7;
+}
 .selectitemdiv
 {
   	position: absolute;
@@ -1180,7 +1201,7 @@ div .menubutton:hover{
 }
 .chyronwrapper{
 	position: absolute;
-	opacity: 1.0;
+	opacity: 0.0;
 	background: rgba(42,51,24,0.0);
     bottom:-36px;
     left:0px;

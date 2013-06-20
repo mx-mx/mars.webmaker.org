@@ -33,7 +33,6 @@
 		<script src="./js/controls/OrbitControls.js"></script>	
 		<script src="./js/loaders/ColladaLoader.js"></script>
 
-		
         <script src="js/jat/Constants.js"></script>
         <script src="js/jat/PathUtil.js"></script>
         <script src="js/jat/DE405APL.js"></script>
@@ -67,8 +66,6 @@
 		<script src="./js/stars.js"></script>
 		<script src="./js/jat/Time.js"></script>
 
-
-		
 		<script src="./js/sonic.js"></script>
 
 
@@ -280,7 +277,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	Popcorn.player( "baseplayer" );
 	
 	var popcornMedia = new Array();
-	var popcornSequenceNumber = 0;
+	var popcornSequenceNumber = 1;
 	popcornMedia[0] = Popcorn( '#videointro' );
 	popcornMedia[1] = Popcorn( '#video' );
 	popcornMedia[2] = Popcorn('#SEQ2_VO' );
@@ -356,10 +353,11 @@ document.addEventListener("DOMContentLoaded", function () {
 		popcornMedia[popcornSequenceNumber].play();
 	});
 	
-    popcornMedia[0].on( "play", function() {
-    	$("#videointrocontenttarget").animate({opacity: 1.0}, 100, function() {
-           	$("#videointrocontenttarget").css('pointer-events', 'auto');
-       	});
+	//we've cut the intro.  
+    popcornMedia[1].on( "play", function() {
+    	//$("#videointrocontenttarget").animate({opacity: 1.0}, 100, function() {
+           	//$("#videointrocontenttarget").css('pointer-events', 'auto');
+       	//});
 
     	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
            	$("#backgroundtarget").css('pointer-events', 'none');
@@ -1008,7 +1006,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 		
 		//jump to desired media
-		if(popcornSequenceNumber==0 && !threedinitialized) {
+		if(popcornSequenceNumber<=1 && !threedinitialized) {
 			basepop.play(0);
 		} else {
 			if(beginningOffset) {
@@ -1102,7 +1100,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 	
 	//xxx unit test for menus
-	//$("#baddatespopup").animate({opacity: 1.0}, 1, function() { $("#baddatespopup").css('pointer-events', 'auto'); });
+	//$("#landingdatepicker").css('background-color', '#ff0000');
+	//$("#scientisthelppopup").animate({opacity: 1.0}, 1, function() { $("#scientisthelppopup").css('pointer-events', 'auto'); });
 	//$("#launchcontrols").animate({opacity: 1.0}, 1, function() { $("#launchcontrols").css('pointer-events', 'auto'); });
 	//$("#launchdiv").animate({opacity: 1.0}, 1, function() { $("#launchdiv").css('pointer-events', 'auto'); });
 	//$("#launchcommitdiv").animate({opacity: 1.0}, 1, function() { $("#launchcommitdiv").css('pointer-events', 'auto'); });
@@ -1329,6 +1328,35 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     
+
+    /*
+    var scientistclosebutton = document.getElementById('scientistclosebutton');
+    scientistclosebutton.style.cursor = 'pointer';
+    scientistclosebutton.onclick = function() {
+		$("#scientisthelppopup").animate({opacity: 0.0}, 1, function() { $("#scientisthelppopup").css('pointer-events', 'none'); });
+    };
+    
+    var scientisttrybutton = document.getElementById('scientisttrybutton');
+    scientisttrybutton.style.cursor = 'pointer';
+    scientisttrybutton.onclick = function() {
+    	document.getElementById( "landingdatepicker" ).value = "";
+		landingDate = null;
+		$("#landingdatepicker").css('background-color', '#ff0000');
+		//document.getElementById( "landingdatepicker" ).value = document.getElementById( "orbitdate" ).value;
+		//landingDate = new Date(Date.parse(document.getElementById( "orbitdate" ).value));
+		//if(launchDate)monthDifference = landingDate - launchDate;
+		var tryDate = "10/01/2037";
+		launchDate = new Date(Date.parse(tryDate));
+		document.getElementById( "launchdatepicker" ).value = tryDate;
+		launchRewindDate = new Date(Date.parse(tryDate));
+		launchRewindDate.setDate(launchRewindDate.getDate()-5);
+		var jumpToDate = new Date(Date.parse(tryDate)).Date2Julian();
+		timer.JD = jumpToDate;
+		clear3DDrawings();
+		$("#scientisthelppopup").animate({opacity: 0.0}, 1, function() { $("#scientisthelppopup").css('pointer-events', 'none'); });
+    };
+    */
+    
     var orbitdate = document.getElementById('orbitdate');
     orbitdate.style.cursor = 'pointer';
     orbitdate.onclick = function() {
@@ -1526,7 +1554,61 @@ document.addEventListener("DOMContentLoaded", function () {
 		    //callToActionTimeout[userLessonNumber] = setTimeout(function(){callToActionUser()},10000);
 
 		});
+		
+		$( "#scientistclosebutton" )
+			.button()
+			.click(function( event ) {
+	
+				$("#scientisthelppopup").animate({opacity: 0.0}, 1, function() { $("#scientisthelppopup").css('pointer-events', 'none'); });
+	
+		});
+		
+		$( "#scientisttrybutton" )
+			.button()
+			.click(function( event ) {
 
+				document.getElementById( "landingdatepicker" ).value = "";
+				landingDate = null;
+				$("#launchdatepicker").css('background-color', '#rgba(74,128,74,1.0)');
+				setTimeout(function(){
+					$("#landingdatepicker").css('background-color', 'rgba(128,74,74,1.0)');
+				},500);
+				setTimeout(function(){
+					$("#landingdatepicker").css('background-color', 'rgba(51,111,139,1.0)');
+				},1000);
+				setTimeout(function(){
+					$("#landingdatepicker").css('background-color', 'rgba(128,74,74,1.0)');
+				},1500);
+				setTimeout(function(){
+					$("#landingdatepicker").css('background-color', 'rgba(51,111,139,1.0)');
+				},2000);
+				setTimeout(function(){
+					$("#landingdatepicker").css('background-color', 'rgba(128,74,74,1.0)');
+				},2500);
+				setTimeout(function(){
+					$("#landingdatepicker").css('background-color', 'rgba(128,74,74,1.0)');
+					$("#landingdatepicker").css('background-color', 'rgba(51,111,139,1.0)');
+					$("#launchdatepicker").css('background-color', 'rgba(51,111,139,1.0)');
+				},2500);
+
+				$("#landingdatepicker").datepicker("show");
+
+				//document.getElementById( "landingdatepicker" ).value = document.getElementById( "orbitdate" ).value;
+				//landingDate = new Date(Date.parse(document.getElementById( "orbitdate" ).value));
+				//if(launchDate)monthDifference = landingDate - launchDate;
+				var tryDate = "10/01/2037";
+				launchDate = new Date(Date.parse(tryDate));
+				document.getElementById( "launchdatepicker" ).value = tryDate;
+				launchRewindDate = new Date(Date.parse(tryDate));
+				launchRewindDate.setDate(launchRewindDate.getDate()-5);
+				var jumpToDate = new Date(Date.parse(tryDate)).Date2Julian();
+				timer.JD = jumpToDate;
+				clear3DDrawings();
+				$("#scientisthelppopup").animate({opacity: 0.0}, 1, function() { $("#scientisthelppopup").css('pointer-events', 'none'); });
+
+	
+		});
+		
 		$( "#threedhomebutton" )
 			.button()
 			.click(function( event ) {
@@ -1750,7 +1832,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			timer.JD = jumpToDate;
 			$("#speedSlider").slider('value',.01);
 			
-			jumpPopcornMedia(0);
+			jumpPopcornMedia(1);
 			
 		}
 		
@@ -2017,8 +2099,15 @@ document.addEventListener("DOMContentLoaded", function () {
 						    $("#speedSlider").slider('value',.13);
 						    //the callback doesn't alway work, so we're going with Ryan's touchdown method below
 				
-							//console.log("heard the done drawing callback");
-						    //playTrajectoryAudio();		    
+						  	//safety if touchdown is missed.
+						    setTimeout(function() {
+						    	if(!touchdown(trajectory)) {
+								    console.log("touchdown safety catch called: " + touchdown(trajectory));
+								    if(checktouchdown)clearInterval(checktouchdown);
+									if(checklaunchtouchdown)clearInterval(checklaunchtouchdown);
+									playTrajectoryAudio();
+						    	}
+							},200);
 						});		
 
 						//since the callback doesn't always work.  lets try this method 
@@ -2026,7 +2115,7 @@ document.addEventListener("DOMContentLoaded", function () {
 						setTimeout(function() {
 							checktouchdown = setInterval(function () {
 							    if(touchdown(trajectory)) {
-								    console.log("got touchdown");
+								    console.log("got touchdown: " + touchdown(trajectory));
 								    if(checktouchdown)clearInterval(checktouchdown);
 									if(checklaunchtouchdown)clearInterval(checklaunchtouchdown);
 							    	playTrajectoryAudio();
@@ -2037,7 +2126,7 @@ document.addEventListener("DOMContentLoaded", function () {
 						
 						setDeltaV(trajectory.totalDeltaV);
 
-						$("#speedSlider").slider('value',.1);
+						$("#speedSlider").slider('value',1.5);
 			    	} catch(err) {
 			    	  	console.log("got me an exception: " + err.message);
 						document.getElementById("baddatesheadertext").innerHTML="LAMBERT’S PROBLEM ERROR";
@@ -2099,10 +2188,20 @@ document.addEventListener("DOMContentLoaded", function () {
 						    console.log("slow down insano speed");
 						    $("#speedSlider").slider('value',.13);
 						    
+							//safety if touchdown is missed.
+						    setTimeout(function() {
+						    	if(!touchdown(trajectory)) {
+								    console.log("touchdown safety catch called");
+								    if(checktouchdown)clearInterval(checktouchdown);
+									if(checklaunchtouchdown)clearInterval(checklaunchtouchdown);
+							    	playFullLaunchAudio();
+						    	}
+							},200);
+						    
 						});
 						
+						
 						setTimeout(function() {
-
 							checklaunchtouchdown = setInterval(function () {
 							    if(touchdown(trajectory)) {
 								    console.log("got a touchdown");
@@ -2112,6 +2211,7 @@ document.addEventListener("DOMContentLoaded", function () {
 							    }
 							},500);
 						},1200);
+						
 						
 						//show a CME 4 seconds in
 						setTimeout(function() {
@@ -2148,8 +2248,11 @@ document.addEventListener("DOMContentLoaded", function () {
 			document.getElementById( "deltavtext" ).value = dNum.toFixed(2);
 		}
 		
+		var runAttemptCount=0;
 		
 		var playTrajectoryAudio = function() {
+			console.log("playTrajectoryAudio");
+			runAttemptCount++;
 			console.log("rocketChoice: " + rocketChoice);
 			console.log("launchPlanetDistance: " + launchPlanetDistance);
 			console.log("monthDifference: " + monthDifference);
@@ -2165,9 +2268,13 @@ document.addEventListener("DOMContentLoaded", function () {
 	    		deltaVDif = rocketDeltas[rocketChoice] - trajectory.totalDeltaV;
 				console.log("deltaVDif: " + deltaVDif);
 				
-
 				//var launchPlanetDistance = 0; // greater 140 is too far  
 				//var monthDifference = 0; //6 mo - 13129200000 9 mo - 21078000000
+				if(deltaVDif<=0 && runAttemptCount>=3) {
+					//show the scientist help
+					runAttemptCount=0;
+					$("#scientisthelppopup").animate({opacity: 1.0}, 200, function() { $("#scientisthelppopup").css('pointer-events', 'auto'); });
+				}
 				
 				if(deltaVDif>=0) {
 					jumpPopcornMedia(28); //landed
@@ -2185,6 +2292,12 @@ document.addEventListener("DOMContentLoaded", function () {
 	    		deltaVDif = rocketDeltas[rocketChoice] - trajectory.totalDeltaV;
 				console.log("deltaVDif: " + deltaVDif);
 				
+				if(deltaVDif<=0 && runAttemptCount>=3) {
+					//show the scientist help
+					runAttemptCount=0;
+					$("#scientisthelppopup").animate({opacity: 1.0}, 200, function() { $("#scientisthelppopup").css('pointer-events', 'auto'); });
+				}
+				
 				if(deltaVDif>=0) {
 					jumpPopcornMedia(28); //landed
 				} else if(launchPlanetDistance>MaxPlanetDistance && !isBadTravelTime) {
@@ -2200,6 +2313,12 @@ document.addEventListener("DOMContentLoaded", function () {
 	    	case 2:
 	    		deltaVDif = rocketDeltas[rocketChoice] - trajectory.totalDeltaV;
 				console.log("deltaVDif: " + deltaVDif);
+				
+				if(deltaVDif<=0 && runAttemptCount>=3) {
+					//show the scientist help
+					runAttemptCount=0;
+					$("#scientisthelppopup").animate({opacity: 1.0}, 200, function() { $("#scientisthelppopup").css('pointer-events', 'auto'); });
+				}
 				
 				if(deltaVDif>=0) {
 					jumpPopcornMedia(28); //landed
@@ -2220,6 +2339,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 		
 		var playFullLaunchAudio = function() {
+			console.log("playFullLaunchAudio");
 			console.log("rocketChoice: " + rocketChoice);
 			var deltaVDif;
 			switch(rocketChoice)
@@ -2825,7 +2945,45 @@ document.addEventListener("DOMContentLoaded", function () {
 						<img src="./images/help_mission.jpg" style="border:1px solid rgba(200,200,200,1.0);"></td>
 				</tr>
 			</table>
-			
+		</div>
+		
+		<div id="scientisthelppopup" class="scientisthelppopup">
+			<h1>CapCom Alert!</h1>
+			<table style="width:100%;margin:0px;padding:0px;align:center;">
+				<tr>
+					<td style="vertical-align:top;padding-right:10px;">
+						Our backup simulation team has suggested to try a launch date of October 2037. 
+						Please try and run the simulation using that launch date and a 6 month later landing date.
+						<br><br>
+						That should get us there within a Delta V of under 13.
+						<br><br>
+						
+					</td>
+					
+					<td style="vertical-align:top;">
+						<img src="./images/help_scientists.png" style="border:1px solid rgba(200,200,200,1.0);">
+						<br>
+						Backup Sim Unit Ph. D. Hitchens and Ar. St. Phys. Dr. Frowd.
+						<br><br>
+					</td>
+				</tr>
+			</table>
+			<table style="width:100%;margin:0px;padding:0px;align:center;">
+				<tr>
+					<td style="vertical-align:top;padding-right:10px;">
+						
+						<button id="scientisttrybutton" class="squarebluebutton" style="width:105px;margin-left:12px;">Try It!</button>
+					</td>
+					
+					<td style="vertical-align:top;">
+						
+						<button id="scientistclosebutton" class="squarebluebutton" style="width:105px;margin-left:12px;">Close</button>
+					</td>
+					<td style="vertical-align:top;width:280px;">
+						&nbsp;
+					</td>
+				</tr>
+			</table>
 		</div>
 		
 		<div id="browserpopup" class="browserpopup">
