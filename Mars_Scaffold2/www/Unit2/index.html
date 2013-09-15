@@ -1,0 +1,2089 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html class="ie ie6 no-js" lang="en"> <![endif]-->
+<!--[if IE 7 ]>    <html class="ie ie7 no-js" lang="en"> <![endif]-->
+<!--[if IE 8 ]>    <html class="ie ie8 no-js" lang="en"> <![endif]-->
+<!--[if IE 9 ]>    <html class="ie ie9 no-js" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Mars Rover Remote-Pilot</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<meta name="description" content="" />
+<meta name="keywords" content="Curiosity" />
+<meta name="author" content="MX" />
+<LINK REL="SHORTCUT ICON" HREF="../images/mars.ico"> 
+<link rel="stylesheet" type="text/css" href="../css/mars.css" />
+<link href="../css/custom-theme/jquery-ui-1.10.2.custom.css" rel="stylesheet">
+<link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
+
+<script type="text/javascript" src="../js/popcorn-complete.js"></script>	
+<script type="text/javascript" src="../js/libs/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="../js/libs/jquery-ui-1.10.1.custom.min.js"></script>
+
+<script src="../js/Detector.js"></script>
+
+<script src="../js/libs/three.min.js"></script>
+<script src="../js/libs/physi.js"></script>
+
+<script src="../js/libs/stats.min.js"></script>
+<script src="../js/libs/dat.gui.min.js"></script>
+<script src="../js/libs/tween.js"></script>
+
+<script src="../js/controls/OrbitControls.js"></script>
+<script src="../js/loaders/ColladaLoader.js"></script>
+
+<script src="../js/utils.js"></script>
+<script src="../js/camtweener.js"></script>
+<script src="../js/rover.js"></script>
+<script src="../js/outcrop.js"></script>
+<script src="../js/mainRover.js"></script>
+
+
+<script src="../js/sonic.js"></script>
+		
+<script type="text/javascript">
+//need a value to maintain global user email to check for during session.
+//the following variable and function provide separate backpack window to communicate user email value.
+var userBackpackEmail;
+function setUserBackpackEmail(emailValue) {
+	userBackpackEmail = emailValue;
+	console.log("user email set to: ",userBackpackEmail);
+}
+
+function roverpilotbadgefinish() {
+	$("#roverpilotbadge").animate({opacity: 0.0}, 200, function() {
+    	$("#roverpilotbadge").css('pointer-events', 'none');
+    });
+	$("#roverpilotbadgecomplete").animate({opacity: 1.0}, 200, function() {
+    	$("#roverpilotbadgecomplete").css('pointer-events', 'auto');
+    });
+}
+
+// ensure the web page (DOM) has loaded
+document.addEventListener("DOMContentLoaded", function () {
+	var threedinitialized;
+	var initializethreed = function() {
+		if(!threedinitialized) {
+			threedinitialized = true;
+	        init(); //init the 3D background.
+	        animate();
+
+	        gui.destroy();  //remove the test GUI (used by Ryan)
+	        
+	        //setup outcrops
+			oc.setPosition(-20, 35);
+			oc.showTarget();
+			ocTwo.setPosition(5,35);
+			ocTwo.showTarget();
+			ocCalibration.setPosition(0, 10); //always call set position first before showing target and arrow
+			ocCalibration.showTarget();
+			
+			camTweener( { x:6, y:3, z:7 }, { x:0, y:0, z:0 }, 1 );
+		}
+	}
+	
+	//loader
+	var infinityloader = new Sonic({
+
+		width: 160,
+		height: 80,
+
+		stepsPerFrame: 2,
+		trailLength: .35,
+		pointDistance: .01,
+		fps: 25,
+
+		fillColor: '#FF7B24',
+
+		setup: function() {
+			this._.lineWidth = 3;
+		},
+
+		step: function(point, i, f) {
+
+			var progress = point.progress,
+				degAngle = 360 * progress,
+				angle = Math.PI/180 * degAngle,
+				angleB = Math.PI/180 * (degAngle - 180),
+				size = i*3;
+
+			this._.fillRect(
+				Math.cos(angle) * 35 + (100-size/2),
+				Math.sin(angle) * 15 + (50-size/2),
+				size * .75,
+				size * .75
+			);
+			
+			this._.fillStyle = '#3a84a6';
+
+			this._.fillRect(
+				Math.cos(angleB) * 25 + (100-size/2),
+				Math.sin(angleB) * 10 + (50-size/2),
+				size,
+				size
+			);
+
+			this._.fillStyle = '#FFF47A';
+
+			this._.beginPath();
+			this._.arc(100, 50, 5, 0, 360, 0);
+			this._.closePath();
+			this._.fill();
+
+
+		},
+
+		path: [
+			['line', 20, 5, 30, 45]
+		]
+	 
+	});
+	
+
+	//start popcorn definitions/array
+	var popcornMedia = new Array();
+	var popcornSequenceNumber = 0;
+	popcornMedia[0] = Popcorn('#UNIT2_VO_intro' );
+	popcornMedia[1] = Popcorn('#UNIT2_VO_1' );
+	popcornMedia[2] = Popcorn('#UNIT2_VO_1e1' ); //call to action
+	popcornMedia[3] = Popcorn('#UNIT2_VO_1e2' ); //if up wasn't used 
+	popcornMedia[4] = Popcorn('#UNIT2_VO_2' ); //good job
+	popcornMedia[5] = Popcorn('#UNIT2_VO_3' ); //lesson 2 calibration plate
+	popcornMedia[6] = Popcorn('#UNIT2_VO_3e1' ); //mistake mast cam button
+	popcornMedia[7] = Popcorn('#UNIT2_VO_3e2' ); //mistake no touch down
+	popcornMedia[8] = Popcorn('#UNIT2_VO_4' ); //good job be sure of data (need to stow instruments)
+	popcornMedia[9] = Popcorn('#UNIT2_VO_4a' ); // good job, calibrated! (show outcrops)
+	popcornMedia[10] = Popcorn('#UNIT2_VO_4b' ); //great, outcrop found, run again 
+	popcornMedia[11] = Popcorn('#UNIT2_VO_4e2' ); //call to action instruments used, not in front of outcrop
+	popcornMedia[12] = Popcorn('#UNIT2_VO_4e3' ); //robot - site does not meet criteria
+	popcornMedia[13] = Popcorn('#UNIT2_VO_conclusion' ); //robot - site meets criteria 
+	popcornMedia[14] = Popcorn('#UNIT2_VO_4e1' ); //mistake mast cam button 
+	popcornMedia[15] = Popcorn('#UNIT2_VO_conclusion2' ); //robot - site meets criteria 
+	//these audio cues are not normal... do not call advanceAudio or jumpPopcornMedia on them
+	popcornMedia[16] = Popcorn('#Unit2_Cams' ); 
+	popcornMedia[17] = Popcorn('#Unit2_Mars_loop_wind' ); 
+	popcornMedia[18] = Popcorn('#Unit2_Rover_loop' ); 
+	popcornMedia[19] = Popcorn('#Unit2_arm_move' ); 
+	
+	popcornMedia[20] = Popcorn('#Unit2_calibration' ); 
+	popcornMedia[21] = Popcorn('#Unit2_drill' ); 
+	
+	popcornMedia[22] = Popcorn('#mastcamvideo' ); 
+	popcornMedia[23] = Popcorn('#mmrtgvideo' ); 
+	
+	
+    popcornMedia[0].on( "play", function() {
+
+    	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
+           	$("#backgroundtarget").css('pointer-events', 'none');
+       	});
+    	
+		$("#nextbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+        	$("#nextbuttonwrapper").css('pointer-events', 'auto');
+    	});
+    	
+		$("#playbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+        	$("#playbuttonwrapper").css('pointer-events', 'auto');
+    	});
+	});
+
+	//our fun camera moves at beggning of sequence.
+	popcornMedia[0].cue( .1, function() {
+		camTweener( { x:3, y:3, z:-8 }, { x:0, y:0, z:0 }, 3100 );
+	});
+    popcornMedia[0].cue( 3, function() {
+		camTweener( { x:-6, y:3, z:-7 }, { x:0, y:0, z:0 }, 3100 );
+	});
+    popcornMedia[0].cue( 6, function() {
+		camTweener( { x:-6, y:3, z:7 }, { x:0, y:0, z:0 }, 3100 );
+	});
+    popcornMedia[0].cue( 9, function() {
+		camTweener( { x:-2.6, y:0.5, z:3.2 }, { x:0, y:0, z:0 }, 2000 );
+	});
+    popcornMedia[0].cue( 21, function() {
+		camTweener( { x:6.2, y:0.31, z:.16 }, { x:0, y:0, z:0 }, 2000 );
+	});
+    popcornMedia[1].cue( .1, function() {
+		camTweener( { x:0.9, y:1.5, z:2.3 }, { x:0, y:0, z:0 }, 2000 );
+	});
+    popcornMedia[1].cue( 23, function() {
+    	camTweener( { x:0, y:4, z:-10 }, { x:0, y:0, z:0 }, 4000 );
+	});
+    
+    popcornMedia[0].cue( 1, function() {
+        $("#rovercontrols").animate({opacity: 1.0}, 200, function() {
+        	$("#rovercontrols").css('pointer-events', 'auto');
+            $("#roverdiv").animate({opacity: 1.0}, 200, function() {
+            	$("#roverdiv").css('pointer-events', 'auto');
+        	});
+    	});
+        //$("#pilotviewbutton").click();
+        
+	});
+	
+	popcornMedia[0].cue( 9, function() {
+		popcornMedia[22].play(0);
+	    $("#mastcamvideocontenttarget").animate({opacity: 1.0}, 300, function() { $("#mastcamvideocontenttarget").css('pointer-events', 'auto'); });
+	    
+	    $("#mmrtgimagepanel").animate({opacity: 0.0}, 1, function() { $("#mmrtgimagepanel").css('pointer-events', 'none'); });
+	    $("#mmrtgvideocontenttarget").animate({opacity: 0.0}, 1, function() { $("#mmrtgvideocontenttarget").css('pointer-events', 'none'); });
+	    $("#slaytonsisleimagepanel").animate({opacity: 0.0}, 1, function() { $("#slaytonsisleimagepanel").css('pointer-events', 'none'); });
+	});
+	
+	popcornMedia[0].cue( 21.5, function() {
+		popcornMedia[22].pause();
+	    $("#mastcamvideocontenttarget").animate({opacity: 0.0}, 1, function() { $("#mastcamvideocontenttarget").css('pointer-events', 'none'); });
+	    $("#slaytonsisleimagepanel").animate({opacity: 1.0}, 1, function() { $("#slaytonsisleimagepanel").css('pointer-events', 'auto'); });
+	    
+	    $("#mmrtgimagepanel").animate({opacity: 0.0}, 1, function() { $("#mmrtgimagepanel").css('pointer-events', 'none'); });
+	    $("#mmrtgvideocontenttarget").animate({opacity: 0.0}, 1, function() { $("#mmrtgvideocontenttarget").css('pointer-events', 'none'); });
+	});
+	
+	popcornMedia[0].on( "ended", function() {
+    	advancePopcornMedia();
+		popcornMedia[23].play(0);
+	    $("#slaytonsisleimagepanel").animate({opacity: 0.0}, 1, function() { $("#slaytonsisleimagepanel").css('pointer-events', 'none'); });
+	    $("#mmrtgvideocontenttarget").animate({opacity: 1.0}, 1, function() { $("#mmrtgvideocontenttarget").css('pointer-events', 'auto'); });
+	    
+	    $("#mmrtgimagepanel").animate({opacity: 0.0}, 1, function() { $("#mmrtgimagepanel").css('pointer-events', 'none'); });
+	    $("#mastcamvideocontenttarget").animate({opacity: 0.0}, 1, function() { $("#mastcamvideocontenttarget").css('pointer-events', 'none'); });
+	});
+	
+	popcornMedia[1].cue( 9, function() {
+		popcornMedia[23].pause();
+	    $("#mmrtgvideocontenttarget").animate({opacity: 0.0}, 1, function() { $("#mmrtgvideocontenttarget").css('pointer-events', 'none'); });
+	    $("#mmrtgimagepanel").animate({opacity: 1.0}, 1, function() { $("#mmrtgimagepanel").css('pointer-events', 'auto'); });
+	    
+	    $("#slaytonsisleimagepanel").animate({opacity: 0.0}, 1, function() { $("#slaytonsisleimagepanel").css('pointer-events', 'none'); });
+	    $("#mastcamvideocontenttarget").animate({opacity: 0.0}, 1, function() { $("#mastcamvideocontenttarget").css('pointer-events', 'none'); });
+	});
+	
+	popcornMedia[1].cue( 20, function() {
+		$("#mmrtgvideocontenttarget").animate({opacity: 0.0}, 1, function() { $("#mmrtgvideocontenttarget").css('pointer-events', 'none'); });
+	    $("#mmrtgimagepanel").animate({opacity: 0.0}, 1, function() { $("#mmrtgimagepanel").css('pointer-events', 'none'); });
+	    
+	    $("#slaytonsisleimagepanel").animate({opacity: 0.0}, 1, function() { $("#slaytonsisleimagepanel").css('pointer-events', 'none'); });
+	    $("#mastcamvideocontenttarget").animate({opacity: 0.0}, 1, function() { $("#mastcamvideocontenttarget").css('pointer-events', 'none'); });
+	
+	});
+	
+    popcornMedia[1].on( "ended", function() {
+		document.addEventListener( 'keyup', onRoverLessonKeyUp, false );
+    	//the click/drag test
+        lessonOpen=true;
+        cancelCallToAction=false;
+        callToActionTimeoutLesson1 = setTimeout(function(){callToActionUser()},10000);
+        
+    	$("#helpbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+        	$("#helpbuttonwrapper").css('pointer-events', 'auto');
+    	});
+    	
+    	$("#replaybuttonwrapper").animate({opacity: 1.0}, 200, function() {
+        	$("#replaybuttonwrapper").css('pointer-events', 'auto');
+    	});
+	});
+    
+    popcornMedia[4].on( "ended", function() {
+    	//the click/drag test
+    	advancePopcornMedia(5);
+	});
+
+    popcornMedia[5].cue( 1, function() {
+    	ocCalibration.showArrow();
+	});
+    popcornMedia[5].on( "ended", function() {
+    	//the click/drag test
+        lessonOpen=true;
+	});
+    
+    popcornMedia[8].on( "ended", function() {
+        lessonOpen=true;
+	});
+    
+    popcornMedia[9].cue( 3, function() {
+
+		popcornMedia[19].play(0);
+    	rover.stowArm(armDuration);
+    	//show outcrop
+	});
+    
+    popcornMedia[9].cue( 5, function() {
+    	//hide calibration plate
+    	//ocCalibration.hideTarget();
+    	ocCalibration.hideArrow();
+    	//swing camera back
+	});
+    popcornMedia[9].cue( 6, function() {
+    	//swing camera back to wide view
+    	$("#wideviewbutton").click();
+	});
+    
+    
+	popcornMedia[9].cue( 9, function() {
+    	//show outcrop
+		//oc.showArrow();
+	});
+    
+	popcornMedia[9].cue( 11, function() {
+    	//show outcrop
+		//ocTwo.showArrow();
+	});
+    
+    popcornMedia[9].on( "ended", function() {
+		//analyze rock first time.
+        lessonOpen=true;
+	});
+    
+    popcornMedia[10].on( "ended", function() {
+		//analyze rock second time.
+        lessonOpen=true;
+	});
+    
+	//not sure why loop isn't working so this.
+	popcornMedia[17].on( "ended", function() {
+		popcornMedia[17].play(0);
+	});
+	
+	//when instrument sound ends, stop power drain.
+	popcornMedia[20].on( "ended", function() {
+		instrumentDrainRate=0;
+	});
+	popcornMedia[21].on( "ended", function() {
+		instrumentDrainRate=0;
+	});
+	
+
+	
+	//kill driving if window loses/gains focus
+	$(window).blur(function() {
+		if(controlsRover) {
+			controlsRover.moveForward = false; 
+			controlsRover.moveBackward = false; 
+			controlsRover.moveLeft = false; 
+			controlsRover.moveRight = false; 
+			onDrivingKeyUp();
+		}
+	});
+	$(window).focus(function() {
+		if(controlsRover) {
+			controlsRover.moveForward = false; 
+			controlsRover.moveBackward = false; 
+			controlsRover.moveLeft = false; 
+			controlsRover.moveRight = false; 
+			onDrivingKeyUp();
+		}
+	});
+	
+	//the driving audio sound
+	function onDrivingKeyDown ( event ) {
+    	if(powerPenalty)return;
+		switch( event.keyCode ) {
+			case 37: 
+			case 38:
+			case 39:
+			case 40: 
+			    popcornMedia[18].play();
+				break;
+		}
+	}
+	function onDrivingKeyUp ( event ) {
+        switch( event.keyCode ) {
+			case 37: 
+			case 38:
+			case 39:
+			case 40: 
+			    popcornMedia[18].pause();
+				break;
+		}
+	}
+
+    var armDuration = 4000;
+	popcornMedia[19].cue( (armDuration/1000), function() {
+		console.log("armDuration/1000" + (armDuration/1000));
+		popcornMedia[19].pause();
+	});
+	
+	
+	function onSpaceBarKeyUp ( event ) {
+		
+		if (event.keyCode == 32) { //just looking for spacebar on this mission.
+			if($('#playbuttonwrapper').css('opacity') != 0) {
+				$("#playtoggle").click();
+			}
+		}
+	};
+	
+	function onRoverLessonKeyUp ( event ) {
+		switch( event.keyCode ) {
+			case 38: //up
+				cancelCallToAction=true;
+				document.removeEventListener( 'keyup', onRoverLessonKeyUp ); 
+				setTimeout(function(){advanceUser();}, 800);
+				break;
+			case 40: //down
+				cancelCallToAction=true;
+				setTimeout(function(){jumpPopcornMedia(3);}, 800);
+				break;
+			case 37: //left
+				cancelCallToAction=true;
+				setTimeout(function(){jumpPopcornMedia(3);}, 800);
+				break;
+			case 39: //right
+				cancelCallToAction=true;
+				setTimeout(function(){jumpPopcornMedia(3);}, 800);
+				break;
+		}
+		
+	};
+	
+	var callToActionLesson1;
+	
+    //setup vars to walk through mouse 3D lesson
+    var cancelCallToAction=false;
+    var userLessonNumber=0;
+    var lessonOpen=false;
+    
+    var advanceUser = function () {
+    	console.log("advancing user from: " + userLessonNumber);
+		cancelCallToAction=false;
+        lessonOpen=false;
+		clearTimeout(callToActionLesson1);
+		
+		switch(userLessonNumber)
+    	{
+    	case 0:
+			jumpPopcornMedia(4); //analyze calibration plate
+    	  break;
+    	case 1:
+			jumpPopcornMedia(8); //reanalyze calibration plate
+			break;
+    	case 2:
+			jumpPopcornMedia(9); //that's it! calibration success and move on to rocks
+    	  break;
+    	case 3:
+			jumpPopcornMedia(13); //play 13, then 10 - please analyze again.
+	    	break;
+    	case 4:
+			jumpPopcornMedia(15);  //badge
+	    	break;
+    	default:
+    	  //no default audio
+    	}
+		
+    	userLessonNumber++; //update to next lesson
+		
+    }
+    
+    var callToActionUser = function () {
+    	console.log("call to action: ", cancelCallToAction);
+    	if(cancelCallToAction) return;
+    	
+    	switch(userLessonNumber)
+    	{
+    	case 0:
+			jumpPopcornMedia(2);
+    	  break;
+    	default:
+    	  //no default audio
+    	}
+    }
+    
+    var advancePopcornMedia = function () {
+		popcornSequenceNumber++;
+    	if(popcornSequenceNumber<popcornMedia.length) {
+    		showTransmissionMessage();
+    		popcornMedia[popcornSequenceNumber].play(0);
+    	}
+    }
+    
+  //a way to skip around (needed for Next button and Menu buttons)
+    var jumpPopcornMedia = function (sequenceNum, beginningOffset) {
+		if(popcornSequenceNumber>=popcornMedia.length)return;
+		popcornSequenceNumber=sequenceNum;
+		//clear div targets
+    	//hideeverything();
+		
+		//stop all other media
+		for(var i=0;i<15;i++) {
+			popcornMedia[i].pause();
+		}
+		
+		//jump to desired media
+		if(beginningOffset) {
+			popcornMedia[popcornSequenceNumber].play(beginningOffset);
+		} else {
+			popcornMedia[popcornSequenceNumber].play(0);
+		}
+
+		//show pause toggle
+		$("#playtoggle").attr("class", "pause");
+		
+		if(popcornSequenceNumber!=12 && popcornSequenceNumber!=13) {
+			showTransmissionMessage();
+		}
+    }
+  
+  	var showTransmissionMessage = function() {
+  		$("#transmissionmessage").animate({opacity: 1.0}, 300, function() { $("#transmissionmessage").css('pointer-events', 'auto'); });
+  	  	setTimeout(function() {
+  	  		$("#transmissionmessage").animate({opacity: 0.0}, 300, function() { $("#transmissionmessage").css('pointer-events', 'none'); });
+  	  	},4000);
+  	}
+
+    $(document).on('mousedown', function(e) {
+		$("#menupanel").animate({opacity: 0.0}, 200, function() { $("#menupanel").css('pointer-events', 'none'); });
+		$("#threedhelppopup").animate({opacity: 0.0}, 200, function() { $("#threedhelppopup").css('pointer-events', 'none'); });
+		$("#helppopup").animate({opacity: 0.0}, 200, function() { $("#helppopup").css('pointer-events', 'none'); });
+		$("#aboutpopup").animate({opacity: 0.0}, 200, function() { $("#aboutpopup").css('pointer-events', 'none'); });
+    	$("#rtgpopup").animate({opacity: 0.0}, 200, function() {$("#rtgpopup").css('pointer-events', 'none');});
+    });
+    
+
+	
+    
+    var closeAllSubMenus = function() {
+		$("#menupanel").animate({opacity: 0.0}, 1, function() { $("#menupanel").css('pointer-events', 'none'); });
+    	$("#aboutpopup").animate({opacity: 0.0}, 200, function() {$("#aboutpopup").css('pointer-events', 'none');});
+    	$("#helppopup").animate({opacity: 0.0}, 200, function() {$("#helppopup").css('pointer-events', 'none');});
+    	$("#threedhelppopup").animate({opacity: 0.0}, 200, function() {$("#threedhelppopup").css('pointer-events', 'none');});
+    	//$("#browserpopup").animate({opacity: 0.0}, 200, function() {$("#browserpopup").css('pointer-events', 'none');});
+    	$("#incomingmessage").animate({opacity: 0.0}, 200, function() {$("#incomingmessage").css('pointer-events', 'none');});
+    	$("#cmemessage").animate({opacity: 0.0}, 200, function() {$("#cmemessage").css('pointer-events', 'none');});
+		$("#transmissionmessage").animate({opacity: 0.0}, 1, function() { $("#transmissionmessage").css('pointer-events', 'none'); });
+    	$("#rtgpopup").animate({opacity: 0.0}, 200, function() {$("#rtgpopup").css('pointer-events', 'none');});
+    }
+    
+    //xxx
+    //$("#boundaryreachedmessage").animate({opacity: 1.0}, 1, function() { $("#boundaryreachedmessage").css('pointer-events', 'auto'); });
+    
+    var instrumentsbutton = document.getElementById('instrumentsbutton');
+    instrumentsbutton.style.cursor = 'pointer';
+    instrumentsbutton.onclick = function() {
+    	if(powerPenalty)return;
+    	if(rover.armStowed) {
+            popcornMedia[19].play(0);
+        	rover.extendArm(armDuration);
+        	if(lessonOpen) {
+        		//show message
+           		if(userLessonNumber==1) {
+            		$("#calibrationprogressmessage").animate({opacity: 1.0}, 400, function() {  });
+            		rover.useCalibration();
+                	setTimeout(function(){
+                		instrumentDrainRate=2
+        				    $("#lowpowermessage").animate({opacity: 0.0}, 1, function() { $("#lowpowermessage").css('pointer-events', 'none'); });;
+                		popcornMedia[20].play(0);
+        	    	}, (armDuration));
+           		}
+           		if(userLessonNumber==2) {
+            		$("#calibrationprogressmessage").animate({opacity: 1.0}, 400, function() {  });
+            		rover.useCalibration();
+                	setTimeout(function(){
+                		instrumentDrainRate=2
+        				    $("#lowpowermessage").animate({opacity: 0.0}, 1, function() { $("#lowpowermessage").css('pointer-events', 'none'); });;
+                		popcornMedia[20].play(0);
+        	    	}, (armDuration));
+           		}
+           		if(userLessonNumber==3 || userLessonNumber==4) {
+            		$("#analysisprogressmessage").animate({opacity: 1.0}, 400, function() {  });
+
+                	setTimeout(function(){
+                		instrumentDrainRate=3
+        				    $("#lowpowermessage").animate({opacity: 0.0}, 1, function() { $("#lowpowermessage").css('pointer-events', 'none'); });; //we'll say the drain for the drill is a bit higher at 4
+                		popcornMedia[21].play(0);
+        	    	}, (armDuration));
+           		}
+           		
+           		//set a timeout to stow arm and also check to see if analysis was good.
+            	setTimeout(function(){
+            		$("#calibrationprogressmessage").animate({opacity: 0.0}, 400, function() {  });
+            		$("#analysisprogressmessage").animate({opacity: 0.0}, 400, function() {  });
+            		var theTargetSeen = checkInstrumentsOnTarget();
+            		
+            		///the reanalysis lesson
+            		if(userLessonNumber==4) {
+        	    		if(theTargetSeen=="Outcrop 2") {
+        	    			advanceUser();
+        	    		} else if (theTargetSeen=="Outcrop 3") {
+        				    $("#lowpowermessage").animate({opacity: 0.0}, 1, function() { $("#lowpowermessage").css('pointer-events', 'none'); });
+        	    		    $("#analysisresultspoormessage").animate({opacity: 1.0}, 400, function() { $("#analysisresultspoormessage").css('pointer-events', 'auto'); });
+        	    			setTimeout(function(){
+            			    	$("#analysisresultspoormessage").animate({opacity: 0.0}, 400, function() {
+            			           	$("#analysisresultspoormessage").css('pointer-events', 'none');
+            			       	});
+        	    	    	}, 5000);
+        	    			jumpPopcornMedia(12);
+        	    		} else {
+        	    			jumpPopcornMedia(11);
+        	    		}
+            		}
+            		
+            		//the first analysis lesson
+            		if(userLessonNumber==3) {
+        	    		if(theTargetSeen=="Outcrop 2") {
+        				    $("#lowpowermessage").animate({opacity: 0.0}, 1, function() { $("#lowpowermessage").css('pointer-events', 'none'); });
+        	    		    $("#analysisresultsgoodmessage").animate({opacity: 1.0}, 400, function() { $("#analysisresultsgoodmessage").css('pointer-events', 'auto'); });
+        	    		    setTimeout(function(){
+        	    		    	$("#analysisresultsgoodmessage").animate({opacity: 0.0}, 400, function() { $("#analysisresultsgoodmessage").css('pointer-events', 'none'); });
+        	    	    	}, 5000);
+        	    			advanceUser();
+        	    		} else if (theTargetSeen=="Outcrop 3") {
+        				    $("#lowpowermessage").animate({opacity: 0.0}, 1, function() { $("#lowpowermessage").css('pointer-events', 'none'); });
+        	    		    $("#analysisresultspoormessage").animate({opacity: 1.0}, 400, function() { $("#analysisresultspoormessage").css('pointer-events', 'auto'); });
+        	    		    setTimeout(function(){
+            			    	$("#analysisresultspoormessage").animate({opacity: 0.0}, 400, function() {
+            			           	$("#analysisresultspoormessage").css('pointer-events', 'none');
+            			       	});
+        	    	    	}, 5000);
+        	    			jumpPopcornMedia(12);
+        	    		} else {
+        	    			jumpPopcornMedia(11);
+        	    		}
+            		}
+            		//the recalibration lesson
+            		if(userLessonNumber==2) {
+        	    		if(theTargetSeen=="Outcrop 1") {
+        	    			advanceUser();
+        	    		} else {
+        	    			jumpPopcornMedia(7);
+        	    		}
+            		}
+            		
+            		//the calibration lesson
+            		if(userLessonNumber==1) {
+        	    		if(theTargetSeen=="Outcrop 1") {
+        	    			advanceUser();
+        	    		} else {
+        	    			jumpPopcornMedia(7);
+        	    		}
+            		}
+
+	        		popcornMedia[19].play(0);
+            		//no matter what, always stow the arm after duration + 2 seconds
+	    	    	rover.stowArm(armDuration);
+
+    	    	}, (armDuration+5000));
+        	} else {
+        		//stow arm even if no lesson is done
+        		setTimeout(function(){
+
+            		popcornMedia[19].play(0);
+	    	    	rover.stowArm(armDuration);
+    	    	}, (armDuration+5000));
+        	}
+    	} else {
+    		popcornMedia[19].play(0);
+        	
+    		rover.stowArm(armDuration);
+    	}
+    }
+
+    var camsbutton = document.getElementById('camsbutton');
+    camsbutton.style.cursor = 'pointer';
+    camsbutton.onclick = function() {
+    	if(powerPenalty)return;
+    	// can't quite find an isPlaying property in documentation, so this works for now.
+    	if(popcornMedia[16].currentTime()<=0 || popcornMedia[16].currentTime()>=popcornMedia[16].duration()) {
+        	popcornMedia[16].play(0);
+    	}
+    	rover.scanMast(4000);
+    	setTimeout(function() {
+        	//show outcrop 1
+    		oc.showArrow();
+    	},1000); 
+    	setTimeout(function() {
+        	//show outcrop 2
+    		ocTwo.showArrow();
+    	},3000); 
+    	
+    	if(lessonOpen) {
+    		//all lessons over lesson 1 should play this
+       		if(userLessonNumber==1 || userLessonNumber==2) {
+    			jumpPopcornMedia(6);
+       		} else if (userLessonNumber>=3) {
+    			jumpPopcornMedia(14);
+       			
+       		}
+    		
+    	}
+    }
+    
+    var rtgbutton = document.getElementById('rtgbutton');
+    rtgbutton.style.cursor = 'pointer';
+    rtgbutton.onclick = function() {
+		$("#rtgpopup").animate({opacity: 1.0}, 200, function() {
+        	$("#rtgpopup").css('pointer-events', 'auto');
+    	});
+    }
+    
+	popcornMedia[13].on( "ended", function() {
+		console.log("13 ended..");
+		if(userLessonNumber>=5) {
+			//show badge
+			//this will no longer trigger as we've got new audio (see [15])
+	    	$("#roverpilotbadge").animate({opacity: 1.0}, 200, function() {
+	        	$("#roverpilotbadge").css('pointer-events', 'auto');
+	        });
+		} else {
+			jumpPopcornMedia(10);
+		}
+	});
+	
+	popcornMedia[15].cue( 5, function() {
+    	$("#roverpilotbadge").animate({opacity: 1.0}, 200, function() {
+        	$("#roverpilotbadge").css('pointer-events', 'auto');
+        });
+	});
+	
+	//pop the mission complete
+    var poproverpilotBadgeWindow = function() {
+    	//first we should check to see if the user email has been stored
+    	//if(userBackpackEmail) {}
+    	
+    	//then pop the appropriate window
+    	var winWidth = 800;
+    	var winHeight = 800;
+    	badgeWindow = popupwindow("./badge-it-gadget-lite/process-badges/badge_remote_pilot.html",
+    			"Rover Pilot Badge",winWidth, winHeight);
+    }
+	
+    function popupwindow(url, title, w, h) {
+  	  var left = (screen.width/2)-(w/2);
+  	  var top = (screen.height/2)-(h/2);
+  	  return window.open(url, title, "titlebar=no,toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no,copyhistory=no,width="+w+", height="+h+", top="+top+", left="+left);
+  }
+	
+    //generic popup window opening function
+    var roverpilotbadgeuploadbutton = document.getElementById('roverpilotbadgeuploadbutton');
+    roverpilotbadgeuploadbutton.onclick = function() {
+    	poproverpilotBadgeWindow();
+    };
+    
+    var roverpilotbadgeskipbutton = document.getElementById('roverpilotbadgeskipbutton');
+    roverpilotbadgeskipbutton.onclick = function() {
+    	$("#roverpilotbadge").animate({opacity: 0.0}, 200, function() {
+        	$("#roverpilotbadge").css('pointer-events', 'none');
+        });
+    	$("#roverpilotbadgecomplete").animate({opacity: 1.0}, 200, function() {
+        	$("#roverpilotbadgecomplete").css('pointer-events', 'auto');
+        });
+    	//setTimeout(function(){jumpPopcornMedia(24)},2000);
+    };
+    
+    var roverpilotbadgecompletecontinuebutton = document.getElementById('roverpilotbadgecompletecontinuebutton');
+    roverpilotbadgecompletecontinuebutton.onclick = function() {
+    	//$("#roverpilotbadgecomplete").animate({opacity: 0.0}, 200, function() {
+        //	$("#roverpilotbadgecomplete").css('pointer-events', 'none');
+        //});
+    	//$("#roverpilotbadgeskipbutton").click();
+
+    	window.open ('index.html','_self',false);
+    };
+    var roverpilotbadgecompletereplaybutton = document.getElementById('roverpilotbadgecompletereplaybutton');
+    roverpilotbadgecompletereplaybutton.onclick = function() {
+    	$("#roverpilotbadgecomplete").animate({opacity: 0.0}, 200, function() {
+        	$("#roverpilotbadgecomplete").css('pointer-events', 'none');
+        });
+    	$("#challenge").click();
+    };
+    var roverpilotbadgecompletereremixbutton = document.getElementById('roverpilotbadgecompletereremixbutton');
+    roverpilotbadgecompletereremixbutton.onclick = function() {
+    	window.open ('remix_rover_mission.html','_new',false);
+    };
+    
+    var roverpilotbadgecompletereplaybutton = document.getElementById('roverpilotbadgecompletereplaybutton');
+    roverpilotbadgecompletereplaybutton.onclick = function() {
+    	//this will take you back to the 3D navigation lesson.
+    	$("#navigation").click();
+    };
+	
+	var hideeverything = function() {
+		//$("#startmenupanel").animate({opacity: 0.0}, 1, function() { $("#startmenupanel").css('pointer-events', 'none'); });
+		$("#menupanel").animate({opacity: 0.0}, 1, function() { $("#menupanel").css('pointer-events', 'none'); });
+		
+		$("#aboutpopup").animate({opacity: 0.0}, 1, function() { $("#aboutpopup").css('pointer-events', 'none'); });
+		$("#helppopup").animate({opacity: 0.0}, 1, function() { $("#helppopup").css('pointer-events', 'none'); });
+		$("#threedhelppopup").animate({opacity: 0.0}, 1, function() { $("#threedhelppopup").css('pointer-events', 'none'); });
+		//$("#browserpopup").animate({opacity: 0.0}, 1, function() { $("#browserpopup").css('pointer-events', 'none'); });
+		
+		$("#incomingmessage").animate({opacity: 0.0}, 1, function() { $("#incomingmessage").css('pointer-events', 'none'); });
+		$("#transmissionmessage").animate({opacity: 0.0}, 1, function() { $("#transmissionmessage").css('pointer-events', 'none'); });
+		$("#cmemessage").animate({opacity: 0.0}, 1, function() { $("#cmemessage").css('pointer-events', 'none'); });
+
+		$("#rovercontrols").animate({opacity: 0.0}, 1, function() { $("#rovercontrols").css('pointer-events', 'none'); });
+		
+		$("#nextbuttonwrapper").animate({opacity: 0.0}, 1, function() { $("#nextbuttonwrapper").css('pointer-events', 'none'); });
+		$("#helpbuttonwrapper").animate({opacity: 0.0}, 1, function() { $("#helpbuttonwrapper").css('pointer-events', 'none'); });
+		$("#replaybuttonwrapper").animate({opacity: 0.0}, 1, function() { $("#replaybuttonwrapper").css('pointer-events', 'none'); });
+		
+
+		$("#roverpilotbadge").animate({opacity: 0.0}, 1, function() { $("#roverpilotbadge").css('pointer-events', 'none'); });
+		$("#roverpilotbadgecomplete").animate({opacity: 0.0}, 1, function() { $("#roverpilotbadgecomplete").css('pointer-events', 'none'); });
+
+    	$("#rtgpopup").animate({opacity: 0.0}, 200, function() {$("#rtgpopup").css('pointer-events', 'none');});
+    	
+    	$("#mmrtgimagepanel").animate({opacity: 0.0}, 1, function() { $("#mmrtgimagepanel").css('pointer-events', 'none'); });
+	    $("#mastcamvideocontenttarget").animate({opacity: 0.0}, 1, function() { $("#mastcamvideocontenttarget").css('pointer-events', 'none'); });
+	    $("#mmrtgvideocontenttarget").animate({opacity: 0.0}, 1, function() { $("#mmrtgvideocontenttarget").css('pointer-events', 'none'); });
+	    $("#slaytonsisleimagepanel").animate({opacity: 0.0}, 1, function() { $("#slaytonsisleimagepanel").css('pointer-events', 'none'); });
+	}
+	
+    
+    var checkInstrumentsOnTarget = function() {
+    	var returnVal;
+    	for( var i = 0; i < OUTCROPS.length; i++ ){
+    		if( OUTCROPS[i].touchdown( rover.arm.hand, .75 ) )  {
+    			console.log( "The Rover eye saw " + OUTCROPS[i].name );
+    			return returnVal = OUTCROPS[i].name;
+    		} else {
+    			returnVal = null;
+    		}
+    	}
+    	return returnVal;
+    }
+    
+    var checkRoverOnTarget = function() {
+    	var returnVal;
+    	for( var i = 0; i < OUTCROPS.length; i++ ){
+    		if( OUTCROPS[i].touchdown( rover.mesh, .75 ) ) { 
+    			console.log( "Ran over " + OUTCROPS[i].name + " got a touchdown" );
+    			return returnVal = OUTCROPS[i].name;
+    		} else {
+    			returnVal = null;
+    		}
+    	}
+    	return returnVal;
+    }
+    
+    var replayUser = function () {
+
+		lessonOpen=false;
+	    cancelCallToAction=true;
+	    
+	    userLessonNumber = 0;
+	    
+		jumpPopcornMedia(1,23); //drive forward
+    	  
+    }
+
+	//don't think this will be used
+    var restartThisLesson = function () {
+    	lessonOpen=false;
+	    cancelCallToAction=true;
+	   
+	    switch(userLessonNumber)
+    	{
+    	case 0:
+			jumpPopcornMedia(1); //drive forward
+    	  break;
+    	case 1:
+			jumpPopcornMedia(5); //analyze calibration plate
+    	  break;
+    	case 2:
+			jumpPopcornMedia(4,2); //analyze calibration plate again
+    	  break;
+    	case 3:
+			jumpPopcornMedia(9,4); //analyze rock 
+	    	break;
+    	case 4:
+			jumpPopcornMedia(10);  //analyze rock analyze again.
+	    	break;
+    	default:
+    	  //no default audio
+    	}
+    }
+	
+	$(document).ready( function() {
+		infinityloader.play();
+		var div = document.getElementById("canvastarget"); 
+		div.appendChild(infinityloader.canvas);
+		
+		if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+		
+		navigator.sayswho= (function(){
+		    var N= navigator.appName, ua= navigator.userAgent, tem;
+		    var M= ua.match(/(opera|chrome|safari|firefox|msie)\/?\s*(\.?\d+(\.\d+)*)/i);
+		    if(M && (tem= ua.match(/version\/([\.\d]+)/i))!= null) M[2]= tem[1];
+		    M= M? [M[1], M[2]]: [N, navigator.appVersion, '-?'];
+		
+		    return M;
+		})();
+		
+		var boundaryWarningIssued=false;
+		//increase energy bar by 1 every half second
+		setInterval(function() { 
+			
+			if( currentEnergyLevel<=0 && instrumentDrainRate == 0){
+				//show the uber drain message
+			    $("#lowpowermessage").animate({opacity: 1.0}, 400, function() { $("#lowpowermessage").css('pointer-events', 'auto'); });
+				setTimeout(function() {
+				    $("#lowpowermessage").animate({opacity: 0.0}, 400, function() { $("#lowpowermessage").css('pointer-events', 'none'); });
+				},5000);
+			}
+			if(currentEnergyLevel<=100) {
+				currentEnergyLevel++;
+				//our energy div visual reflect the opposite (full looks empty and vice versa)
+				var flipNumber = 100-currentEnergyLevel;
+			    $("#energylevel").css({width:(flipNumber+"%")});
+			}
+			
+			//will also use this polling loop to check boundaries
+			
+			if (boundaryStatus==0) {
+				boundaryWarningIssued=false;
+				//$("#boundaryreachedmessage").animate({opacity: 0.0}, 1, function() { $("#boundaryreachedmessage").css('pointer-events', 'none'); });
+				$("#boundarywarningmessage").animate({opacity: 0.0}, 1, function() { $("#boundarywarningmessage").css('pointer-events', 'none'); });
+			} else if (boundaryStatus==1) {
+				if(!boundaryWarningIssued) {
+					boundaryWarningIssued=true;
+					$("#boundarywarningmessage").animate({opacity: 1.0}, 200, function() { $("#boundarywarningmessage").css('pointer-events', 'none'); });
+					//$("#boundaryreachedmessage").animate({opacity: 0.0}, 1, function() { $("#boundaryreachedmessage").css('pointer-events', 'none'); });
+					setTimeout(function() {
+						$("#boundarywarningmessage").animate({opacity: 0.0}, 200, function() { $("#boundarywarningmessage").css('pointer-events', 'none'); });
+					},5000);
+				}
+			} else if (boundaryStatus==2) {
+				setTimeout(function() {
+					boundaryWarningIssued=false;
+					$("#boundaryreachedmessage").animate({opacity: 1.0}, 200, function() { $("#boundaryreachedmessage").css('pointer-events', 'none'); });
+				},1000);
+				$("#boundarywarningmessage").animate({opacity: 0.0}, 1, function() { $("#boundarywarningmessage").css('pointer-events', 'none'); });
+				setTimeout(function() {
+					boundaryWarningIssued=false;
+					$("#boundaryreachedmessage").animate({opacity: 0.0}, 200, function() { $("#boundaryreachedmessage").css('pointer-events', 'none'); });
+				},5000);
+			}
+		}, 200);
+		 
+		//console.log("navigator.sayswho: " + navigator.sayswho[0]);
+		 
+		var isGoodBrowser = (navigator.sayswho[0]=="Chrome");
+		if(!isGoodBrowser) isGoodBrowser = (navigator.sayswho[0]=="Firefox");
+		 
+		$("#startmenupanel").animate({opacity: 1.0}, 200, function() {
+			$("#startmenupanel").css('pointer-events', 'auto');
+		});
+		
+		if(!isGoodBrowser || ! Detector.webgl) {
+		} 
+		 
+		
+		var postColladaLoaded = function () {
+			//start wind loop
+	    	popcornMedia[17].play();
+			//get threeD animation up and alive
+			initializethreed();
+			//this is probably unneeded anymore.  old Ryan's loader.
+			$("#loadtext").hide();
+			
+			setTimeout(function() {
+
+		        div.removeChild(infinityloader.canvas);
+		        $("#loaderdiv").animate({opacity: 0.0}, 500, function() {
+		            $("#loaderdiv").css('pointer-events', 'none');
+		        });
+		        
+
+		        $("#introduction").animate({opacity: 1.0}, 500, function() {
+		            $("#introduction").css('pointer-events', 'auto');
+		        });
+		        $("#navigation").animate({opacity: 1.0}, 500, function() {
+		            $("#navigation").css('pointer-events', 'auto');
+		        });
+		        $("#challenge").animate({opacity: 1.0}, 500, function() {
+		            $("#challenge").css('pointer-events', 'auto');
+		        });
+		        $("#beginbutton").animate({opacity: 1.0}, 500, function() {
+		            $("#beginbutton").css('pointer-events', 'auto');
+		        });
+				
+			},2000)
+
+	    };
+
+	    if(!isGoodBrowser || ! Detector.webgl) {
+			div.removeChild(infinityloader.canvas);
+		    $("#loaderdiv").animate({opacity: 0.0}, 500, function() {
+		        $("#loaderdiv").css('pointer-events', 'none');
+		    });
+		    
+			$("#beginbutton").animate({opacity: 1.0}, 500, function() {
+	            $("#beginbutton").css('pointer-events', 'auto');
+	        });
+	    } else {
+			roverLoader.options.convertUpAxis = true;
+			roverLoader.load( './models/rover.dae', function ( collada ) {
+
+				rover_dae = collada.scene;
+				rover_dae.scale.set( 1, 1, 1 );
+				rover_dae.updateMatrix();
+
+				terrainLoader.options.convertUpAxis = true;
+				terrainLoader.load( './models/terrain.dae', function ( collada ) {
+					
+					terrain = collada.scene;
+					terrain.scale.set( 1.2, 1.2, 1.2 );
+					postColladaLoaded();
+				});
+			});
+	    }
+		
+		$( "#beginbutton" )
+			.button()
+			.click(function( event ) {
+				$("#startmenupanel").animate({opacity: 0.0}, 200, function() {
+                	$("#startmenupanel").css('pointer-events', 'none');
+            	});
+				$("#beginbutton").css('pointer-events', 'none');
+				
+				document.removeEventListener( 'keyup', onDrivingKeyUp);
+				document.removeEventListener( 'keydown', onDrivingKeyDown );
+				document.addEventListener( 'keyup', onDrivingKeyUp, false );
+				document.addEventListener( 'keydown', onDrivingKeyDown, false );
+				document.removeEventListener( 'keyup', onSpaceBarKeyUp);
+				document.addEventListener( 'keyup', onSpaceBarKeyUp, false );
+
+				if(!isGoodBrowser || ! Detector.webgl) {
+					$("#browserpopup").animate({opacity: 1.0}, 200, function() {
+					  	$("#browserpopup").css('pointer-events', 'auto');
+					});
+				 } else {
+					popcornMedia[0].play( 0 );
+					showTransmissionMessage();
+					$("#playbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+	                	$("#playbuttonwrapper").css('pointer-events', 'auto');
+	            	});
+			    	$("#backgroundtarget").animate({opacity: 0.0}, 1000, function() {
+			           	$("#backgroundtarget").css('pointer-events', 'none');
+			       	});
+	                	
+				 }
+				
+		});
+		
+		$( "#cancelpoorbutton" )
+			.button()
+			.click(function( event ) {
+		    	$("#analysisresultspoormessage").animate({opacity: 0.0}, 400, function() {
+		           	$("#analysisresultspoormessage").css('pointer-events', 'none');
+		       	});
+		});
+		
+		$( "#analyzepoorbutton" )
+			.button()
+			.click(function( event ) {
+				$("#instrumentsbutton").click();
+		    	$("#analysisresultspoormessage").animate({opacity: 0.0}, 400, function() {
+		           	$("#analysisresultspoormessage").css('pointer-events', 'none');
+		       	});
+		});
+		
+		$('#playtoggle').bind("click", function() {
+          if ($(this).attr("class") == "play") {
+             $(this).attr("class", "pause");
+ 			popcornMedia[popcornSequenceNumber].play();
+          } else {
+             $(this).attr("class", "play");
+ 			popcornMedia[popcornSequenceNumber].pause();
+          }
+        });
+		
+		$( "#menubutton" )
+			.button()
+			.click(function( event ) {
+				if($('#menupanel').css('opacity') != 0) {
+	            	$("#menupanel").animate({opacity: 0.0}, 200, function() {
+	                	$("#menupanel").css('pointer-events', 'none');
+	            	});
+	        	} else {
+	        		$("#menupanel").animate({opacity: 1.0}, 200, function() {
+	                	$("#menupanel").css('pointer-events', 'auto');
+	            	});
+	        	}
+		});
+		
+		
+		$( "#nextbutton" )
+			.button()
+			.click(function( event ) {
+				if(popcornSequenceNumber<5) {
+					jumpToThreeDNavigation();
+				} else if(popcornSequenceNumber<17) {
+					jumpToChallenge();
+				}
+		});
+
+		$( "#replaybutton" )
+			.button()
+			.click(function( event ) {
+				replayUser();
+		});
+		
+		$( "#threedhelpbutton" )
+			.button()
+			.click(function( event ) {
+				$("#threedhelppopup").animate({opacity: 1.0}, 200, function() {
+	            	$("#threedhelppopup").css('pointer-events', 'auto');
+	        	});
+		});
+		
+		$( "#introduction" )
+			.button()
+			.click(function( event ) {
+				if(!isGoodBrowser || ! Detector.webgl) {
+					$("#startmenupanel").animate({opacity: 0.0}, 200, function() {
+					  	$("#startmenupanel").css('pointer-events', 'none');
+					});
+					$("#browserpopup").animate({opacity: 1.0}, 200, function() {
+					  	$("#browserpopup").css('pointer-events', 'auto');
+					});
+				 } else {
+						$("#menupanel").animate({opacity: 0.0}, 1, function() { $("#menupanel").css('pointer-events', 'none'); });
+						jumpToIntroduction();
+				 }
+				
+		});
+		$( "#navigation" )
+			.button()
+			.click(function( event ) {
+				if(!isGoodBrowser || ! Detector.webgl) {
+					$("#startmenupanel").animate({opacity: 0.0}, 200, function() {
+					  	$("#startmenupanel").css('pointer-events', 'none');
+					});
+					$("#browserpopup").animate({opacity: 1.0}, 200, function() {
+					  	$("#browserpopup").css('pointer-events', 'auto');
+					});
+				 } else {
+						$("#menupanel").animate({opacity: 0.0}, 1, function() { $("#menupanel").css('pointer-events', 'none'); });
+						jumpToThreeDNavigation();
+				 }
+		});
+		
+		$( "#challenge" )
+			.button()
+			.click(function( event ) {
+				if(!isGoodBrowser || ! Detector.webgl) {
+					$("#startmenupanel").animate({opacity: 0.0}, 200, function() {
+					  	$("#startmenupanel").css('pointer-events', 'none');
+					});
+					$("#browserpopup").animate({opacity: 1.0}, 200, function() {
+					  	$("#browserpopup").css('pointer-events', 'auto');
+					});
+				 } else {
+					 
+						$("#menupanel").animate({opacity: 0.0}, 1, function() { $("#menupanel").css('pointer-events', 'none'); });
+						jumpToChallenge();
+				 }
+		});
+		
+		var jumpToIntroduction = function() {
+
+			//hide everything
+			hideeverything();
+			$("#startmenupanel").animate({opacity: 0.0}, 1, function() { $("#startmenupanel").css('pointer-events', 'none'); });
+	    	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
+	           	$("#backgroundtarget").css('pointer-events', 'none');
+	       	});
+	    	//initialize 3d if you need to
+			initializethreed();
+
+	    	//sound key listening reinit
+			document.removeEventListener( 'keyup', onDrivingKeyUp);
+			document.removeEventListener( 'keydown', onDrivingKeyDown );
+			document.addEventListener( 'keyup', onDrivingKeyUp, false );
+			document.addEventListener( 'keydown', onDrivingKeyDown, false );
+			document.removeEventListener( 'keyup', onSpaceBarKeyUp);
+			document.addEventListener( 'keyup', onSpaceBarKeyUp, false );
+	    	
+			setTimeout(function(){
+				//shift 3d model
+				
+				$("#rovercontrols").animate({opacity: 1.0}, 200, function() {
+		        	$("#rovercontrols").css('pointer-events', 'auto');
+		            $("#roverdiv").animate({opacity: 1.0}, 200, function() {
+		            	$("#roverdiv").css('pointer-events', 'auto');
+		        	});
+		    	});
+		        $("#pilotviewbutton").click();
+				$("#playbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+	            	$("#playbuttonwrapper").css('pointer-events', 'auto');
+	        	});
+				$("#nextbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+	            	$("#nextbuttonwrapper").css('pointer-events', 'auto');
+	        	});
+
+				$("#nextbutton").animate({opacity: 1.0}, 200, function() {
+	            	$("#nextbutton").css('pointer-events', 'auto');
+	        	});
+				$("#helpbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+	            	$("#helpbuttonwrapper").css('pointer-events', 'auto');
+	        	});
+				$("#replaybuttonwrapper").animate({opacity: 1.0}, 200, function() {
+	            	$("#replaybuttonwrapper").css('pointer-events', 'auto');
+	        	});
+				
+			},2000);
+			
+
+	    	//reset lesson stuff
+	    	userLessonNumber=0;
+	    	
+	    	jumpPopcornMedia(0); //this call will send us to that lesson number audio
+		}
+		
+		var jumpToThreeDNavigation = function() {
+
+			//hide everything
+			hideeverything();
+			$("#startmenupanel").animate({opacity: 0.0}, 1, function() { $("#startmenupanel").css('pointer-events', 'none'); });
+	    	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
+	           	$("#backgroundtarget").css('pointer-events', 'none');
+	       	});
+	    	//initialize 3d if you need to
+			initializethreed();
+
+	    	//sound key listening reinit
+			document.removeEventListener( 'keyup', onDrivingKeyUp);
+			document.removeEventListener( 'keydown', onDrivingKeyDown );
+			document.addEventListener( 'keyup', onDrivingKeyUp, false );
+			document.addEventListener( 'keydown', onDrivingKeyDown, false );
+			document.removeEventListener( 'keyup', onSpaceBarKeyUp);
+			document.addEventListener( 'keyup', onSpaceBarKeyUp, false );
+			
+	    	
+			setTimeout(function(){
+				
+				$("#rovercontrols").animate({opacity: 1.0}, 200, function() {
+		        	$("#rovercontrols").css('pointer-events', 'auto');
+		            $("#roverdiv").animate({opacity: 1.0}, 200, function() {
+		            	$("#roverdiv").css('pointer-events', 'auto');
+		        	});
+		    	});
+		        $("#pilotviewbutton").click();
+				$("#playbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+	            	$("#playbuttonwrapper").css('pointer-events', 'auto');
+	        	});
+				$("#nextbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+	            	$("#nextbuttonwrapper").css('pointer-events', 'auto');
+	        	});
+				$("#nextbutton").animate({opacity: 0.0}, 200, function() {
+	            	$("#nextbutton").css('pointer-events', 'none');
+	        	});
+				$("#helpbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+	            	$("#helpbuttonwrapper").css('pointer-events', 'auto');
+	        	});
+				$("#replaybuttonwrapper").animate({opacity: 1.0}, 200, function() {
+	            	$("#replaybuttonwrapper").css('pointer-events', 'auto');
+	        	});
+				
+			},2000);
+			
+
+	    	//reset lesson stuff
+	    	userLessonNumber=1;
+	    	restartThisLesson(); //this call will send us to that lesson number audio
+		}
+		
+		var jumpToChallenge = function () {
+			//hide everything
+			hideeverything();
+			$("#startmenupanel").animate({opacity: 0.0}, 1, function() { $("#startmenupanel").css('pointer-events', 'none'); });
+	    	$("#backgroundtarget").animate({opacity: 0.0}, 100, function() {
+	           	$("#backgroundtarget").css('pointer-events', 'none');
+	       	});
+	    	//initialize 3d if you need to
+			initializethreed();
+	    	
+	    	//sound key listening reinit
+			document.removeEventListener( 'keyup', onDrivingKeyUp);
+			document.removeEventListener( 'keydown', onDrivingKeyDown );
+			document.addEventListener( 'keyup', onDrivingKeyUp, false );
+			document.addEventListener( 'keydown', onDrivingKeyDown, false );
+			document.removeEventListener( 'keyup', onSpaceBarKeyUp);
+			document.addEventListener( 'keyup', onSpaceBarKeyUp, false );
+			
+	    	
+			setTimeout(function(){
+				
+				$("#rovercontrols").animate({opacity: 1.0}, 200, function() {
+		        	$("#rovercontrols").css('pointer-events', 'auto');
+		            $("#roverdiv").animate({opacity: 1.0}, 200, function() {
+		            	$("#roverdiv").css('pointer-events', 'auto');
+		        	});
+		    	});
+		        $("#pilotviewbutton").click();
+				$("#playbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+	            	$("#playbuttonwrapper").css('pointer-events', 'auto');
+	        	});
+				$("#nextbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+	            	$("#nextbuttonwrapper").css('pointer-events', 'auto');
+	        	});
+
+				$("#nextbutton").animate({opacity: 0.0}, 200, function() {
+	            	$("#nextbutton").css('pointer-events', 'none');
+	        	});
+				$("#helpbuttonwrapper").animate({opacity: 1.0}, 200, function() {
+	            	$("#helpbuttonwrapper").css('pointer-events', 'auto');
+	        	});
+				$("#replaybuttonwrapper").animate({opacity: 1.0}, 200, function() {
+	            	$("#replaybuttonwrapper").css('pointer-events', 'auto');
+	        	});
+				
+			},2000);
+			
+
+	    	//reset lesson stuff
+	    	userLessonNumber=3;
+	    	restartThisLesson(); //this call will send us to that lesson number audio
+		}
+
+		$( "#about" )
+			.button()
+			.click(function( event ) {
+		    	closeAllSubMenus();
+				$("#aboutpopup").animate({opacity: 1.0}, 200, function() {
+	            	$("#aboutpopup").css('pointer-events', 'auto');
+	        	});
+				$("#menupanel").animate({opacity: 0.0}, 1, function() { $("#menupanel").css('pointer-events', 'none'); });
+				
+		});
+
+
+		$( "#help" )
+			.button()
+			.click(function( event ) {
+		    	closeAllSubMenus();
+				$("#helppopup").animate({opacity: 1.0}, 200, function() {
+	            	$("#helppopup").css('pointer-events', 'auto');
+	        	});
+				$("#menupanel").animate({opacity: 0.0}, 1, function() { $("#menupanel").css('pointer-events', 'none'); });
+				
+		});
+
+		$( "#pilotviewbutton" )
+			.button()
+			.click(function( event ) {
+				TWEEN.getAll();
+		    	camTweener( { x:0, y:4, z:-10 }, { x:0, y:0, z:0 }, 1500 );
+		});
+
+		$( "#sideviewbutton" )
+			.button()
+			.click(function( event ) {
+		    	TWEEN.getAll();
+				camTweener( { x:5.5, y:1.3, z:-2.9 }, { x:0, y:0, z:0 }, 2000 );
+		});
+
+		$( "#wideviewbutton" )
+			.button()
+			.click(function( event ) {
+				TWEEN.getAll();
+		    	camTweener( { x:0, y:8, z:-20 }, { x:0, y:0, z:0 }, 3000 );
+		});
+
+	});
+	
+	$(document).on('mouseup', function(e) {
+        console.log("x:" + camera.position.x + "y:" + camera.position.y + "z:" + camera.position.z);
+    });
+
+}, false);
+
+</script>
+	</head>
+
+	<body>
+
+		<div id="startmenupanel" class="startmenupanel">
+			<h1>Mars Rover Remote-Pilot</h1>
+			<div class="textstyle1">
+			Welcome to Slayton's Isle Station, NASA's frontier science outpost!  Help the Mars colonists as you try 
+			your hand as a remote rover pilot, leading a critical recon mission across the harsh, 
+			cold sands of the Red Planet.
+			</div>
+			<button id="beginbutton" class="beginbutton" style="opacity: 0.2;pointer-events:none;width:150px;">BEGIN</button>
+			<br>
+			<div id="loaderdiv" style="z-index:10;opacity:1.0;pointer-events:auto; width:100%">
+				<div id="loaderpanel" class="loadercontenttarget" style="z-index:11;">
+					<font style="color:#3a84a6;">Loading the MSL Rover</font>
+					<div id="canvastarget" style="position:absolute;left:-130px;top:-22px"></div>
+				</div>
+			</div>
+			<br>
+			<br>
+			<br>
+			<div class="textstyle2">
+			This project is a collaboration between the U.S. Department of Energy, the Mozilla Foundation, and MX.</div>
+			<br>
+			<img src="./images/tri_logo.png" style="align: center;">
+			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.25</font>
+		</div>
+	
+		<div id="topbar" class="topbar">
+		
+			<div id="topbarleft" class="topbarleft">
+				<div id="headerpanel" class="headerpanel"></div>
+			</div>
+			<div id="topbarmiddle" class="topbarmiddle">
+				
+			</div>
+			
+			<div id="topbarright" class="topbarright">
+				<button id="menubutton" class="menubutton">MENU</button>
+				<div id="menupanel" class="menupanel">
+					<button id="introduction" class="menupanelbutton" style="opacity: 0.2;pointer-events:none">Introduction</button>
+					<br>
+					<button id="navigation" class="menupanelbutton" style="opacity: 0.2;pointer-events:none">Calibration</button>
+					<br>
+					<button id="challenge" class="menupanelbutton" style="opacity: 0.2;pointer-events:none">Find Outcrop</button>
+					<br>
+					<button id="about" class="menupanelbutton">about</button>
+					<br>
+					<button id="help" class="menupanelbutton">help</button>
+				</div>
+			</div>
+		</div>	
+		<!-- main content area for video, images, 3D, etc... -->
+		<div id="contenttarget" class="contenttarget">
+		</div>
+		<div id="backgroundtarget" class="curiositybackgroundtarget">
+		</div>
+		
+		<div id="bottombar" class="bottombar">
+			<div id="bottombarleft" class="bottombarleft">
+				<div id="helpbuttonwrapper" class="helpbuttonwrapper" style="opacity: 0.0;pointer-events:none">
+					<button id="threedhelpbutton" class="squarebluebutton">HELP</button>
+				</div>
+				<div id="replaybuttonwrapper" class="replaybuttonwrapper" style="opacity: 0.0;pointer-events:none">
+					<button id="replaybutton" class="squarebluebutton">REPLAY</button>
+				</div>
+			</div>
+			<div id="bottombarmiddle" class="bottombarmiddle" style="vertical-align: middle;">
+				<div id="threedcontrols" class="threedcontrols">
+					<button id="threedhome" class="squarebluebutton">Home</button>
+					<button id="threedrover" class="squarebluebutton">Rover</button>
+					<button id="threedearth" class="squarebluebutton">Earth</button>
+					<button id="threedmars" class="squarebluebutton">Mars</button>
+				</div>
+			</div>
+			
+			<div id="bottombarright" class="bottombarright">
+				
+				<div id="nextbuttonwrapper" class="nextbuttonwrapper" style="opacity: 0.0;pointer-events:none">
+					<div id="playbuttonwrapper" class="playbuttonwrapper" style="opacity: 0.0;pointer-events:none">
+						<div id="playtoggle" class="pause"></div>
+					</div>
+					<button id="nextbutton" class="nextbutton">SKIP</button>
+				</div>
+			</div>
+		</div>
+		
+		<div id="rovercopyright" class="rovercopyright">
+			Curiosity Rover - MSL Design Courtesy NASA / JPL / CalTech
+		</div>
+		
+		<div id="aboutpopup" class="aboutpopup">
+			<h1 style="text-align: center;">About</h1>
+			<a href="./index.html" target="_self">Mission to Mars</a>
+			<br>
+			<a href="#" target="_self">Mars Rover Remote-Pilot</a>
+			<br><br>
+			These experinces were built with <a href="http://popcornjs.org/" target="_blank">Popcorn.js</a> and
+			<a href="http://threejs.org/" target="_blank">Three.js</a>. All 3D models are available in 
+			<a href="http://threejs.org/" target="_blank">Kuda</a>.  Complete the missions to earn badges as a part
+			of the <a href="http://openbadges.org/" target="_blank">Open Badges</a> project. 
+			<a href="#" target="_self">Remix</a> the experiences to create your own interactive story.
+			<br><br>
+			This project is a collaboration between the 
+			<a href="http://http://energy.gov/" target="_blank">U.S. Department of Energy</a>, 
+			the <a href="http://www.mozilla.org/foundation/" target="_blank">Mozilla Foundation</a>, and 
+			<a href="http://mx-mx.com/" target="_blank">MX</a>.
+		</div>
+		<div id="helppopup" class="helppopup">
+			<h1 style="text-align: center;">Help</h1>
+			<br>You are on an astronaut stationed on Slaton's Isle, an Aten asteroid in the inner solar system.
+			Colonists on Mars have an emergency and need your help.  The Capsule Communicator CAPCOM) on Earth
+			is requestion your help because you are closer to Mars and able to respond quickly.  
+			Follow the instrunctions from CAPCOM and use the 3D models to complete your missions.
+			<br><br>
+			<img src="./images/help_asteroid.jpg" style="border:1px solid rgba(200,200,200,1.0);width:100%">
+			<br><br>
+			<table style="width:100%;margin:0;padding:0;">
+				<tr>
+					<td style="padding-right:30px;vertical-align:top;">
+						<font style="font-size: 22px;font-weight: 400;">Help & Replay</font>
+						<br> If you get stuck, select 'Help' in the lower left of the screen to get more 
+						information.  Select 'Replay' to hear the latest message from CAPCOM again.
+					</td>
+					<td style="vertical-align:top;">
+						<font style="font-size: 22px;font-weight: 400;">Camera Angle</font>
+						<br>If you are having trouble navigating around the 3D environment, 
+						select one of the camera angle buttons along the bottom of the screen.
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<div id="rtgpopup" class="rtgpopup">
+			<font style="font-size: 22px;font-weight: 400;">Power Source</font>
+			<br>
+			<br>
+			<table style="width:100%;margin:0;padding:0;">
+				<tr>
+					<td style="vertical-align:top;width:410px;">
+						Mars Science Laboratory uses a radioisotope thermoelectric generator (RTG) 
+						power system to generate electricity needed to operate the rover and its instruments. 
+						Radioisotope electrical power and heating systems enable science missions that require greater 
+						longevity, more diverse landing locations or more power or heat than missions limited to solar 
+						power systems.
+						<br>
+						<br>
+						<font style="font-size: 20px;font-weight: 400;">More Info</font>
+						<br>
+						<a href="http://mars.jpl.nasa.gov/msl/mission/technology/technologiesofbroadbenefit/power/" target="_blank">Nasa Power Technology Benefit</a>
+					</td>
+					<td style="padding-left:10px;vertical-align:top; align:right;">
+						<img src="./images/MMRTG.jpg" style="border:1px solid rgba(200,200,200,1.0);width:284px;height:236px;">
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<div id="rtgpopup" class="rtgpopup">
+			<font style="font-size: 22px;font-weight: 400;">Power Source</font>
+			<br>
+			<br>
+			<table style="width:100%;margin:0;padding:0;">
+				<tr>
+					<td style="vertical-align:top;width:410px;">
+						Mars Science Laboratory uses a radioisotope thermoelectric generator (RTG) 
+						power system to generate electricity needed to operate the rover and its instruments. 
+						Radioisotope electrical power and heating systems enable science missions that require greater 
+						longevity, more diverse landing locations or more power or heat than missions limited to solar 
+						power systems.
+						<br>
+						<br>
+						<font style="font-size: 20px;font-weight: 400;">More Info</font>
+						<br>
+						<a href="http://mars.jpl.nasa.gov/msl/mission/technology/technologiesofbroadbenefit/power/">Nasa Power Technology Benefit</a>
+					</td>
+					<td style="padding-left:10px;vertical-align:top; align:right;">
+						<img src="./images/MMRTG.jpg" style="border:1px solid rgba(200,200,200,1.0);width:284px;height:236px;">
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<div id="lowpowermessage" class="lowpowermessagereddiv">
+			<table style="width: 100%;margin:0;padding:0;" >
+				<tr >
+					<td width="50px" rowspan="2" align="left" valign="middle" style="padding-right:8px;"><img src="./images/icon_alert.png" style="width:49px;height:44px;"></td>
+					
+					<td align="left"><font style="font-size:16px;font-weight:400;">LOW ENERGY</font></td>
+				</tr>
+				<tr>
+					<td align="left">
+						<font style="font-size:16px;font-weight:300;">Wait for energy to recharge</font>
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<div id="boundarywarningmessage" class="boundarywarningmessage">
+			<table style="width: 100%;margin:0;padding:0;" >
+				<tr >
+					<td width="50px" rowspan="2" align="left" valign="middle" style="padding-right:8px;"><img src="./images/icon_alert.png" style="width:49px;height:44px;"></td>
+					
+					<td align="left"><font style="font-size:16px;font-weight:400;">APPROACHING BOUNDARY</font></td>
+				</tr>
+				<tr>
+					<td align="left">
+						<font style="font-size:16px;font-weight:300;">Turn around to return to mission</font>
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<div id="boundaryreachedmessage" class="boundarywarningmessage">
+			<table style="width: 100%;margin:0;padding:0;" >
+				<tr >
+					<td width="50px" rowspan="2" align="left" valign="middle" style="padding-right:8px;"><img src="./images/icon_alert.png" style="width:49px;height:44px;"></td>
+					
+					<td align="left"><font style="font-size:16px;font-weight:400;">BOUNDARY REACHED</font></td>
+				</tr>
+				<tr>
+					<td align="left">
+						<font style="font-size:16px;font-weight:300;">Rover position has been reset</font>
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+	    <div id="mmrtgimagepanel" class="roverdetailpanel">
+	        <a href="http://solarsystem.nasa.gov/rps/rtg.cfm" target="_blank"><img src="./images/MMRTG_small.jpg" style="border:1px solid rgba(200,200,200,1.0); style="width:390px;height:328px;"></a>
+	        <br>
+	        <a href="http://solarsystem.nasa.gov/rps/rtg.cfm" target="_blank">RADIOISOTOPE THERMOELECTRIC GENERATOR (RTG) (Link)</a>
+	    </div>
+	    
+	    <div id="slaytonsisleimagepanel" class="roverdetailpanel">
+	        <a href="http://neo.jpl.nasa.gov/neo/groups.html" target="_blank"><img src="./images/moku_u1_asteroid.jpg" style="border:1px solid rgba(200,200,200,1.0);"></a>
+	        <br>
+	        
+	        <a href="http://neo.jpl.nasa.gov/neo/groups.html" target="_blank">YOUR LOCATION: ATEN ASTEROID “SLAYTON’S ISLE” (Link)</a>
+	    </div>
+	    
+	    <div id="mastcamvideocontenttarget" class="roverdetailpanel" >
+			<video width="512px" height="288px"  id="mastcamvideo" style="background:#000;" preload="auto" >
+         		<source src="http://www.mx-mx.com/lab/moku/video/MSL_cam_arm.mp4" type="video/mp4">
+         		<source src="http://www.mx-mx.com/lab/moku/video/MSL_cam_arm.webm" type="video/webm">
+         		Please upgrade your browser to view video
+       		</video>
+	        <br>
+	        <a href="http://www.jpl.nasa.gov/video/index.php?id=1001" target="_blank">MSL CURIOSITY ROVER ANIMATION (Link)</a>
+	    </div>
+	    
+	    <div id="mmrtgvideocontenttarget" class="roverdetailpanel" >
+			<video width="512px" height="288px"  id="mmrtgvideo" style="background:#000;" preload="auto" >
+         		<source src="http://www.mx-mx.com/lab/moku/video/MSL_trim_mmrtg.mp4" type="video/mp4">
+         		<source src="http://www.mx-mx.com/lab/moku/video/MSL_trim_mmrtg.webm" type="video/webm">
+         		Please upgrade your browser to view video
+       		</video>
+	        <br>
+	        <a href="http://www.jpl.nasa.gov/video/index.php?id=1028" target="_blank">MARS ROVER POWER (Link)</a>
+	    </div>
+		
+		<div id="threedhelppopup" class="threedhelppopup">
+			<h1 style="text-align: center;">Remote Pilot</h1>
+			<br>To help the Mars colonists find a suitable location for their new greenhouse, 
+			use the rover’s instruments to find rock outcroppings and then analyze them.
+			<br><br>
+			<font style="font-size: 22px;font-weight: 400;">Navigation</font>
+			<br>Use the keyboard arrow keys to move forward, backward, left, and right.
+			<br><br>
+			<font style="font-size: 22px;font-weight: 400;">Mast Cam</font>
+			<br>Activate the mast cameras to locate nearby bedrock that might make a good location for the greenhouse.
+			<br><br>
+			<font style="font-size: 22px;font-weight: 400;">Instruments</font>
+			<br>Move the rover to an outcropping and use the instruments arm to analyze the rock.
+			<br><br>
+		</div>
+		
+		<div id="browserpopup" class="browserpopup">
+			<h1>Mission to Mars</h1>
+			<div class="greensquarediv">
+			This experience requires WebGL and is best viewed in <a href="http://www.mozilla.org/en-US/firefox/new/" target="_blank">Firefox</a> 
+			or <a href="https://www.google.com/chrome/" target="_blank">Chrome</a> on a newer machine.  
+			Either your graphics card or your browser does not support WebGL.  
+			View a <a href="http://www.khronos.org/webgl/wiki_1_15/index.php/Getting_a_WebGL_Implementation" target="_blank">list</a> of compatible browsers.
+			</div>
+			<br>
+			<br>
+			<div class="textstyle2">
+			This project is a collaboration between the U.S. Department of Energy, the Mozilla Foundation, and MX.</div>
+			<br>
+			<img src="./images/tri_logo.png" style="align: center;">
+			<br>
+		</div>
+		
+		<div id="incomingmessage" class="capcommessagediv">
+			<table style="width: 100%;margin:2;padding:0;" >
+				<tr >
+					<td width="50px" rowspan="2" align="left" valign="middle"><img src="./images/icon_satellite.png" style="width:45px;height:45px;"></td>
+					
+					<td align="left">...Incoming Transmission</td>
+				</tr>
+				<tr>
+					<td align="left">
+						<button id="answerbutton" class="squarebluebutton">Answer</button>
+						<button id="ignorebutton" class="squarebluebutton">Ignore</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<div id="transmissionmessage" class="capcommessagediv">
+			<table style="width: 100%;margin:2;padding:0;" >
+				<tr >
+					<td width="50px" rowspan="2" align="left" valign="middle"><img src="./images/icon_satellite.png" style="width:45px;height:45px;"></td>
+					<td align="left">Current Transmission:</td>
+				</tr>
+				<tr>
+					<td align="left" style="font-weight:400;"> Nasa - Capcom </td>
+				</tr>
+			</table>
+		</div>
+		
+		<div id="analysisprogressmessage" class="progressdiv">
+			<table style="width: 100%;margin:2;padding:0;" >
+				<tr>
+					<td width="60px" rowspan="2" align="left" valign="middle"><img src="./images/icon_hourglass.png" style="width:45px;height:45px;"></td>
+					<td align="left">Analysis In Progress</td>
+				</tr>
+				<tr>
+					<td align="left" style="font-weight:400;"> Geological </td>
+				</tr>
+			</table>
+		</div>
+		
+		<div id="calibrationprogressmessage" class="progressdiv">
+			<table style="width: 100%;margin:2;padding:0;" >
+				<tr>
+					<td width="60px" rowspan="2" align="left" valign="middle"><img src="./images/icon_hourglass.png" style="width:45px;height:45px;"></td>
+					<td align="left">Calibration In Progress</td>
+				</tr>
+				<tr>
+					<td align="left" style="font-weight:400;"> Imaging Plate </td>
+				</tr>
+			</table>
+		</div>
+		
+		<div id="analysisresultspoormessage" class="resultsdiv">
+			<table style="width: 100%;margin:2;padding:0;" >
+				<tr>
+					<td width="70px" rowspan="4" align="left" valign="top"><img src="./images/icon_docs.png" ></td>
+					<td align="left">ANALYSIS &nbsp; RESULTS</td>
+				</tr>
+				<tr>
+					<td align="left" style="font-weight:400;"> GEOLOGICAL </td>
+				</tr>
+				<tr>
+					<td align="left" style="font-weight:300;"> 
+						<br>
+						TYPE: Gravel Conglomerate 
+						<br>
+						Origin: Sedimentary - low rigidity 
+					</td>
+				</tr>
+				<tr>
+					<td align="left" style="font-weight:300;color:rgba(254,147,147,1.0);"> 
+						<br>
+						Module Emplacment 
+						<br>
+						Suitibility: POOR
+					</td>
+				</tr>
+			</table>
+			
+			<div id="rerunanalysis" class="rerunanalysisdiv">
+				<table style="width: 100%;margin:2;padding:0;" >
+					<tr >
+						<td width="70px" rowspan="2" align="left" valign="middle"><img src="./images/icon_hourglass.png" ></td>
+						
+						<td align="left">&nbsp;Run Analysis Again?</td>
+					</tr>
+					<tr>
+						<td align="left">
+							<button id="cancelpoorbutton" class="roundedbluebutton">Cancel</button>
+							<button id="analyzepoorbutton" class="roundedbluebutton">Analyze</button>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		
+		<div id="analysisresultsgoodmessage" class="resultsdiv">
+			<table style="width: 100%;margin:2;padding:0;" >
+				<tr>
+					<td width="70px" rowspan="4" align="left" valign="top"><img src="./images/icon_docs.png" ></td>
+					<td align="left">ANALYSIS &nbsp; RESULTS</td>
+				</tr>
+				<tr>
+					<td align="left" style="font-weight:400;"> GEOLOGICAL </td>
+				</tr>
+				<tr>
+					<td align="left" style="font-weight:300;"> 
+						<br>
+						TYPE: Basalt 
+						<br>
+						Origin: Sedimentary - high rigidity 
+					</td>
+				</tr>
+				<tr>
+					<td align="left" style="font-weight:300;color:rgba(196,216,168,1.0);"> 
+						<br>
+						Module Emplacment 
+						<br>
+						Suitibility: GOOD
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<div id="rovercontrols" class="rovercontrols">
+			
+			<div id="instrumentsdiv" class="instrumentsdiv" >
+				<table style="width:100%;height:100%;margin:0;padding:0;">
+					<tr>
+						<td align="center" valign="bottom" height="20px">Energy</td>
+						<td align="center" valign="bottom" >Power Source</td>
+						<td align="center" valign="bottom" style="color:rgba(230,230,230,1.0);">Mast Cams</td>
+						<td align="center" valign="bottom" style="color:rgba(230,230,230,1.0);">Instruments</td>
+					</tr>
+					<tr>
+						<td align="center" valign="top" style="height:52px;width:120px;">
+							<div id="energybar" class="energybar">
+								<div id="energylevel" class="energylevel"></div>
+							</div>
+							
+						</td>
+						<td align="center" valign="top" style="height:52px;width:180px;padding-top:1px;font-size:18px;font-weight:400; ">
+							<button id="rtgbutton" class="squarebluebutton" style="height:54px;width:180px;">
+								<table style="width:100%;height:100%;margin:0;padding:0;" >
+									<tr>
+										<td align="left" valign="middle">RTG</td>
+										<td style="margin:0;padding:0;"> <img src="./images/icon_rtg_button.png" style=""></td>
+									</tr>
+								</table>
+							</button>
+						</td>
+						<td align="center" valign="top" style="height:52px;width:110px;">
+							<button id="camsbutton" class="squarebluebutton" style="height:54px;width:130px;">
+								<table style="width:100%;height:100%;margin:0;padding:0;" >
+									<tr>
+										<td style="margin:0;padding:0;"><img src="./images/icon_mastcams.png" style=""></td>
+									</tr>
+								</table>
+							</button>
+						</td>
+						<td align="center" valign="top" style="height:52px;width:110px;">
+							<button id="instrumentsbutton" class="squarebluebutton" style="height:54px;width:130px;">
+								<table style="width:100%;height:100%;margin:0;padding:0;" >
+									<tr>
+										<td style="margin:0;padding:0;"><img src="./images/icon_instruments.png" style=""></td>
+									</tr>
+								</table>
+							</button>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<div id="roverdiv" class="roverdiv" >
+				<table style="width:100%;height:100%;margin:0;padding:0;">
+					<tr>
+						<td align="center" valign="bottom" height="20px"></td>
+						<td align="center" valign="bottom" style="color:rgba(230,230,230,1.0);">View</td>
+						<td align="center" valign="bottom"></td>
+					</tr>
+					<tr>
+						<td align="center" valign="middle" style="height:54px;width:70px;">
+				 			<button id="pilotviewbutton" class="squarebluebutton" style="padding:7px 15px;font-size:24px;font-weight:300;">
+								<table style="width:70px;height:100%;margin:0;padding:0;">
+									<tr>
+										<td id="pilotviewbutton">Pilot</td>
+									</tr>
+								</table>
+							</button>
+						</td>
+						<td align="center" valign="middle" style="height:54px;width:70px;">
+				 			<button id="wideviewbutton" class="squarebluebutton" style="padding:7px 15px;font-size:24px;font-weight:300;">
+								<table style="width:70px;height:100%;margin:0;padding:0;">
+									<tr>
+										<td id="wideviewbutton">Wide</td>
+									</tr>
+								</table>
+							</button>
+						</td>
+						<td align="center" valign="middle" style="height:54px;width:70px;">
+				 			<button id="sideviewbutton" class="squarebluebutton" style="padding:7px 15px;font-size:24px;font-weight:300;">
+								<table style="width:70px;height:100%;margin:0;padding:0;">
+									<tr>
+										<td id="sideviewbutton">Side</td>
+									</tr>
+								</table>
+							</button>
+						</td>
+						
+					</tr>
+				</table>
+			</div>
+		</div>
+		
+		<div id="roverpilotbadge" class="modalmask">
+			<div id="backpacklogindiv" class="badgecontenttarget">
+				<h1>Mission Success!</h1>
+				<br><br>
+				<div style="text-align: center;width:100%">
+					<table style="position: absolute; width: 90%;margin:0;padding:0; float:middle;left:8%" >
+						<tr >
+							<td align="left" valign="top">
+								<font style="font-weight:300;">
+								Congratulations for completing the Mars rover mission and earning the "Remot Pilot" badge!
+								<br><br>
+								Upload the badge to save it and share it.  Learn more about the 
+								<a href="http://openbadges.org/" target="_blank">Open Badges</a> project.
+							 	</font>
+								<br>
+								<br>
+							</td>
+							<td align="right" rowspan="2" valign="top"><img src="./badge-it-gadget-lite/digital-badges/images/moku_badge_remote_pilot.png" style="width:220px;height:220px"> </td>
+						</tr>
+						
+						<tr>
+							<td align="center" valign="top">
+								<button id="roverpilotbadgeuploadbutton" type="submit" class="squarebigbluebutton">Upload Badge</button>
+							</td>
+						</tr>
+					</table>
+				</div>
+					
+				<br><br><br><br><br><br><br><br><br><br><br><br>
+				<div style="float:left;">
+					<button id="roverpilotbadgeskipbutton" class="squarebluebutton">Skip</button>
+				</div>
+			</div>
+		</div>
+		
+		<div id="roverpilotbadgecomplete" class="modalmask">
+			<div id="backpacklogindiv" class="badgecontenttarget">
+				<h1>Mission Success!</h1>
+				<br><br>
+				<div style="text-align: center;width:100%">
+					<table style="position: absolute; width: 90%;margin:0;padding:0; float:middle;left:8%" >
+						<tr >
+							<td align="left" valign="top" style="margin:0;padding-right:3px;">
+								<font style="font-weight:300;">
+								Congratulations for completing the Mars rover mission and earning the
+								"Remote Pilot" badge!
+								<br> 
+								<br>
+								Select "Continue" to advance to the next mission.  Save the Mars colony by
+								remote piloting a rover on Mars. 
+								<br>&nbsp;
+								<br>&nbsp;
+								</font>
+							
+							</td>
+							<td align="right" rowspan="2" valign="top"><img src="./images/moku_unit1_icon.jpg" style="border:1px solid rgba(200,200,200,1.0);"> </td>
+						</tr>
+						<tr>
+							<td align="center" valign="top">
+								<button id="roverpilotbadgecompletecontinuebutton" type="submit" class="squarebigbluebutton">Continue</button>
+							</td>
+						</tr>
+					</table>
+				</div>
+					
+				<br><br><br><br><br><br><br><br><br><br><br><br>
+					<div style="float:left;">
+						<button id="roverpilotbadgecompletereplaybutton" class="squarebluebutton" style="margin-left:40px;">Replay Mission</button>
+						<button id="roverpilotbadgecompletereremixbutton" class="squarebluebutton" >Remix&nbsp;&nbsp;&nbsp;&nbsp;<img src="./images/icon_remix.png" style="position:relative;vertical-align:middle;width:17px;height:17px;opacity:0.8;">&nbsp;</button>
+					</div>
+			</div>
+		</div>
+		
+		<audio id="UNIT2_VO_intro">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_intro.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_intro.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="UNIT2_VO_1">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_1.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_1.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="UNIT2_VO_1e1">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_1e1.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_1e1.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="UNIT2_VO_1e2">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_1e2.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_1e2.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="UNIT2_VO_2">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_2.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_2.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="UNIT2_VO_3">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_3.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_3.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="UNIT2_VO_3e1">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_3e1.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_3e1.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="UNIT2_VO_3e2">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_3e2.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_3e2.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="UNIT2_VO_4">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_4.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_4.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="UNIT2_VO_4a">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_4a.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_4a.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="UNIT2_VO_4b">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_4b.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_4b.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="UNIT2_VO_4e1">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_4e1.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_4e1.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="UNIT2_VO_4e2">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_4e2.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_4e2.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="UNIT2_VO_4e3">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_4e3.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_4e3.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="UNIT2_VO_conclusion">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_conclusion.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_conclusion.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="UNIT2_VO_conclusion2">
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_conclusion2.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/UNIT2_VO_conclusion2.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="Unit2_Cams">
+			<source src="http://www.mx-mx.com/lab/moku/audio/Unit2_Cams.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/Unit2_Cams.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="Unit2_arm_move">
+			<source src="http://www.mx-mx.com/lab/moku/audio/Unit2_arm_move.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/Unit2_arm_move.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="Unit2_calibration">
+			<source src="http://www.mx-mx.com/lab/moku/audio/Unit2_calibration.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/Unit2_calibration.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="Unit2_drill">
+			<source src="http://www.mx-mx.com/lab/moku/audio/Unit2_drill.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/Unit2_drill.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="Unit2_Mars_loop_wind">
+			<source src="http://www.mx-mx.com/lab/moku/audio/Unit2_Mars_loop_wind.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/Unit2_Mars_loop_wind.oggvorbis.ogg"></source>
+		</audio> 
+		
+		<audio id="Unit2_Rover_loop"><!-- driving -->
+			<source src="http://www.mx-mx.com/lab/moku/audio/Unit2_Rover_loop.mp3"></source>
+			<source src="http://www.mx-mx.com/lab/moku/audio/Unit2_Rover_loop.oggvorbis.ogg"></source>
+		</audio> 
+
+	<!-- old divs by Ryan, probably unneeded -->
+	<div id="loadtext"></div>
+	<div id="info"></div>
+	</body>
+</html>
