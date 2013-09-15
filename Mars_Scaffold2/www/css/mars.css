@@ -1251,6 +1251,27 @@ div .menubutton:hover{
 	border: 12px solid;
 	border-color: transparent transparent rgba(42,51,24,.8) transparent;
 }
+.teachmenupanel{
+	position: absolute;
+	opacity: 0.0;
+	pointer-events:none;
+	text-align: center;
+	padding: 15px 40px 15px 40px;
+	background: rgba(31,38,18,.7);
+	color: rgba(220,220,220,1.0);
+	font-family: 'Lato', sans-serif;
+	text-transform: none;
+	line-height: 22px;
+	font-size: 18px;
+    border-radius: 10px;
+    border:none;
+	width: 800px;
+	height: 550px;
+	top:40%;
+    left:50%;
+    margin:-220px 0 0 -441px;
+	z-index: 2;
+}
 .startmenupanel{
 	position: absolute;
 	opacity: 0.0;
@@ -1288,6 +1309,15 @@ div .textstyle2{
 	line-height: 20px;
 	font-size: 16px;
 }
+div .textstyle3{
+	text-align: center;
+	color: rgba(220,220,220,1.0,1.0);
+	font-family: 'Lato', sans-serif;
+	font-weight: 700;
+	text-transform: none;
+	line-height: 30px;
+	font-size: 28px;
+}
 div .greensquarediv{
 	text-align: left;
 	padding: 25px 25px 25px 25px;
@@ -1317,6 +1347,43 @@ div .beginbutton{
 }
 div .beginbutton:hover{
 	background: rgba(135,153,72,1.0);
+}
+div .teachbuttonorange{
+    display: relative;
+    float: center;
+	text-align: center;
+	line-height: 20px;
+	font-size: 22px;
+	margin: 10px 10px;
+	padding: 10px 35px;
+	font-family: 'Lato', sans-serif;
+	font-weight: bold;
+	background: rgba(169,79,6,1.0);
+	color: rgba(220,220,220,1.0);
+    border-radius: 5px;
+    border: none;
+}
+div .teachbuttonorange:hover{
+	background: rgba(169,79,6,.8);
+}
+div .teachbuttongreen{
+    display: relative;
+    float: center;
+	text-align: center;
+	line-height: 20px;
+	font-size: 22px;
+	margin: 10px 10px;
+	padding: 10px 35px;
+	text-transform: uppercase;
+	font-family: 'Lato', sans-serif;
+	font-weight: bold;
+	background: rgba(41,78,27,1.0);
+	color: rgba(220,220,220,1.0);
+    border-radius: 5px;
+    border: none;
+}
+div .teachbuttongreen:hover{
+	background: rgba(41,78,27,.8);
 }
 div .menupanelbutton{
     display: relative;
