@@ -1254,7 +1254,6 @@ div .menubutton:hover{
 .teachmenupanel{
 	position: absolute;
 	opacity: 0.0;
-	pointer-events:none;
 	text-align: center;
 	padding: 15px 40px 15px 40px;
 	background: rgba(31,38,18,.7);

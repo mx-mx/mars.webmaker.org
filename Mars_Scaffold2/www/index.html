@@ -13,11 +13,13 @@
 <meta name="keywords" content="Mars" />
 <meta name="author" content="MX" />
 <LINK REL="SHORTCUT ICON" HREF="images/mars.ico"> 
+<link href="http://mozorg.cdn.mozilla.net/media/css/tabzilla-min.css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="css/mars.css" />
 <link href="css/custom-theme/jquery-ui-1.10.2.custom.css" rel="stylesheet">
 <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Quicksand:400,700' rel='stylesheet' type='text/css'>
 
+<script src="http://mozorg.cdn.mozilla.net/tabzilla/tabzilla.js"></script>
 <script type="text/javascript" src="./js/libs/jquery-1.9.1.min.js"></script>
 <script type="text/javascript">
 
@@ -42,33 +44,29 @@ $(document).ready(function() {
 
 </head>
 	<body>
-		
+				<a href="https://www.mozilla.org/" id="tabzilla">mozilla</a>
 		<!-- <div id="loaderdiv" style="z-index:20;background-color:#FFFFFF;width:100px;height:100px;opacity:1.0;"></div> -->
-		
-		<div id="backgroundtarget" class="backgroundtarget">
+		<div class="backgroundtarget">
 		</div>
-		<div id="teachmenupanel" class="teachmenupanel" style="opacity:1.0;pointer-events:auto;">
-			<h1>MARS WEBMAKING EXPERIMENT</h1>
-			<h2>http://mars.webmaker.org</h2>
-			<div class="textstyle1" style="margin:10px;text-align:center;color: rgba(220,220,220,1.0);">
-			Learn about what it takes to get to Mars and start Exploring.  In this 3D envirnnment, we invite you to play
-			around and etc.  Then, play with the raw materials of the units and teach with them.
+		<div class="teachmenupanel" style="opacity:1.0;pointer-events:auto;">
+			<a href="https://webmaker.org"><img src="./images/webmaker.png" style="float: left; margin-right: 20px;" width="225px"></a>
+			<h1>Mission to Mars 3D experiment</h1>
+			<div class="textstyle1" style="margin:10px;color: rgba(220,220,220,1.0);">
+			Explore an interactive 3D solar system, fire off the world’s newest rockets, and remote-pilot the Mars Curiosity rover from NASA’s frontier science outpost. 100% free and open source for you to play, explore, and take apart.
 			<br><br>
-			This is a demonstration project of DoE, Mozilla, and MX to explore how learning might work in the future.
-			Learn more http://energy.gov/newsblog equivalent Mozilla post
+			This is a demonstration project of DoE, Mozilla, and MX.
 			</div>
 			<br>
-			<div class="textstyle3">LEARN</div>
+			<br>
 			<button id="unit1button" class="teachbuttonorange" style="width:378px;">UNIT I - Solar System</button>
 			<button id="unit2button" class="teachbuttonorange" style="width:378px;">UNIT II - Mars Rover</button>
-			<br><br>
-			<div class="textstyle3">TEACH</div>
-			<button id="assetsbutton" class="teachbuttongreen" style="width:378px;">ASSETS PAGE</button>
+			<br>
+			<button id="assetsbutton" class="teachbuttongreen" style="width:378px;">LEARN MORE</button>
 			<button id="teachingkitbutton" class="teachbuttongreen" style="width:378px;">TEACHING KIT</button>
 			<br>
 			<br>
-			<div class="textstyle2" style="margin-bottom:8px;color: rgba(220,220,220,1.0);">BROUGHT TO YOU BY</div>
-			<img src="./images/tri_logo.png" style="align: center;">
+			<div class="textstyle2" style="margin-bottom:8px;color: rgba(220,220,220,1.0);">With support from</div>
+			<a href="http://energy.gov"><img src="./images/doeseal.png" style="align: center;" width="100px"></a>
 			<br><font style="color: rgba(42,51,24,0.2);">Version:0.9.25</font>
 		</div>
 		
