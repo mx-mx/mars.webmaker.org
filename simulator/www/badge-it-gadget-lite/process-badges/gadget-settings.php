@@ -22,17 +22,17 @@ $version = "1.0.0";
 
 /*issuer url - REQUIRED. This is the domain name of the site that will be issuing the badges. It should be the domain where you're installing the OpenBadgifier.*/
 
-$issuer_url = "http://www.mx-mx.com/lab/moku";
+$issuer_url = "http://mars.webmaker.org";
 
 /*root path - REQUIRED. CHMOD 775. This is the root path of where your process-badges directory is hosted. You SHOULD password protect this directory with something like .htaccess so that the public can't issue badges on your behalf. */
 
 /*NOTE: your server may require the path to be: $root_path = $_SERVER['DOCUMENT_ROOT']."/badge-it-gadget-lite/process-badges/"; (Notice forward slash before "badge-it-gadget-lite" */
 
-$root_path = $_SERVER['DOCUMENT_ROOT']."/lab/moku/badge-it-gadget-lite/process-badges/";
+$root_path = $_SERVER['DOCUMENT_ROOT']."/badge-it-gadget-lite/process-badges/";
 
 /* issuer name  - REQUIRED. name of organization or person that is issuing the badges. */
 
-$issuer_name = "Department of Energy"; //This appears on the badge
+$issuer_name = "Mozilla"; //This appears on the badge
 
 /*issuer org - OPTIONAL. Organization for which the badge is being issued. Another example is if a scout badge is being issued, the "name" could be "Boy Scouts" and the "org" could be "Troop #218". */
 
@@ -46,7 +46,7 @@ $issuer_contact = "";
 
 /*NOTE: your server may require the path to be: $json_dir = $_SERVER['DOCUMENT_ROOT']."/lab/moku/badge-it-gadget-lite/digital-badges/issued/json/"; (Notice forward slash before "badge-it-gadget-lite" */
 
-$json_dir = $_SERVER['DOCUMENT_ROOT']."/lab/moku/badge-it-gadget-lite/digital-badges/issued/json/";
+$json_dir = $_SERVER['DOCUMENT_ROOT']."/badge-it-gadget-lite/digital-badges/issued/json/";
 
 /* url location of json badge storage */
 
@@ -81,36 +81,36 @@ $badges_array = array(
 	"uid" => "0",
 	"name" => "Badge-It Gadget Lite Badge", 
 	"image" => "badge-it-gadget-lite.png", 
-	"evidence_url" => "http://www.mx-mx.com/lab/moku//badge-it-gadget-lite/digital-badges/badge-it-gadget-lite-badge-evidence.html",
-	"badge_class" => "http://www.mx-mx.com/lab/moku//badge-it-gadget-lite/digital-badges/issued/json/badgeClass_badger.json",
+	"evidence_url" => "http://mars.webmaker.org/badge-it-gadget-lite/digital-badges/badge-it-gadget-lite-badge-evidence.html",
+	"badge_class" => "http://mars.webmaker.org/badge-it-gadget-lite/digital-badges/issued/json/badgeClass_badger.json",
 	"expires" => "2014-02-02"), 
 	2 => array(
 	"uid" => "gsb0",
 	"name" => "Generic Space Badge", 
 	"image" => "badge_generic.png", 
-	"evidence_url" => "http://www.mx-mx.com/lab/moku/badge-it-gadget-lite/digital-badges/generic_space.html", 
-	"badge_class" => "http://www.mx-mx.com/lab/moku/badge-it-gadget-lite/digital-badges/issued/json/badgeClass_generic.json",
+	"evidence_url" => "http://mars.webmaker.org/badge-it-gadget-lite/digital-badges/generic_space.html", 
+	"badge_class" => "http://mars.webmaker.org/badge-it-gadget-lite/digital-badges/issued/json/badgeClass_generic.json",
 	"expires" => "2020-01-01"),
 	3 => array(
 	"uid" => "3dm0",
 	"name" => "SolarSystemBadge", 
 	"image" => "moku_badge_solar_system.png", 
-	"evidence_url" => "http://www.mx-mx.com/lab/moku/badge-it-gadget-lite/digital-badges/criteria_solar_system.html", 
-	"badge_class" => "http://www.mx-mx.com/lab/moku/badge-it-gadget-lite/digital-badges/issued/json/badgeClass_solar_system.json",
+	"evidence_url" => "http://mars.webmaker.org/badge-it-gadget-lite/digital-badges/criteria_solar_system.html", 
+	"badge_class" => "http://mars.webmaker.org/badge-it-gadget-lite/digital-badges/issued/json/badgeClass_solar_system.json",
 	"expires" => "2020-01-01"),
 	4 => array(
 	"uid" => "p0",
 	"name" => "MissionToMarsBadge", 
 	"image" => "moku_badge_mission_to_mars.png", 
-	"evidence_url" => "http://www.mx-mx.com/lab/moku/badge-it-gadget-lite/digital-badges/criteria_remote_mission_to_mars.html",
-	"badge_class" => "http://www.mx-mx.com/lab/moku/badge-it-gadget-lite/digital-badges/issued/json/badgeClass_mission_to_mars.json",
+	"evidence_url" => "http://mars.webmaker.org/badge-it-gadget-lite/digital-badges/criteria_remote_mission_to_mars.html",
+	"badge_class" => "http://mars.webmaker.org/badge-it-gadget-lite/digital-badges/issued/json/badgeClass_mission_to_mars.json",
 	"expires" => "2020-01-01"), 
 	5 => array(
 	"uid" => "d0",
 	"name" => "RemotesPilotBadge", 
 	"image" => "moku_badge_remote_pilot.png", 
-	"evidence_url" => "http://www.mx-mx.com/lab/moku/badge-it-gadget-lite/digital-badges/criteria_remote_pilot.html",
-	"badge_class" => "http://www.mx-mx.com/lab/moku/badge-it-gadget-lite/digital-badges/issued/json/badgeClass_remote_pilot.json",
+	"evidence_url" => "http://mars.webmaker.org/badge-it-gadget-lite/digital-badges/criteria_remote_pilot.html",
+	"badge_class" => "http://mars.webmaker.org/badge-it-gadget-lite/digital-badges/issued/json/badgeClass_remote_pilot.json",
 	"expires" => "2020-01-01")
 	);
 
